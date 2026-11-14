@@ -339,6 +339,8 @@ CREATE POLICY rls_attempts_isolation ON exam_attempts
     );
 ```
 
+The Day 15 migration adds scope-bound HMAC cursors over `sync_changes.change_seq`, owner-scoped bookmark/support-case storage, and a cached result payload on `sync_operations_log`. Triggers append `UPSERT` changes for course, resource, exam-blueprint, and entitlement writes; resource unpublishes/deletes and entitlement revocations/deletes append `TOMBSTONE` changes. Authenticated clients can read only changes visible to their user/workspace scope; ledger writes are restricted to the security-definer trigger.
+
 ## Phase 3: Curriculum Seed Script, Server-Side Grading & REST API Contracts
 
 ### 3.1 Canonical 5-Theme / 15-Course Seed Data Script

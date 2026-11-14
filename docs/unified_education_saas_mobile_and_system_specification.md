@@ -501,9 +501,9 @@ mobile/
 | **Commerce** | `POST /api/v1/checkout-sessions` | `{order_id, provider, return_url}` | Initializes provider adapter session (Chapa, Telebirr, Stripe, or Sandbox). |
 | **Commerce** | `POST /api/v1/webhooks/{provider}` | Provider signature header | Verifies signature + amount + currency idempotently (`provider_event_id` unique); activates grant. |
 | **Entitlements** | `GET /api/v1/me/entitlements` | `X-Tenant-ID`, `device_id` | Returns normalized personal + institutional `feature_entitlements` and signed offline grants (`MOB-24`). |
-| **Sync** | `GET /api/v1/sync/pull` | `?cursor=<opaque>&limit=100` | Returns ordered `changes[]`, `tombstones[]`, and `next_cursor` (`MOB-28`). |
-| **Sync** | `POST /api/v1/sync/push` | `{device_id, operations[]}` | Processes queued mutations idempotently; returns `accepted[]` and `rejected[]` with `reason_code` (`MOB-28`). |
-| **Sync** | `GET /api/v1/sync/status` | `?operation_ids=uuid1,uuid2` | Resolves uncertain network outcomes before client retries a push (`MOB-17`, `MOB-28`). |
+| **Sync** | `GET /api/v1/sync/pull` | `?cursor=<HMAC-signed opaque>&limit=100` | Returns change-sequence ordered `UPSERT` `changes[]`, `TOMBSTONE` `tombstones[]`, `has_more`, and a scope-bound `next_cursor` (`MOB-28`). |
+| **Sync** | `POST /api/v1/sync/push` | `{device_id, operations[]}` | Savepoint-isolated `exam_attempt.submit`, `bookmark.upsert`, and `support_case.create`; accepted operation results are cached by UUID `operation_id` (`MOB-28`). |
+| **Sync** | `GET /api/v1/sync/status` | `?operation_ids=uuid1,uuid2` | Returns each operation's `ACCEPTED`, `REJECTED`, or `NOT_FOUND` status and cached result before a client retries (`MOB-17`, `MOB-28`). |
 | **Devices** | `POST /api/v1/devices/register` | `{device_id, name, os, app_version}` | Registers/updates device metadata and enforces per-license device limits (`MOB-29`). |
 | **Devices** | `DELETE /api/v1/devices/{id}` | `Authorization: Bearer <JWT>` | Revokes target device session and invalidates its refresh token family (`MOB-29`). |
 | **AI Tutor** | `POST /api/v1/ai/tutor/messages` | `{course_id, question_id?, prompt}` | Verifies AI quota, retrieves authorized course chunks via `pgvector`, returns grounded explanation + citations (`MOB-08`, `MOB-19`). |
