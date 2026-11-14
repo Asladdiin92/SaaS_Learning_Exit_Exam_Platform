@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS download_packages (
   state TEXT NOT NULL DEFAULT 'PENDING',
   grant_id TEXT,
   license_expiry TEXT,
-  last_opened_at TEXT
+  last_opened_at TEXT,
+  last_error TEXT
 );
 
 -- 6. local_exam_packages

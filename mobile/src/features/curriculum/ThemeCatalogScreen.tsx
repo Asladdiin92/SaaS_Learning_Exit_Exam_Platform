@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   RefreshControl,
+  StyleSheet,
 } from 'react-native';
 import { useTheme } from '../../shared/theme';
 import { Card, TextInput } from '../../shared/components';
@@ -19,6 +20,7 @@ import {
   Wifi,
   Sparkles,
   Layers,
+  CheckCircle2,
 } from 'lucide-react-native';
 
 interface ThemeCatalogScreenProps {
@@ -34,9 +36,9 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
   const [filterOfflineOnly, setFilterOfflineOnly] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  const loadThemes = async () => {
+  const loadThemes = useCallback(async () => {
     // 1. Instant local read (<16ms) from SQLite
-    const local = await curriculumRepository.getThemes();
+    const local = await curriculumRepository.getThemesWithOfflineStatus();
     if (local.length > 0) {
       setThemes(local);
     }
@@ -47,18 +49,18 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
         const remote = await api.get('/curriculum/themes');
         if (Array.isArray(remote)) {
           await curriculumRepository.saveThemes(remote);
-          const updated = await curriculumRepository.getThemes();
+          const updated = await curriculumRepository.getThemesWithOfflineStatus();
           setThemes(updated);
         }
       } catch (e) {
         console.log('Using cached SQLite themes:', e);
       }
     }
-  };
+  }, [isOfflineMode]);
 
   useEffect(() => {
     loadThemes();
-  }, [isOfflineMode]);
+  }, [loadThemes]);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -67,18 +69,27 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
   };
 
   const filteredThemes = themes.filter((t) => {
-    const matchesSearch =
-      t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (t.description && t.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (t.courses && t.courses.some((c) => c.title.toLowerCase().includes(searchQuery.toLowerCase()) || c.code.toLowerCase().includes(searchQuery.toLowerCase())));
-    return matchesSearch;
+    if (filterOfflineOnly && !t.is_offline_ready && (t.downloaded_courses || 0) === 0) {
+      return false;
+    }
+    if (!searchQuery.trim()) return true;
+
+    const q = searchQuery.toLowerCase().trim();
+    const matchesTitle = t.title.toLowerCase().includes(q);
+    const matchesDesc = (t.description || '').toLowerCase().includes(q);
+    const matchesCourse =
+      t.courses &&
+      t.courses.some(
+        (c) => c.title.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
+      );
+    return matchesTitle || matchesDesc || matchesCourse;
   });
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.surface.primary }}>
       <View style={{ flex: 1, padding: spacing.screenPadding }}>
         {/* Header */}
-        <Text style={[typography.h1, { color: colors.text.primary, marginBottom: spacing.xxs }]}>
+        <Text style={[typography.h1, { color: colors.text.primary, marginBottom: spacing.xxs, fontWeight: '700' }]}>
           Curriculum Themes
         </Text>
         <Text
@@ -101,7 +112,10 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
         {/* Filter Chips */}
         <View style={{ flexDirection: 'row', marginBottom: spacing.md, gap: spacing.xs }}>
           <TouchableOpacity
+            testID="filter-all-themes"
             onPress={() => setFilterOfflineOnly(false)}
+            accessibilityRole="button"
+            accessibilityLabel="Show all 5 themes"
             style={{
               paddingHorizontal: spacing.md,
               paddingVertical: spacing.xs,
@@ -109,6 +123,8 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
               backgroundColor: !filterOfflineOnly ? colors.brand.primary : colors.surface.card,
               borderWidth: 1,
               borderColor: !filterOfflineOnly ? colors.brand.primary : colors.border.default,
+              minHeight: 36,
+              justifyContent: 'center',
             }}
           >
             <Text
@@ -122,7 +138,10 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
           </TouchableOpacity>
 
           <TouchableOpacity
+            testID="filter-offline-ready"
             onPress={() => setFilterOfflineOnly(true)}
+            accessibilityRole="button"
+            accessibilityLabel="Filter offline ready themes"
             style={{
               paddingHorizontal: spacing.md,
               paddingVertical: spacing.xs,
@@ -130,6 +149,8 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
               backgroundColor: filterOfflineOnly ? colors.brand.primary : colors.surface.card,
               borderWidth: 1,
               borderColor: filterOfflineOnly ? colors.brand.primary : colors.border.default,
+              minHeight: 36,
+              justifyContent: 'center',
             }}
           >
             <Text
@@ -138,7 +159,7 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
                 { color: filterOfflineOnly ? '#FFFFFF' : colors.text.secondary, fontWeight: '600' },
               ]}
             >
-              Offline Ready ✓
+              Available Offline ✓
             </Text>
           </TouchableOpacity>
         </View>
@@ -149,25 +170,31 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
           {filteredThemes.map((theme) => {
-            const courseCount = theme.courses?.length || 0;
+            const courseCount = theme.courses?.length || theme.total_courses || 0;
+            const isReady = Boolean(theme.is_offline_ready || (theme.downloaded_courses || 0) > 0);
 
             return (
               <Card
                 key={theme.theme_id}
+                testID={`theme-card-${theme.theme_id}`}
                 variant="elevated"
-                onPress={() => navigation.navigate('CourseList', { themeId: theme.theme_id, title: theme.title })}
-                style={{ marginBottom: spacing.md }}
+                onPress={() =>
+                  navigation.navigate('CourseList', {
+                    themeId: theme.theme_id,
+                    title: theme.title,
+                  })
+                }
+                style={{ marginBottom: spacing.md, padding: spacing.md }}
               >
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <View style={{ flex: 1, marginRight: spacing.sm }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4, flexWrap: 'wrap', gap: 6 }}>
                       <View
                         style={{
                           backgroundColor: '#E0F2FE',
                           paddingHorizontal: 8,
                           paddingVertical: 2,
                           borderRadius: borderRadius.sm,
-                          marginRight: spacing.xs,
                         }}
                       >
                         <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700' }]}>
@@ -178,9 +205,32 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
                       <Text style={[typography.labelSm, { color: colors.text.secondary, fontWeight: '600' }]}>
                         {theme.total_credit_hours} Credit Hours
                       </Text>
+
+                      {isReady && (
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            backgroundColor: '#ECFDF5',
+                            paddingHorizontal: 6,
+                            paddingVertical: 2,
+                            borderRadius: borderRadius.sm,
+                          }}
+                        >
+                          <CheckCircle2 size={12} color={colors.status.online} />
+                          <Text
+                            style={[
+                              typography.labelSm,
+                              { color: colors.status.online, fontWeight: '700', fontSize: 11, marginLeft: 3 },
+                            ]}
+                          >
+                            Offline Ready
+                          </Text>
+                        </View>
+                      )}
                     </View>
 
-                    <Text style={[typography.h3, { color: colors.text.primary, marginBottom: spacing.xs }]}>
+                    <Text style={[typography.h3, { color: colors.text.primary, marginBottom: spacing.xs, fontWeight: '700' }]}>
                       {theme.title}
                     </Text>
 
@@ -195,15 +245,15 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
                       <Text style={[typography.labelSm, { color: colors.text.muted }]}>
-                        {courseCount} Courses Included
+                        {courseCount} {courseCount === 1 ? 'Course' : 'Courses'}
                       </Text>
-                      <Text style={[typography.labelSm, { color: colors.status.online, fontWeight: '600' }]}>
-                        ● Local SQLite Cached
+                      <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '600' }]}>
+                        View Courses →
                       </Text>
                     </View>
                   </View>
 
-                  <ChevronRight size={20} color={colors.text.secondary} />
+                  <ChevronRight size={22} color={colors.text.secondary} />
                 </View>
               </Card>
             );

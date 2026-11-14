@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -6,16 +6,26 @@ import {
   SafeAreaView,
   TouchableOpacity,
   RefreshControl,
+  StyleSheet,
 } from 'react-native';
 import { useTheme } from '../../shared/theme';
 import {
+  AppHeader,
   WorkspaceSwitcherChip,
   SyncStatusChip,
+  ConnectionBanner,
   Card,
   Button,
 } from '../../shared/components';
 import { useAuthSession } from '../../services/auth-session/AuthSessionContext';
-import { curriculumRepository, LocalCourse } from '../../shared/database/curriculumRepository';
+import { useNetwork } from '../../shared/network/NetworkContext';
+import {
+  curriculumRepository,
+  LocalCourse,
+  ContinueLearningAction,
+  OfflineReadinessStats,
+  WeakOutcomeRecommendation,
+} from '../../shared/database/curriculumRepository';
 import {
   BookOpen,
   Wifi,
@@ -25,6 +35,10 @@ import {
   Sparkles,
   Layers,
   FileCheck,
+  Bell,
+  CheckCircle2,
+  Clock,
+  ArrowRight,
 } from 'lucide-react-native';
 
 interface HomeDashboardProps {
@@ -34,75 +48,100 @@ interface HomeDashboardProps {
 export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }) => {
   const { colors, typography, spacing, borderRadius } = useTheme();
   const { currentWorkspace, isOfflineMode, user } = useAuthSession();
+  const { isOnline, isReachable, isMetered, dataSaverEnabled } = useNetwork();
 
   const [courses, setCourses] = useState<LocalCourse[]>([]);
+  const [continueAction, setContinueAction] = useState<ContinueLearningAction | null>(null);
+  const [readinessStats, setReadinessStats] = useState<OfflineReadinessStats>({
+    downloadedCoursesCount: 1,
+    offlineExamPackagesCount: 2,
+    pendingSyncCount: 0,
+  });
+  const [weakOutcomes, setWeakOutcomes] = useState<WeakOutcomeRecommendation[]>([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  const loadData = async () => {
-    const list = await curriculumRepository.getAllCourses();
-    setCourses(list);
-  };
+  const loadDashboardData = useCallback(async () => {
+    try {
+      // 1. Instant sub-16ms reads from SQLite
+      const [allCourses, contLearning, stats, outcomes] = await Promise.all([
+        curriculumRepository.getAllCourses(),
+        curriculumRepository.getContinueLearning(user?.userId),
+        curriculumRepository.getOfflineReadinessStats(user?.userId),
+        curriculumRepository.getWeakOutcomeRecommendations(2),
+      ]);
+
+      setCourses(allCourses);
+      setContinueAction(contLearning);
+      setReadinessStats(stats);
+      setWeakOutcomes(outcomes);
+    } catch (e) {
+      console.warn('Error loading home dashboard data:', e);
+    }
+  }, [user?.userId]);
 
   useEffect(() => {
-    loadData();
-  }, []);
+    loadDashboardData();
+  }, [loadDashboardData, isOfflineMode]);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await loadData();
+    await loadDashboardData();
     setRefreshing(false);
   };
 
+  const syncChipState = !isOnline || isOfflineMode
+    ? 'offline'
+    : readinessStats.pendingSyncCount > 0
+    ? 'pending'
+    : 'online';
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.surface.primary }}>
-      {/* Top AppHeader */}
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingHorizontal: spacing.screenPadding,
-          paddingVertical: spacing.sm,
-          borderBottomWidth: 1,
-          borderBottomColor: colors.border.default,
-          backgroundColor: colors.surface.card,
-        }}
-      >
-        <WorkspaceSwitcherChip
-          organizationName={currentWorkspace?.organizationName || 'Personal Workspace'}
-          isPersonal={currentWorkspace?.isPersonal ?? true}
-          onPress={() => navigation.navigate('WorkspaceSelection')}
-        />
+      {/* Top AppHeader (MOB-05) */}
+      <AppHeader
+        workspaceSwitcher={
+          <WorkspaceSwitcherChip
+            organizationName={currentWorkspace?.organizationName || 'Personal Workspace'}
+            isPersonal={currentWorkspace?.isPersonal ?? true}
+            onPress={() => navigation.navigate('WorkspaceSelection')}
+          />
+        }
+        rightActions={
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <SyncStatusChip
+              state={syncChipState}
+              pendingCount={readinessStats.pendingSyncCount}
+              onPress={() => navigation.navigate('SyncCenter')}
+            />
+            <TouchableOpacity
+              testID="home-notification-bell"
+              onPress={() => navigation.navigate('Notifications')}
+              accessibilityRole="button"
+              accessibilityLabel="Notifications"
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              style={{
+                marginLeft: spacing.xs,
+                minHeight: 48,
+                minWidth: 48,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Bell size={20} color={colors.text.primary} />
+            </TouchableOpacity>
+          </View>
+        }
+      />
 
-        <SyncStatusChip
-          state={isOfflineMode ? 'offline' : 'online'}
-          onPress={() => navigation.navigate('SyncCenter')}
-        />
-      </View>
-
-      {/* Connection Banner (Expands when offline) */}
-      {isOfflineMode && (
-        <View
-          style={{
-            backgroundColor: '#FEF3C7',
-            paddingVertical: spacing.xs,
-            paddingHorizontal: spacing.screenPadding,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <WifiOff size={14} color={colors.status.offline} />
-          <Text
-            style={[
-              typography.labelSm,
-              { color: colors.status.offline, marginLeft: spacing.xxs, fontWeight: '600' },
-            ]}
-          >
-            Offline Mode — Instant sub-16ms access from encrypted storage
-          </Text>
-        </View>
-      )}
+      {/* Connection Banner (Collapses smoothly to 0dp when online & synced) */}
+      <ConnectionBanner
+        isOnline={isOnline && !isOfflineMode}
+        isReachable={isReachable}
+        isMetered={isMetered}
+        dataSaverEnabled={dataSaverEnabled}
+        syncQueueCount={readinessStats.pendingSyncCount}
+        onPressSyncCenter={() => navigation.navigate('SyncCenter')}
+      />
 
       <ScrollView
         contentContainerStyle={{ padding: spacing.screenPadding }}
@@ -122,7 +161,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
             <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
               ETHIOPIAN IT EXIT EXAM
             </Text>
-            <Text style={[typography.h2, { color: colors.text.primary }]}>
+            <Text style={[typography.h2, { color: colors.text.primary, fontWeight: '700' }]}>
               Hello, {user?.fullName?.split(' ')[0] || 'Student'} 👋
             </Text>
           </View>
@@ -134,8 +173,9 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
               alignItems: 'center',
               backgroundColor: '#FFEDD5',
               paddingHorizontal: spacing.sm,
-              paddingVertical: spacing.xxs,
+              paddingVertical: spacing.xxs + 2,
               borderRadius: borderRadius.full,
+              minHeight: 32,
             }}
           >
             <Flame size={16} color="#EA580C" />
@@ -152,6 +192,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
 
         {/* Zone 1: Continue Learning Hero Card */}
         <Card
+          testID="continue-learning-hero-card"
           variant="elevated"
           style={{
             backgroundColor: colors.brand.primary,
@@ -165,44 +206,61 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
               <Text
                 style={[
                   typography.labelSm,
-                  { color: 'rgba(255, 255, 255, 0.8)', fontWeight: '600', marginBottom: 4 },
+                  { color: 'rgba(255, 255, 255, 0.85)', fontWeight: '700', letterSpacing: 0.5, marginBottom: 4 },
                 ]}
               >
-                RESUME STUDYING
+                {continueAction?.type === 'EXAM_ATTEMPT' ? 'CONTINUE ASSESSMENT' : 'RESUME STUDYING'}
               </Text>
-              <Text style={[typography.h3, { color: '#FFFFFF', marginBottom: spacing.xs }]}>
-                IT-FDBS-201: Relational Algebra & SQL
+              <Text style={[typography.h3, { color: '#FFFFFF', marginBottom: spacing.xs, fontWeight: '700' }]}>
+                {continueAction?.title || 'IT-CMTS-101: Computer Maintenance'}
               </Text>
-              <Text style={[typography.bodySm, { color: 'rgba(255, 255, 255, 0.9)' }]}>
-                Lecture 04 • Normalization (1NF to BCNF)
+              <Text style={[typography.bodySm, { color: 'rgba(255, 255, 255, 0.95)' }]}>
+                {continueAction?.subtitle || 'Lecture 04 • Diagnostic Flowcharts & Power Faults'}
               </Text>
             </View>
 
             <View
               style={{
-                width: 44,
-                height: 44,
-                borderRadius: 22,
+                width: 48,
+                height: 48,
+                borderRadius: 24,
                 backgroundColor: 'rgba(255, 255, 255, 0.2)',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <BookOpen size={22} color="#FFFFFF" />
+              <BookOpen size={24} color="#FFFFFF" />
             </View>
           </View>
 
           <Button
-            title="Resume Reading (p. 14)"
+            testID="continue-learning-cta"
+            title={continueAction?.buttonLabel || 'Resume Reading (p. 14)'}
             variant="secondary"
-            size="sm"
-            onPress={() => navigation.navigate('CourseOverview', { courseId: 7 })}
-            style={{ marginTop: spacing.md, backgroundColor: '#FFFFFF' }}
+            size="md"
+            onPress={() => {
+              if (continueAction?.type === 'EXAM_ATTEMPT' && continueAction.attemptId) {
+                navigation.navigate('ExamRunner', {
+                  localAttemptId: continueAction.attemptId,
+                });
+              } else {
+                navigation.navigate('CourseOverview', {
+                  courseId: continueAction?.courseId || 101,
+                  code: continueAction?.courseCode || 'IT-CMTS-101',
+                });
+              }
+            }}
+            style={{
+              marginTop: spacing.md,
+              backgroundColor: '#FFFFFF',
+              minHeight: 48,
+            }}
           />
         </Card>
 
         {/* Zone 2: Offline Readiness Strip */}
         <View
+          testID="offline-readiness-strip"
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -210,119 +268,223 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
             gap: spacing.xs,
           }}
         >
+          {/* Downloaded Courses */}
           <View
-            style={{
-              flex: 1,
-              backgroundColor: colors.surface.card,
-              padding: spacing.sm,
-              borderRadius: borderRadius.md,
-              alignItems: 'center',
-              borderWidth: 1,
-              borderColor: colors.border.default,
-            }}
+            testID="stat-downloaded-courses"
+            style={[
+              styles.statCard,
+              {
+                backgroundColor: colors.surface.card,
+                borderColor: colors.border.default,
+                borderRadius: borderRadius.md,
+              },
+            ]}
           >
-            <Layers size={20} color={colors.brand.primary} />
-            <Text style={[typography.h3, { color: colors.text.primary, marginTop: 4 }]}>
-              {courses.length || 15}
+            <Layers size={22} color={colors.brand.primary} />
+            <Text style={[typography.h2, { color: colors.text.primary, marginTop: 4, fontWeight: '700' }]}>
+              {readinessStats.downloadedCoursesCount}
             </Text>
-            <Text style={[typography.labelSm, { color: colors.text.muted, fontSize: 11 }]}>
+            <Text style={[typography.labelSm, { color: colors.text.secondary, fontSize: 11, textAlign: 'center' }]}>
               Courses Ready
             </Text>
           </View>
 
+          {/* Offline Exam Packages */}
           <View
-            style={{
-              flex: 1,
-              backgroundColor: colors.surface.card,
-              padding: spacing.sm,
-              borderRadius: borderRadius.md,
-              alignItems: 'center',
-              borderWidth: 1,
-              borderColor: colors.border.default,
-            }}
+            testID="stat-offline-exam-packages"
+            style={[
+              styles.statCard,
+              {
+                backgroundColor: colors.surface.card,
+                borderColor: colors.border.default,
+                borderRadius: borderRadius.md,
+              },
+            ]}
           >
-            <FileCheck size={20} color={colors.status.online} />
-            <Text style={[typography.h3, { color: colors.text.primary, marginTop: 4 }]}>
-              120 Qs
+            <FileCheck size={22} color={colors.status.online} />
+            <Text style={[typography.h2, { color: colors.text.primary, marginTop: 4, fontWeight: '700' }]}>
+              {readinessStats.offlineExamPackagesCount}
             </Text>
-            <Text style={[typography.labelSm, { color: colors.text.muted, fontSize: 11 }]}>
-              Sim Ready
+            <Text style={[typography.labelSm, { color: colors.text.secondary, fontSize: 11, textAlign: 'center' }]}>
+              Offline Exams
             </Text>
           </View>
 
+          {/* Pending Sync Items */}
           <View
-            style={{
-              flex: 1,
-              backgroundColor: colors.surface.card,
-              padding: spacing.sm,
-              borderRadius: borderRadius.md,
-              alignItems: 'center',
-              borderWidth: 1,
-              borderColor: colors.border.default,
-            }}
+            testID="stat-pending-sync-items"
+            style={[
+              styles.statCard,
+              {
+                backgroundColor: colors.surface.card,
+                borderColor: colors.border.default,
+                borderRadius: borderRadius.md,
+              },
+            ]}
           >
-            <Sparkles size={20} color="#7E22CE" />
-            <Text style={[typography.h3, { color: colors.text.primary, marginTop: 4 }]}>
-              45 Cr
+            <Clock size={22} color={readinessStats.pendingSyncCount > 0 ? '#D97706' : '#7E22CE'} />
+            <Text style={[typography.h2, { color: colors.text.primary, marginTop: 4, fontWeight: '700' }]}>
+              {readinessStats.pendingSyncCount}
             </Text>
-            <Text style={[typography.labelSm, { color: colors.text.muted, fontSize: 11 }]}>
-              Total Scope
+            <Text style={[typography.labelSm, { color: colors.text.secondary, fontSize: 11, textAlign: 'center' }]}>
+              Pending Sync
             </Text>
           </View>
         </View>
 
-        {/* Zone 3: Targeted Weak-Outcome Recommendations */}
-        <Text style={[typography.h3, { color: colors.text.primary, marginBottom: spacing.xs }]}>
-          Recommended Practice Drills
-        </Text>
-        <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
-          Based on Bloom's Taxonomy assessment objectives
-        </Text>
+        {/* Zone 3: Targeted Weak-Outcome Practice Recommendations */}
+        <View style={{ marginBottom: spacing.md }}>
+          <Text style={[typography.h3, { color: colors.text.primary, marginBottom: spacing.xxs, fontWeight: '700' }]}>
+            Recommended Practice Drills
+          </Text>
+          <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
+            Targeted Bloom's Taxonomy competencies requiring reinforcement
+          </Text>
 
-        <Card
-          variant="outlined"
-          onPress={() => navigation.navigate('CourseOverview', { courseId: 12 })}
-          style={{ marginBottom: spacing.sm }}
-        >
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <View style={{ flex: 1, marginRight: spacing.sm }}>
-              <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700' }]}>
-                IT-DCCN-201 • APPLY
-              </Text>
-              <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}>
-                VLSM Subnetting & IPv4 Subnet Mask Calculation
-              </Text>
-            </View>
-            <ChevronRight size={18} color={colors.text.secondary} />
-          </View>
-        </Card>
+          {weakOutcomes.map((wo, idx) => (
+            <Card
+              key={idx}
+              testID={`weak-outcome-card-${idx}`}
+              variant="outlined"
+              onPress={() =>
+                navigation.navigate('CourseOverview', {
+                  courseId: wo.courseId,
+                  code: wo.courseCode,
+                })
+              }
+              style={{
+                marginBottom: spacing.sm,
+                borderColor: colors.border.default,
+                minHeight: 68,
+              }}
+            >
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <View style={{ flex: 1, marginRight: spacing.sm }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+                    <View
+                      style={{
+                        backgroundColor: '#EFF6FF',
+                        paddingHorizontal: 8,
+                        paddingVertical: 2,
+                        borderRadius: borderRadius.sm,
+                        marginRight: spacing.xs,
+                      }}
+                    >
+                      <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700' }]}>
+                        {wo.courseCode}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: '#F3E8FF',
+                        paddingHorizontal: 8,
+                        paddingVertical: 2,
+                        borderRadius: borderRadius.sm,
+                      }}
+                    >
+                      <Text style={[typography.labelSm, { color: '#7E22CE', fontWeight: '700' }]}>
+                        {wo.level}
+                      </Text>
+                    </View>
+                  </View>
 
-        <Card
-          variant="outlined"
-          onPress={() => navigation.navigate('CourseOverview', { courseId: 2 })}
-          style={{ marginBottom: spacing.lg }}
-        >
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <View style={{ flex: 1, marginRight: spacing.sm }}>
-              <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700' }]}>
-                IT-OOPJ-201 • ANALYSE
+                  <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}>
+                    {wo.description}
+                  </Text>
+                </View>
+
+                <ChevronRight size={20} color={colors.text.secondary} />
+              </View>
+            </Card>
+          ))}
+        </View>
+
+        {/* Zone 4: Recent Courses Strip */}
+        <View style={{ marginBottom: spacing.lg }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: spacing.xs,
+            }}
+          >
+            <Text style={[typography.h3, { color: colors.text.primary, fontWeight: '700' }]}>
+              Curriculum Courses
+            </Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Curriculum')}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            >
+              <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '600' }]}>
+                View All (15) →
               </Text>
-              <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}>
-                JVM Memory Stack vs Heap & Polymorphic Dispatch
-              </Text>
-            </View>
-            <ChevronRight size={18} color={colors.text.secondary} />
+            </TouchableOpacity>
           </View>
-        </Card>
+
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -spacing.screenPadding, paddingHorizontal: spacing.screenPadding }}>
+            {courses.slice(0, 5).map((c) => (
+              <Card
+                key={c.course_id}
+                testID={`recent-course-card-${c.course_id}`}
+                variant="outlined"
+                onPress={() =>
+                  navigation.navigate('CourseOverview', {
+                    courseId: c.course_id,
+                    code: c.code,
+                  })
+                }
+                style={{
+                  width: 200,
+                  marginRight: spacing.sm,
+                  padding: spacing.md,
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: '#EFF6FF',
+                    paddingHorizontal: 8,
+                    paddingVertical: 2,
+                    borderRadius: borderRadius.sm,
+                    alignSelf: 'flex-start',
+                    marginBottom: spacing.xs,
+                  }}
+                >
+                  <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700' }]}>
+                    {c.code}
+                  </Text>
+                </View>
+                <Text numberOfLines={2} style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600', marginBottom: 4, height: 42 }]}>
+                  {c.title}
+                </Text>
+                <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
+                  {c.credit_hours} Credit Hours
+                </Text>
+              </Card>
+            ))}
+          </ScrollView>
+        </View>
 
         {/* Quick Curriculum Exploration CTA */}
         <Button
+          testID="browse-curriculum-themes-btn"
           title="Browse All 5 Curriculum Themes"
           variant="outline"
           onPress={() => navigation.navigate('Curriculum')}
-          style={{ marginBottom: spacing.md }}
+          style={{ marginBottom: spacing.lg, minHeight: 48 }}
         />
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  statCard: {
+    flex: 1,
+    padding: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    minHeight: 88,
+  },
+});

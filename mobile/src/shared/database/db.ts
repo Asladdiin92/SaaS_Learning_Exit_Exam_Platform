@@ -24,6 +24,11 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
       await this.db.execAsync('PRAGMA foreign_keys = ON;');
       await this.db.execAsync('PRAGMA journal_mode = WAL;');
       await this.db.execAsync(CREATE_13_TABLES_SCHEMA);
+      try {
+        await this.db.execAsync('ALTER TABLE download_packages ADD COLUMN last_error TEXT;');
+      } catch (_) {
+        // Column already exists or table freshly created
+      }
       this.isInitialized = true;
       this.isUsingMock = false;
     } catch (error) {
@@ -143,8 +148,23 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
 
       const row: Record<string, any> = {};
       if (params.length > 0) {
+        let paramIdx = 0;
+        const valTokens = insertMatch[3].split(',').map((v) => v.trim());
         columns.forEach((col, idx) => {
-          row[col] = params[idx];
+          const valToken = valTokens[idx];
+          if (valToken === '?') {
+            row[col] = params[paramIdx++];
+          } else if (valToken && valToken.toUpperCase() === 'NULL') {
+            row[col] = null;
+          } else if (valToken && valToken.toLowerCase().includes('datetime')) {
+            row[col] = new Date().toISOString();
+          } else if (valToken && (valToken.startsWith("'") || valToken.startsWith('"'))) {
+            row[col] = valToken.slice(1, -1);
+          } else if (valToken && !isNaN(Number(valToken))) {
+            row[col] = Number(valToken);
+          } else {
+            row[col] = params[paramIdx++];
+          }
         });
       } else {
         const rawVals = insertMatch[3].split(',').map((v) => {
@@ -172,7 +192,7 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
       return;
     }
 
-    // 2. UPDATE table SET col1 = ?, ... WHERE ...
+    // 2. UPDATE table SET col1 = ?, col2 = 'val', ... WHERE ...
     const updateMatch = trimmed.match(/UPDATE\s+([a-zA-Z0-9_]+)\s+SET\s+(.+?)(?:\s+WHERE\s+(.+))?$/i);
     if (updateMatch) {
       const tableName = updateMatch[1];
@@ -180,9 +200,31 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
       const whereClause = updateMatch[3];
       const table = this.mockTables[tableName] || [];
 
-      const setAssignments = setClause.split(',').map((s) => s.trim().split('=')[0].trim());
-      const setValues = params.slice(0, setAssignments.length);
-      const whereValues = params.slice(setAssignments.length);
+      let paramIdx = 0;
+      const setPairs = setClause.split(',').map((s) => s.trim());
+      const updates: Array<{ col: string; val: any }> = [];
+
+      for (const pair of setPairs) {
+        const parts = pair.split('=');
+        const col = parts[0].trim();
+        const rawVal = parts[1]?.trim() || '';
+
+        if (rawVal === '?') {
+          updates.push({ col, val: params[paramIdx++] });
+        } else if (rawVal.toUpperCase() === 'NULL') {
+          updates.push({ col, val: null });
+        } else if (rawVal.toLowerCase().includes('datetime')) {
+          updates.push({ col, val: new Date().toISOString() });
+        } else if (rawVal.startsWith("'") || rawVal.startsWith('"')) {
+          updates.push({ col, val: rawVal.slice(1, -1) });
+        } else if (!isNaN(Number(rawVal))) {
+          updates.push({ col, val: Number(rawVal) });
+        } else {
+          updates.push({ col, val: params[paramIdx++] });
+        }
+      }
+
+      const whereValues = params.slice(paramIdx);
 
       for (let i = 0; i < table.length; i++) {
         let matches = true;
@@ -190,8 +232,8 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
           matches = this.evalWhere(table[i], whereClause, whereValues);
         }
         if (matches) {
-          setAssignments.forEach((col, idx) => {
-            table[i][col] = setValues[idx];
+          updates.forEach(({ col, val }) => {
+            table[i][col] = val;
           });
         }
       }
@@ -261,6 +303,26 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
       }
 
       return [{ [alias]: maxVal }] as any;
+    }
+
+    // 2b. SELECT COALESCE(SUM(col), 0) AS alias FROM table ...
+    const sumMatch = trimmed.match(
+      /SELECT\s+(?:COALESCE\s*\(\s*)?SUM\s*\(\s*([a-zA-Z0-9_.]+)\s*\)(?:\s*,\s*0\s*\))?(?:\s+AS\s+([a-zA-Z0-9_]+))?\s+FROM\s+([a-zA-Z0-9_]+)(?:\s+WHERE\s+(.+))?/i
+    );
+    if (sumMatch) {
+      const rawCol = sumMatch[1];
+      const col = rawCol.includes('.') ? rawCol.split('.').pop()! : rawCol;
+      const alias = sumMatch[2] || 'total';
+      const tableName = sumMatch[3];
+      const whereClause = sumMatch[4];
+      let rows = this.mockTables[tableName] || [];
+
+      if (whereClause) {
+        rows = rows.filter((r) => this.evalWhere(r, whereClause, params));
+      }
+
+      const total = rows.reduce((acc, r) => acc + (Number(r[col]) || 0), 0);
+      return [{ [alias]: total }] as any;
     }
 
     // 3. Standard SELECT ... FROM table WHERE ... ORDER BY ...

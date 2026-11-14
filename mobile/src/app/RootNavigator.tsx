@@ -13,6 +13,10 @@ import { ResourceLibraryScreen } from '../features/resources/ResourceLibraryScre
 import { ResourceDetailScreen } from '../features/resources/ResourceDetailScreen';
 import { ProtectedContentReaderScreen } from '../features/resources/ProtectedContentReaderScreen';
 import { DownloadManagerScreen } from '../features/downloads/DownloadManagerScreen';
+import { ExamInstructionsScreen } from '../features/exams/ExamInstructionsScreen';
+import { ExamRunnerScreen } from '../features/exams/ExamRunnerScreen';
+import { SyncCenterScreen } from '../features/sync/SyncCenterScreen';
+import { NotificationsScreen } from '../features/notifications/NotificationsScreen';
 
 const RootStack = createNativeStackNavigator();
 
@@ -79,6 +83,29 @@ export const RootNavigator = () => {
             <RootStack.Screen
               name="DownloadManager"
               component={DownloadManagerScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="ExamInstructions"
+              component={ExamInstructionsScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="ExamRunner"
+              component={ExamRunnerScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="SyncCenter"
+              component={SyncCenterScreen}
+              options={{
+                presentation: 'modal',
+                animation: 'slide_from_bottom',
+              }}
+            />
+            <RootStack.Screen
+              name="Notifications"
+              component={NotificationsScreen}
               options={{ animation: 'slide_from_right' }}
             />
           </>

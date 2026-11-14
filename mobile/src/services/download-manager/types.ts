@@ -1,15 +1,21 @@
 export type DownloadState =
+  | 'NOT_DOWNLOADED'
   | 'IDLE'
   | 'QUEUED'
+  | 'QUEUED_WAITING_FOR_WIFI'
   | 'DOWNLOADING'
-  | 'PAUSED'
+  | 'VERIFYING_CHECKSUM'
   | 'AVAILABLE_OFFLINE'
+  | 'PAUSED'
   | 'FAILED'
-  | 'EXPIRED';
+  | 'EXPIRED'
+  | 'REVOKED'
+  | 'REMOVED';
 
 export interface DownloadGrant {
   grant_id: string;
   resource_id: string;
+  package_id?: string;
   course_id: number;
   title: string;
   type: string;
@@ -20,7 +26,9 @@ export interface DownloadGrant {
   sha256_checksum: string | null;
   version: number;
   wrapped_aes_key: string;
+  ephemeral_aes_key_b64?: string;
   license_expiry: string;
+  license_expires_at?: string;
   watermark: {
     user_id: string;
     email: string;
@@ -45,6 +53,7 @@ export interface LocalPackageRecord {
   grant_id: string | null;
   license_expiry: string | null;
   last_opened_at: string | null;
+  last_error?: string | null;
   progress_percent?: number;
   bytes_downloaded?: number;
   error_message?: string;
@@ -55,4 +64,29 @@ export interface StorageQuotaInfo {
   downloadedBytes: number;
   protectedExamQueueBytes: number;
   freeBytes: number;
+  storageQuotaMb?: number;
+  usedBytes?: number;
+}
+
+export interface DownloadProgressEvent {
+  packageId: string;
+  resourceId: string;
+  bytesWritten: number;
+  totalBytes: number;
+  percent: number;
+  state: DownloadState;
+}
+
+export interface PreflightCheckResult {
+  allowed: boolean;
+  reason?: 'STORAGE_FULL' | 'WAITING_FOR_WIFI' | 'ENTITLEMENT_DENIED';
+  bytesNeeded?: number;
+  mbNeeded?: number;
+  errorMessage?: string;
+}
+
+export interface DownloadOptions {
+  allowMetered?: boolean;
+  isMetered?: boolean;
+  forceRefreshGrant?: boolean;
 }
