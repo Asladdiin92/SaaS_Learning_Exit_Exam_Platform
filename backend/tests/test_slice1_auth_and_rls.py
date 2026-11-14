@@ -125,7 +125,7 @@ async def test_auth_workflow_and_workspaces():
         assert total_hours == 45
 
         # Check Course Details
-        course_resp = await client.get("/api/v1/courses/1")
+        course_resp = await client.get("/api/v1/courses/1", headers=auth_headers)
         assert course_resp.status_code == 200
         course_data = course_resp.json()
         assert course_data["code"] == "IT-CMTS-101"

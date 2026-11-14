@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy import text
-from fastapi import Request
+from fastapi import HTTPException, Request, status
 from backend.app.core.config import settings
 
 # Supabase Transaction Pooler (PgBouncer port 6543) does not support prepared statements.
@@ -42,10 +42,7 @@ async def set_rls_context(
     tenant_val = str(tenant_id) if tenant_id else ""
 
     if user_id or tenant_id:
-        try:
-            await session.execute(text("SET LOCAL ROLE authenticated"))
-        except Exception:
-            pass
+        await session.execute(text("SET LOCAL ROLE authenticated"))
 
     await session.execute(
         text("SELECT set_config('app.current_user_id', :user_id, true)"),
@@ -71,7 +68,10 @@ async def get_db(request: Request) -> AsyncGenerator[AsyncSession, None]:
                     try:
                         tenant_id = UUID(header_tenant)
                     except ValueError:
-                        tenant_id = None
+                        raise HTTPException(
+                            status_code=status.HTTP_400_BAD_REQUEST,
+                            detail="Invalid X-Tenant-ID header format.",
+                        )
 
             await set_rls_context(session, user_id=user_id, tenant_id=tenant_id)
             yield session

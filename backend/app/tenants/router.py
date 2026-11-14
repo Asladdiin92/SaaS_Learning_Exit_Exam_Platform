@@ -1,10 +1,8 @@
-import uuid
-from datetime import datetime, timezone
-from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import select
+from sqlalchemy import select, text
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -35,7 +33,7 @@ async def get_my_workspaces(
     # Personal Workspace is always available (tenant_id = None)
     personal = WorkspaceItem(
         tenant_id=None,
-        organization_name=f"{current_user.full_name}'s Personal Workspace",
+        organization_name="Personal Student Workspace",
         slug="personal",
         role="OWNER",
         status="ACTIVE",
@@ -95,27 +93,32 @@ async def create_tenant(
             detail=f"Tenant slug '{payload.slug}' is already taken.",
         )
 
-    new_tenant = Tenant(
-        tenant_id=uuid.uuid4(),
-        organization_name=payload.organization_name,
-        slug=payload.slug,
-        status="ACTIVE",
-    )
-    db.add(new_tenant)
-    await db.flush()
+    try:
+        tenant_id = await db.scalar(
+            text(
+                "SELECT public.create_tenant_with_admin("
+                ":user_id, :organization_name, :slug)"
+            ),
+            {
+                "user_id": current_user.user_id,
+                "organization_name": payload.organization_name,
+                "slug": payload.slug,
+            },
+        )
+        await db.commit()
+    except IntegrityError as exc:
+        await db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Tenant slug '{payload.slug}' is already taken.",
+        ) from exc
 
-    # Automatically add creator as TENANT_ADMIN
-    admin_membership = TenantMembership(
-        membership_id=uuid.uuid4(),
-        user_id=current_user.user_id,
-        tenant_id=new_tenant.tenant_id,
-        role="TENANT_ADMIN",
-        status="ACTIVE",
-        cohort_name="Administration",
-    )
-    db.add(admin_membership)
-    await db.commit()
-    await db.refresh(new_tenant)
+    new_tenant = await db.get(Tenant, tenant_id)
+    if new_tenant is None:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Tenant creation completed without a readable tenant record.",
+        )
 
     return TenantResponse.model_validate(new_tenant)
 
@@ -157,31 +160,23 @@ async def invite_to_tenant(
             detail=f"User with email '{payload.email}' not found.",
         )
 
-    # Check if membership already exists
-    mem_check = select(TenantMembership).where(
-        TenantMembership.tenant_id == tenant_id,
-        TenantMembership.user_id == target_user.user_id,
+    membership_id = await db.scalar(
+        text(
+            "SELECT public.invite_tenant_member("
+            ":tenant_id, :user_id, CAST(:role AS membership_role), :cohort_name)"
+        ),
+        {
+            "tenant_id": tenant_id,
+            "user_id": target_user.user_id,
+            "role": payload.role,
+            "cohort_name": payload.cohort_name,
+        },
     )
-    existing_mem = (await db.execute(mem_check)).scalars().first()
-
-    if existing_mem:
-        existing_mem.role = payload.role
-        existing_mem.cohort_name = payload.cohort_name or existing_mem.cohort_name
-        existing_mem.status = "ACTIVE"
-        await db.commit()
-        await db.refresh(existing_mem)
-        return MembershipResponse.model_validate(existing_mem)
-
-    new_membership = TenantMembership(
-        membership_id=uuid.uuid4(),
-        user_id=target_user.user_id,
-        tenant_id=tenant_id,
-        role=payload.role,
-        status="ACTIVE",
-        cohort_name=payload.cohort_name,
-    )
-    db.add(new_membership)
     await db.commit()
-    await db.refresh(new_membership)
-
-    return MembershipResponse.model_validate(new_membership)
+    membership = await db.get(TenantMembership, membership_id)
+    if membership is None:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Invitation completed without a readable membership record.",
+        )
+    return MembershipResponse.model_validate(membership)

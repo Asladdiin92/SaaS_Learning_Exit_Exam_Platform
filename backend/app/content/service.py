@@ -2,9 +2,9 @@ import hashlib
 import hmac
 import uuid
 from datetime import datetime, timedelta, timezone
-from typing import List, Optional
+from typing import Optional
 from fastapi import HTTPException, status
-from sqlalchemy import and_, or_, select
+from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.app.content.schemas import (
@@ -61,14 +61,15 @@ class ContentService:
                     FeatureEntitlement.tenant_id == tenant_id,
                 ),
                 FeatureEntitlement.revoked_at.is_(None),
+                FeatureEntitlement.valid_from <= datetime.now(timezone.utc),
                 or_(
                     FeatureEntitlement.valid_until.is_(None),
                     FeatureEntitlement.valid_until > datetime.now(timezone.utc),
                 ),
             )
         )
-        entitlement = entitlement_res.scalars().first()
-        is_entitled = entitlement.offline_download_allowed if entitlement else True
+        entitlements = entitlement_res.scalars().all()
+        is_entitled = any(grant.offline_download_allowed for grant in entitlements)
 
         items = [
             ResourceListItem(
@@ -129,16 +130,19 @@ class ContentService:
                     FeatureEntitlement.tenant_id == tenant_id,
                 ),
                 FeatureEntitlement.revoked_at.is_(None),
+                FeatureEntitlement.valid_from <= datetime.now(timezone.utc),
                 or_(
                     FeatureEntitlement.valid_until.is_(None),
                     FeatureEntitlement.valid_until > datetime.now(timezone.utc),
                 ),
             )
         )
-        entitlement = entitlement_res.scalars().first()
-
-        grace_days = entitlement.offline_grace_days if entitlement else 7
-        if entitlement and not entitlement.offline_download_allowed:
+        entitlements = entitlement_res.scalars().all()
+        grace_days = max(
+            (grant.offline_grace_days for grant in entitlements),
+            default=0,
+        )
+        if not any(grant.offline_download_allowed for grant in entitlements):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Offline package download is not permitted for your subscription tier.",

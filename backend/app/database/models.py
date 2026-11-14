@@ -1,13 +1,11 @@
 import uuid
 from datetime import datetime, timezone
-from typing import List, Optional
 from sqlalchemy import (
     Boolean,
     Column,
     DateTime,
     ForeignKey,
     Integer,
-    Numeric,
     String,
     Text,
     CHAR,
@@ -53,6 +51,16 @@ resource_type_enum = ENUM(
 grant_source_type_enum = ENUM(
     "FREE_TIER", "PERSONAL_SUBSCRIPTION", "ONE_TIME_PURCHASE", "INSTITUTION_SEAT",
     name="grant_source_type",
+    create_type=False,
+)
+difficulty_level_enum = ENUM(
+    "EASY", "MEDIUM", "HARD",
+    name="difficulty_level",
+    create_type=False,
+)
+exam_type_enum = ENUM(
+    "PRACTICE_QUIZ", "COURSE_EXAM", "NATIONAL_EXIT_SIMULATION",
+    name="exam_type",
     create_type=False,
 )
 
@@ -118,6 +126,19 @@ class UserDevice(Base):
     user = relationship("User", back_populates="devices")
 
 
+class RefreshTokenHistory(Base):
+    __tablename__ = "refresh_token_history"
+
+    token_hash = Column(CHAR(64), primary_key=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
+    device_id = Column(UUID(as_uuid=True), ForeignKey("user_devices.device_id", ondelete="CASCADE"), nullable=False)
+    family_id = Column(UUID(as_uuid=True), nullable=False)
+    expires_at = Column(DateTime(timezone=True), nullable=False)
+    consumed_at = Column(DateTime(timezone=True), nullable=True)
+    revoked_at = Column(DateTime(timezone=True), nullable=True)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
 class CurriculumVersion(Base):
     __tablename__ = "curriculum_versions"
 
@@ -159,6 +180,31 @@ class Course(Base):
     theme = relationship("Theme", back_populates="courses")
     outcomes = relationship("LearningOutcome", back_populates="course", order_by="LearningOutcome.outcome_id")
     resources = relationship("CourseResource", back_populates="course")
+
+
+class ExamBlueprint(Base):
+    __tablename__ = "exam_blueprints"
+
+    exam_id = Column(UUID(as_uuid=True), primary_key=True)
+    course_id = Column(Integer, ForeignKey("courses.course_id", ondelete="SET NULL"), nullable=True)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.tenant_id", ondelete="CASCADE"), nullable=True)
+    title = Column(String(255), nullable=False)
+    type = Column(exam_type_enum, nullable=False)
+    total_questions = Column(Integer, nullable=False)
+    duration_seconds = Column(Integer, nullable=False)
+    is_offline_eligible = Column(Boolean, nullable=False, default=True)
+    reveal_answers_immediately = Column(Boolean, nullable=False, default=True)
+    version = Column(Integer, nullable=False, default=1)
+    rules_json = Column(JSONB, nullable=False, default=dict)
+
+
+class Question(Base):
+    __tablename__ = "questions"
+
+    question_id = Column(UUID(as_uuid=True), primary_key=True)
+    course_id = Column(Integer, ForeignKey("courses.course_id", ondelete="CASCADE"), nullable=False)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.tenant_id", ondelete="CASCADE"), nullable=True)
+    difficulty = Column(difficulty_level_enum, nullable=False)
 
 
 class LearningOutcome(Base):

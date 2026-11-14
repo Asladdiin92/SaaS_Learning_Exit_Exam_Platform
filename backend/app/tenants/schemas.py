@@ -38,7 +38,7 @@ class TenantResponse(BaseModel):
 
 class TenantInviteRequest(BaseModel):
     email: EmailStr
-    role: str = Field(default="STUDENT", pattern=r"^(SUPER_ADMIN|TENANT_ADMIN|INSTRUCTOR|STUDENT)$")
+    role: str = Field(default="STUDENT", pattern=r"^(INSTRUCTOR|STUDENT)$")
     cohort_name: Optional[str] = None
 
 
