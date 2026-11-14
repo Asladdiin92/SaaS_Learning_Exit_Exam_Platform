@@ -11,3 +11,4 @@ export * from './ConnectionBanner';
 export * from './AppHeader';
 export * from './InlineError';
 export * from './ResourceCard';
+export * from './ProtectedContentReader';

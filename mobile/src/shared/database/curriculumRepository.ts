@@ -711,10 +711,11 @@ export const curriculumRepository = {
 
     // 2. Check local bookmarks
     const bookmarks = await database.query(
-      `SELECT * FROM local_bookmarks ORDER BY created_at DESC LIMIT 1;`
+      `SELECT * FROM local_bookmarks ORDER BY updated_at DESC LIMIT 1;`
     );
     if (bookmarks.length > 0) {
       const bm = bookmarks[0];
+      const pageStr = bm.page_or_position || bm.page_or_location || 'p. 1';
       const resources = await database.query<LocalResource>(
         `SELECT * FROM local_resources WHERE resource_id = ?;`,
         [bm.resource_id]
@@ -726,12 +727,12 @@ export const curriculumRepository = {
       return {
         type: 'BOOKMARK',
         title: `${course?.code || 'Course'}: ${course?.title || 'Study Material'}`,
-        subtitle: `${res?.title || 'Lecture Note'} • ${bm.page_or_location || 'p. 1'}`,
+        subtitle: `${res?.title || 'Lecture Note'} • Page ${pageStr}`,
         courseCode: course?.code || 'IT-CMTS-101',
         courseId,
-        buttonLabel: `Resume Reading (${bm.page_or_location || 'p. 1'})`,
+        buttonLabel: `Resume Reading (p. ${pageStr})`,
         resourceId: bm.resource_id,
-        page: bm.page_or_location,
+        page: pageStr,
       };
     }
 

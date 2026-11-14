@@ -8,13 +8,13 @@ interface WatermarkOverlayProps {
 
 export const WatermarkOverlay: React.FC<WatermarkOverlayProps> = ({
   watermarkText,
-  opacity = 0.12,
+  opacity = 0.08,
 }) => {
   // Generate diagonal grid of watermark strings
   const items = Array.from({ length: 8 }, (_, i) => i);
 
   return (
-    <View style={StyleSheet.absoluteFillObject} pointerEvents="none">
+    <View style={StyleSheet.absoluteFillObject} pointerEvents="none" testID="watermark-overlay">
       <View style={styles.container}>
         {items.map((i) => (
           <View key={i} style={[styles.row, { opacity }]}>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   row: {
-    transform: [{ rotate: '-25deg' }],
+    transform: [{ rotate: '-30deg' }],
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginVertical: 24,
