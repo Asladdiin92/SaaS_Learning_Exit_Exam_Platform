@@ -388,6 +388,20 @@ export const CourseOverviewScreen: React.FC<CourseOverviewScreenProps> = ({
                 </Card>
               );
             })}
+
+            <Button
+              testID="browse-full-resource-library-btn"
+              title="Browse Full Resource Library (MOB-09)"
+              variant="outline"
+              onPress={() =>
+                navigation.navigate('ResourceLibrary', {
+                  courseId,
+                  courseCode: course?.code,
+                  courseTitle: course?.title,
+                })
+              }
+              style={{ marginTop: spacing.sm, marginBottom: spacing.md }}
+            />
           </View>
         )}
 
