@@ -216,6 +216,12 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
 
   // ── Restore on Mount (Force-Close Recovery) ──────────────────────────────────
   useEffect(() => {
+    if (route.params?.jumpToQuestionIndex !== undefined) {
+      setCurrentIndex(route.params.jumpToQuestionIndex);
+    }
+  }, [route.params?.jumpToQuestionIndex]);
+
+  useEffect(() => {
     const restoreAttempt = async () => {
       if (!localAttemptId) return;
       try {
@@ -357,6 +363,25 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
   const answeredCount = Object.keys(selectedAnswers).length;
   const unansweredCount = questions.length - answeredCount;
   const flaggedCount = flaggedSet.size;
+
+  const navigateToSubmitConfirmation = () => {
+    const firstUnansweredIndex = questions.findIndex((q) => !selectedAnswers[q.id]);
+    navigation.navigate('SubmitConfirmation', {
+      localAttemptId,
+      examPackageId,
+      title,
+      durationMin,
+      elapsedSec,
+      totalQuestions: questions.length,
+      answeredCount,
+      unansweredCount,
+      flaggedCount,
+      firstUnansweredIndex: firstUnansweredIndex >= 0 ? firstUnansweredIndex : 0,
+      questions,
+      selectedAnswers,
+      examType,
+    });
+  };
 
   // ── Submit Attempt Offline ──────────────────────────────────────────────────
   const handleConfirmSubmit = async () => {
@@ -867,7 +892,7 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
               variant="primary"
               size="md"
               leftIcon={<Send size={16} color="#FFFFFF" />}
-              onPress={() => setShowSubmitModal(true)}
+              onPress={navigateToSubmitConfirmation}
               style={{ flex: 1, minHeight: 48 }}
             />
           )}
@@ -875,7 +900,7 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
           {/* Floating Finish Button */}
           <TouchableOpacity
             testID="submit-exam-btn"
-            onPress={() => setShowSubmitModal(true)}
+            onPress={navigateToSubmitConfirmation}
             style={{
               paddingHorizontal: spacing.sm,
               minHeight: 48,

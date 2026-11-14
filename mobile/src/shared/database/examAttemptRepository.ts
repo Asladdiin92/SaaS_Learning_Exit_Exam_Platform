@@ -266,4 +266,38 @@ export const examAttemptRepository = {
       [localAttemptId]
     );
   },
+
+  async getAllAttempts(userId?: string): Promise<LocalExamAttempt[]> {
+    if (userId) {
+      return await database.query<LocalExamAttempt>(
+        `SELECT * FROM local_exam_attempts WHERE user_id = ? ORDER BY started_at DESC;`,
+        [userId]
+      );
+    }
+    return await database.query<LocalExamAttempt>(
+      `SELECT * FROM local_exam_attempts ORDER BY started_at DESC;`
+    );
+  },
+
+  async markAttemptAccepted(localAttemptId: string, serverAttemptId?: string): Promise<void> {
+    await database.execute(
+      `UPDATE local_exam_attempts SET status = ?, server_attempt_id = ? WHERE local_attempt_id = ?;`,
+      ['ACCEPTED_RESULT_READY', serverAttemptId || localAttemptId, localAttemptId]
+    );
+  },
+
+  async updateLocalProgressCache(
+    cacheKey: string,
+    masteryScore: number,
+    masteryJson: string,
+    pendingDelta = 0
+  ): Promise<void> {
+    const now = new Date().toISOString();
+    await database.execute(
+      `INSERT OR REPLACE INTO local_progress_cache
+       (cache_key, mastery_json, mastery_score, last_calculated_at, pending_local_attempts_count)
+       VALUES (?, ?, ?, ?, ?);`,
+      [cacheKey, masteryJson, masteryScore, now, pendingDelta]
+    );
+  },
 };

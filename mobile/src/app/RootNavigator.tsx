@@ -15,6 +15,11 @@ import { ProtectedContentReaderScreen } from '../features/resources/ProtectedCon
 import { DownloadManagerScreen } from '../features/downloads/DownloadManagerScreen';
 import { ExamInstructionsScreen } from '../features/exams/ExamInstructionsScreen';
 import { ExamRunnerScreen } from '../features/exams/ExamRunnerScreen';
+import { SubmitConfirmationScreen } from '../features/exams/SubmitConfirmationScreen';
+import { ExamResultScreen } from '../features/exams/ExamResultScreen';
+import { AnswerReviewScreen } from '../features/exams/AnswerReviewScreen';
+import { AttemptHistoryScreen } from '../features/exams/AttemptHistoryScreen';
+import { SubmissionStatusScreen } from '../features/exams/SubmissionStatusScreen';
 import { SyncCenterScreen } from '../features/sync/SyncCenterScreen';
 import { NotificationsScreen } from '../features/notifications/NotificationsScreen';
 
@@ -93,6 +98,31 @@ export const RootNavigator = () => {
             <RootStack.Screen
               name="ExamRunner"
               component={ExamRunnerScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="SubmitConfirmation"
+              component={SubmitConfirmationScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="ExamResult"
+              component={ExamResultScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="AnswerReview"
+              component={AnswerReviewScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="AttemptHistory"
+              component={AttemptHistoryScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="SubmissionStatus"
+              component={SubmissionStatusScreen}
               options={{ animation: 'slide_from_right' }}
             />
             <RootStack.Screen
