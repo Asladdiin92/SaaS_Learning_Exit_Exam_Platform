@@ -4,12 +4,11 @@ import {
   Text,
   ScrollView,
   SafeAreaView,
-  TouchableOpacity,
 } from 'react-native';
 import { useTheme } from '../../shared/theme';
-import { Button, Card } from '../../shared/components';
+import { Button, Card, EntitlementBadge } from '../../shared/components';
 import { useAuthSession, WorkspaceContext } from '../../services/auth-session/AuthSessionContext';
-import { Building2, User, CheckCircle2, Circle } from 'lucide-react-native';
+import { Building2, User, CheckCircle2, Circle, Wifi } from 'lucide-react-native';
 
 interface WorkspaceSelectionScreenProps {
   navigation: any;
@@ -24,15 +23,15 @@ export const WorkspaceSelectionScreen: React.FC<WorkspaceSelectionScreenProps> =
   const [selected, setSelected] = useState<WorkspaceContext>(
     currentWorkspace || workspaces[0] || {
       tenantId: null,
-      organizationName: 'Personal Workspace',
-      role: 'OWNER',
+      organizationName: 'Personal Student Workspace',
+      role: 'STUDENT',
       isPersonal: true,
     }
   );
 
   const handleContinue = async () => {
     await switchWorkspace(selected);
-    if (navigation.canGoBack()) {
+    if (navigation && navigation.canGoBack && navigation.canGoBack()) {
       navigation.goBack();
     }
   };
@@ -40,7 +39,7 @@ export const WorkspaceSelectionScreen: React.FC<WorkspaceSelectionScreenProps> =
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.surface.primary }}>
       <View style={{ flex: 1, padding: spacing.screenPadding }}>
-        <Text style={[typography.h1, { color: colors.text.primary, marginBottom: spacing.xs }]}>
+        <Text style={[typography.h1, { color: colors.text.primary, marginBottom: spacing.xs, fontWeight: '700' }]}>
           Select Workspace
         </Text>
         <Text
@@ -61,6 +60,7 @@ export const WorkspaceSelectionScreen: React.FC<WorkspaceSelectionScreenProps> =
             return (
               <Card
                 key={idx}
+                testID={`workspace-card-${idx}`}
                 onPress={() => setSelected(ws)}
                 variant={isCurrent ? 'elevated' : 'outlined'}
                 style={{
@@ -68,6 +68,7 @@ export const WorkspaceSelectionScreen: React.FC<WorkspaceSelectionScreenProps> =
                   borderWidth: isCurrent ? 2 : 1,
                   padding: spacing.md,
                   marginBottom: spacing.md,
+                  minHeight: 80, // Minimum touch area
                 }}
               >
                 <View
@@ -80,9 +81,9 @@ export const WorkspaceSelectionScreen: React.FC<WorkspaceSelectionScreenProps> =
                   <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                     <View
                       style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 20,
+                        width: 44,
+                        height: 44,
+                        borderRadius: 22,
                         backgroundColor: ws.isPersonal
                           ? '#E0F2FE'
                           : '#F3E8FF',
@@ -92,9 +93,9 @@ export const WorkspaceSelectionScreen: React.FC<WorkspaceSelectionScreenProps> =
                       }}
                     >
                       {ws.isPersonal ? (
-                        <User size={20} color={colors.brand.primary} />
+                        <User size={22} color={colors.brand.primary} />
                       ) : (
-                        <Building2 size={20} color="#7E22CE" />
+                        <Building2 size={22} color="#7E22CE" />
                       )}
                     </View>
 
@@ -102,16 +103,34 @@ export const WorkspaceSelectionScreen: React.FC<WorkspaceSelectionScreenProps> =
                       <Text
                         style={[
                           typography.h3,
-                          { color: colors.text.primary, marginBottom: 2 },
+                          { color: colors.text.primary, marginBottom: 2, fontWeight: '700' },
                         ]}
                       >
                         {ws.organizationName}
                       </Text>
-                      <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
+                      <Text style={[typography.labelSm, { color: colors.text.secondary, marginBottom: 4 }]}>
                         {ws.isPersonal
                           ? 'Personal Study • Standard Access'
-                          : `${ws.role} • ${ws.cohortName || 'Institutional Cohort'}`}
+                          : `${ws.role || 'STUDENT'} • ${ws.cohortName || 'Institutional Cohort'}`}
                       </Text>
+
+                      {/* Entitlement & Offline Availability Pill */}
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        <EntitlementBadge
+                          status={ws.isPersonal ? 'FREE' : 'INSTITUTION'}
+                        />
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <Wifi size={12} color={colors.status.online} />
+                          <Text
+                            style={[
+                              typography.labelSm,
+                              { color: colors.status.online, fontSize: 11, marginLeft: 3, fontWeight: '600' },
+                            ]}
+                          >
+                            Offline Ready
+                          </Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
 
@@ -127,6 +146,7 @@ export const WorkspaceSelectionScreen: React.FC<WorkspaceSelectionScreenProps> =
         </ScrollView>
 
         <Button
+          testID="continue-workspace-btn"
           title="Continue in Selected Workspace"
           variant="primary"
           onPress={handleContinue}

@@ -7,6 +7,7 @@ interface CardProps {
   style?: ViewStyle;
   onPress?: () => void;
   variant?: 'default' | 'outlined' | 'elevated';
+  testID?: string;
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -14,6 +15,7 @@ export const Card: React.FC<CardProps> = ({
   style,
   onPress,
   variant = 'default',
+  testID,
 }) => {
   const { colors, spacing, borderRadius } = useTheme();
 
@@ -35,6 +37,7 @@ export const Card: React.FC<CardProps> = ({
   if (onPress) {
     return (
       <TouchableOpacity
+        testID={testID}
         style={cardStyle}
         onPress={onPress}
         activeOpacity={0.8}
@@ -44,5 +47,9 @@ export const Card: React.FC<CardProps> = ({
     );
   }
 
-  return <View style={cardStyle}>{children}</View>;
+  return (
+    <View testID={testID} style={cardStyle}>
+      {children}
+    </View>
+  );
 };

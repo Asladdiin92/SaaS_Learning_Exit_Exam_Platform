@@ -5,48 +5,55 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
-  Dimensions,
 } from 'react-native';
 import { useTheme } from '../../shared/theme';
 import { Button } from '../../shared/components';
-import { GraduationCap, WifiOff, Award, Globe } from 'lucide-react-native';
-
-const { width } = Dimensions.get('window');
+import { useNetwork } from '../../shared/network/NetworkContext';
+import {
+  TRANSLATIONS,
+  SupportedLanguage,
+} from '../../shared/localization';
+import {
+  GraduationCap,
+  WifiOff,
+  Award,
+  AlertCircle,
+} from 'lucide-react-native';
 
 interface WelcomeScreenProps {
   navigation: any;
 }
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
-  const { colors, typography, spacing } = useTheme();
-  const [selectedLanguage, setSelectedLanguage] = useState<'EN' | 'OM' | 'AM'>('EN');
+  const { colors, typography, spacing, isDark } = useTheme();
+  const { isOnline } = useNetwork();
+  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>('EN');
+
+  const t = TRANSLATIONS[selectedLanguage];
 
   const slides = [
     {
       icon: <GraduationCap size={44} color={colors.brand.primary} />,
-      title: 'National Exit Exam Alignment',
-      description:
-        'All 5 IT Themes, 15 canonical B.Sc. courses, and 45 credit hours mapped strictly to the Ethiopian National Higher Education curriculum.',
+      title: t.nationalExitTitle,
+      description: t.nationalExitDesc,
     },
     {
       icon: <WifiOff size={44} color={colors.status.offline} />,
-      title: 'Offline-First Study Mode',
-      description:
-        'Download encrypted course packages over Wi-Fi. Read lecture notes, lab guides, and run practice exams without internet.',
+      title: t.offlineModeTitle,
+      description: t.offlineModeDesc,
     },
     {
       icon: <Award size={44} color={colors.status.online} />,
-      title: "Bloom's Taxonomy Mastery",
-      description:
-        'Track competencies from Remember to Create with sliding-window IRT assessment analytics and adaptive exam simulations.',
+      title: t.bloomMasteryTitle,
+      description: t.bloomMasteryDesc,
     },
   ];
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.surface.primary }}>
-      <StatusBar barStyle={colors.surface.primary === '#0F172A' ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
       <View style={{ flex: 1, paddingHorizontal: spacing.screenPadding }}>
-        {/* Top Header with Language Pill */}
+        {/* Top Header with App Branding and Language Selector Pill */}
         <View
           style={{
             flexDirection: 'row',
@@ -60,10 +67,10 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
             <Text
               style={[
                 typography.h3,
-                { color: colors.text.primary, marginLeft: spacing.xs },
+                { color: colors.text.primary, marginLeft: spacing.xs, fontWeight: '700' },
               ]}
             >
-              IT Exit Exam
+              {t.welcomeTitle}
             </Text>
           </View>
 
@@ -95,12 +102,39 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
           </View>
         </View>
 
+        {/* Offline Warning Banner on First Launch */}
+        {!isOnline && (
+          <View
+            testID="welcome-offline-banner"
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: isDark ? '#451A03' : '#FEF3C7',
+              borderColor: colors.status.offline,
+              borderWidth: 1,
+              borderRadius: 8,
+              padding: spacing.sm,
+              marginBottom: spacing.sm,
+            }}
+          >
+            <AlertCircle size={18} color={colors.status.offline} style={{ marginRight: 8 }} />
+            <Text
+              style={[
+                typography.labelSm,
+                { color: isDark ? '#FDE68A' : '#92400E', flex: 1, fontWeight: '600' },
+              ]}
+            >
+              {t.offlineNotice}
+            </Text>
+          </View>
+        )}
+
         {/* Value Carousel Content */}
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
             justifyContent: 'center',
-            paddingVertical: spacing.lg,
+            paddingVertical: spacing.md,
           }}
           showsVerticalScrollIndicator={false}
         >
@@ -120,19 +154,19 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
               <Text
                 style={[
                   typography.h2,
-                  { color: colors.text.primary, marginBottom: spacing.xs },
+                  { color: colors.text.primary, marginBottom: spacing.xs, fontWeight: '700' },
                 ]}
               >
                 {s.title}
               </Text>
-              <Text style={[typography.bodyMd, { color: colors.text.secondary }]}>
+              <Text style={[typography.bodyMd, { color: colors.text.secondary, lineHeight: 22 }]}>
                 {s.description}
               </Text>
             </View>
           ))}
         </ScrollView>
 
-        {/* Data & Terms Disclosure Box */}
+        {/* Sticky CTAs & Security Invariant Disclosure */}
         <View style={{ paddingVertical: spacing.sm }}>
           <Text
             style={[
@@ -143,15 +177,17 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
             Encrypted with SQLCipher. Complies with institutional privacy policies.
           </Text>
 
-          {/* Sticky Dual CTAs */}
           <View style={{ gap: spacing.sm, marginBottom: spacing.md }}>
             <Button
-              title="Create Free Account"
+              testID="welcome-create-account-btn"
+              title={t.createAccount}
               variant="primary"
+              disabled={!isOnline}
               onPress={() => navigation.navigate('CreateAccount')}
             />
             <Button
-              title="Sign In"
+              testID="welcome-sign-in-btn"
+              title={t.signIn}
               variant="outline"
               onPress={() => navigation.navigate('SignIn')}
             />

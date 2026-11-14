@@ -142,9 +142,24 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
       const table = this.mockTables[tableName] || (this.mockTables[tableName] = []);
 
       const row: Record<string, any> = {};
-      columns.forEach((col, idx) => {
-        row[col] = params[idx];
-      });
+      if (params.length > 0) {
+        columns.forEach((col, idx) => {
+          row[col] = params[idx];
+        });
+      } else {
+        const rawVals = insertMatch[3].split(',').map((v) => {
+          const trimmedVal = v.trim();
+          if (trimmedVal.toUpperCase() === 'NULL') return null;
+          const num = Number(trimmedVal);
+          if (!isNaN(num) && !trimmedVal.startsWith("'") && !trimmedVal.startsWith('"')) {
+            return num;
+          }
+          return trimmedVal.replace(/^['"]|['"]$/g, '');
+        });
+        columns.forEach((col, idx) => {
+          row[col] = rawVals[idx];
+        });
+      }
 
       // Find primary key column (first column or id)
       const pkCol = columns[0];

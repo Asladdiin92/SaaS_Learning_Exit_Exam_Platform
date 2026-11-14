@@ -10,6 +10,7 @@ import {
 import { useTheme } from '../../shared/theme';
 import { Button, TextInput, Card } from '../../shared/components';
 import { useAuthSession } from '../../services/auth-session/AuthSessionContext';
+import { useNetwork } from '../../shared/network/NetworkContext';
 import { Fingerprint, Building2, ShieldCheck, ArrowLeft } from 'lucide-react-native';
 
 interface SignInScreenProps {
@@ -17,13 +18,22 @@ interface SignInScreenProps {
 }
 
 export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
-  const { colors, typography, spacing } = useTheme();
-  const { login, offlineGrant, unlockWithBiometrics } = useAuthSession();
+  const { colors, typography, spacing, isDark } = useTheme();
+  const { isOnline } = useNetwork();
+  const {
+    login,
+    offlineGrant,
+    hasValidOfflineGrant,
+    unlockOfflineWithBiometrics,
+  } = useAuthSession();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Show biometric unlock card when offline and grant is valid, OR if offlineGrant is present
+  const showBiometricCard = (!isOnline && hasValidOfflineGrant) || (Boolean(offlineGrant) && !isOnline);
 
   const handleSignIn = async () => {
     if (!email || !password) {
@@ -34,7 +44,10 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     try {
       setLoading(true);
       setError(null);
-      await login(email.trim(), password);
+      const result = await login(email.trim(), password);
+      if (result.hasMultipleWorkspaces) {
+        navigation.navigate('WorkspaceSelection');
+      }
     } catch (err: any) {
       setError(err.message || 'Incorrect email or password.');
     } finally {
@@ -44,9 +57,12 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
 
   const handleBiometricUnlock = async () => {
     try {
-      const success = await unlockWithBiometrics();
+      const success = await unlockOfflineWithBiometrics();
       if (!success) {
-        Alert.alert('Authentication Failed', 'Biometric verification was not recognized.');
+        Alert.alert(
+          'Authentication Failed',
+          'Biometric verification was not recognized or offline grant has expired.'
+        );
       }
     } catch (err: any) {
       Alert.alert('Error', err.message || 'Could not complete biometric authentication.');
@@ -66,12 +82,12 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          style={{ marginBottom: spacing.md }}
+          style={{ marginBottom: spacing.md, minHeight: 48, minWidth: 48, justifyContent: 'center' }}
         >
           <ArrowLeft size={24} color={colors.text.primary} />
         </TouchableOpacity>
 
-        <Text style={[typography.h1, { color: colors.text.primary, marginBottom: spacing.xs }]}>
+        <Text style={[typography.h1, { color: colors.text.primary, marginBottom: spacing.xs, fontWeight: '700' }]}>
           Welcome Back
         </Text>
         <Text
@@ -84,15 +100,16 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
         </Text>
 
         {/* ============================================================ */}
-        {/* OFFLINE BIOMETRIC UNLOCK CARD (Rendered if cached grant exists) */}
+        {/* OFFLINE BIOMETRIC UNLOCK CARD (Rendered when offline & grant valid) */}
         {/* ============================================================ */}
-        {offlineGrant && (
+        {showBiometricCard && offlineGrant && (
           <Card
+            testID="offline-biometric-card"
             variant="elevated"
             style={{
               borderColor: colors.brand.primary,
               borderWidth: 1.5,
-              backgroundColor: colors.surface.card,
+              backgroundColor: isDark ? '#172554' : colors.surface.card,
               marginBottom: spacing.lg,
             }}
           >
@@ -108,15 +125,16 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
               </Text>
             </View>
 
-            <Text style={[typography.h3, { color: colors.text.primary, marginBottom: spacing.xxs }]}>
+            <Text style={[typography.h3, { color: colors.text.primary, marginBottom: spacing.xxs, fontWeight: '700' }]}>
               {offlineGrant.fullName}
             </Text>
             <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
               {offlineGrant.tenantName || 'Personal Workspace'} • Valid until{' '}
-              {new Date(offlineGrant.expiresAt).toLocaleDateString()}
+              {offlineGrant.expiresAt ? new Date(offlineGrant.expiresAt).toLocaleDateString() : '7 days'}
             </Text>
 
             <Button
+              testID="offline-biometric-unlock-btn"
               title="Unlock Offline Library with Biometrics"
               variant="secondary"
               leftIcon={<Fingerprint size={20} color={colors.brand.primary} />}
@@ -154,7 +172,7 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
           <Text
             style={[
               typography.labelSm,
-              { color: colors.status.error, marginBottom: spacing.md },
+              { color: colors.status.error, marginBottom: spacing.md, fontWeight: '600' },
             ]}
           >
             {error}
@@ -162,9 +180,11 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
         )}
 
         <Button
+          testID="sign-in-submit-btn"
           title="Sign In"
           variant="primary"
           loading={loading}
+          disabled={!isOnline && !showBiometricCard}
           onPress={handleSignIn}
           style={{ marginBottom: spacing.md }}
         />
@@ -177,15 +197,18 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
           style={{ marginBottom: spacing.lg }}
         />
 
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
           <Text style={[typography.bodyMd, { color: colors.text.secondary }]}>
             Don't have an account?{' '}
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('CreateAccount')}
+            style={{ minHeight: 48, justifyContent: 'center' }}
+          >
             <Text
               style={[
                 typography.bodyMd,
-                { color: colors.brand.primary, fontWeight: '600' },
+                { color: colors.brand.primary, fontWeight: '700' },
               ]}
             >
               Register
