@@ -1,0 +1,66 @@
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+ENV/
+
+# Node & Frontend (Next.js & Expo / React Native)
+node_modules/
+.npm
+.yarn/
+.next/
+out/
+.expo/
+*.tsbuildinfo
+.eslintcache
+
+# Local Storage and Media
+dev_storage/course-packages/*
+!dev_storage/course-packages/.gitkeep
+
+# Mobile Native Builds
+android/app/build/
+android/.gradle/
+android/app/release/
+ios/Pods/
+ios/build/
+
+# Operating System & Editors
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/

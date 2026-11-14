@@ -1,0 +1,15 @@
+# Backend local environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
