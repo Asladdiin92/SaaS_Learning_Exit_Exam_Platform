@@ -134,6 +134,7 @@ CREATE TABLE IF NOT EXISTS local_bookmarks (
 CREATE TABLE IF NOT EXISTS local_progress_cache (
   cache_key TEXT PRIMARY KEY,
   mastery_json TEXT NOT NULL,
+  mastery_score REAL DEFAULT 0,
   last_calculated_at TEXT NOT NULL,
   pending_local_attempts_count INTEGER NOT NULL DEFAULT 0
 );

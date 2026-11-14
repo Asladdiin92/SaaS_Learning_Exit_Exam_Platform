@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTheme } from '../shared/theme';
 import { HomeDashboardScreen } from '../features/home/HomeDashboardScreen';
 import { ThemeCatalogScreen } from '../features/curriculum/ThemeCatalogScreen';
-import { PracticeCatalogPlaceholder } from '../features/exams/PracticeCatalogPlaceholder';
+import { PracticeCatalogScreen } from '../features/exams/PracticeCatalogScreen';
 import { ProgressPlaceholder } from '../features/progress/ProgressPlaceholder';
 import { ProfileScreen } from '../features/profile/ProfileScreen';
 import { Home, BookOpen, Target, Award, User } from 'lucide-react-native';
@@ -52,7 +52,7 @@ export const StudentTabs = () => {
       />
       <Tab.Screen
         name="Practice"
-        component={PracticeCatalogPlaceholder}
+        component={PracticeCatalogScreen}
         options={{
           tabBarLabel: 'Practice',
           tabBarIcon: ({ color, size }) => <Target size={size || 22} color={color} />,

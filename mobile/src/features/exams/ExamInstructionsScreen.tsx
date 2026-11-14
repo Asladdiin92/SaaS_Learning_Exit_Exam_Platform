@@ -1,54 +1,141 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
+  ActivityIndicator,
   Alert,
 } from 'react-native';
 import { useTheme } from '../../shared/theme';
 import { Card, Button } from '../../shared/components';
+import { useAuthSession } from '../../services/auth-session';
+import { examAttemptRepository } from '../../shared/database/examAttemptRepository';
 import {
   ArrowLeft,
   Clock,
-  HelpCircle,
-  ShieldCheck,
+  FileText,
+  CheckSquare,
   WifiOff,
-  AlertTriangle,
+  CheckCircle2,
+  BookOpen,
+  Zap,
 } from 'lucide-react-native';
 
-interface ExamInstructionsScreenProps {
-  route: any;
-  navigation: any;
+// ─── Types ─────────────────────────────────────────────────────────────────────
+
+type StudyMode = 'STRICT_TIMED' | 'INTERACTIVE_STUDY';
+
+interface StudyModeOption {
+  key: StudyMode;
+  label: string;
+  description: string;
+  icon: React.ReactNode;
 }
 
-export const ExamInstructionsScreen: React.FC<ExamInstructionsScreenProps> = ({
-  route,
+// ─── Component ─────────────────────────────────────────────────────────────────
+
+export const ExamInstructionsScreen: React.FC<{ navigation: any; route: any }> = ({
   navigation,
+  route,
 }) => {
   const { colors, typography, spacing, borderRadius } = useTheme();
+  const { user, currentWorkspace } = useAuthSession();
+
   const {
     examPackageId = 'pkg_hu_cci_model_exit_2023',
-    title = 'HU CCI Model Exit Exam',
-    durationMinutes = 180,
+    title = 'Exam',
+    courseCode = '',
     questionCount = 100,
+    durationMin = 180,
+    examType = 'NATIONAL_EXIT_SIMULATION',
   } = route.params || {};
 
-  const handleStartExam = () => {
-    navigation.navigate('ExamRunner', {
-      examPackageId,
-      title,
-      durationMinutes,
-      questionCount,
-    });
+  const [studyMode, setStudyMode] = useState<StudyMode>('STRICT_TIMED');
+  const [loading, setLoading] = useState(false);
+
+  const isSimulation = examType === 'NATIONAL_EXIT_SIMULATION';
+  const showStudyModeSelector = !isSimulation;
+
+  const STUDY_MODES: StudyModeOption[] = [
+    {
+      key: 'STRICT_TIMED',
+      label: 'Strict Timed Mode',
+      description: 'No hints until submission. Official score on completion.',
+      icon: <Zap size={20} color={studyMode === 'STRICT_TIMED' ? colors.brand.primary : colors.text.secondary} />,
+    },
+    {
+      key: 'INTERACTIVE_STUDY',
+      label: 'Interactive Study Assistant Mode',
+      description: 'Instant step-by-step explanations after each answer. Linked notes available.',
+      icon: <BookOpen size={20} color={studyMode === 'INTERACTIVE_STUDY' ? colors.brand.primary : colors.text.secondary} />,
+    },
+  ];
+
+  // ── Summary Grid Items ──────────────────────────────────────────────────────
+  const summaryItems = [
+    { icon: <FileText size={18} color={colors.brand.primary} />, label: `${questionCount} Questions` },
+    { icon: <Clock size={18} color={colors.brand.primary} />, label: `${durationMin}:00 Duration` },
+    { icon: <CheckSquare size={18} color={colors.brand.primary} />, label: 'Multiple Choice (A–F)' },
+    { icon: <WifiOff size={18} color={colors.brand.primary} />, label: 'Offline-Capable Practice' },
+  ];
+
+  // ── Pre-flight Checklist ────────────────────────────────────────────────────
+  const checklistItems = [
+    'Exam Package Verified (SHA-256 checksum confirmed)',
+    'Entitlement Grant Active',
+    'Answers auto-saved to this device on every tap',
+  ];
+
+  // ── Begin Exam Handler ──────────────────────────────────────────────────────
+  const handleBeginExam = async () => {
+    if (!user?.userId) {
+      Alert.alert('Not Signed In', 'You must be signed in to start an exam.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const tenantId = currentWorkspace?.tenantId ?? null;
+      const attempt = await examAttemptRepository.createLocalAttempt(
+        examPackageId,
+        user.userId,
+        tenantId
+      );
+
+      navigation.navigate('ExamRunner', {
+        localAttemptId: attempt.local_attempt_id,
+        examPackageId,
+        title,
+        questionCount,
+        durationMin,
+        studyMode,
+        examType,
+      });
+    } catch (err) {
+      Alert.alert(
+        'Failed to Start Exam',
+        'Could not create a local attempt. Please try again.'
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.surface.primary }}>
-      <View style={{ flex: 1, padding: spacing.screenPadding }}>
-        {/* Header */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md }}>
+      <View style={{ flex: 1 }}>
+        {/* ── Header ───────────────────────────────────────────────────────── */}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: spacing.screenPadding,
+            paddingTop: spacing.md,
+            paddingBottom: spacing.sm,
+          }}
+        >
           <TouchableOpacity
             testID="exam-instructions-back-btn"
             onPress={() => navigation.goBack()}
@@ -64,95 +151,289 @@ export const ExamInstructionsScreen: React.FC<ExamInstructionsScreenProps> = ({
           >
             <ArrowLeft size={24} color={colors.text.primary} />
           </TouchableOpacity>
+
           <View style={{ flex: 1 }}>
-            <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
-              EXAM INSTRUCTIONS & CODE OF CONDUCT
-            </Text>
-            <Text numberOfLines={1} style={[typography.h2, { color: colors.text.primary, fontWeight: '700' }]}>
+            {/* Course code breadcrumb */}
+            {courseCode ? (
+              <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
+                {courseCode} · EXAM INSTRUCTIONS
+              </Text>
+            ) : (
+              <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
+                EXAM INSTRUCTIONS
+              </Text>
+            )}
+            <Text
+              numberOfLines={2}
+              style={[typography.h2, { color: colors.text.primary, fontWeight: '700' }]}
+            >
               {title}
             </Text>
           </View>
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: spacing.xl }}>
-          {/* Summary Card */}
-          <Card variant="elevated" style={{ marginBottom: spacing.md, padding: spacing.md }}>
-            <Text style={[typography.h3, { color: colors.text.primary, marginBottom: spacing.xs, fontWeight: '700' }]}>
-              Assessment Blueprint Overview
+        {/* ── Scrollable Body ───────────────────────────────────────────────── */}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingHorizontal: spacing.screenPadding,
+            paddingBottom: spacing.xxl + 80, // leave room for sticky CTA
+          }}
+        >
+          {/* ── 2×2 Summary Grid ──────────────────────────────────────────── */}
+          <Card
+            variant="elevated"
+            style={{ marginBottom: spacing.md, padding: spacing.md }}
+          >
+            <Text
+              style={[
+                typography.h3,
+                { color: colors.text.primary, fontWeight: '700', marginBottom: spacing.sm },
+              ]}
+            >
+              Assessment Overview
             </Text>
-            <View style={{ flexDirection: 'row', gap: spacing.md, marginBottom: spacing.sm }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Clock size={16} color={colors.brand.primary} />
-                <Text style={[typography.bodySm, { color: colors.text.primary, fontWeight: '600', marginLeft: 4 }]}>
-                  {durationMinutes} Minutes
+
+            {/* Row 1 */}
+            <View style={{ flexDirection: 'row', marginBottom: spacing.sm }}>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                {summaryItems[0].icon}
+                <Text
+                  style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}
+                >
+                  {summaryItems[0].label}
                 </Text>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <HelpCircle size={16} color={colors.status.online} />
-                <Text style={[typography.bodySm, { color: colors.text.primary, fontWeight: '600', marginLeft: 4 }]}>
-                  {questionCount} Questions
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                {summaryItems[1].icon}
+                <Text
+                  style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}
+                >
+                  {summaryItems[1].label}
                 </Text>
               </View>
             </View>
-            <Text style={[typography.bodySm, { color: colors.text.secondary }]}>
-              Aligned with the Ethiopian National Higher Education Exit Exam Blueprint across all 5 IT themes.
-            </Text>
+
+            {/* Row 2 */}
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                {summaryItems[2].icon}
+                <Text
+                  style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}
+                >
+                  {summaryItems[2].label}
+                </Text>
+              </View>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                {summaryItems[3].icon}
+                <Text
+                  style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}
+                >
+                  {summaryItems[3].label}
+                </Text>
+              </View>
+            </View>
           </Card>
 
-          {/* Key Invariants & Offline Rules */}
-          <Card variant="outlined" style={{ marginBottom: spacing.md, padding: spacing.md }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
-              <WifiOff size={18} color={colors.status.offline} />
-              <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '700', marginLeft: 8 }]}>
-                100% Offline-Safe Execution
+          {/* ── Study Mode Selector (PRACTICE_QUIZ / COURSE_EXAM only) ─────── */}
+          {showStudyModeSelector && (
+            <View style={{ marginBottom: spacing.md }}>
+              <Text
+                style={[
+                  typography.h3,
+                  {
+                    color: colors.text.primary,
+                    fontWeight: '700',
+                    marginBottom: spacing.sm,
+                  },
+                ]}
+              >
+                Study Mode
               </Text>
-            </View>
-            <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.md }]}>
-              Every answer is persisted to encrypted SQLite in &lt;16ms. You do not need an active internet connection while taking this exam.
-            </Text>
+              {STUDY_MODES.map((mode) => {
+                const isSelected = studyMode === mode.key;
+                return (
+                  <TouchableOpacity
+                    key={mode.key}
+                    testID={`study-mode-${mode.key}`}
+                    onPress={() => setStudyMode(mode.key)}
+                    accessibilityRole="radio"
+                    accessibilityState={{ checked: isSelected }}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'flex-start',
+                      padding: spacing.md,
+                      marginBottom: spacing.xs,
+                      borderRadius: borderRadius.md,
+                      borderWidth: isSelected ? 2 : 1,
+                      borderColor: isSelected ? colors.brand.primary : colors.border.default,
+                      backgroundColor: isSelected
+                        ? colors.brand.primary + '0D'
+                        : colors.surface.card,
+                    }}
+                  >
+                    {/* Radio circle */}
+                    <View
+                      style={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: 10,
+                        borderWidth: 2,
+                        borderColor: isSelected ? colors.brand.primary : colors.border.default,
+                        backgroundColor: isSelected ? colors.brand.primary : 'transparent',
+                        marginRight: spacing.sm,
+                        marginTop: 2,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {isSelected && (
+                        <View
+                          style={{
+                            width: 8,
+                            height: 8,
+                            borderRadius: 4,
+                            backgroundColor: '#FFFFFF',
+                          }}
+                        />
+                      )}
+                    </View>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
-              <ShieldCheck size={18} color={colors.brand.primary} />
-              <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '700', marginLeft: 8 }]}>
-                Server-Side Authoritative Grading (ADR-005)
-              </Text>
+                    <View style={{ flex: 1 }}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: 6,
+                          marginBottom: 2,
+                        }}
+                      >
+                        {mode.icon}
+                        <Text
+                          style={[
+                            typography.bodyMd,
+                            {
+                              color: isSelected ? colors.brand.primary : colors.text.primary,
+                              fontWeight: '700',
+                            },
+                          ]}
+                        >
+                          {mode.label}
+                        </Text>
+                      </View>
+                      <Text
+                        style={[
+                          typography.bodyMd,
+                          { color: colors.text.secondary, fontSize: 13 },
+                        ]}
+                      >
+                        {mode.description}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
-            <Text style={[typography.bodySm, { color: colors.text.secondary }]}>
-              Upon submission, your attempt is marked as Provisional / Awaiting Server Sync until verified and scored by public.grade_exam_attempt().
-            </Text>
-          </Card>
+          )}
 
-          {/* Code of Conduct Warning */}
+          {/* ── Pre-Flight Readiness Checklist ───────────────────────────── */}
           <Card
             variant="outlined"
-            style={{
-              marginBottom: spacing.lg,
-              padding: spacing.md,
-              borderColor: '#FEF3C7',
-              backgroundColor: '#FFFBEB',
-            }}
+            style={{ marginBottom: spacing.md, padding: spacing.md }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
-              <AlertTriangle size={18} color="#D97706" />
-              <Text style={[typography.bodyMd, { color: '#B45309', fontWeight: '700', marginLeft: 8 }]}>
-                Strict Anti-Cheating Invariant
-              </Text>
-            </View>
-            <Text style={[typography.bodySm, { color: '#78350F' }]}>
-              Leaving the app or switching tasks will trigger security event logs recorded in your exam audit trail.
+            <Text
+              style={[
+                typography.h3,
+                {
+                  color: colors.text.primary,
+                  fontWeight: '700',
+                  marginBottom: spacing.sm,
+                },
+              ]}
+            >
+              Pre-Flight Readiness
             </Text>
+            {checklistItems.map((item, idx) => (
+              <View
+                key={idx}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  marginBottom: idx < checklistItems.length - 1 ? spacing.xs : 0,
+                }}
+              >
+                <CheckCircle2
+                  size={18}
+                  color={colors.status.online}
+                  style={{ marginRight: 8, marginTop: 1 }}
+                />
+                <Text
+                  style={[
+                    typography.bodyMd,
+                    { color: colors.text.primary, flex: 1 },
+                  ]}
+                >
+                  {item}
+                </Text>
+              </View>
+            ))}
           </Card>
 
-          {/* Primary CTA */}
+          {/* ── Offline invariant note ────────────────────────────────────── */}
+          <View
+            style={{
+              backgroundColor: '#EFF6FF',
+              borderRadius: borderRadius.md,
+              padding: spacing.md,
+              marginBottom: spacing.md,
+            }}
+          >
+            <Text
+              style={[typography.bodyMd, { color: colors.brand.primary, fontWeight: '600' }]}
+            >
+              100% Offline-Safe
+            </Text>
+            <Text style={[typography.bodyMd, { color: colors.text.secondary, fontSize: 13 }]}>
+              Every answer is persisted to encrypted SQLite in {'<'}16 ms. No internet connection
+              required during the exam. Results display as{' '}
+              <Text style={{ fontStyle: 'italic' }}>Provisional / Awaiting Server Sync</Text>{' '}
+              until graded by the server.
+            </Text>
+          </View>
+        </ScrollView>
+
+        {/* ── Sticky Bottom CTA ────────────────────────────────────────────── */}
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: colors.surface.primary,
+            borderTopWidth: 1,
+            borderTopColor: colors.border.default,
+            paddingHorizontal: spacing.screenPadding,
+            paddingTop: spacing.md,
+            paddingBottom: spacing.xl,
+          }}
+        >
           <Button
-            testID="begin-timed-exam-btn"
-            title="I Understand — Begin Timed Exam"
+            testID="begin-exam-btn"
+            title={loading ? 'Creating Attempt…' : 'Begin Exam Now'}
             variant="primary"
             size="lg"
-            onPress={handleStartExam}
-            style={{ minHeight: 48 }}
+            onPress={handleBeginExam}
+            disabled={loading}
+            style={{ minHeight: 52 }}
           />
-        </ScrollView>
+          {loading && (
+            <ActivityIndicator
+              size="small"
+              color={colors.brand.primary}
+              style={{ position: 'absolute', right: spacing.screenPadding + 16, top: spacing.md + 16 }}
+            />
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );

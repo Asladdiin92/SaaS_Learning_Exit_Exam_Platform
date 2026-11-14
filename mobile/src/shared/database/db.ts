@@ -29,6 +29,11 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
       } catch (_) {
         // Column already exists or table freshly created
       }
+      try {
+        await this.db.execAsync('ALTER TABLE local_progress_cache ADD COLUMN mastery_score REAL DEFAULT 0;');
+      } catch (_) {
+        // Column already exists or table freshly created
+      }
       this.isInitialized = true;
       this.isUsingMock = false;
     } catch (error) {
