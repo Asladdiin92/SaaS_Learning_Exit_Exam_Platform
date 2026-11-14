@@ -20,7 +20,8 @@ async def test_get_course_resources_and_download_grant():
             },
         )
         assert reg_res.status_code == 201, reg_res.text
-        token = reg_res.json()["access_token"]
+        registration = reg_res.json()
+        token = registration["access_token"]
         auth_headers = {"Authorization": f"Bearer {token}"}
 
         # 2. Query resources for Course 1 (IT-CMTS-101)
@@ -39,7 +40,7 @@ async def test_get_course_resources_and_download_grant():
         grant_res = await client.post(
             f"/api/v1/resources/{resource_id}/download-grant",
             headers=auth_headers,
-            json={"device_id": str(uuid.uuid4())},
+            json={"device_id": registration["device_id"]},
         )
         assert grant_res.status_code == 200, grant_res.text
         grant = grant_res.json()

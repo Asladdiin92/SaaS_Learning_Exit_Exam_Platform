@@ -210,6 +210,7 @@ CREATE TABLE learning_outcomes (
 CREATE TABLE course_resources (
     resource_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     course_id INT NOT NULL REFERENCES courses(course_id) ON DELETE CASCADE,
+    chapter_id INT, -- NULL means course-wide material
     tenant_id UUID REFERENCES tenants(tenant_id) ON DELETE CASCADE, -- NULL = Global resource
     type resource_type NOT NULL,
     title VARCHAR(255) NOT NULL,
@@ -223,6 +224,42 @@ CREATE TABLE course_resources (
     published_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Course content organization: curriculum placement belongs to chapters;
+-- resource_type remains the material kind, while categories are reusable tags.
+CREATE TABLE course_chapters (
+    chapter_id SERIAL PRIMARY KEY,
+    course_id INT NOT NULL REFERENCES courses(course_id) ON DELETE CASCADE,
+    chapter_number INT NOT NULL CHECK (chapter_number > 0),
+    title VARCHAR(255) NOT NULL,
+    academic_year_label VARCHAR(32) NOT NULL, -- preserves E.C./G.C. labels as supplied
+    semester SMALLINT NOT NULL CHECK (semester IN (1, 2)),
+    description TEXT,
+    version INT NOT NULL DEFAULT 1,
+    UNIQUE (course_id, chapter_number),
+    UNIQUE (chapter_id, course_id)
+);
+
+CREATE TABLE resource_categories (
+    category_id SERIAL PRIMARY KEY,
+    slug VARCHAR(64) UNIQUE NOT NULL,
+    name VARCHAR(128) NOT NULL,
+    description TEXT,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE course_resource_categories (
+    resource_id UUID NOT NULL REFERENCES course_resources(resource_id) ON DELETE CASCADE,
+    category_id INT NOT NULL REFERENCES resource_categories(category_id) ON DELETE RESTRICT,
+    PRIMARY KEY (resource_id, category_id)
+);
+
+-- A resource may be linked to a chapter only in its own course.
+ALTER TABLE course_resources
+    ADD CONSTRAINT fk_course_resources_chapter_course
+    FOREIGN KEY (chapter_id, course_id)
+    REFERENCES course_chapters (chapter_id, course_id)
+    ON DELETE SET NULL (chapter_id);
 
 -- 6. Questions, Options, Exam Blueprints & Immutable Exam Attempts (ADR-005)
 CREATE TABLE questions (

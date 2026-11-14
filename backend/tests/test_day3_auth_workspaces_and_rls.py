@@ -215,12 +215,12 @@ async def test_day3_auth_workspaces_rls_and_catalog(day3_client):
                 INSERT INTO course_resources (
                     resource_id, course_id, tenant_id, type, title,
                     storage_bucket, storage_object_key, file_size_bytes,
-                    sha256_checksum, is_offline_eligible, version
+                    sha256_checksum, is_offline_eligible, version, published_at
                 ) VALUES
                     (:resource_a, 1, :tenant_a, 'LECTURE_NOTE', 'Alpha Private Resource',
-                     'course-packages', 'day3/alpha.enc', 11, repeat('a', 64), TRUE, 1),
+                     'course-packages', 'day3/alpha.enc', 11, repeat('a', 64), TRUE, 1, now()),
                     (:resource_b, 1, :tenant_b, 'LECTURE_NOTE', 'Beta Private Resource',
-                     'course-packages', 'day3/beta.enc', 12, repeat('b', 64), TRUE, 1)
+                     'course-packages', 'day3/beta.enc', 12, repeat('b', 64), TRUE, 1, now())
                 """
             ),
             {

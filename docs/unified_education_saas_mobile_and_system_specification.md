@@ -489,12 +489,12 @@ mobile/
 | **Workspaces** | `POST /api/v1/tenants/{id}/invitations` | `{email, role, cohort_id?}` | Sends scoped institutional invitation (`STUDENT`, `INSTRUCTOR`, `TENANT_ADMIN`). |
 | **Curriculum** | `GET /api/v1/curriculum/themes` | `X-Tenant-ID` (optional) | Returns the 5 IT themes, credit hours, and nested course summaries (`MOB-06`). |
 | **Curriculum** | `GET /api/v1/courses/{id}` | `X-Tenant-ID` (optional) | Returns course details, `learning_outcomes`, and package manifest version (`MOB-08`). |
-| **Resources** | `GET /api/v1/courses/{id}/resources` | `X-Tenant-ID`, cursor pagination | Lists authorized `course_resources` metadata and offline eligibility (`MOB-09`). |
+| **Resources** | `GET /api/v1/courses/{id}/resources` | `X-Tenant-ID`, `chapter_id?`, `academic_year_label?`, `semester?`, `category?` | Lists authorized course resources with chapter placement, categories, metadata, and offline eligibility (`MOB-09`). |
 | **Resources** | `POST /api/v1/resources/{id}/download-grant` | `{device_id}` + `Idempotency-Key` | Evaluates entitlement; resolves `(storage_bucket, storage_object_key)` via `StorageAdapter` to return signed manifest, SHA-256 hash, resumable URL, and wrapped AES-256 key (`MOB-10`). |
-| **Exams** | `GET /api/v1/exams` | `course_id?`, `type?`, `difficulty?` | Lists eligible practice quizzes, course exams, and 120-Q exit simulations (`MOB-13`). |
-| **Exams** | `POST /api/v1/exams/{id}/attempts` | `{device_id, mode}` + `Idempotency-Key` | Creates server attempt or issues signed offline exam package with immutable `question_snapshots` (`MOB-14`). |
-| **Exams** | `POST /api/v1/attempts/{id}/answers` | `{question_id, selected_option_id, seq}` | Saves online answer event (never accepts client `is_correct`). |
-| **Exams** | `POST /api/v1/attempts/{id}/submit` | `{operation_id, answers[]}` | Grades attempt server-side against snapshot, updates `outcome_mastery`, returns result (`MOB-16`–`18`). |
+| **Exams** | `GET /api/v1/exams` | `course_id?`, `type?`, `difficulty?` | Lists eligible course practice quizzes and the 100-question HU CCI Model Exit Exam (`MOB-13`). |
+| **Exams** | `POST /api/v1/exams/{id}/attempts` | `{device_id, mode}` + `Idempotency-Key` | Checks exam entitlement and registered device, locks the authoritative `question_snapshots`, and returns a client-safe copy without `is_correct` or `explanation` (`MOB-14`). |
+| **Exams** | `POST /api/v1/attempts/{id}/answers` | `{question_id, selected_option_id, response_time_seconds?, sequence_no}` | Upserts a sequence-numbered answer for an in-progress attempt; rejects client-supplied correctness (`MOB-15`). |
+| **Exams** | `POST /api/v1/attempts/{id}/submit` | `{operation_id?, answers[]}` | Idempotently grades against the locked snapshot via `public.grade_exam_attempt()`, recomputes mastery from the ten most recent scored attempts, and reveals answer details only when the blueprint permits (`MOB-16`–`18`). |
 | **Progress** | `GET /api/v1/me/progress` | `X-Tenant-ID` (optional) | Returns server-validated theme/course mastery, Bloom's breakdown, and attempt history (`MOB-21`–`22`). |
 | **Commerce** | `GET /api/v1/products` | `X-Tenant-ID` (optional) | Returns server-managed plans and one-time exam/course bundles with regional pricing (`MOB-25`). |
 | **Commerce** | `POST /api/v1/orders` | `{product_id, currency}` + `Idempotency-Key` | Creates `PENDING` order record on server (`MOB-26`). |

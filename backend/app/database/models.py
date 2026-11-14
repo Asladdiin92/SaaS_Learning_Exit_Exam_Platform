@@ -1,21 +1,44 @@
 import uuid
 from datetime import datetime, timezone
 from sqlalchemy import (
+    and_,
     Boolean,
     Column,
     DateTime,
     ForeignKey,
     Integer,
+    Numeric,
+    SmallInteger,
     String,
     Text,
     CHAR,
     BigInteger,
+    CheckConstraint,
+    ForeignKeyConstraint,
+    Table,
     UniqueConstraint,
 )
 from sqlalchemy.dialects.postgresql import UUID, JSONB, ENUM
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
+
+course_resource_categories = Table(
+    "course_resource_categories",
+    Base.metadata,
+    Column(
+        "resource_id",
+        UUID(as_uuid=True),
+        ForeignKey("course_resources.resource_id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+    Column(
+        "category_id",
+        Integer,
+        ForeignKey("resource_categories.category_id", ondelete="RESTRICT"),
+        primary_key=True,
+    ),
+)
 
 # PostgreSQL Custom ENUM mappings (create_type=False since types exist in DDL)
 tenant_status_enum = ENUM(
@@ -61,6 +84,16 @@ difficulty_level_enum = ENUM(
 exam_type_enum = ENUM(
     "PRACTICE_QUIZ", "COURSE_EXAM", "NATIONAL_EXIT_SIMULATION",
     name="exam_type",
+    create_type=False,
+)
+question_type_enum = ENUM(
+    "MULTIPLE_CHOICE", "TRUE_FALSE", "CODING", "ESSAY",
+    name="question_type",
+    create_type=False,
+)
+attempt_status_enum = ENUM(
+    "IN_PROGRESS", "SUBMITTED", "SCORED", "INVALIDATED",
+    name="attempt_status",
     create_type=False,
 )
 
@@ -180,6 +213,68 @@ class Course(Base):
     theme = relationship("Theme", back_populates="courses")
     outcomes = relationship("LearningOutcome", back_populates="course", order_by="LearningOutcome.outcome_id")
     resources = relationship("CourseResource", back_populates="course")
+    chapters = relationship(
+        "CourseChapter",
+        back_populates="course",
+        order_by="CourseChapter.chapter_number",
+    )
+
+
+class CourseChapter(Base):
+    __tablename__ = "course_chapters"
+    __table_args__ = (
+        UniqueConstraint("course_id", "chapter_number", name="uq_course_chapters_number"),
+        UniqueConstraint("chapter_id", "course_id", name="uq_course_chapters_id_course"),
+        CheckConstraint("chapter_number > 0", name="ck_course_chapters_number_positive"),
+        CheckConstraint("semester IN (1, 2)", name="ck_course_chapters_semester"),
+        CheckConstraint("version > 0", name="ck_course_chapters_version_positive"),
+            CheckConstraint(
+                "length(trim(academic_year_label)) > 0",
+                name="ck_course_chapters_academic_year_not_blank",
+            ),
+    )
+
+    chapter_id = Column(Integer, primary_key=True, autoincrement=True)
+    course_id = Column(Integer, ForeignKey("courses.course_id", ondelete="CASCADE"), nullable=False)
+    chapter_number = Column(Integer, nullable=False)
+    title = Column(String(255), nullable=False)
+    academic_year_label = Column(String(32), nullable=False)
+    semester = Column(SmallInteger, nullable=False)
+    description = Column(Text, nullable=True)
+    version = Column(Integer, default=1, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    course = relationship("Course", back_populates="chapters")
+    resources = relationship(
+        "CourseResource",
+        back_populates="chapter",
+        primaryjoin=lambda: and_(
+            CourseChapter.chapter_id == CourseResource.chapter_id,
+            CourseChapter.course_id == CourseResource.course_id,
+        ),
+        foreign_keys=lambda: [CourseResource.chapter_id],
+    )
+
+
+class ResourceCategory(Base):
+    __tablename__ = "resource_categories"
+    __table_args__ = (
+        CheckConstraint("length(trim(slug)) > 0", name="ck_resource_categories_slug_not_blank"),
+        CheckConstraint("length(trim(name)) > 0", name="ck_resource_categories_name_not_blank"),
+    )
+
+    category_id = Column(Integer, primary_key=True, autoincrement=True)
+    slug = Column(String(64), unique=True, nullable=False)
+    name = Column(String(128), nullable=False)
+    description = Column(Text, nullable=True)
+    is_active = Column(Boolean, default=True, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    resources = relationship(
+        "CourseResource",
+        secondary=course_resource_categories,
+        back_populates="categories",
+    )
 
 
 class ExamBlueprint(Base):
@@ -198,13 +293,71 @@ class ExamBlueprint(Base):
     rules_json = Column(JSONB, nullable=False, default=dict)
 
 
+class ExamAttempt(Base):
+    __tablename__ = "exam_attempts"
+
+    attempt_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    client_operation_id = Column(UUID(as_uuid=True), unique=True, nullable=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.tenant_id", ondelete="CASCADE"), nullable=True)
+    exam_id = Column(UUID(as_uuid=True), ForeignKey("exam_blueprints.exam_id", ondelete="RESTRICT"), nullable=False)
+    status = Column(attempt_status_enum, nullable=False, default="IN_PROGRESS")
+    question_snapshots = Column(JSONB, nullable=False, default=list)
+    score_percent = Column(Numeric(5, 2), nullable=True)
+    correct_count = Column(Integer, nullable=True)
+    total_questions = Column(Integer, nullable=False)
+    started_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    submitted_at = Column(DateTime(timezone=True), nullable=True)
+    scored_at = Column(DateTime(timezone=True), nullable=True)
+
+
 class Question(Base):
     __tablename__ = "questions"
 
     question_id = Column(UUID(as_uuid=True), primary_key=True)
     course_id = Column(Integer, ForeignKey("courses.course_id", ondelete="CASCADE"), nullable=False)
+    outcome_id = Column(Integer, ForeignKey("learning_outcomes.outcome_id", ondelete="SET NULL"), nullable=True)
     tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.tenant_id", ondelete="CASCADE"), nullable=True)
+    question_text = Column(Text, nullable=False)
+    type = Column(question_type_enum, nullable=False, default="MULTIPLE_CHOICE")
+    level = Column(String(32), nullable=False, default="REMEMBER")
     difficulty = Column(difficulty_level_enum, nullable=False)
+    explanation = Column(Text, nullable=True)
+    version = Column(Integer, nullable=False, default=1)
+    is_published = Column(Boolean, nullable=False, default=True)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
+class QuestionOption(Base):
+    __tablename__ = "question_options"
+
+    option_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    question_id = Column(UUID(as_uuid=True), ForeignKey("questions.question_id", ondelete="CASCADE"), nullable=False)
+    option_label = Column(CHAR(1), nullable=False)
+    option_text = Column(Text, nullable=False)
+    is_correct = Column(Boolean, nullable=False, default=False)
+
+
+class AttemptAnswer(Base):
+    __tablename__ = "attempt_answers"
+
+    answer_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    attempt_id = Column(UUID(as_uuid=True), ForeignKey("exam_attempts.attempt_id", ondelete="CASCADE"), nullable=False)
+    question_id = Column(UUID(as_uuid=True), ForeignKey("questions.question_id", ondelete="RESTRICT"), nullable=False)
+    selected_option_id = Column(UUID(as_uuid=True), ForeignKey("question_options.option_id", ondelete="RESTRICT"), nullable=True)
+    text_or_code_response = Column(Text, nullable=True)
+    is_correct = Column(Boolean, nullable=False, default=False)
+    response_time_seconds = Column(Integer, nullable=True)
+    sequence_no = Column(Integer, nullable=False, default=1)
+    recorded_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    __table_args__ = (
+        UniqueConstraint("attempt_id", "question_id", name="uq_attempt_answers_attempt_question"),
+        CheckConstraint(
+            "response_time_seconds IS NULL OR response_time_seconds >= 0",
+            name="ck_attempt_answers_response_time_nonnegative",
+        ),
+    )
 
 
 class LearningOutcome(Base):
@@ -222,9 +375,18 @@ class LearningOutcome(Base):
 
 class CourseResource(Base):
     __tablename__ = "course_resources"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["chapter_id", "course_id"],
+            ["course_chapters.chapter_id", "course_chapters.course_id"],
+            name="fk_course_resources_chapter_course",
+            ondelete="SET NULL (chapter_id)",
+        ),
+    )
 
     resource_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     course_id = Column(Integer, ForeignKey("courses.course_id", ondelete="CASCADE"), nullable=False)
+    chapter_id = Column(Integer, nullable=True)
     tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.tenant_id", ondelete="CASCADE"), nullable=True)
     type = Column(resource_type_enum, nullable=False)
     title = Column(String(255), nullable=False)
@@ -239,6 +401,20 @@ class CourseResource(Base):
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
 
     course = relationship("Course", back_populates="resources")
+    chapter = relationship(
+        "CourseChapter",
+        back_populates="resources",
+        primaryjoin=lambda: and_(
+            CourseChapter.chapter_id == CourseResource.chapter_id,
+            CourseChapter.course_id == CourseResource.course_id,
+        ),
+        foreign_keys=lambda: [CourseResource.chapter_id],
+    )
+    categories = relationship(
+        "ResourceCategory",
+        secondary=course_resource_categories,
+        back_populates="resources",
+    )
 
 
 class FeatureEntitlement(Base):
