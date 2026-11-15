@@ -74,6 +74,22 @@ export const examAttemptRepository = {
       server_attempt_id: null,
     };
 
+    // Ensure parent package exists in local_exam_packages to satisfy the foreign key constraint
+    await database.execute(
+      `INSERT OR IGNORE INTO local_exam_packages
+       (exam_package_id, exam_id, course_id, blueprint_version, question_snapshot_json, duration_sec, state)
+       VALUES (?, ?, ?, ?, ?, ?, ?);`,
+      [
+        examPackageId,
+        examPackageId,
+        null,
+        1,
+        JSON.stringify({ questions: [] }),
+        180 * 60,
+        'READY',
+      ]
+    );
+
     await database.execute(
       `INSERT INTO local_exam_attempts
        (local_attempt_id, user_id, tenant_id, exam_package_id, status, started_at, elapsed_monotonic_sec)

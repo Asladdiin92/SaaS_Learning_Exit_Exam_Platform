@@ -22,6 +22,14 @@ import { AttemptHistoryScreen } from '../features/exams/AttemptHistoryScreen';
 import { SubmissionStatusScreen } from '../features/exams/SubmissionStatusScreen';
 import { SyncCenterScreen } from '../features/sync/SyncCenterScreen';
 import { NotificationsScreen } from '../features/notifications/NotificationsScreen';
+import { CourseProgressScreen } from '../features/progress/screens/CourseProgressScreen';
+import { PlansAndAccessScreen } from '../features/commerce/screens/PlansAndAccessScreen';
+import { StoreCatalogScreen } from '../features/commerce/screens/StoreCatalogScreen';
+import { CheckoutScreen } from '../features/commerce/screens/CheckoutScreen';
+import { StorageSettingsScreen } from '../features/profile/screens/StorageSettingsScreen';
+import { DevicesSecurityScreen } from '../features/profile/screens/DevicesSecurityScreen';
+import { SettingsAndHelpScreen } from '../features/profile/screens/SettingsAndHelpScreen';
+import { StudyWorkspaceScreen } from '../features/study/StudyWorkspaceScreen';
 
 const RootStack = createNativeStackNavigator();
 
@@ -136,6 +144,46 @@ export const RootNavigator = () => {
             <RootStack.Screen
               name="Notifications"
               component={NotificationsScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="CourseProgress"
+              component={CourseProgressScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="PlansAndAccess"
+              component={PlansAndAccessScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="StoreCatalog"
+              component={StoreCatalogScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="Checkout"
+              component={CheckoutScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="StorageSettings"
+              component={StorageSettingsScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="DevicesSecurity"
+              component={DevicesSecurityScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="SettingsAndHelp"
+              component={SettingsAndHelpScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="StudyWorkspace"
+              component={StudyWorkspaceScreen}
               options={{ animation: 'slide_from_right' }}
             />
           </>

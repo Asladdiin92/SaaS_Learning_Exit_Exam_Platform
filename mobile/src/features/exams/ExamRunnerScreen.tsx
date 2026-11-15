@@ -16,6 +16,11 @@ import { Card, Button } from '../../shared/components';
 import { database } from '../../shared/database/db';
 import { examAttemptRepository } from '../../shared/database/examAttemptRepository';
 import {
+  getQuestionsForBlueprint,
+  ITEC4133_BLUEPRINTS,
+  ParsedQuestion,
+} from '../../shared/database/parseHuQuestionBank';
+import {
   ArrowLeft,
   Clock,
   Bookmark,
@@ -37,6 +42,7 @@ export interface ExamOption {
   id: string;
   label: 'A' | 'B' | 'C' | 'D';
   text: string;
+  explanation?: string;
 }
 
 export type BloomLevel = 'REMEMBER' | 'UNDERSTAND' | 'APPLY' | 'ANALYZE' | 'EVALUATE' | 'CREATE';
@@ -52,6 +58,31 @@ export interface ExamQuestion {
   correctOptionId: string;
   explanation: string;
   bloomLevel: BloomLevel;
+  chapterTitle?: string;
+  linkedNoteCode?: string;
+  recommendedResourceId?: string;
+}
+
+export function toExamQuestion(question: ParsedQuestion): ExamQuestion {
+  return {
+    id: question.id,
+    questionNumber: question.questionNumber,
+    courseCode: question.courseCode,
+    courseTitle: 'Information Assurance and Security',
+    prompt: question.prompt,
+    options: question.options.map((option) => ({
+      id: option.id,
+      label: option.label,
+      text: option.text,
+      explanation: option.explanation,
+    })),
+    correctOptionId: question.correctOptionId,
+    explanation: question.explanation,
+    bloomLevel: question.bloomLevel,
+    chapterTitle: question.chapterTitle,
+    linkedNoteCode: question.linkedNoteCode,
+    recommendedResourceId: question.recommendedResourceId,
+  };
 }
 
 // ─── 100-Question Exam Bank Generator ─────────────────────────────────────────
@@ -184,7 +215,15 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
   } = route.params || {};
 
   // ── State ───────────────────────────────────────────────────────────────────
-  const [questions] = useState<ExamQuestion[]>(EXAM_QUESTIONS);
+  const isItec4133Package = ITEC4133_BLUEPRINTS.some(
+    (blueprint) => blueprint.id === examPackageId
+  );
+  const [questions, setQuestions] = useState<ExamQuestion[]>(() =>
+    isItec4133Package
+      ? getQuestionsForBlueprint(examPackageId).map(toExamQuestion)
+      : EXAM_QUESTIONS
+  );
+  const [questionBankError, setQuestionBankError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [flaggedSet, setFlaggedSet] = useState<Set<string>>(new Set());
@@ -204,6 +243,41 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
   const totalSec = durationMin * 60;
   const remainingSec = Math.max(0, totalSec - elapsedSec);
   const isTimeCritical = remainingSec < 600; // < 10 mins
+
+  useEffect(() => {
+    if (!isItec4133Package) return;
+    let active = true;
+    database
+      .query<{ question_snapshot_json: string }>(
+        `SELECT question_snapshot_json
+         FROM local_exam_packages
+         WHERE exam_package_id = ?
+         LIMIT 1;`,
+        [examPackageId]
+      )
+      .then((rows) => {
+        if (!active) return;
+        if (!rows[0]) {
+          throw new Error(`Seeded question package ${examPackageId} is missing.`);
+        }
+        const snapshot = JSON.parse(rows[0].question_snapshot_json) as {
+          questions?: ParsedQuestion[];
+        };
+        if (!Array.isArray(snapshot.questions) || snapshot.questions.length !== questionCount) {
+          throw new Error(`Question package ${examPackageId} has an invalid snapshot.`);
+        }
+        setQuestions(snapshot.questions.map(toExamQuestion));
+      })
+      .catch((error: unknown) => {
+        console.error('Failed to load the selected ITec4133 question package:', error);
+        if (active) {
+          setQuestionBankError('This exam package could not be loaded. Return to the catalog and try again.');
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, [examPackageId, isItec4133Package, questionCount]);
 
   // ── Format Timer (HH:MM:SS) ─────────────────────────────────────────────────
   const formatTime = (secs: number) => {
@@ -402,6 +476,24 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
       Alert.alert('Submission Error', 'Failed to record offline exam submission. Please try again.');
     }
   };
+
+  if (questionBankError) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.surface.primary }}>
+        <View style={{ flex: 1, padding: spacing.screenPadding, justifyContent: 'center' }}>
+          <Text style={[typography.bodyMd, { color: colors.status.error, textAlign: 'center' }]}>
+            {questionBankError}
+          </Text>
+          <Button
+            title="Return to Catalog"
+            variant="primary"
+            size="md"
+            onPress={() => navigation.goBack()}
+          />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   // ── Render Submitted Success View ───────────────────────────────────────────
   if (isSubmittedSuccess) {

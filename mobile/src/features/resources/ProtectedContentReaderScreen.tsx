@@ -48,6 +48,7 @@ export const ProtectedContentReaderScreen: React.FC<{ navigation: any; route: an
   const title = route.params?.title || 'Course Lecture & Exam Package';
   const courseId = route.params?.courseId || 101;
   const resourceType = route.params?.type || route.params?.resourceType || 'LECTURE_NOTE';
+  const anchorCode = route.params?.anchorCode as string | undefined;
 
   // Reader configuration state
   const [readerTheme, setReaderTheme] = useState<ReaderThemeMode>('light');
@@ -65,6 +66,7 @@ export const ProtectedContentReaderScreen: React.FC<{ navigation: any; route: an
   const [ephemeralKey, setEphemeralKey] = useState<string | null>(null);
   const [packagePath, setPackagePath] = useState<string | null>(null);
   const [deviceId, setDeviceId] = useState<string>('00000000');
+  const [markdownContent, setMarkdownContent] = useState<string | null>(null);
 
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -84,6 +86,18 @@ export const ProtectedContentReaderScreen: React.FC<{ navigation: any; route: an
 
         // Initialize Database
         await database.init();
+        const noteRows = await database.query<{ content_markdown: string | null }>(
+          `SELECT content_markdown
+           FROM local_resources
+           WHERE resource_id = ?
+           LIMIT 1;`,
+          [resourceId]
+        );
+        if (noteRows[0]?.content_markdown && isMounted) {
+          setMarkdownContent(noteRows[0].content_markdown);
+          setTotalPages(1);
+          setCurrentPage(1);
+        }
 
         // 1. Query download_packages to check offline state and license
         const packages = await database.query<{
@@ -502,6 +516,8 @@ export const ProtectedContentReaderScreen: React.FC<{ navigation: any; route: an
         readerTheme={readerTheme}
         fontSize={fontSize}
         onPracticeTopic={handlePracticeTopic}
+        markdownContent={markdownContent || undefined}
+        anchorCode={anchorCode}
       />
 
       {/* Bottom Scrubber & Practice Navigation Bar */}

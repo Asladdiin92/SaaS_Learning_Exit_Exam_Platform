@@ -12,6 +12,10 @@ import { useTheme } from '../../shared/theme';
 import { Card, Button, EntitlementBadge, PackageDownloadButton } from '../../shared/components';
 import { useAuthSession } from '../../services/auth-session';
 import { database } from '../../shared/database/db';
+import {
+  ITEC4133_BLUEPRINTS,
+  seedItec4133ToDatabase,
+} from '../../shared/database/parseHuQuestionBank';
 import { BookOpen, Clock, FileText } from 'lucide-react-native';
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
@@ -115,6 +119,15 @@ const EXAM_BLUEPRINTS: ExamBlueprint[] = [
     durationMin: 60,
     sizeBytes: 590000,
   },
+  ...ITEC4133_BLUEPRINTS.map((blueprint) => ({
+    id: blueprint.id,
+    title: blueprint.title,
+    courseCode: blueprint.courseCode,
+    type: blueprint.type,
+    questionCount: blueprint.questionCount,
+    durationMin: blueprint.durationMin,
+    sizeBytes: blueprint.sizeBytes,
+  })),
 ];
 
 // ─── Filter Chips Config ────────────────────────────────────────────────────────
@@ -148,6 +161,7 @@ export const PracticeCatalogScreen: React.FC<{ navigation: any; route: any }> = 
   const [inProgressAttempt, setInProgressAttempt] = useState<InProgressAttempt | null>(null);
   const [loadingAttempt, setLoadingAttempt] = useState(true);
   const [downloadStates, setDownloadStates] = useState<Record<string, boolean>>({});
+  const [catalogError, setCatalogError] = useState<string | null>(null);
 
   // ── Load any in-progress attempt from SQLite ────────────────────────────────
   const fetchInProgressAttempt = useCallback(async () => {
@@ -188,7 +202,19 @@ export const PracticeCatalogScreen: React.FC<{ navigation: any; route: any }> = 
   }, [user?.userId]);
 
   useEffect(() => {
-    fetchInProgressAttempt();
+    let active = true;
+    seedItec4133ToDatabase()
+      .then(() => fetchInProgressAttempt())
+      .catch((error: unknown) => {
+        console.error('Failed to seed the ITec4133 offline question bank:', error);
+        if (active) {
+          setCatalogError('The ITec4133 question bank could not be prepared. Please try again.');
+          setLoadingAttempt(false);
+        }
+      });
+    return () => {
+      active = false;
+    };
   }, [fetchInProgressAttempt]);
 
   // ── Filter blueprints ───────────────────────────────────────────────────────
@@ -264,6 +290,19 @@ export const PracticeCatalogScreen: React.FC<{ navigation: any; route: any }> = 
                 {item.courseCode}
               </Text>
             </View>
+
+            {catalogError && (
+              <Text
+                accessibilityRole="alert"
+                style={{
+                  color: colors.status.error,
+                  paddingHorizontal: spacing.screenPadding,
+                  paddingBottom: spacing.sm,
+                }}
+              >
+                {catalogError}
+              </Text>
+            )}
             <View
               style={{
                 backgroundColor: colors.surface.secondary,

@@ -101,6 +101,50 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
           National B.Sc. IT Exit Exam Blueprint • 5 Themes • 45 Credit Hours
         </Text>
 
+        {/* Distraction-Free Study Workspace & Digital Library Launcher */}
+        <TouchableOpacity
+          testID="study-workspace-theme-banner"
+          onPress={() => navigation.navigate('StudyWorkspace')}
+          accessibilityRole="button"
+          accessibilityLabel="Open Study Workspace Digital Library"
+          style={{
+            backgroundColor: '#0F172A',
+            borderRadius: borderRadius.md,
+            padding: spacing.sm,
+            marginBottom: spacing.sm,
+            borderWidth: 1,
+            borderColor: '#1E293B',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginRight: spacing.xs }}>
+            <View
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                backgroundColor: 'rgba(56, 189, 248, 0.15)',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: spacing.sm,
+              }}
+            >
+              <BookOpen size={18} color="#38BDF8" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={[typography.labelSm, { color: '#38BDF8', fontWeight: '700' }]}>
+                STUDY WORKSPACE & DIGITAL LIBRARY
+              </Text>
+              <Text style={[typography.bodySm, { color: '#94A3B8', fontSize: 12 }]}>
+                Distraction-free manuscripts & chapter notes
+              </Text>
+            </View>
+          </View>
+          <ChevronRight size={18} color="#38BDF8" />
+        </TouchableOpacity>
+
         {/* Search Bar */}
         <TextInput
           placeholder="Search themes, courses (e.g. IT-OOPJ-201)..."

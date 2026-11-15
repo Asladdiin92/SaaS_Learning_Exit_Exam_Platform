@@ -1,0 +1,626 @@
+{
+  "pack_version": "1.0",
+  "blueprint": {
+    "code": "HU-ITEC4103-CH2-EXIT-PREP",
+    "title": "Chapter 2: Android Dialogs and Notifications (CoSc4083 / ITec4103)",
+    "exam_type": "COURSE_EXAM",
+    "course_code": "IT-EDPR-203",
+    "source_course_code": "CoSc4083 / ITec4103",
+    "duration_minutes": 50,
+    "total_questions": 16,
+    "pass_mark_percent": 50.0,
+    "reveal_answers_immediately": true
+  },
+  "structured_notes": [
+    {
+      "linked_note_code": "NOTE-CH2-MOB-001",
+      "course_code": "IT-EDPR-203",
+      "title": "Dialog Subclasses, DialogFragment Container & Support Library",
+      "content_markdown": "### Android Dialog Hierarchy & Containers\n- A **dialog** is a small modal window that does not fill the screen and prompts the user to make a decision or enter additional information[cite: 8].\n- Avoid instantiating the base `Dialog` class directly or using `ProgressDialog` (use an inline `ProgressBar` in your layout instead)[cite: 8].\n\n| Class | Purpose & Capabilities |\n| :--- | :--- |\n| **`AlertDialog`** | Displays a title, up to 3 buttons, a list of selectable items, or a custom layout[cite: 8]. |\n| **`DatePickerDialog` / `TimePickerDialog`** | Pre-defined UI allowing the user to select a date or time[cite: 8]. |\n| **`DialogFragment`** | Container that manages dialog lifecycle events (Back button, screen rotation) and allows embedding[cite: 8]. |\n\n- Added in Android 3.0 (API 11); for Android 1.6+, import `android.support.v4.app.DialogFragment` instead of `android.app.DialogFragment`[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-002",
+      "course_code": "IT-EDPR-203",
+      "title": "AlertDialog Three Regions & Action Button Rules",
+      "content_markdown": "### Anatomy of an AlertDialog (Slides 19–30)\n1. **Title**: Optional; used only when the content area has a detailed message, a list, or a custom layout[cite: 8].\n2. **Content Area**: Displays a message, a list, or a custom layout[cite: 8].\n3. **Action Buttons**: Maximum of **three** action buttons per dialog (at most one of each type)[cite: 8]:\n   - **Positive (`setPositiveButton`)**: Accept and continue (`OK`)[cite: 8].\n   - **Negative (`setNegativeButton`)**: Cancel the action[cite: 8].\n   - **Neutral (`setNeutralButton`)**: Appears between positive and negative (e.g., `Remind me later`)[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-003",
+      "course_code": "IT-EDPR-203",
+      "title": "AlertDialog List Types: Single-Choice vs. Radio Buttons vs. Checkboxes",
+      "content_markdown": "### Three List Types in AlertDialog (Slides 31–42)\n\n| Builder Method | UI Control | Persistence & Dismissal Behavior |\n| :--- | :--- | :--- |\n| **`setItems()` / `setAdapter()`** | Traditional single-choice list | Non-persistent; touching an item immediately dismisses the dialog[cite: 8]. |\n| **`setSingleChoiceItems()`** | Radio buttons | Persistent single choice; does **not** auto-dismiss on item touch[cite: 8]. |\n| **`setMultiChoiceItems()`** | Checkboxes | Persistent multiple choice; tracks checked indices via `OnMultiChoiceClickListener`[cite: 8]. |\n\n- Because the list occupies the content area, a dialog **cannot show both a message (`setMessage`) and a list**, so set a title via `setTitle()`[cite: 8].\n- When backing a list with a `ListAdapter` (`setAdapter()`), always use a `Loader` to load database content asynchronously[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-004",
+      "course_code": "IT-EDPR-203",
+      "title": "Custom Dialog Layouts, Password Font Tip & Activity Dialog Theme",
+      "content_markdown": "### Custom Layouts in AlertDialog (Slides 43–51)\n- Inflate custom XML inside `onCreateDialog()` using `LayoutInflater inflater = getActivity().getLayoutInflater();` and pass `builder.setView(inflater.inflate(R.layout.dialog_signin, null))`[cite: 8].\n- **EditText Password Font Tip**: Setting `android:inputType=\"textPassword\"` defaults the font family to `monospace`, so explicitly set `android:fontFamily=\"sans-serif\"` so username and password fields match[cite: 8].\n- **Activity as Dialog**: Apply `android:theme=\"@android:style/Theme.Holo.Dialog\"` to `<activity>` in the manifest to display an Activity as a dialog window[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-005",
+      "course_code": "IT-OOP-201",
+      "title": "Passing Dialog Events Back to the Host Activity via NoticeDialogListener",
+      "content_markdown": "### Host Callback Interface Pattern (Slides 52–59)\n1. Define an interface inside the `DialogFragment` (`public interface NoticeDialogListener`)[cite: 8].\n2. Override `onAttach(Activity activity)` in the `DialogFragment` and cast `mListener = (NoticeDialogListener) activity;` inside a `try/catch (ClassCastException e)` block[cite: 8].\n3. Have the host `FragmentActivity` implement `NoticeDialogFragment.NoticeDialogListener` and handle `onDialogPositiveClick(DialogFragment dialog)` and `onDialogNegativeClick(DialogFragment dialog)`[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-006",
+      "course_code": "IT-EDPR-203",
+      "title": "Embeddable DialogFragments & Adaptive Screen-Size Dialogs",
+      "content_markdown": "### Embeddable vs. Standalone DialogFragment (Slides 63–73)\n- If a `DialogFragment` must work both as a popup dialog (on large screens) and as an embedded fullscreen fragment (on small screens), you **cannot** use `AlertDialog.Builder`[cite: 8].\n- Instead, inflate the XML layout inside `onCreateView(LayoutInflater, ViewGroup, Bundle)`[cite: 8].\n- Use resource qualifiers `res/values/bools.xml` (`large_layout = false`) and `res/values-large/bools.xml` (`large_layout = true`), or set `android:theme=\"@android:style/Theme.Holo.DialogWhenLarge\"` on an `<activity>`[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-007",
+      "course_code": "IT-EDPR-203",
+      "title": "Dismissing vs. Canceling a Dialog (onDismiss vs. onCancel)",
+      "content_markdown": "### Dialog Dismissal Lifecycle Rules (Slides 74–76)\n- Touching any `AlertDialog.Builder` action button or a traditional list item automatically dismisses the dialog[cite: 8].\n- **Canceling** occurs when the user presses the **Back button**, touches the screen **outside the dialog area**, or when code explicitly calls `cancel()`[cite: 8].\n- **Key Callback Difference**: Every event that invokes `onCancel()` also invokes `onDismiss()`. However, calling `Dialog.dismiss()` or `DialogFragment.dismiss()` calls **`onDismiss()` ONLY (and NOT `onCancel()`)**[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-008",
+      "course_code": "IT-EDPR-203",
+      "title": "Notifications Overview, Normal View (64 dp) & Big View (256 dp)",
+      "content_markdown": "### Notification Display Views & Callouts (Slides 77–92)\n- A notification first appears as an icon in the **notification area**, and its details appear in the **notification drawer**[cite: 8].\n- **Normal View**: Up to **`64 dp` tall**. Contains 6 elements: `[1]` Content title, `[2]` Large icon, `[3]` Content text, `[4]` Content info, `[5]` Small icon, `[6]` Time issued (`setWhen()`)[cite: 8].\n- **Big View (Expanded Notification)**: Available starting in **Android 4.1**. Adds `[7]` Details area (up to **`256 dp` tall** for bitmaps/custom layouts), `Big content title`, and `Summary text`[cite: 8].\n- **3 Big View Styles**: `Big picture style`, `Big text style`, and `Inbox style`[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-009",
+      "course_code": "IT-EDPR-203",
+      "title": "Required Notification Contents & NotificationCompat.Builder",
+      "content_markdown": "### Mandatory Notification Fields (Slides 93–95)\nEvery `Notification` object built with `NotificationCompat.Builder` **must** contain three required properties[cite: 8]:\n1. **Small icon**: `setSmallIcon()`[cite: 8]\n2. **Title**: `setContentTitle()`[cite: 8]\n3. **Detail text**: `setContentText()`[cite: 8]\n- All other settings and actions are optional[cite: 8]. Issued via `NotificationManager.notify(id, builder.build())`[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-010",
+      "course_code": "IT-EDPR-203",
+      "title": "Applying InboxStyle & Handling Pre-Android 4.1 Compatibility",
+      "content_markdown": "### Big View Style & Action Button Compatibility (Slides 104–109)\n- Use `NotificationCompat.InboxStyle`, call `setBigContentTitle()` and `addLine()`, and attach it via `mBuilder.setStyle(inboxStyle)`[cite: 8].\n- Because expanded notifications and action buttons (`addAction()`) only appear on **Android 4.1 and higher**, you must ensure all functionality provided by notification action buttons is also available inside the Activity launched when clicking the notification (`setContentIntent()`)[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-011",
+      "course_code": "IT-EDPR-203",
+      "title": "Updating, Stacking & Removing Notifications",
+      "content_markdown": "### Managing Notification Lifecycle (Slides 110–117)\n- **Updating / Stacking**: Issue the updated notification using the **exact same `notifyID`** (`mNotificationManager.notify(notifyID, mNotifyBuilder.build())`) and increment count via `setNumber(++numMessages)`[cite: 8].\n- **4 Ways Notifications Are Removed**:\n  1. User dismisses individually or taps \"Clear All\"[cite: 8].\n  2. User clicks the notification when `setAutoCancel(true)` was set[cite: 8].\n  3. App calls `cancel(notifyID)` (also deletes ongoing notifications)[cite: 8].\n  4. App calls `cancelAll()`[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-012",
+      "course_code": "IT-EDPR-203",
+      "title": "Preserving Navigation: Regular Activity vs. Special Activity PendingIntents",
+      "content_markdown": "### Regular vs. Special Activity Notification Navigation (Slides 118–141)\n\n| Dimension | Regular Activity (Part of normal app flow) | Special Activity (Only seen from notification) |\n| :--- | :--- | :--- |\n| **Back Stack Needed?** | **Yes** — synthesizes parent stack leading to Home screen[cite: 8] | **No** — opens in an isolated standalone task[cite: 8] |\n| **Manifest Attributes** | `android:parentActivityName=\".MainActivity\"` + `<meta-data android:name=\"android.support.PARENT_ACTIVITY\" />`[cite: 8] | `android:launchMode=\"singleTask\"`, `android:taskAffinity=\"\"`, `android:excludeFromRecents=\"true\"`[cite: 8] |\n| **Java Builder API** | `TaskStackBuilder.create(this)` $\\rightarrow$ `addParentStack()` $\\rightarrow$ `addNextIntent()` $\\rightarrow$ `getPendingIntent()`[cite: 8] | `notifyIntent.setFlags(FLAG_ACTIVITY_NEW_TASK \\| FLAG_ACTIVITY_CLEAR_TASK)` $\\rightarrow$ `PendingIntent.getActivity()`[cite: 8] |"
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-013",
+      "course_code": "IT-EDPR-203",
+      "title": "Displaying Determinate & Indeterminate Progress in Notifications",
+      "content_markdown": "### Notification Progress Indicators (Slides 142–153)\n- Supported via `setProgress(max, progress, indeterminate)` starting in **Android 4.0**[cite: 8]:\n  - **Determinate Progress Bar**: `mBuilder.setProgress(100, incr, false)`[cite: 8].\n  - **Indeterminate Activity Indicator**: `mBuilder.setProgress(0, 0, true)` (first two arguments are ignored)[cite: 8].\n  - **Removing Progress When Complete**: Call `mBuilder.setProgress(0, 0, false)` and update `setContentText(\"Download complete\")`[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-014",
+      "course_code": "IT-EDPR-203",
+      "title": "Custom Notification Layouts with RemoteViews",
+      "content_markdown": "### RemoteViews Custom Notification Rules (Slides 154–161)\n- Instantiate a `RemoteViews` object that inflates an `.xml` layout and pass it to `NotificationCompat.Builder.setContent(remoteViews)` instead of calling `setContentTitle()`[cite: 8].\n- **Height Limits**: Normal view custom layouts are limited to **`64 dp`**, and expanded view custom layouts are limited to **`256 dp`**[cite: 8].\n- **Styling Rule**: Avoid setting a custom background `Drawable` on `RemoteViews`, and always use system **style resources** for text so it stays readable against varying device notification drawer backgrounds[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-015",
+      "course_code": "IT-EDPR-203",
+      "title": "TaskStackBuilder Method Order & addParentStack Nuance",
+      "content_markdown": "### TaskStackBuilder Subtlety (Slides 130–134)\n- Calling `stackBuilder.addParentStack(ResultActivity.class)` adds the parent `Intent` hierarchy defined in the manifest, **but does NOT add the Intent that starts `ResultActivity` itself**[cite: 8].\n- You must subsequently call `stackBuilder.addNextIntent(resultIntent)` to place `ResultActivity` at the top of the synthetic back stack, and use `editIntentAt()` if parent intents require extra arguments[cite: 8]."
+    },
+    {
+      "linked_note_code": "NOTE-CH2-MOB-016",
+      "course_code": "IT-EDPR-203",
+      "title": "Removing Items Safely from ArrayList in Multi-Choice Dialogs",
+      "content_markdown": "### `OnMultiChoiceClickListener` Integer Removal Trap (Slide 40)\nWhen tracking selected integer indices `which` in an `ArrayList mSelectedItems` inside `setMultiChoiceItems()`:\n- Adding uses `mSelectedItems.add(which);`[cite: 8].\n- Removing when unchecked uses `mSelectedItems.remove(Integer.valueOf(which));` so Java removes the boxed `Integer` value rather than treating `which` as an `ArrayList` index position[cite: 8]."
+    }
+  ],
+  "questions": [
+    {
+      "canonical_order": 1,
+      "external_id": "COSC4083-CH2-Q001",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH2-MOB-001",
+      "question_text": "Why do the Android API Guides recommend wrapping an `AlertDialog`, `DatePickerDialog`, or `TimePickerDialog` inside a `DialogFragment` container rather than instantiating and managing the `Dialog` object directly, and what is the recommendation regarding `ProgressDialog`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "DialogFragment properly manages lifecycle events such as when the user presses the Back button or rotates the screen and allows reusing the dialog UI as an embeddable component; ProgressDialog should be avoided in favor of an inline ProgressBar in your layout.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "DialogFragment runs the dialog on a separate Linux kernel process; ProgressDialog is mandatory for all network operations.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Instantiating the base Dialog class directly is the only way to display radio buttons; DialogFragment is deprecated in Android 3.0.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "DialogFragment automatically encrypts SQLite databases; ProgressDialog is required for Android 4.1 notifications.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Using `DialogFragment` as a container ensures the dialog correctly handles lifecycle events such as pressing the Back button or rotating the screen, and lets you reuse the dialog UI as an embeddable Fragment[cite: 8]. Additionally, developers should avoid instantiating the base `Dialog` class directly and avoid `ProgressDialog`, using a `ProgressBar` in the layout instead[cite: 8].\n- **Why B, C, and D are incorrect**: `DialogFragment` was introduced in Android 3.0 (API 11) and backported to Android 1.6+ via `android.support.v4.app.DialogFragment`[cite: 8]; it does not spawn a separate OS process or mandate `ProgressDialog`."
+    },
+    {
+      "canonical_order": 2,
+      "external_id": "COSC4083-CH2-Q002",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "APPLY",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH2-MOB-001",
+      "question_text": "An Android application targets a minimum SDK below API level 11 (e.g., Android 1.6 or 2.3) and uses the Android Support Library to display a `DialogFragment` inside a `FragmentActivity`. Which package import and `FragmentManager` getter method must be used?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Import android.app.DialogFragment and call getFragmentManager()",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Import android.support.v4.app.DialogFragment and call getSupportFragmentManager()",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Import android.widget.DialogFragment and call getSystemService(DIALOG_SERVICE)",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Import org.apache.cordova.DialogFragment and call getParentFragmentManager()",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: Because the framework `DialogFragment` was added in Android 3.0 (API level 11), apps supporting Android 1.6 or higher via the Support Library must import `android.support.v4.app.DialogFragment` (not `android.app.DialogFragment`) and obtain the manager via `getSupportFragmentManager()` from `FragmentActivity`[cite: 8].\n- **Why A is incorrect**: `android.app.DialogFragment` requires minimum API level 11[cite: 8].\n- **Why C and D are incorrect**: Those classes do not exist in the Android SDK or Support Library."
+    },
+    {
+      "canonical_order": 3,
+      "external_id": "COSC4083-CH2-Q003",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "REMEMBER",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH2-MOB-002",
+      "question_text": "Examine the `FireMissilesDialogFragment` implementation below:\n\n```java\npublic class FireMissilesDialogFragment extends DialogFragment {\n    @Override\n    public Dialog onCreateDialog(Bundle savedInstanceState) {\n        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());\n        builder.setMessage(R.string.dialog_fire_missiles)\n               .setPositiveButton(R.string.fire, new DialogInterface.OnClickListener() {\n                   public void onClick(DialogInterface dialog, int id) {\n                       // FIRE ZE MISSILES!\n                   }\n               })\n               .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {\n                   public void onClick(DialogInterface dialog, int id) {\n                       // User cancelled the dialog\n                   }\n               });\n        return builder.create();\n    }\n}\n```\n\nWhat are the three structural regions of an `AlertDialog`, and what is the maximum number of action buttons an `AlertDialog` can contain?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Regions: Title, Content area, and Action buttons; maximum of 3 action buttons (one Positive, one Negative, and one Neutral).",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Regions: Header, Body, Footer, and Sidebar; maximum of 6 action buttons (two Positive, two Negative, two Neutral).",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Regions: Status bar and Navigation bar; maximum of 1 action button.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Regions: Title and Action buttons only; an AlertDialog can have an unlimited number of Positive buttons.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: An `AlertDialog` has three regions: (1) Title (optional), (2) Content area, and (3) Action buttons[cite: 8]. There should be no more than three action buttons in a dialog (`Positive`, `Negative`, and `Neutral`), and you can add only one of each button type[cite: 8].\n- **Why B, C, and D are incorrect**: You cannot add more than three action buttons or have more than one Positive button in an `AlertDialog`[cite: 8]."
+    },
+    {
+      "canonical_order": 4,
+      "external_id": "COSC4083-CH2-Q004",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "ANALYZE",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH2-MOB-003",
+      "question_text": "Compare the three list methods provided by `AlertDialog.Builder` in the table below:\n\n| Builder Method | UI Presentation | Behavior When User Touches a List Item |\n| :--- | :--- | :--- |\n| **`setItems()`** | Traditional single-choice list | Immediately dismisses the dialog |\n| **`setSingleChoiceItems()`** | Single-choice radio buttons | Persists selection; does not auto-dismiss |\n| **`setMultiChoiceItems()`** | Multiple-choice checkboxes | Persists selections; does not auto-dismiss |\n\nWhy does an `AlertDialog` that calls `builder.setItems(R.array.colors_array, listener)` require `builder.setTitle(R.string.pick_color)` instead of `builder.setMessage(...)`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Because the list appears in the dialog's content area, so the dialog cannot show both a message and a list simultaneously.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Because setMessage() is only supported in DatePickerDialog and causes a compile-time syntax error in AlertDialog.Builder.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Because setItems() renders its items inside the Title region rather than the Content area.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Because setItems() can only display checkboxes and requires a Loader.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Because the list appears in the dialog's content area, the dialog cannot display both a message (`setMessage()`) and a list at the same time; therefore, you should set a title for the dialog using `setTitle()`[cite: 8].\n- **Why B, C, and D are incorrect**: `setMessage()` is valid for text dialogs without lists, and `setItems()` renders a traditional single-choice list in the content area[cite: 8]."
+    },
+    {
+      "canonical_order": 5,
+      "external_id": "COSC4083-CH2-Q005",
+      "course_code": "IT-OOP-201",
+      "bloom_level": "ANALYZE",
+      "difficulty": "HARD",
+      "linked_note_code": "NOTE-CH2-MOB-016",
+      "question_text": "Examine the following multiple-choice `AlertDialog` code snippet from `onCreateDialog()`:\n\n```java\nmSelectedItems = new ArrayList();\nAlertDialog.Builder builder = new AlertDialog.Builder(getActivity());\nbuilder.setTitle(R.string.pick_toppings)\n    .setMultiChoiceItems(R.array.toppings, null,\n        new DialogInterface.OnMultiChoiceClickListener() {\n            @Override\n            public void onClick(DialogInterface dialog, int which, boolean isChecked) {\n                if (isChecked) {\n                    mSelectedItems.add(which);\n                } else if (mSelectedItems.contains(which)) {\n                    mSelectedItems.remove(Integer.valueOf(which));\n                }\n            }\n        });\n```\n\nWhat do the three arguments to `setMultiChoiceItems(...)` represent, and why is `Integer.valueOf(which)` passed to `mSelectedItems.remove(...)` instead of the primitive `int which`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The arguments are (list array resource, default checked boolean[] or null for none, OnMultiChoiceClickListener); Integer.valueOf(which) ensures the specific Integer object value is removed from the ArrayList rather than calling remove(int index).",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "The second argument null disables all checkboxes permanently; Integer.valueOf(which) converts the checkbox label into a String.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "setMultiChoiceItems() creates radio buttons; Integer.valueOf(which) closes the dialog immediately when unchecked.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "The arguments are (title, message, positive button listener); Integer.valueOf(which) is required by SQLite.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: `setMultiChoiceItems()` takes the list array (`R.array.toppings`), the items to be selected by default (`null` for none), and the `OnMultiChoiceClickListener` callback[cite: 8]. Passing `Integer.valueOf(which)` to `mSelectedItems.remove(...)` removes the boxed `Integer` element matching `which` rather than invoking `List.remove(int index)` (which would throw `IndexOutOfBoundsException` or remove the wrong position)[cite: 8].\n- **Why B, C, and D are incorrect**: `null` simply means no items are pre-checked by default, and `setMultiChoiceItems()` renders checkboxes, not radio buttons[cite: 8]."
+    },
+    {
+      "canonical_order": 6,
+      "external_id": "COSC4083-CH2-Q006",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH2-MOB-004",
+      "question_text": "Review the custom sign-in dialog XML (`res/layout/dialog_signin.xml`) and inflation code below:\n\n```xml\n<EditText\n    android:id=\"@+id/username\"\n    android:inputType=\"textEmailAddress\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"wrap_content\"\n    android:hint=\"@string/username\" />\n<EditText\n    android:id=\"@+id/password\"\n    android:inputType=\"textPassword\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"wrap_content\"\n    android:fontFamily=\"sans-serif\"\n    android:hint=\"@string/password\" />\n```\n\n```java\nLayoutInflater inflater = getActivity().getLayoutInflater();\nbuilder.setView(inflater.inflate(R.layout.dialog_signin, null));\n```\n\nWhy is `android:fontFamily=\"sans-serif\"` explicitly specified on the `@+id/password` `EditText`, and what is an alternative way to display an entire `Activity` as a dialog window without using `Dialog` APIs?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Because inputType=\"textPassword\" sets the default font family to monospace, so setting \"sans-serif\" ensures both fields use a matching font style; alternatively, apply android:theme=\"@android:style/Theme.Holo.Dialog\" to the <activity> in the manifest.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Because textPassword hides the EditText unless fontFamily is sans-serif; alternatively, rename MainActivity to DialogActivity.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Because monospace fonts cannot display asterisks; alternatively, pass false to setView().",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Because Android requires sans-serif to encrypt passwords; alternatively, set android:launchMode=\"dialog\" in the manifest.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: By default, setting an `EditText` to `inputType=\"textPassword\"` changes its font family to `monospace`, so setting `android:fontFamily=\"sans-serif\"` makes the username and password fields share a matching font style[cite: 8]. In addition, you can display any `Activity` as a dialog window simply by declaring `android:theme=\"@android:style/Theme.Holo.Dialog\"` on its `<activity>` element in `AndroidManifest.xml`[cite: 8].\n- **Why B, C, and D are incorrect**: `textPassword` does not hide the view or encrypt data via font attributes, and `android:launchMode=\"dialog\"` is not a valid manifest attribute."
+    },
+    {
+      "canonical_order": 7,
+      "external_id": "COSC4083-CH2-Q007",
+      "course_code": "IT-OOP-201",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH2-MOB-005",
+      "question_text": "Examine the `NoticeDialogFragment` callback pattern used to deliver button click events back to the hosting `MainActivity`:\n\n```java\npublic class NoticeDialogFragment extends DialogFragment {\n    public interface NoticeDialogListener {\n        public void onDialogPositiveClick(DialogFragment dialog);\n        public void onDialogNegativeClick(DialogFragment dialog);\n    }\n    NoticeDialogListener mListener;\n\n    @Override\n    public void onAttach(Activity activity) {\n        super.onAttach(activity);\n        try {\n            mListener = (NoticeDialogListener) activity;\n        } catch (ClassCastException e) {\n            throw new ClassCastException(activity.toString()\n                    + \" must implement NoticeDialogListener\");\n        }\n    }\n}\n```\n\nWhen is `onAttach(Activity activity)` invoked, and what happens if `MainActivity` opens `NoticeDialogFragment` without implementing `NoticeDialogFragment.NoticeDialogListener`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "onAttach() is called when the Fragment attaches to its host Activity; if MainActivity does not implement NoticeDialogListener, casting activity throws a ClassCastException stating that the activity must implement NoticeDialogListener.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "onAttach() is called only after the dialog is dismissed; if MainActivity does not implement the interface, Android silently ignores button clicks.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "onAttach() runs at compile time inside aapt; if not implemented, R.java is deleted.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "onAttach() creates a new background Service to listen for clicks.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: `Fragment.onAttach(Activity)` is invoked when the `DialogFragment` attaches to its host `Activity`, allowing it to instantiate `mListener = (NoticeDialogListener) activity`[cite: 8]. If the host `Activity` fails to implement `NoticeDialogListener`, the cast fails and throws a `ClassCastException` explicitly enforcing the contract[cite: 8].\n- **Why B, C, and D are incorrect**: `onAttach()` runs at runtime when attaching to the host Activity (before `onCreateDialog()`), and it throws a `ClassCastException` rather than failing silently[cite: 8]."
+    },
+    {
+      "canonical_order": 8,
+      "external_id": "COSC4083-CH2-Q008",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "ANALYZE",
+      "difficulty": "HARD",
+      "linked_note_code": "NOTE-CH2-MOB-006",
+      "question_text": "Consider `CustomDialogFragment`, which is designed to appear either as a popup dialog (when `mIsLargeLayout == true`) or as a fullscreen embedded Fragment added to `android.R.id.content` (when `mIsLargeLayout == false`):\n\n```java\npublic class CustomDialogFragment extends DialogFragment {\n    @Override\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\n            Bundle savedInstanceState) {\n        return inflater.inflate(R.layout.purchase_items, container, false);\n    }\n    @Override\n    public Dialog onCreateDialog(Bundle savedInstanceState) {\n        Dialog dialog = super.onCreateDialog(savedInstanceState);\n        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);\n        return dialog;\n    }\n}\n```\n\nWhy does `CustomDialogFragment` inflate `R.layout.purchase_items` inside `onCreateView()` instead of using `AlertDialog.Builder` inside `onCreateDialog()`, and when is `onCreateDialog()` called?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Because AlertDialog.Builder cannot be used when a DialogFragment is embedded inside a layout container; the system always calls onCreateView() for both dialog and embedded modes, while onCreateDialog() is called only when displaying the fragment as a dialog.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Because AlertDialog.Builder only works on small phones and crashes on tablets.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Because onCreateDialog() is called only when embedded in android.R.id.content, while onCreateView() is called only for modal dialogs.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Because Window.FEATURE_NO_TITLE converts an Activity into a BroadcastReceiver.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: If you want a `DialogFragment` to be embeddable in a larger UI, you cannot use `AlertDialog.Builder` or other `Dialog` objects to build the UI; you must load the layout in `onCreateView()`[cite: 8]. The system calls `onCreateView()` regardless of whether it is displayed as a dialog or embedded fragment, whereas `onCreateDialog()` is called only when creating the layout in a dialog (for example, to strip the title via `Window.FEATURE_NO_TITLE`)[cite: 8].\n- **Why B, C, and D are incorrect**: They reverse when `onCreateView()` and `onCreateDialog()` are executed[cite: 8]."
+    },
+    {
+      "canonical_order": 9,
+      "external_id": "COSC4083-CH2-Q009",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH2-MOB-007",
+      "question_text": "What is the exact relationship between the `onCancel()` and `onDismiss()` lifecycle callbacks on a `DialogFragment`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The system calls onDismiss() upon every event that invokes onCancel() (such as pressing Back, touching outside the dialog, or calling Dialog.cancel()); however, calling Dialog.dismiss() or DialogFragment.dismiss() invokes onDismiss() WITHOUT calling onCancel().",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Calling DialogFragment.dismiss() invokes onCancel() only and never invokes onDismiss().",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Pressing the hardware Back button calls neither onCancel() nor onDismiss().",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Touching an action button created with AlertDialog.Builder leaves the dialog open unless cancelAll() is called.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Canceling a dialog occurs when the user presses the Back button, touches outside the dialog area, or when `cancel()` is called on the `Dialog`[cite: 8]. The system calls `onDismiss()` upon each event that invokes `onCancel()`, but calling `Dialog.dismiss()` or `DialogFragment.dismiss()` calls `onDismiss()` and **not** `onCancel()`[cite: 8].\n- **Why B, C, and D are incorrect**: Action buttons automatically dismiss the dialog, and `dismiss()` always triggers `onDismiss()` without `onCancel()`[cite: 8]."
+    },
+    {
+      "canonical_order": 10,
+      "external_id": "COSC4083-CH2-Q010",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "REMEMBER",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH2-MOB-008",
+      "question_text": "Compare the **Normal view** and **Big view** display styles of an Android Notification in the notification drawer:\n\n| Display Style | Maximum Height | Minimum Android Version | Supported Expanded Details Styles |\n| :--- | :--- | :--- | :--- |\n| **Normal view** | Up to `64 dp` tall | All versions | Standard 6 callouts (Title, Large icon, Text, Info, Small icon, Time) |\n| **Big view** | Bitmap/custom area up to `256 dp` tall | Android 4.1+ | `Big picture style`, `Big text style`, `Inbox style` |\n\nWhich three notification properties are **strictly required** when building any `Notification` object with `NotificationCompat.Builder`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A small icon (setSmallIcon()), a title (setContentTitle()), and detail text (setContentText()).",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "A large bitmap (setLargeIcon()), a sound ringtone (setSound()), and an InboxStyle object (setStyle()).",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "A RemoteViews layout (setContent()), a progress bar (setProgress()), and a vibration pattern.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Only setWhen() is required; icons and text are prohibited in Normal view.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: A `Notification` object must contain three required elements: a small icon set by `setSmallIcon()`, a title set by `setContentTitle()`, and detail text set by `setContentText()`; all other notification settings and contents are optional[cite: 8].\n- **Why B, C, and D are incorrect**: Large icons, styles, progress bars, and `setWhen()` (which defaults to the time the system received the notification) are optional[cite: 8]."
+    },
+    {
+      "canonical_order": 11,
+      "external_id": "COSC4083-CH2-Q011",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH2-MOB-010",
+      "question_text": "Examine the following code snippet that applies an expanded `InboxStyle` big view to a notification:\n\n```java\nNotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)\n    .setSmallIcon(R.drawable.notification_icon)\n    .setContentTitle(\"Event tracker\")\n    .setContentText(\"Events received\");\nNotificationCompat.InboxStyle inboxStyle =\n        new NotificationCompat.InboxStyle();\nString[] events = new String[6];\ninboxStyle.setBigContentTitle(\"Event tracker details:\");\nfor (int i = 0; i < events.length; i++) {\n    inboxStyle.addLine(events[i]);\n}\nmBuilder.setStyle(inboxStyle);\n```\n\nSince expanded notifications and notification action buttons (`addAction()`) are only available on **Android 4.1 and higher**, what compatibility rule must developers follow for devices running earlier Android versions?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Verify that all functionality provided by expanded notifications or action buttons is also available inside the Activity launched when the user clicks the notification via setContentIntent(PendingIntent).",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Throw an UnsupportedOperationException and block the app from installing on devices below Android 4.1.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Avoid using NotificationCompat.Builder and write raw C++ OpenGL notifications instead.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Call inboxStyle.forceExpandOnGingerbread() before notify().",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Because expanded notifications and action buttons only appear on Android 4.1 and higher, you must use `NotificationCompat.Builder` and ensure that all functionality (such as media stop/start controls) is available inside the `Activity` started when the user clicks the notification via `setContentIntent(PendingIntent)`[cite: 8].\n- **Why B, C, and D are incorrect**: `NotificationCompat.Builder` gracefully handles older platforms without crashing, provided the target `Activity` exposes the full functionality[cite: 8]."
+    },
+    {
+      "canonical_order": 12,
+      "external_id": "COSC4083-CH2-Q012",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "APPLY",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH2-MOB-011",
+      "question_text": "Consider the following loop that notifies the user as new messages arrive:\n\n```java\nint notifyID = 1;\nmNotifyBuilder = new NotificationCompat.Builder(this)\n    .setContentTitle(\"New Message\")\n    .setContentText(\"You've received new messages.\")\n    .setSmallIcon(R.drawable.ic_notify_status);\nnumMessages = 0;\n// Inside processing loop:\nmNotifyBuilder.setContentText(currentText)\n    .setNumber(++numMessages);\nmNotificationManager.notify(notifyID, mNotifyBuilder.build());\n```\n\nWhat happens when `mNotificationManager.notify(notifyID, ...)` is called repeatedly with the same `notifyID = 1`, and what are the four ways a notification is removed from the notification drawer?",
+      "options": [
+        {
+          "label": "A",
+          "text": "If the previous notification with notifyID = 1 is still visible, the system updates it in place (or creates a new one if dismissed); notifications are removed by user swipe/\"Clear All\", clicking a notification with setAutoCancel(), calling cancel(ID), or calling cancelAll().",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Calling notify() with the same ID throws a DuplicateNotificationException; notifications can only be removed by rebooting the device.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "It creates 100 separate icons in the status bar even though notifyID is constant; cancel(ID) cannot delete ongoing notifications.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "setNumber() automatically deletes the notification when numMessages reaches 5.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Issuing a notification with the same `notifyID` updates the existing notification if it is still visible, or creates a new one if it was dismissed[cite: 8]. Notifications remain visible until: (1) the user dismisses it individually or via \"Clear All\", (2) the user clicks it when `setAutoCancel()` was called, (3) you call `cancel(ID)` (which also deletes ongoing notifications), or (4) you call `cancelAll()`[cite: 8].\n- **Why B, C, and D are incorrect**: Reusing `notifyID` avoids cluttering the drawer with duplicate notifications, and `cancel(ID)` explicitly deletes ongoing notifications too[cite: 8]."
+    },
+    {
+      "canonical_order": 13,
+      "external_id": "COSC4083-CH2-Q013",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "ANALYZE",
+      "difficulty": "HARD",
+      "linked_note_code": "NOTE-CH2-MOB-012",
+      "question_text": "When starting a **Regular Activity** (`ResultActivity`, which is part of the app's normal workflow) from a notification, you configure `AndroidManifest.xml` and `TaskStackBuilder` as follows:\n\n```xml\n<activity\n    android:name=\".ResultActivity\"\n    android:parentActivityName=\".MainActivity\">\n    <meta-data\n        android:name=\"android.support.PARENT_ACTIVITY\"\n        android:value=\".MainActivity\" />\n</activity>\n```\n\n```java\nIntent resultIntent = new Intent(this, ResultActivity.class);\nTaskStackBuilder stackBuilder = TaskStackBuilder.create(this);\nstackBuilder.addParentStack(ResultActivity.class);\nstackBuilder.addNextIntent(resultIntent);\nPendingIntent resultPendingIntent =\n        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);\n```\n\nWhy are both `android:parentActivityName` and `<meta-data android:name=\"android.support.PARENT_ACTIVITY\" />` declared in the manifest, and why must you call **both** `addParentStack(ResultActivity.class)` and `addNextIntent(resultIntent)`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The <meta-data> element supports Android 4.0.3 and earlier while android:parentActivityName supports Android 4.1+; addParentStack(ResultActivity.class) adds the parent back stack from the manifest (but NOT the Intent for ResultActivity itself), and addNextIntent(resultIntent) places ResultActivity at the top of the stack.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "addParentStack() launches ResultActivity twice, and addNextIntent() closes MainActivity.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Both manifest attributes are only for Special Activities that exclude themselves from Recents.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "addParentStack() adds ResultActivity only and ignores MainActivity.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: In the manifest, `<meta-data android:name=\"android.support.PARENT_ACTIVITY\" .../>` provides parent hierarchy support for Android 4.0.3 and earlier, while `android:parentActivityName` supports Android 4.1 and later[cite: 8]. In Java, although the argument to `addParentStack(ResultActivity.class)` is the started Activity class, `addParentStack()` only adds the parent hierarchy (`MainActivity`) and does **not** add the Intent that starts `ResultActivity`; calling `addNextIntent(resultIntent)` adds `ResultActivity` to the top of the stack[cite: 8].\n- **Why B, C, and D are incorrect**: They misdescribe how `TaskStackBuilder` constructs the synthetic back stack for regular activities[cite: 8]."
+    },
+    {
+      "canonical_order": 14,
+      "external_id": "COSC4083-CH2-Q014",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "APPLY",
+      "difficulty": "HARD",
+      "linked_note_code": "NOTE-CH2-MOB-012",
+      "question_text": "Unlike a Regular Activity, a **Special Activity** is only seen by the user when launched from a notification and does not need a back stack. Look at its manifest declaration and Java `PendingIntent` setup:\n\n```xml\n<activity\n    android:name=\".ResultActivity\"\n    android:launchMode=\"singleTask\"\n    android:taskAffinity=\"\"\n    android:excludeFromRecents=\"true\">\n</activity>\n```\n\n```java\nIntent notifyIntent = new Intent(new ComponentName(this, ResultActivity.class));\nnotifyIntent.setFlags(FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK);\nPendingIntent pendingIntent = PendingIntent.getActivity(\n    this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);\n```\n\nWhat is the combined purpose of `android:taskAffinity=\"\"`, `android:excludeFromRecents=\"true\"`, and `FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "taskAffinity=\"\" combined with FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK starts the Activity in a new, empty task rather than the app's default task, and excludeFromRecents=\"true\" hides the new task from Recents so the user cannot accidentally navigate back to it.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "It forces the Special Activity to build a 5-level parent back stack using TaskStackBuilder.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "taskAffinity=\"\" deletes the application's SharedPreferences, and excludeFromRecents=\"true\" pins the Activity permanently to the lock screen.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "It converts ResultActivity into a Bound Service.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Setting `android:taskAffinity=\"\"` in combination with `FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK` ensures the special Activity starts in a new, empty task without affecting existing tasks that share the application's default affinity, and `android:excludeFromRecents=\"true\"` excludes the task from Recents so users don't accidentally return to it[cite: 8].\n- **Why B, C, and D are incorrect**: A Special Activity explicitly avoids creating a `TaskStackBuilder` back stack[cite: 8]."
+    },
+    {
+      "canonical_order": 15,
+      "external_id": "COSC4083-CH2-Q015",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH2-MOB-013",
+      "question_text": "Examine the background thread code used to display a download progress indicator inside a notification (supported on Android 4.0+):\n\n```java\nfor (incr = 0; incr <= 100; incr += 5) {\n    // Line A: Determinate progress\n    mBuilder.setProgress(100, incr, false);\n    mNotifyManager.notify(0, mBuilder.build());\n    Thread.sleep(5 * 1000);\n}\n// Line B: Operation complete\nmBuilder.setContentText(\"Download complete\")\n        .setProgress(0, 0, false);\nmNotifyManager.notify(ID, mBuilder.build());\n```\n\nHow do you change `Line A` to display an **indeterminate** continuing activity indicator instead of a percentage bar, and why is `.setProgress(0, 0, false)` called at `Line B` when the operation finishes?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Change Line A to mBuilder.setProgress(0, 0, true) (where the first two arguments are ignored); call mBuilder.setProgress(0, 0, false) at Line B to remove the progress/activity indicator so the animation does not keep running after completion.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Change Line A to mBuilder.setProgress(-1, -1, false); call mBuilder.setProgress(100, 100, true) at Line B to delete the notification.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Change Line A to new ProgressDialog(this).show(); setProgress(0, 0, false) restarts the download from 0%.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Indeterminate indicators are not supported in notifications; setProgress(0, 0, false) formats the SD card.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Calling `mBuilder.setProgress(0, 0, true)` displays an indeterminate continuing activity indicator (ignoring the first two arguments), while `mBuilder.setProgress(100, incr, false)` displays a determinate progress bar[cite: 8]. When the operation completes, calling `setProgress(0, 0, false)` removes the progress bar or stops the ongoing activity indicator animation[cite: 8].\n- **Why B, C, and D are incorrect**: `true` in the third argument activates indeterminate mode, and `(0, 0, false)` clears the progress bar[cite: 8]."
+    },
+    {
+      "canonical_order": 16,
+      "external_id": "COSC4083-CH2-Q016",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH2-MOB-014",
+      "question_text": "When defining a **Custom Notification Layout** for a notification, which class is used to inflate the XML layout, how is it attached to `NotificationCompat.Builder`, what are the height limits, and what styling precaution must be observed?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Instantiate a RemoteViews object and pass it to builder.setContent(); normal view height is limited to 64 dp (expanded view to 256 dp); avoid setting a custom background Drawable and always use style resources for text so it remains readable across devices.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Instantiate a DialogFragment and pass it to builder.setView(); height is unlimited (1080 dp); always hardcode black text on a black background Drawable.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Use WebView and call builder.loadUrl(); height is fixed at 16 dp.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Use SQLiteOpenHelper and call builder.setTitle(); custom XML layouts are prohibited in notifications.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Custom notification layouts are defined using a `RemoteViews` object inflated from an XML layout file and attached via `NotificationCompat.Builder.setContent()` instead of calling `setContentTitle()`[cite: 8]. Normal view custom layouts are limited to `64 dp` tall and expanded view layouts to `256 dp` tall[cite: 8]. Developers should avoid setting a background `Drawable` on `RemoteViews` and always use style resources for text because notification background colors vary across devices and Android versions[cite: 8].\n- **Why B, C, and D are incorrect**: `DialogFragment`, `WebView`, and `setView()` are not used for notification drawer layouts (`RemoteViews` and `setContent()` are required)[cite: 8]."
+    }
+  ]
+}

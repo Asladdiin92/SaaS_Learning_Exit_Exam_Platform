@@ -22,6 +22,7 @@ import {
   ChevronUp,
   X,
 } from 'lucide-react-native';
+import { AITutorModalSheet } from '../ai/components/AITutorModalSheet';
 
 interface AnswerReviewScreenProps {
   route: any;
@@ -331,32 +332,49 @@ export const AnswerReviewScreen: React.FC<AnswerReviewScreenProps> = ({
                     }
 
                     return (
-                      <View
-                        key={opt.id}
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          padding: 10,
-                          borderRadius: borderRadius.sm,
-                          borderWidth: 1.5,
-                          borderColor: border,
-                          backgroundColor: bg,
-                        }}
-                      >
-                        <Text style={[typography.labelSm, { fontWeight: '700', width: 24, color: textCol }]}>
-                          {opt.label}.
-                        </Text>
-                        <Text style={[typography.bodySm, { flex: 1, color: textCol }]}>
-                          {opt.text}
-                        </Text>
-                        {isRightChoice && (
-                          <Text style={[typography.labelSm, { color: colors.status.online, fontWeight: '700' }]}>
-                            ✓ Correct
+                      <View key={opt.id}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            padding: 10,
+                            borderRadius: borderRadius.sm,
+                            borderWidth: 1.5,
+                            borderColor: border,
+                            backgroundColor: bg,
+                          }}
+                        >
+                          <Text style={[typography.labelSm, { fontWeight: '700', width: 24, color: textCol }]}>
+                            {opt.label}.
                           </Text>
-                        )}
-                        {isUserChoice && !isRightChoice && (
-                          <Text style={[typography.labelSm, { color: colors.status.error, fontWeight: '700' }]}>
-                            ✗ Your Choice
+                          <Text style={[typography.bodySm, { flex: 1, color: textCol }]}>
+                            {opt.text}
+                          </Text>
+                          {isRightChoice && (
+                            <Text style={[typography.labelSm, { color: colors.status.online, fontWeight: '700' }]}>
+                              ✓ Correct
+                            </Text>
+                          )}
+                          {isUserChoice && !isRightChoice && (
+                            <Text style={[typography.labelSm, { color: colors.status.error, fontWeight: '700' }]}>
+                              ✗ Your Choice
+                            </Text>
+                          )}
+                        </View>
+                        {opt.explanation && (
+                          <Text
+                            testID={`option-explanation-${q.questionNumber}-${opt.label}`}
+                            style={[
+                              typography.bodySm,
+                              {
+                                color: colors.text.secondary,
+                                lineHeight: 18,
+                                paddingHorizontal: spacing.sm,
+                                paddingTop: 4,
+                              },
+                            ]}
+                          >
+                            {opt.explanation}
                           </Text>
                         )}
                       </View>
@@ -389,8 +407,11 @@ export const AnswerReviewScreen: React.FC<AnswerReviewScreenProps> = ({
                     testID={`open-in-reader-${q.questionNumber}`}
                     onPress={() =>
                       navigation.navigate('ProtectedContentReader', {
-                        resourceId: `res_${q.courseCode.toLowerCase().replace('-', '_')}`,
-                        title: `${q.courseTitle} Reference Notes`,
+                        resourceId: q.recommendedResourceId || 'res_itsec_master_cheatsheet',
+                        title: `${q.chapterTitle || q.courseTitle} Notes`,
+                        courseId: 402,
+                        type: 'LECTURE_NOTE',
+                        anchorCode: q.linkedNoteCode,
                       })
                     }
                     style={{
@@ -430,75 +451,15 @@ export const AnswerReviewScreen: React.FC<AnswerReviewScreenProps> = ({
           })}
         </ScrollView>
 
-        {/* ── AI Tutor Modal ────────────────────────────────────────────────── */}
-        <Modal
+        {/* ── AI Tutor Modal Sheet ────────────────────────────────────────── */}
+        <AITutorModalSheet
           visible={Boolean(selectedAiQuestion)}
-          transparent={true}
-          animationType="slide"
-          onRequestClose={() => setSelectedAiQuestion(null)}
-        >
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: 'rgba(0,0,0,0.5)',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <View
-              style={{
-                backgroundColor: colors.surface.primary,
-                borderTopLeftRadius: borderRadius.lg,
-                borderTopRightRadius: borderRadius.lg,
-                padding: spacing.md,
-                maxHeight: '75%',
-              }}
-            >
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <Sparkles size={18} color={colors.brand.primary} />
-                  <Text style={[typography.h3, { color: colors.text.primary, fontWeight: '700' }]}>
-                    AI Tutor Walkthrough
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  onPress={() => setSelectedAiQuestion(null)}
-                  style={{ minHeight: 40, minWidth: 40, justifyContent: 'center', alignItems: 'center' }}
-                >
-                  <X size={20} color={colors.text.primary} />
-                </TouchableOpacity>
-              </View>
-
-              {selectedAiQuestion && (
-                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: spacing.lg }}>
-                  <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700', marginBottom: 2 }]}>
-                    {selectedAiQuestion.courseCode} — Question {selectedAiQuestion.questionNumber}
-                  </Text>
-                  <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600', marginBottom: spacing.md }]}>
-                    {selectedAiQuestion.prompt}
-                  </Text>
-
-                  <Card variant="elevated" style={{ backgroundColor: '#F8FAFC', padding: spacing.md, marginBottom: spacing.md }}>
-                    <Text style={[typography.labelSm, { color: colors.text.secondary, fontWeight: '700', marginBottom: 4 }]}>
-                      STEP-BY-STEP REASONING:
-                    </Text>
-                    <Text style={[typography.bodySm, { color: colors.text.primary, lineHeight: 22 }]}>
-                      1. Identify the core competency: This scenario assesses {selectedAiQuestion.courseTitle} at the {selectedAiQuestion.bloomLevel} cognitive level.{"\n"}
-                      2. Eliminate distractors: Options that violate deterministic state synchronization or design patterns are discarded.{"\n"}
-                      3. Conclude correct outcome: {selectedAiQuestion.explanation}
-                    </Text>
-                  </Card>
-
-                  <Button
-                    title="Close Tutor"
-                    variant="primary"
-                    size="md"
-                    onPress={() => setSelectedAiQuestion(null)}
-                  />
-                </ScrollView>
-              )}
-            </View>
-          </View>
-        </Modal>
+          onClose={() => setSelectedAiQuestion(null)}
+          questionId={selectedAiQuestion?.id}
+          questionNumber={selectedAiQuestion?.questionNumber}
+          questionStem={selectedAiQuestion?.prompt}
+          courseTitle={selectedAiQuestion?.courseTitle}
+        />
       </View>
     </SafeAreaView>
   );

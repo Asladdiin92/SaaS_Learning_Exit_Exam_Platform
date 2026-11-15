@@ -366,6 +366,27 @@ async def register_device(
     return device
 
 
+@auth_router.get(
+    "/devices",
+    response_model=list[DeviceOut],
+    status_code=status.HTTP_200_OK,
+    summary="List all active registered devices for the authenticated user",
+)
+async def list_devices(
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    result = await db.execute(
+        select(UserDevice)
+        .where(
+            UserDevice.user_id == current_user.user_id,
+            UserDevice.revoked_at.is_(None),
+        )
+        .order_by(UserDevice.last_seen_at.desc())
+    )
+    return result.scalars().all()
+
+
 @auth_router.delete("/devices/{device_id}", status_code=status.HTTP_200_OK)
 async def revoke_device(
     device_id: UUID,

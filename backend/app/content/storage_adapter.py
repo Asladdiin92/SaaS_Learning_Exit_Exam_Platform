@@ -136,6 +136,25 @@ class StorageAdapter:
         target_path.parent.mkdir(parents=True, exist_ok=True)
         target_path.write_bytes(data)
 
+    def upload_markdown_resource(
+        self, bucket: str, object_key: str, data: bytes
+    ) -> None:
+        """Store structured Markdown notes in the private course-resource bucket."""
+        if self.driver == "supabase":
+            self.supabase.storage.from_(bucket).upload(
+                path=object_key,
+                file=data,
+                file_options={
+                    "content-type": "text/markdown; charset=utf-8",
+                    "upsert": "true",
+                },
+            )
+            return
+
+        target_path = self.local_package_path(bucket, object_key)
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        target_path.write_bytes(data)
+
     def read_package(self, bucket: str, object_key: str) -> Optional[bytes]:
         """Reads stored package bytes."""
         if self.driver == "supabase":

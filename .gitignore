@@ -49,10 +49,18 @@ out/
 dev_storage/course-packages/*
 !dev_storage/course-packages/.gitkeep
 
-# Mobile Native Builds
+# Mobile Native Builds & Artifacts
 android/app/build/
 android/.gradle/
 android/app/release/
+mobile/android/app/build/
+mobile/android/.gradle/
+mobile/android/build/
+mobile/android/local.properties
+mobile/android/app/.cxx/
+*.apk
+*.aab
+*.jsbundle
 ios/Pods/
 ios/build/
 

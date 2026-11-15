@@ -200,6 +200,7 @@ CREATE TABLE courses (
 CREATE TABLE learning_outcomes (
     outcome_id SERIAL PRIMARY KEY,
     course_id INT NOT NULL REFERENCES courses(course_id) ON DELETE CASCADE,
+    outcome_code VARCHAR(64),
     description TEXT NOT NULL,
     domain domain_type NOT NULL DEFAULT 'COGNITIVE',
     level cognitive_level NOT NULL DEFAULT 'REMEMBER',
@@ -272,6 +273,7 @@ CREATE TABLE questions (
     level cognitive_level NOT NULL DEFAULT 'REMEMBER',
     difficulty difficulty_level NOT NULL DEFAULT 'MEDIUM',
     explanation TEXT,
+    option_explanations JSONB NOT NULL DEFAULT '{}'::jsonb,
     version INT NOT NULL DEFAULT 1,
     is_published BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -341,6 +343,8 @@ CREATE TABLE outcome_mastery (
     UNIQUE NULLS NOT DISTINCT (user_id, tenant_id, outcome_id)
 );
 ```
+
+For the ITec4133 bank, source code `IT-SEC-401` is an import/blueprint alias for the canonical Theme 5 course `IT-IASC-401`; do not create a duplicate course outside the approved 15-course curriculum. The verified 80-question bank is `data/exam_packs/itec4133_information_assurance_parsed.json`. Its stable chapter outcomes use `learning_outcomes.outcome_code`, and option-level distractor rationales use `questions.option_explanations`. Markdown note bodies and `NOTE-CHX-XXX` anchors are cached in mobile `local_resources.content_markdown`.
 
 ### 2.4 Indexing & Row-Level Security (RLS) Multi-Tenant Policies
 

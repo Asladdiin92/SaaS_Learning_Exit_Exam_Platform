@@ -1,0 +1,703 @@
+[
+  {
+    "question_number": 1,
+    "course_code": "IT-AI-401",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "In cognitive science and the 'Thinking Humanly' approach to Artificial Intelligence, how are top-down and bottom-up validation methods differentiated when evaluating a theoretical cognitive model?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Top-down validation predicts and tests the behavior of human subjects, whereas bottom-up validation relies on direct identification from neurological data.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Top-down validation extracts rules from logical syllogisms, while bottom-up validation measures input/output teletype response speed.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Top-down validation requires physical robotics, while bottom-up validation uses natural language processing.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Top-down validation relies on Hebbian learning, while bottom-up validation uses physical symbol system hypotheses.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Top-down validation evaluates a cognitive model by predicting and testing the observable behavior of human subjects. Bottom-up validation evaluates the model through direct identification from neurological data. Distractor B confuses cognitive science validation with formal logic syllogisms and Turing teletype timing. Distractor C incorrectly mixes Total Turing Test requirements with cognitive validation. Distractor D references historical neural learning and symbol hypotheses unrelated to cognitive model validation techniques.",
+    "linked_note_code": "NOTE-AI-CH1-001",
+    "structured_notes": {
+      "topic": "Cognitive Science & Thinking Humanly",
+      "summary": "Validating cognitive models requires matching program input/output and timing behavior with human behavior. Validation paths: 1. Top-down (predicting and testing human subject behavior). 2. Bottom-up (direct identification from neurological data)."
+    }
+  },
+  {
+    "question_number": 2,
+    "course_code": "IT-AI-401",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "Which pair of capabilities represents the explicit additions required for an agent to pass the Total Turing Test compared to the standard Turing Test proposed by Alan Turing in 1950?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Natural Language Processing and Knowledge Representation",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Automated Reasoning and Machine Learning",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Computer Vision and Robotics",
+        "is_correct": true
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Hebbian Learning and Syllogistic Inference",
+        "is_correct": false
+      }
+    ],
+    "explanation": "The standard Turing Test requires Natural Language Processing, Knowledge Representation, Automated Reasoning, and Machine Learning to interact via teletype. The Total Turing Test includes a video signal and a physical hatch to test perceptual and manipulation abilities, requiring Computer Vision and Robotics. Options A and B list components of the standard Turing test. Option D mixes early neural learning with Aristotelian logic.",
+    "linked_note_code": "NOTE-AI-CH1-002",
+    "structured_notes": {
+      "topic": "Turing Test vs. Total Turing Test",
+      "summary": "Standard Turing Test capabilities: Natural Language Processing, Knowledge Representation, Automated Reasoning, Machine Learning. Total Turing Test adds perceptual and manipulation capabilities via Computer Vision and Robotics."
+    }
+  },
+  {
+    "question_number": 3,
+    "course_code": "IT-AI-401",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "Why is correct logical inference considered a useful mechanism for rationality, but not an absolute prerequisite for all rational behavior?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Because logical inference cannot be expressed in computer code due to non-deterministic constraints.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Because rational actions include immediate reflex responses where deliberation would be dangerously slow, and situations exist where no provably correct logical action exists.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Because logical inference strictly requires an omniscient agent that knows all future state outcomes in advance.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Because rationality is evaluated solely based on human biological evolutionary perfection.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Correct inference is not all of rationality because reflex actions (e.g., pulling a hand off a hot stove) are more successful than slower deliberative reasoning, and in many real-world scenarios there is no provably correct thing to do, yet an action must still be taken. Distractor A is false as logic can be expressed programmatically. Distractor C incorrectly equates rationality with omniscience, which is impossible in the real world. Distractor D incorrectly links rationality to evolutionary perfection.",
+    "linked_note_code": "NOTE-AI-CH1-003",
+    "structured_notes": {
+      "topic": "Rationality and Action",
+      "summary": "Acting rationally means acting to achieve one's goals given one's beliefs. Inference is part of rationality, but rational action also includes non-deliberative reflex actions and decision-making under unprovable conditions."
+    }
+  },
+  {
+    "question_number": 4,
+    "course_code": "IT-AI-401",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "MEDIUM",
+    "question_text": "Which phenomenon describes how tasks originally considered to require 'intelligence' are routinely removed from the formal definition of Artificial Intelligence as soon as technology masters them?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "The AI Effect",
+        "is_correct": true
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Combinatorial Explosion",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "The Logicist Dilemma",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Bounded Rationality",
+        "is_correct": false
+      }
+    ],
+    "explanation": "As machines become increasingly capable, tasks considered to require 'intelligence' are often removed from the definition of AI, a phenomenon known as the AI Effect (e.g., Optical Character Recognition becoming routine technology). Distractor B describes exponential growth in search spaces. Distractors C and D are unrelated concepts not defining this term shift.",
+    "linked_note_code": "NOTE-AI-CH1-004",
+    "structured_notes": {
+      "topic": "The AI Effect",
+      "summary": "The boundary of AI is dynamic. Once a technology becomes routine (such as OCR), it is frequently excluded from what is classified as AI."
+    }
+  },
+  {
+    "question_number": 5,
+    "course_code": "IT-AI-401",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "What are the two primary advantages of defining AI around the study of rational agents rather than relying on human behavior or formal laws of thought?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "It guarantees complete omniscience in uncertain environments and eliminates the requirement for sensory architecture.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "It is more general than the laws of thought (since inference is only one mechanism for rationality), and it is more scientifically tractable than matching human behavior.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "C",
+        "option_text": "It forces systems to adhere strictly to Aristotelian syllogisms while mimicking human psychological errors.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "It enables bottom-up identification of neurological data while avoiding software-based programs.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Studying AI as rational agent design has two distinct advantages: 1. It is more general than the 'laws of thought' approach because correct inference is a useful mechanism for achieving rationality, not a mandatory one. 2. It is more amenable to scientific development than human behavior models because standard rationality is clearly defined and mathematically general. Distractors A, C, and D misrepresent omniscience, logical constraints, and cognitive methodologies.",
+    "linked_note_code": "NOTE-AI-CH1-005",
+    "structured_notes": {
+      "topic": "Advantages of Rational Agent Approach",
+      "summary": "Rational agent design is mathematically general and scientifically defined. Human behavior is constrained by specific evolutionary adaptations that are often far from perfect."
+    }
+  },
+  {
+    "question_number": 6,
+    "course_code": "IT-AI-401",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "MEDIUM",
+    "question_text": "The interdisciplinary field of Cognitive Science constructs testable theories of the human mind by combining which two foundational methodologies?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Computer models from AI and experimental techniques from psychology",
+        "is_correct": true
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Formal logic from mathematics and sensory motors from robotics",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Linguistic syntax trees and macroeconomics decision tables",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Teletype communications and physical symbol systems",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Cognitive Science brings together computer models from AI and experimental techniques from psychology to try to construct precise and testable theories of the workings of the human mind. Distractors B, C, and D pair distinct sub-disciplines incorrectly.",
+    "linked_note_code": "NOTE-AI-CH1-006",
+    "structured_notes": {
+      "topic": "Cognitive Science Foundations",
+      "summary": "Combines AI computer modeling with psychological experimentation to test theories regarding the operational mechanics of the human mind."
+    }
+  },
+  {
+    "question_number": 7,
+    "course_code": "IT-AI-401",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "What major operational failure can occur when a logicist program attempts to solve a problem formulated purely in formal logical notation if no solution exists?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "The program will automatically switch to a bottom-up neurological model.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "The program might enter an infinite loop and never stop looking for the solution.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "C",
+        "option_text": "The program will default to Hebbian learning to adjust its axioms.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "The program will immediately pass the Total Turing Test.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "In the logicist tradition, programs designed to take logic notation and find a solution will succeed if one exists, but if no solution exists, the program might never stop looking for it. Distractors A, C, and D cite unrelated mechanisms.",
+    "linked_note_code": "NOTE-AI-CH1-007",
+    "structured_notes": {
+      "topic": "Logicist Tradition Limitations",
+      "summary": "Formal logic guarantees correct conclusions given correct premises. However, expressibility issues and infinite search loops occur when no solution exists."
+    }
+  },
+  {
+    "question_number": 8,
+    "course_code": "IT-AI-401",
+    "bloom_level": "REMEMBER",
+    "difficulty": "EASY",
+    "question_text": "How do leading modern AI textbooks define the primary objective of the field of Artificial Intelligence?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "The study and construction of intelligent agents that perceive their environment and take actions that maximize their chance of achieving goals.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "B",
+        "option_text": "The explicit replication of biological human consciousness and emotional responses.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "The implementation of teletype system software that fools human interrogators 100% of the time.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "The creation of static lookup tables capable of storing all possible percept sequences.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Leading AI textbooks define the field as the study of 'intelligent agents': any system that perceives its environment and takes actions that maximize its chance of achieving its goals. Definitions based solely on mimicking human cognitive functions are rejected by major researchers. Distractors B, C, and D are invalid or overly restrictive definitions.",
+    "linked_note_code": "NOTE-AI-CH1-008",
+    "structured_notes": {
+      "topic": "Definition of AI & Intelligent Agents",
+      "summary": "AI focuses on intelligent agents—entities that perceive environments and act rationally to maximize goal achievement chances."
+    }
+  },
+  {
+    "question_number": 9,
+    "course_code": "IT-AI-401",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "MEDIUM",
+    "question_text": "Why did Alan Turing deliberately exclude physical interaction between the interrogator and the computer in his original 1950 Turing Test proposal?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Because computer vision technologies were already fully standardized in 1950.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Because physical simulation of a person is unnecessary for demonstrating cognitive intelligence.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Because teletype interfaces prevented combinatorial explosion in automated reasoning.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Because Alan Turing was only interested in bottom-up neurological validation.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Turing's test deliberately avoided direct physical interaction because physical simulation of a person is unnecessary for intelligence. Distractors A, C, and D provide factually false technical justifications."
+    ,
+    "linked_note_code": "NOTE-AI-CH1-009",
+    "structured_notes": {
+      "topic": "Turing Test Rationale",
+      "summary": "Physical simulation is decoupled from intellectual evaluation. Cognitive capabilities (NLP, Reasoning, ML, Knowledge Rep) suffice for the standard test."
+    }
+  },
+  {
+    "question_number": 10,
+    "course_code": "IT-AI-401",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "During which historical period of AI did researchers encounter severe performance drops due to combinatorial explosion when scaling algorithms from toy problems to complex real-world tasks?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Gestation (1943–1952)",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Birth of AI (1956)",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "A Dose of Reality (1966–1973)",
+        "is_correct": true
+      },
+      {
+        "option_letter": "D",
+        "option_text": "The Emergence of Intelligent Agents (1995–present)",
+        "is_correct": false
+      }
+    ],
+    "explanation": "The period known as 'A Dose of Reality' (1966–1973) was characterized by the realization that early AI methods failed when applied to wider or larger problems because of combinatorial explosion in search spaces. Distractor A covers initial neural models. Distractor B marks the Dartmouth workshop. Distractor D represents modern agent frameworks.",
+    "linked_note_code": "NOTE-AI-CH1-010",
+    "structured_notes": {
+      "topic": "AI History: Dose of Reality",
+      "summary": "1966–1973 introduced computational reality checks. Early optimism hit limits caused by intractable search spaces and combinatorial explosion."
+    }
+  },
+  {
+    "question_number": 11,
+    "course_code": "IT-AI-401",
+    "bloom_level": "REMEMBER",
+    "difficulty": "EASY",
+    "question_text": "Which foundational academic disciplines contributed the formal theories of logic, probability, decision making, and computation to Artificial Intelligence?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Philosophy",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Mathematics",
+        "is_correct": true
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Psychology",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Linguistics",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Mathematics provided formal theories of logic, probability, decision making, and computation. Philosophy contributed theories of reasoning and learning. Psychology contributed experimental tools for human mind analysis. Linguistics provided theories of language structure.",
+    "linked_note_code": "NOTE-AI-CH1-011",
+    "structured_notes": {
+      "topic": "Foundations of AI",
+      "summary": "AI draws from Philosophy (reasoning/learning), Mathematics (logic/probability/computation), Psychology (mind tools), Linguistics (language structure), and Computer Science (implementation)."
+    }
+  },
+  {
+    "question_number": 12,
+    "course_code": "IT-AI-401",
+    "bloom_level": "REMEMBER",
+    "difficulty": "MEDIUM",
+    "question_text": "Which key breakthroughs occurred during the 'Gestation of AI' era (1943–1952)?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "McCulloch and Pitts' artificial neuron model, Hebbian learning, and Alan Turing's early papers.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "B",
+        "option_text": "The Dartmouth Workshop and the coining of the term 'Artificial Intelligence' by John McCarthy.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Deep Blue's victory over Garry Kasparov and the Robbins conjecture proof.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Commercial deployment of Expert Systems and the subsequent AI Winter.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "The Gestation period (1943–1952) included McCulloch & Pitts' artificial neuron model, Hebbian learning, and Turing's initial work. Dartmouth occurred in 1956 (Birth of AI). Deep Blue occurred in 1997. Expert Systems commercialization occurred in the 1980s.",
+    "linked_note_code": "NOTE-AI-CH1-012",
+    "structured_notes": {
+      "topic": "AI Gestation Era",
+      "summary": "1943–1952 established early mathematical neural models (McCulloch & Pitts), synaptic learning principles (Hebb), and Turing's foundational concepts."
+    }
+  },
+  {
+    "question_number": 13,
+    "course_code": "IT-AI-401",
+    "bloom_level": "REMEMBER",
+    "difficulty": "EASY",
+    "question_text": "During the 1991 Gulf War, US forces deployed an AI logistics planning and scheduling application. What was the operational scale of this system?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "It coordinated up to 50,000 vehicles, cargo units, and people.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "B",
+        "option_text": "It scheduled 500 autonomous drones for teletype recon.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "It performed direct neurological data processing for 1,000 pilots.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "It operated 10,000 self-driving taxis across Saudi Arabia.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "During the 1991 Gulf War, US forces deployed an AI logistics planning and scheduling program involving up to 50,000 vehicles, cargo, and people. Options B, C, and D distort the actual metrics and application area.",
+    "linked_note_code": "NOTE-AI-CH1-013",
+    "structured_notes": {
+      "topic": "State of the Art AI Applications",
+      "summary": "Real-world AI milestones include large-scale automated logistics scheduling deployed in defense operations (1991 Gulf War DART tool)."
+    }
+  },
+  {
+    "question_number": 14,
+    "course_code": "IT-AI-401",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "EASY",
+    "question_text": "Aristotle's famous syllogisms (such as 'Socrates is a man; all men are mortal; therefore Socrates is mortal') initiated which major field that shaped the 'Thinking Rationally' approach to AI?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Connectionism",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "The Field of Logic",
+        "is_correct": true
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Behaviorist Psychology",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Cybernetics",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Aristotle's syllogisms provided patterns for argument structures that always gave correct conclusions given correct premises, initiating the field of logic. Options A, C, and D are distinct fields.",
+    "linked_note_code": "NOTE-AI-CH1-014",
+    "structured_notes": {
+      "topic": "Laws of Thought & Logic",
+      "summary": "Aristotle codified irrefutable reasoning processes (syllogisms). This logicist tradition forms the basis for rule-based formal logical inference."
+    }
+  },
+  {
+    "question_number": 15,
+    "course_code": "IT-AI-401",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "How were the 'Neat' and 'Scruffy' ideological camps divided during the early enthusiasm period of AI (1956–1966)?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "'Neat' was led by John McCarthy at Stanford focusing on formal logic; 'Scruffy' was led by Marvin Minsky at MIT focusing on heuristics and microworlds.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "B",
+        "option_text": "'Neat' focused on building physical robots; 'Scruffy' focused strictly on teletype software.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "'Neat' advocated for bottom-up neurological validation; 'Scruffy' advocated for top-down cognitive testing.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "'Neat' relied on Hebbian learning; 'Scruffy' relied on expert systems.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "In early AI, an ideological divide emerged between 'neat' researchers (formal logic-based AI led by McCarthy at Stanford) and 'scruffy' researchers (built around heuristics and microworlds led by Minsky at MIT). Options B, C, and D misrepresent the historical debate.",
+    "linked_note_code": "NOTE-AI-CH1-015",
+    "structured_notes": {
+      "topic": "Early AI Methodologies: Neat vs. Scruffy",
+      "summary": "Neat AI relies on formal, mathematical, and logical representations (McCarthy). Scruffy AI uses domain-specific heuristics, trial-and-error microworlds, and ad-hoc structures (Minsky)."
+    }
+  },
+  {
+    "question_number": 16,
+    "course_code": "IT-AI-401",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "Within the core capabilities needed to pass the standard Turing Test, what distinct roles do 'Automated Reasoning' and 'Machine Learning' perform?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Automated reasoning stores initial knowledge; machine learning translates text into speech.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Automated reasoning uses stored information to answer questions and draw new conclusions; machine learning adapts to new circumstances and detects patterns.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Automated reasoning controls physical effectors; machine learning analyzes video signals.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Automated reasoning validates neurological data; machine learning creates standard look-up tables.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "In the Turing Test framework: Automated Reasoning uses stored information to answer questions and draw new conclusions. Machine Learning allows the system to adapt to new circumstances and detect/extrapolate patterns. Distractor A misattributes NLP/Knowledge Rep roles. Distractor C describes Robotics and Vision. Distractor D mixes cognitive science and simple lookup tables.",
+    "linked_note_code": "NOTE-AI-CH1-016",
+    "structured_notes": {
+      "topic": "Turing Test Capability Breakdown",
+      "summary": "Automated Reasoning handles inference and deduction from stored knowledge. Machine Learning handles adaptation, pattern recognition, and inductive learning."
+    }
+  },
+  {
+    "question_number": 17,
+    "course_code": "IT-AI-401",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "Why is human behavior considered scientifically less suitable than rationality as a universal benchmark for artificial intelligence systems?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Because human behavior cannot be evaluated through controlled experimental psychology.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Because human behavior is adapted for one specific environment and is the product of an evolutionary process that is far from perfect.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Because human decision-making relies strictly on formal Aristotelian logic syllogisms.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Because humans are completely omniscient agents in deterministic worlds.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Human behavior is well-adapted for one specific environment and is the product of a complicated, imperfect evolutionary process. Rationality provides a clearly defined, completely general scientific standard independent of human biological quirks. Distractors A, C, and D are factually incorrect assertions.",
+    "linked_note_code": "NOTE-AI-CH1-017",
+    "structured_notes": {
+      "topic": "Human Behavior vs. Rationality Standard",
+      "summary": "Human thought/behavior is domain-specific and evolutionarily flawed. Rationality provides an objective, general, mathematically clear standard for agent evaluation."
+    }
+  },
+  {
+    "question_number": 18,
+    "course_code": "IT-AI-401",
+    "bloom_level": "REMEMBER",
+    "difficulty": "MEDIUM",
+    "question_text": "Which major artificial intelligence milestones occurred in 1997 as cited in the course slides?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "IBM's Deep Blue defeated world chess champion Garry Kasparov, and an AI program proved the long-unsolved Robbins mathematical conjecture.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "B",
+        "option_text": "The first autonomous vehicle completed No Hands Across America, and the Dartmouth Workshop took place.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "The term Artificial Intelligence was coined, and Proverb won the world crossword championship.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "The SOAR architecture was invented, and the AI Winter officially began.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "In 1997, Deep Blue defeated world chess champion Garry Kasparov, and an AI program proved a mathematical conjecture (Robbins conjecture) unsolved for decades. Distractor B mixes Dartmouth (1956). Distractor C mixes the coining of AI (1956). Distractor D mixes 1980s events.",
+    "linked_note_code": "NOTE-AI-CH1-018",
+    "structured_notes": {
+      "topic": "1997 AI Milestones",
+      "summary": "1997 showcased strategic gaming dominance (Deep Blue vs Kasparov) and formal automated theorem proving breakthroughs (Robbins conjecture proof)."
+    }
+  },
+  {
+    "question_number": 19,
+    "course_code": "IT-AI-401",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "MEDIUM",
+    "question_text": "Why does Artificial Intelligence lack a single, universally accepted definition or set of goals across the scientific community?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "Because AI is still in its developmental stages, making it a malleable concept with many open-ended avenues as researchers continuously contribute new ideas.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Because Turing proved that intelligent agents cannot be modeled mathematically.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Because cognitive science has completely replaced all software-based AI research.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "Because total agreement exists that AI must strictly mimic human child learning.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "There are no single clear definitions or goals set for AI because AI is still in its developmental stages. Everyday researchers bring new ideas, making AI a malleable concept with open-ended avenues. Distractors B, C, and D state falsehoods regarding Turing's work, cognitive science, and child learning mimicry.",
+    "linked_note_code": "NOTE-AI-CH1-019",
+    "structured_notes": {
+      "topic": "Malleable Nature of AI",
+      "summary": "AI is an evolving discipline. Its goals range from human-level intelligence to ideal rationality, constantly shaped by technological progress."
+    }
+  },
+  {
+    "question_number": 20,
+    "course_code": "IT-AI-401",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "What key distinction does the course text make regarding the present analytical and problem-solving capabilities of AI relative to human intelligence?",
+    "options": [
+      {
+        "option_letter": "A",
+        "option_text": "AI systems currently possess superior general analytical abilities and learn in the exact same manner as human children.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "B",
+        "option_text": "Computers can solve problems within a limited scope far more efficiently than humans, but they can only solve problems they are programmed or informed to solve as they do not yet possess general analytical capabilities.",
+        "is_correct": true
+      },
+      {
+        "option_letter": "C",
+        "option_text": "Current AI systems are completely omniscient agents that predict unobservable environmental noise with 100% accuracy.",
+        "is_correct": false
+      },
+      {
+        "option_letter": "D",
+        "option_text": "AI systems are incapable of learning through trial, error, or mimicry in any domain.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Computers can solve limited-scope problems much more efficiently than people, but a computer can only solve problems it is programmed to solve or has the necessary information to solve; AIs do not yet have general analytical capabilities or child-like learning. Distractor A is false as AIs cannot learn like children yet. Distractor C incorrectly claims omniscience. Distractor D ignores documented learning capabilities (mimicry and route optimization).",
+    "linked_note_code": "NOTE-AI-CH1-020",
+    "structured_notes": {
+      "topic": "Current Capabilities vs. Analytical Limits",
+      "summary": "AIs excel in efficiency within defined, programmed scopes. However, general analytical reasoning and true child-like exploratory learning remain unachieved milestones."
+    }
+  }
+]

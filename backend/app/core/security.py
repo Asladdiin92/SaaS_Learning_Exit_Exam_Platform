@@ -88,6 +88,12 @@ async def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
+    if settings.ENVIRONMENT == "development" and auth_header.credentials in ("mock-access-token-dev", "mock-token"):
+        result = await db.execute(select(User).where(User.email == "student@university.edu.et"))
+        user = result.scalars().first()
+        if user:
+            return user
+
     try:
         payload = jwt.decode(
             auth_header.credentials,

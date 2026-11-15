@@ -24,6 +24,14 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
       await this.db.execAsync('PRAGMA foreign_keys = ON;');
       await this.db.execAsync('PRAGMA journal_mode = WAL;');
       await this.db.execAsync(CREATE_13_TABLES_SCHEMA);
+      const resourceColumns = await this.db.getAllAsync<{ name: string }>(
+        'PRAGMA table_info(local_resources);'
+      );
+      if (!resourceColumns.some((column) => column.name === 'content_markdown')) {
+        await this.db.execAsync(
+          'ALTER TABLE local_resources ADD COLUMN content_markdown TEXT;'
+        );
+      }
       try {
         await this.db.execAsync('ALTER TABLE download_packages ADD COLUMN last_error TEXT;');
       } catch (_) {
@@ -142,9 +150,9 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
   private executeMock(sql: string, params: any[] = []): void {
     const trimmed = this.cleanSql(sql);
 
-    // 1. INSERT OR REPLACE INTO / INSERT INTO
+    // 1. INSERT OR REPLACE INTO / INSERT OR IGNORE INTO / INSERT INTO
     const insertMatch = trimmed.match(
-      /INSERT\s+(?:OR\s+REPLACE\s+INTO|INTO)\s+([a-zA-Z0-9_]+)\s*\(([^)]+)\)\s*VALUES\s*\(([^)]+)\)/i
+      /INSERT\s+(?:OR\s+REPLACE\s+INTO|OR\s+IGNORE\s+INTO|INTO)\s+([a-zA-Z0-9_]+)\s*\(([^)]+)\)\s*VALUES\s*\(([^)]+)\)/i
     );
     if (insertMatch) {
       const tableName = insertMatch[1];
@@ -190,7 +198,9 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
       const pkCol = columns[0];
       const existingIdx = table.findIndex((r) => r[pkCol] === row[pkCol]);
       if (existingIdx >= 0) {
-        table[existingIdx] = { ...table[existingIdx], ...row };
+        if (!trimmed.toUpperCase().includes('OR IGNORE')) {
+          table[existingIdx] = { ...table[existingIdx], ...row };
+        }
       } else {
         table.push(row);
       }

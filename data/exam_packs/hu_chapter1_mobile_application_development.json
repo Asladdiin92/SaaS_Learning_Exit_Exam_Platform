@@ -1,0 +1,778 @@
+{
+  "pack_version": "1.0",
+  "blueprint": {
+    "code": "HU-ITEC4103-CH1-EXIT-PREP",
+    "title": "Chapter 1: Mobile Computing & Android Architecture (CoSc4083 / ITec4103)",
+    "exam_type": "COURSE_EXAM",
+    "course_code": "IT-EDPR-203",
+    "source_course_code": "CoSc4083 / ITec4103",
+    "duration_minutes": 60,
+    "total_questions": 20,
+    "pass_mark_percent": 50.0,
+    "reveal_answers_immediately": true
+  },
+  "structured_notes": [
+    {
+      "linked_note_code": "NOTE-CH1-MOB-001",
+      "course_code": "IT-EDPR-203",
+      "title": "Smart Devices & Mark Weiser's Ubiquitous Computing Taxonomy",
+      "content_markdown": "### Smart Devices & Mark Weiser's Classification\nA **smart device** is digital, active, computer-networked, user-reconfigurable, and capable of operating to some extent autonomously.\n\n| Category | Physical Scale | Usage Form | Slide Examples |\n| :--- | :--- | :--- | :--- |\n| **Tabs** | Centimeter-sized ($\\text{cm}$) | Accompanied or wearable devices | Smartphones, smart cards |\n| **Pads** | Decimeter-sized ($\\text{dm}$) | Hand-held devices | Laptops |\n| **Boards** | Meter-sized ($\\text{m}$) | Interactive display surfaces | Horizontal surface computers, vertical smart boards |"
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-002",
+      "course_code": "IT-EDPR-203",
+      "title": "Core Characteristics of Mobile Devices",
+      "content_markdown": "### Mobile Device Architectural Properties\n- **Mobility**: Loosely-bound vs. tightly-bound to users.\n- **Locus of Control**: Resides **inside the smart device**.\n- **Connectivity**: Intermittent resource access over local/wide-area wireless networks.\n- **Intelligence**: Personalized single portal with **context awareness**."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-003",
+      "course_code": "IT-EDPR-203",
+      "title": "Feature Phone vs. Smartphone & Hardware Constraints",
+      "content_markdown": "### Feature Phone vs. Smartphone\n- **Feature Phone**: Runs on **proprietary firmware** and limited platforms.\n- **Smartphone**: Runs an **open and complete mobile operating system**, tightly integrates with UI and phone features, and relies on a powerful **API**.\n- **Smartphone Constraints (Cons)**: Limited battery life, CPU speed, RAM, screen size, permanent storage, unreliable/slow network access with high latency, and inconsistent platforms."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-004",
+      "course_code": "IT-WEB-304",
+      "title": "Mobile Web Apps vs. Native Apps & Native SDK Languages",
+      "content_markdown": "### Mobile App Paradigms & Native Platforms\n\n| Platform / Environment | Native Programming Language(s) |\n| :--- | :--- |\n| **Android / BlackBerry / Java ME** | Java |\n| **iPhone (iOS)** | Objective-C |\n| **Symbian** | C++ |\n| **Qualcomm BREW** | C or C++ |\n| **Windows Mobile (.NET Compact Framework)** | C++, C#, VB.NET |"
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-005",
+      "course_code": "IT-EDPR-203",
+      "title": "Android History, Open Handset Alliance & Linux Kernel",
+      "content_markdown": "### Android Milestones\n- **Oct 2003**: Android, Inc. founded in Palo Alto, California.\n- **Aug 2005**: Google acquired Android Inc.\n- **Nov 2007**: **Open Handset Alliance (OHA)** unveiled Android built on **Linux Kernel version 2.6**.\n- **Oct 2008**: Android OS released as open source."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-006",
+      "course_code": "IT-EDPR-203",
+      "title": "Android Version Evolution & Milestone Features",
+      "content_markdown": "### Key Android Version Milestones\n- **1.5 Cupcake / 1.6 Donut** (2009): Initial releases.\n- **2.0/2.1 Eclair**: HTML5 support, Geolocation API.\n- **2.2 Froyo**: Chrome V8 JavaScript engine, Wi-Fi tethering, Adobe Flash support.\n- **2.3 Gingerbread**: Near Field Communication (NFC).\n- **3.0–3.2 Honeycomb**: Tablet-oriented release, multicore processor support, hardware-accelerated graphics, USB host transfer.\n- **4.0 Ice Cream Sandwich**: Unified Gingerbread (phone) and Honeycomb (tablet).\n- **4.1 Jelly Bean / 4.4 KitKat (API Level 19)**."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-007",
+      "course_code": "IT-EDPR-203",
+      "title": "Four Categories of Android Applications",
+      "content_markdown": "### Android Application Behavioral Types\n1. **Foreground Activity**: Useful only when visible in foreground; effectively suspended otherwise.\n2. **Background Service**: Limited user interaction; spends most of its lifetime hidden (e.g., call screening, SMS auto-responder).\n3. **Intermittent Activity**: Expects some interactivity but does most work in the background (e.g., **media player**).\n4. **Widgets**: Interactive visual components placed on the user's home screen (e.g., battery level, weather, clock)."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-008",
+      "course_code": "IT-EDPR-203",
+      "title": "Behavior Police & Process Assassin (ANR Thresholds)",
+      "content_markdown": "### Android Responsiveness Thresholds (Slide 40)\nThe Android OS monitors two strict conditions (Process Assassin / ANR):\n1. **User Action Response**: An Activity must respond to any user action (e.g., key press or touch) within **5 seconds**.\n2. **BroadcastReceiver Timeout**: A `BroadcastReceiver` must return from its `onReceive()` handler within **10 seconds**."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-009",
+      "course_code": "IT-EDPR-203",
+      "title": "Android Emulator (AVD) Default Hardware Characteristics & Snapshots",
+      "content_markdown": "### Default AVD Hardware Parameters (Slides 48–51)\n- **Device RAM size**: `96` MB\n- **Camera support**: `no` (default max resolution `640x480`)\n- **Cache partition size**: `66MB`\n- **Abstracted LCD density**: `160` dpi\n- **Snapshot Enabled**: Saves emulator state to a snapshot file on close so the next launch restores state almost instantly."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-010",
+      "course_code": "IT-WEB-304",
+      "title": "HTML5 Mobile Viewport, CSS Browser Engines & Web Storage",
+      "content_markdown": "### Browser Rendering Engines & CSS Vendor Prefixes (Slide 52)\n\n| Browser | Rendering Engine | CSS Vendor Prefix |\n| :--- | :--- | :--- |\n| **Internet Explorer (IE)** | Trident | `-msie` |\n| **Firefox** | Gecko | `-moz` |\n| **Opera** | Presto | `-o` |\n| **Safari & Chrome** | WebKit | `-webkit` |\n\n- **Viewport Meta Tag**: `<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=yes\">`\n- **HTML5 Local Storage**: `localStorage.setItem(\"foo\", \"test!\");` and `localStorage.getItem(\"foo\");`\n- **HTML5 Geolocation**: `navigator.geolocation.getCurrentPosition(function_name)`"
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-011",
+      "course_code": "IT-WEB-304",
+      "title": "PhoneGap / Apache Cordova Hybrid Android Architecture",
+      "content_markdown": "### PhoneGap Android Setup & Lifecycle (Slides 54–58)\n1. Copy `cordova.js` into `assets/www/`, `cordova.jar` into `libs/`, and `xml/` into `res/`.\n2. In HTML (`assets/www/index.html`), listen for the `\"deviceready\"` event via `document.addEventListener(\"deviceready\", onDeviceReady, true)` before calling native APIs like `navigator.notification.alert()`.\n3. In Java, extend `DroidGap` instead of `Activity` and load the local asset via `super.loadUrl(\"file:///android_asset/www/index.html\");`."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-012",
+      "course_code": "IT-EDPR-203",
+      "title": "Android Project Directory Structure & R.java (aapt)",
+      "content_markdown": "### Android Project Directories (Slide 60)\n- `src/`: Java source packages and `.java` classes.\n- `res/layout/`: XML screen layouts (`main.xml`).\n- `res/values/`: `strings.xml` and localized string folders (`values-ar`, `values-fr`).\n- `res/drawable-hdpi|mdpi|ldpi/`: Resolution-specific images.\n- `assets/`: Raw non-media files (HTML, bundled databases) not assigned resource IDs.\n- `gen/`: Contains auto-generated `R.java` created by **Android Asset Packaging Tool (`aapt`)**. Never edit `R.java` manually."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-013",
+      "course_code": "IT-EDPR-203",
+      "title": "AndroidManifest.xml Versioning, SDK Bounds & MAIN Intent Action",
+      "content_markdown": "### AndroidManifest.xml Core Attributes (Slide 62)\n- `android:versionCode`: Internal integer version number used by the system/Play Store to determine upgrades.\n- `android:versionName` (`versionNumber`): `<major>.<minor>` string displayed to users.\n- `minSdkVersion` / `targetSdkVersion` / `maxSdkVersion`: API compatibility bounds.\n- `android.intent.action.MAIN`: Marks the entry-point Activity loaded first when the application launches."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-014",
+      "course_code": "IT-EDPR-203",
+      "title": "Android Component Model, Process Isolation & Tasks",
+      "content_markdown": "### APK Isolation, Processes & Tasks (Slides 64–65)\n- By default, **one Linux process is created per APK**, and APKs are isolated from one another.\n- Inter-Process Communication (IPC) occurs via **Intents** or **AIDL**.\n- A **Task** is a collection of related Activities capable of spanning multiple processes, maintaining its own UI back-history stack.\n- **Command to inspect APK permissions**: `aapt dump permissions <package_name>.appname.apk`."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-015",
+      "course_code": "IT-EDPR-203",
+      "title": "Core Android Application Components",
+      "content_markdown": "### The 5 Building Blocks (Slide 65)\n1. **Activity**: Single visual screen for user interaction.\n2. **Service**: Runs in the background without a visual UI (e.g., music playback, network fetching).\n3. **Broadcast Receiver**: Listens for and responds to system/app broadcast announcements.\n4. **Content Provider**: Manages shared access to structured app data (e.g., SQLite database) across applications.\n5. **Intents**: Asynchronous messages requesting functionality from other activities or services."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-016",
+      "course_code": "IT-OOP-201",
+      "title": "Dalvik Virtual Machine (Register-Based) vs. Java Virtual Machine (Stack-Based)",
+      "content_markdown": "### Dalvik VM vs. Standard JVM (Slides 72–73)\n\n| Architectural Feature | Java Virtual Machine (JVM) | Dalvik Virtual Machine (DVM) |\n| :--- | :--- | :--- |\n| **Execution Architecture** | **Stack-based** VM | **Register-based** VM (virtual registers) |\n| **Executable Format** | `.class` bytecode files | `.dex` (Dalvik Executable) produced by `dx` tool |\n| **Constant Pool** | Constants declared repeatedly per `.class` | Constants pooled and declared **only once** in `.dex` |\n| **Performance & Size** | Larger uncompressed footprint | Up to **half the code size** and runs **~30% faster** |\n| **GUI Libraries** | Supports Swing and AWT | Does **not** support Swing or AWT |\n| **Standard C Library** | Standard GNU `glibc` | **Bionic** (custom stripped-down `libc` for Android) |"
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-017",
+      "course_code": "IT-EDPR-203",
+      "title": "APK Packaging Format & Inspection Tools",
+      "content_markdown": "### Inside an Android Package (`.apk`) (Slides 70–73)\n- An `.apk` is a modified **Java Archive (`.jar`)** file.\n- Contains compiled `.dex` bytecode, binary `AndroidManifest.xml`, compiled resources (`resources.arsc`), and uncompiled raw assets.\n- **List `.apk` contents**: `jar tvf filename.apk`\n- **Inspect `.dex` details**: `dexdump`"
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-018",
+      "course_code": "IT-EDPR-203",
+      "title": "Deploying & Installing Apps via ADB on Physical Devices",
+      "content_markdown": "### Device Deployment Requirements & ADB CLI (Slides 74–75)\n1. Set `android:debuggable=\"true\"` on the `<application>` tag in `AndroidManifest.xml`.\n2. Enable **Unknown sources** (`Settings -> Applications`) and **USB Debugging** (`Settings -> Applications -> Development -> USB debugging`).\n3. Manual CLI installation command:\n   ```bash\n   adb [-d | -e] install <path>/<file>.apk\n   ```"
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-019",
+      "course_code": "IT-EDPR-203",
+      "title": "Android Debugging Environment: DDMS, ADB & JDWP",
+      "content_markdown": "### Core Debugging Tools (Slide 76)\n- **DDMS (Dalvik Debug Monitoring Service)**: Graphical tool that captures screenshots, gathers thread and stack information, and spoofs incoming voice calls and SMS messages.\n- **ADB (Android Debug Bridge)**: Command-line device management and APK installation bridge.\n- **JDWP Debugger**: Java Debug Wire Protocol debugger used to step through code, inspect variable values, and set breakpoints."
+    },
+    {
+      "linked_note_code": "NOTE-CH1-MOB-020",
+      "course_code": "IT-EDPR-203",
+      "title": "Release Mode Packaging & Private Key Signing",
+      "content_markdown": "### Publishing to Play Store (Slide 79)\n- Debug builds are automatically signed by Eclipse/SDK using a temporary debug key.\n- To distribute publicly on the Play Store, you must export an unsigned package (or build in **release mode**), sign the `.apk` with your **own private key**, and configure `versionCode`, `versionName`, `minSdkVersion`, and `targetSdkVersion`."
+    }
+  ],
+  "questions": [
+    {
+      "canonical_order": 1,
+      "external_id": "COSC4083-CH1-Q001",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "REMEMBER",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH1-MOB-001",
+      "question_text": "According to Mark Weiser's classification of ubiquitous computing smart devices, which table correctly maps **Tabs**, **Pads**, and **Boards** to their physical dimensions and device examples?\n\n| Device Class | Physical Scale | Representative Examples |\n| :--- | :--- | :--- |\n| **Tabs** | Centimeter-sized | Smart phones, smart cards |\n| **Pads** | Decimeter-sized | Hand-held laptops |\n| **Boards** | Meter-sized | Horizontal surface computers, vertical smart boards |",
+      "options": [
+        {
+          "label": "A",
+          "text": "Tabs are meter-sized interactive displays; Pads are centimeter-sized smart cards; Boards are decimeter-sized laptops.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Tabs are accompanied/wearable centimeter-sized devices; Pads are hand-held decimeter-sized devices; Boards are meter-sized interactive display devices.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Tabs are decimeter-sized laptops; Pads are centimeter-sized wearables; Boards are millimeter-sized neural implants.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Tabs, Pads, and Boards refer exclusively to cloud server rack dimensions rather than user-facing smart devices.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: Mark Weiser categorized ubiquitous computing smart devices into three physical scales: **Tabs** (accompanied/wearable centimeter-sized devices like smartphones and smart cards), **Pads** (hand-held decimeter-sized devices like laptops), and **Boards** (meter-sized interactive displays like surface computers and smart boards).\n- **Why A and C are incorrect**: They swap the centimeter, decimeter, and meter scale definitions.\n- **Why D is incorrect**: Weiser's taxonomy classifies ubiquitous user devices, not server racks."
+    },
+    {
+      "canonical_order": 2,
+      "external_id": "COSC4083-CH1-Q002",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH1-MOB-002",
+      "question_text": "Which set of architectural characteristics accurately describes a smart mobile computing device?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Guaranteed continuous broadband access, zero local autonomy, and a locus of control that resides exclusively on a remote central server.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Personalized operation as a single portal, intermittent resource access, context awareness, and a locus of control that resides in the smart device.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Fixed non-reconfigurable firmware, absence of local application services, and strictly wired Ethernet connectivity.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Unlimited battery capacity, desktop-grade RAM, and immunity to network latency.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: Mobile smart devices are user-reconfigurable, autonomous, context-aware, operate with intermittent resource access, and maintain a **locus of control that resides inside the smart device**.\n- **Why A and C are incorrect**: Mobile devices operate autonomously with local control rather than acting as dumb terminals dependent on continuous connectivity.\n- **Why D is incorrect**: Mobile devices face strict battery, RAM, CPU, and network latency constraints."
+    },
+    {
+      "canonical_order": 3,
+      "external_id": "COSC4083-CH1-Q003",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH1-MOB-003",
+      "question_text": "What is the primary architectural distinction between a **Feature Phone** and a **Smartphone**?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A feature phone runs on proprietary firmware with limited platform support, whereas a smartphone runs an open and complete mobile OS tightly integrated with the UI and a powerful third-party API.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "A feature phone supports full native SDKs and multitasking, whereas a smartphone only executes SMS and voice calls.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "A smartphone lacks GPS, accelerometers, and Wi-Fi hardware, whereas a feature phone requires all three.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "There is no software difference; the distinction is based solely on battery voltage.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Feature phones use proprietary firmware with restricted extensibility, while smartphones provide an open, complete mobile operating system tightly integrated with device hardware and a comprehensive API.\n- **Why B, C, and D are incorrect**: Smartphones—not feature phones—combine PDA, GPS, accelerometer, web browser, and rich third-party SDK capabilities."
+    },
+    {
+      "canonical_order": 4,
+      "external_id": "COSC4083-CH1-Q004",
+      "course_code": "IT-WEB-304",
+      "bloom_level": "REMEMBER",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH1-MOB-004",
+      "question_text": "Match the native mobile platforms listed in the table below with their primary native development languages:\n\n| Mobile Platform | Native Development Language(s) |\n| :--- | :--- |\n| **1. Android & BlackBerry** | ? |\n| **2. Symbian** | ? |\n| **3. iPhone (iOS)** | ? |\n| **4. Windows Mobile (.NET Compact Framework)** | ? |",
+      "options": [
+        {
+          "label": "A",
+          "text": "1 = Objective-C, 2 = Java, 3 = VB.NET, 4 = Python",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "1 = Java, 2 = C++, 3 = Objective-C, 4 = C++, C#, VB.NET",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "1 = C#, 2 = HTML5, 3 = Java ME, 4 = Objective-C",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "1 = PHP, 2 = Ruby, 3 = Java, 4 = C",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: In classical native mobile development environments, Android, BlackBerry, and Java ME use **Java**; Symbian uses **C++**; iPhone uses **Objective-C**; Qualcomm BREW uses **C/C++**; and Windows Mobile (.NET Compact Framework) uses **C++, C#, and VB.NET**.\n- **Why A, C, and D are incorrect**: They mismatch the native SDK languages for Android, Symbian, iOS, and Windows Mobile."
+    },
+    {
+      "canonical_order": 5,
+      "external_id": "COSC4083-CH1-Q005",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "REMEMBER",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH1-MOB-005",
+      "question_text": "In November 2007, the **Open Handset Alliance (OHA)** unveiled Android as an open-source mobile platform built upon which underlying operating system kernel?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Windows NT Kernel 5.1",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Linux Kernel version 2.6",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "FreeBSD Mach Microkernel",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Symbian Real-Time Executive (EKA2)",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: The Open Handset Alliance unveiled Android in November 2007 built on top of **Linux kernel version 2.6**.\n- **Why A, C, and D are incorrect**: Android is powered by the Linux kernel, not Windows NT, Mach (used in iOS/macOS), or Symbian EKA2."
+    },
+    {
+      "canonical_order": 6,
+      "external_id": "COSC4083-CH1-Q006",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH1-MOB-006",
+      "question_text": "Which sequence correctly pairs the Android OS release codename with the major platform capability it introduced?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Froyo (2.2) -> Chrome V8 JavaScript engine & Wi-Fi tethering; Gingerbread (2.3) -> Near Field Communication (NFC); Honeycomb (3.0) -> Tablet-oriented UI & multicore support; Ice Cream Sandwich (4.0) -> Unified Gingerbread and Honeycomb.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Cupcake (1.5) -> Tablet-only release; Honeycomb (3.0) -> First phone release; KitKat (4.4) -> Removed SQLite support.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Donut (1.6) -> Replaced Dalvik with JVM; Eclair (2.0) -> Dropped HTML5 and Geolocation APIs.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Gingerbread (2.3) -> Tablet-only release; Froyo (2.2) -> Merged Honeycomb and Jelly Bean.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Android 2.2 (Froyo) introduced the Chrome V8 JS engine and Wi-Fi tethering; Android 2.3 (Gingerbread) added NFC; Android 3.0 (Honeycomb) targeted tablets with multicore and hardware acceleration support; and Android 4.0 (Ice Cream Sandwich) combined Gingerbread and Honeycomb.\n- **Why B, C, and D are incorrect**: They misattribute version numbers and features across the Android release timeline."
+    },
+    {
+      "canonical_order": 7,
+      "external_id": "COSC4083-CH1-Q007",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "APPLY",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH1-MOB-007",
+      "question_text": "A developer builds an Android **Music Player** application where the user selects a playlist on screen, locks the phone, and continues listening while the app runs silently in the background and posts track notifications. Under which Android application category does this app fall?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Foreground-Only Activity",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Intermittent Activity",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Pure Home Screen Widget",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Static Content Provider",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: An **Intermittent Activity** expects some user interactivity (selecting songs/playlists) but performs most of its work in the background (audio playback), notifying the user when appropriate.\n- **Why A is incorrect**: A Foreground Activity is suspended whenever it is not visible.\n- **Why C and D are incorrect**: A media player is not merely a passive home-screen widget or database provider."
+    },
+    {
+      "canonical_order": 8,
+      "external_id": "COSC4083-CH1-Q008",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "ANALYZE",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH1-MOB-008",
+      "question_text": "Android's OS process manager (\"Behavior police – Process assassin\") monitors application responsiveness and terminates unresponsive components. What are the two exact timeout thresholds enforced by the OS?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Must respond to any user action (e.g., key press) within 5 seconds, and a BroadcastReceiver must return from its onReceive() handler within 10 seconds.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Must respond to any user action within 60 seconds, and a BroadcastReceiver must return within 120 seconds.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Must respond to any user action within 10 milliseconds, and a Service must stop within 1 second.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Must respond to a BroadcastReceiver within 5 seconds, and a user key press within 30 seconds.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Android enforces two strict responsiveness rules: (1) an application must respond to any user action such as a key press or touch within **5 seconds**, and (2) a `BroadcastReceiver` must finish and return from its `OnReceive` handler within **10 seconds**.\n- **Why B, C, and D are incorrect**: They state incorrect timeout durations or swap the Activity and BroadcastReceiver thresholds."
+    },
+    {
+      "canonical_order": 9,
+      "external_id": "COSC4083-CH1-Q009",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "REMEMBER",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH1-MOB-009",
+      "question_text": "When configuring an Android Virtual Device (AVD) in the Android Emulator, what is the purpose of enabling the **Snapshot Enabled** option, and what are the default values for **Device RAM size**, **Cache partition size**, and **Abstracted LCD density**?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Snapshot saves emulator state on close so the next launch restores almost instantly; defaults are RAM = 96 MB, Cache = 66 MB, Abstracted LCD density = 160.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Snapshot takes JPEG photos using the webcam; defaults are RAM = 4096 MB, Cache = 512 MB, Abstracted LCD density = 480.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Snapshot compiles Java to C++; defaults are RAM = 16 MB, Cache = 0 MB, Abstracted LCD density = 72.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Snapshot deletes the SD card after every boot; defaults are RAM = 1024 MB, Cache = 128 MB, Abstracted LCD density = 320.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Checking **Snapshot Enabled** saves the AVD's runtime state to a snapshot file when closed so subsequent launches appear almost instantly instead of performing a full cold boot. The default hardware parameters are Device RAM size = `96` MB, Cache partition size = `66MB`, and Abstracted LCD density = `160`.\n- **Why B, C, and D are incorrect**: Misstate both the purpose of AVD snapshots and the default hardware configuration values."
+    },
+    {
+      "canonical_order": 10,
+      "external_id": "COSC4083-CH1-Q010",
+      "course_code": "IT-WEB-304",
+      "bloom_level": "APPLY",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH1-MOB-010",
+      "question_text": "Examine the following HTML5 mobile web tags and JavaScript snippets:\n\n```html\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=yes\">\n<meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\n```\n\n```javascript\nlocalStorage.setItem(\"foo\", \"test!\");\nvar data = localStorage.getItem(\"foo\");\nnavigator.geolocation.getCurrentPosition(showPosition);\n```\n\nWhich browser rendering engine and CSS vendor prefix table correctly matches mobile and desktop browsers?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Safari & Chrome -> Engine: WebKit (-webkit); Firefox -> Engine: Gecko (-moz); Opera -> Engine: Presto (-o); IE -> Engine: Trident (-msie).",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Safari & Chrome -> Engine: Trident (-msie); Firefox -> Engine: WebKit (-webkit); Opera -> Engine: Gecko (-moz).",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Safari & Chrome -> Engine: Presto (-o); Firefox -> Engine: Trident (-msie); IE -> Engine: Gecko (-moz).",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "All browsers use the Dalvik engine and the -android CSS prefix.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Safari and Chrome use the **WebKit** layout engine (`-webkit` prefix), Firefox uses **Gecko** (`-moz`), Opera (classic) uses **Presto** (`-o`), and Internet Explorer uses **Trident** (`-msie`).\n- **Why B, C, and D are incorrect**: Confuse browser layout engines and their corresponding CSS vendor prefixes."
+    },
+    {
+      "canonical_order": 11,
+      "external_id": "COSC4083-CH1-Q011",
+      "course_code": "IT-WEB-304",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH1-MOB-011",
+      "question_text": "Review the following PhoneGap (Apache Cordova) Android `index.html` and `MainActivity.java` implementation:\n\n```html\n<!DOCTYPE HTML>\n<html>\n<head>\n  <title>First App</title>\n  <script src=\"cordova.js\"></script>\n  <script>\n    function onLoad(){\n      document.addEventListener(\"deviceready\", onDeviceReady, true);\n    }\n    function onDeviceReady(){\n      navigator.notification.alert(\"PhoneGap is working!!\");\n    }\n  </script>\n</head>\n<body onload=\"onLoad();\">\n  <h1>Welcome to PhoneGap</h1>\n</body>\n</html>\n```\n\n```java\npackage com.example.phonegaphelloworld;\nimport org.apache.cordova.DroidGap;\nimport android.os.Bundle;\n\npublic class MainActivity extends DroidGap {\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        super.loadUrl(\"file:///android_asset/www/index.html\");\n    }\n}\n```\n\nWhere must `cordova.js`, `cordova.jar`, and `index.html` be placed in the Android project structure, and why does `onLoad()` register a `\"deviceready\"` listener?",
+      "options": [
+        {
+          "label": "A",
+          "text": "cordova.js and index.html go in assets/www/, cordova.jar goes in libs/, and \"deviceready\" ensures the native PhoneGap/Cordova bridge has initialized before calling navigator.notification.alert().",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "cordova.js goes in res/values/, cordova.jar goes in gen/, and \"deviceready\" compiles Java files in the browser.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "index.html goes in src/, and MainActivity must extend BroadcastReceiver instead of DroidGap.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "super.loadUrl() downloads index.html over HTTP from Google Play Store on every launch.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: In a PhoneGap Android project, `cordova.js` and `index.html` reside in `assets/www/` (referenced at runtime via `file:///android_asset/www/index.html`), `cordova.jar` is placed in `libs/`, `xml/` goes into `res/`, and `MainActivity` extends `DroidGap`. Waiting for \"deviceready\" ensures the native Java-to-JavaScript bridge is ready before invoking `navigator.notification.alert()`.\n- **Why B, C, and D are incorrect**: Misstate the directory locations and how `file:///android_asset/` loads bundled local files."
+    },
+    {
+      "canonical_order": 12,
+      "external_id": "COSC4083-CH1-Q012",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "ANALYZE",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH1-MOB-011",
+      "question_text": "In an `AndroidManifest.xml` file, an `<activity>` element includes the following attribute:\n\n```xml\n<activity\n    android:name=\".MainActivity\"\n    android:configChanges=\"orientation|keyboardHidden|keyboard|screenSize|locale\">\n```\n\nWhat is the effect of declaring these `android:configChanges` flags on the Activity?",
+      "options": [
+        {
+          "label": "A",
+          "text": "It locks the phone screen physically so the user can never rotate the device or change the system language.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "It informs Android that the Activity will handle orientation, keyboard, screen size, and locale changes itself rather than having the OS destroy and restart the Activity by default.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "It grants the application root permission to reformat external storage.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "It deletes R.java whenever the screen rotates.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: Declaring `android:configChanges=\"orientation|keyboardHidden|keyboard|screenSize|locale\"` prevents the default Android behavior of destroying and recreating the Activity on those runtime configuration changes, allowing the Activity/WebView container (such as PhoneGap's `DroidGap`) to stay intact.\n- **Why A, C, and D are incorrect**: `configChanges` neither locks orientation (which is `android:screenOrientation`) nor grants storage permissions."
+    },
+    {
+      "canonical_order": 13,
+      "external_id": "COSC4083-CH1-Q013",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH1-MOB-012",
+      "question_text": "In a standard Android project structure, how is the `gen/R.java` file created, and what happens if a developer accidentally deletes `R.java`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "It is written manually by the developer; if deleted, the project is permanently corrupted and must be rewritten from scratch.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "It is auto-generated by the Android Asset Packaging Tool (aapt) from the project's XML resources and manifest; if deleted, aapt automatically regenerates it on the next build.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "It is downloaded from the Android Market when the user installs the app.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "It contains raw MP3 and HTML files that belong in the assets/ folder.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: `gen/R.java` is auto-generated by the **Android Asset Packaging Tool (`aapt`)** to index resource IDs (`@layout`, `@string`, `@drawable`). Developers must never modify `R.java` manually, and if deleted, the build system automatically regenerates it.\n- **Why A, C, and D are incorrect**: `R.java` is a build-time generated Java class, not a manually written file or raw asset folder."
+    },
+    {
+      "canonical_order": 14,
+      "external_id": "COSC4083-CH1-Q014",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH1-MOB-013",
+      "question_text": "How does Android support multi-language localization for UI text, and what is the role of `android.intent.action.MAIN` inside `AndroidManifest.xml`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Strings are referenced via @string from res/values/strings.xml with translated folders like res/values-ar and res/values-fr; android.intent.action.MAIN designates the first Activity loaded when the application runs.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "A separate APK must be compiled in C++ for every language; android.intent.action.MAIN uninstalls previous versions.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Translations are hardcoded inside R.java; android.intent.action.MAIN starts a background ContentProvider.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Strings are stored in bin/classes.dex only; android.intent.action.MAIN enables USB debugging.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: UI layouts reference `@string` variables defined in `res/values/strings.xml`, allowing locale-specific resource directories such as `res/values-ar` (Arabic) and `res/values-fr` (French) to supply translated strings automatically. In `AndroidManifest.xml`, `android.intent.action.MAIN` marks the entry Activity launched first when the app starts.\n- **Why B, C, and D are incorrect**: Android externalizes strings in XML resources rather than hardcoding them in `R.java` or requiring separate C++ builds."
+    },
+    {
+      "canonical_order": 15,
+      "external_id": "COSC4083-CH1-Q015",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH1-MOB-014",
+      "question_text": "Which command-line tool and syntax inspects and dumps the permission details declared inside a compiled `.apk` package, and how does Android isolate APKs at runtime?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Command: aapt dump permissions <package_name>.appname.apk; by default, one Linux process is created per APK, APKs are isolated, and cross-process communication uses Intents or AIDL.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Command: javac -permissions app.apk; all installed APKs run inside a single shared Linux process with shared global variables.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Command: dexdump --grant-all app.apk; APKs communicate only by reading each other's private SQLite files directly.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Command: eclipse --dump-manifest; Android does not isolate processes.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: The Android Asset Packaging Tool command `aapt dump permissions <package_name>.appname.apk` prints the permissions requested by an APK. Under the Android Component Model, components within an APK share a single Linux process by default, APKs are isolated from each other, and inter-process communication (IPC) occurs via **Intents** or **AIDL**.\n- **Why B, C, and D are incorrect**: APKs do not share a single global process or directly read private files across sandboxes."
+    },
+    {
+      "canonical_order": 16,
+      "external_id": "COSC4083-CH1-Q016",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "REMEMBER",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH1-MOB-015",
+      "question_text": "Which Android component provides a managed interface (often backed by a SQLite database) that supports sharing and accessing structured data across different applications?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Activity",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Broadcast Receiver",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Content Provider",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Live Wallpaper",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why C is correct**: A **Content Provider** manages access to a structured set of data (such as a SQLite database) and provides the standard mechanism for sharing data securely across application boundaries.\n- **Why A is incorrect**: An `Activity` represents a single visual screen for user interaction.\n- **Why B is incorrect**: A `Broadcast Receiver` listens for and responds to broadcast announcements.\n- **Why D is incorrect**: Live Wallpapers render animated home-screen backgrounds."
+    },
+    {
+      "canonical_order": 17,
+      "external_id": "COSC4083-CH1-Q017",
+      "course_code": "IT-OOP-201",
+      "bloom_level": "ANALYZE",
+      "difficulty": "HARD",
+      "linked_note_code": "NOTE-CH1-MOB-016",
+      "question_text": "Compare the **Dalvik Virtual Machine (DVM)** used in Android with the standard **Java Virtual Machine (JVM)** across the architectural dimensions in the table below:\n\n| Dimension | Standard JVM | Android Dalvik VM |\n| :--- | :--- | :--- |\n| **Instruction Architecture** | Stack-based | Register-based |\n| **Bytecode File Format** | `.class` | `.dex` (generated by `dx`) |\n| **Constant Pool Optimization** | Declared repeatedly per `.class` | Declared only once across `.dex` |\n| **Standard C Library** | GNU `glibc` | `Bionic` |\n\nWhy does Dalvik's register-based `.dex` architecture outperform standard stack-based `.class` files on memory-constrained mobile devices?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Dalvik instructions operate directly on virtual registers (avoiding repetitive stack push/pop overhead) and deduplicate constants into a single pool, yielding compressed code up to half the size that runs roughly 30% faster.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Dalvik includes full desktop Swing and AWT libraries inside every .dex file to accelerate 3D gaming.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Dalvik is a stack-based VM that executes uncompiled .java text files directly without bytecode conversion.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Dalvik duplicates string constants in every method so garbage collection is never required.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Unlike the stack-based JVM, Dalvik is a **register-based VM** whose 16-bit instruction set works directly on variables in virtual registers, saving the time required to load/store variables to and from an operand stack. In addition, the `dx` utility pools constants so they are declared only once in the `.dex` file, resulting in code that is up to half the size and runs ~30% faster.\n- **Why B is incorrect**: Swing and AWT are explicitly **not** supported by Dalvik.\n- **Why C and D are incorrect**: Dalvik is register-based (not stack-based) and declares constants only once."
+    },
+    {
+      "canonical_order": 18,
+      "external_id": "COSC4083-CH1-Q018",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH1-MOB-017",
+      "question_text": "An `.apk` (Android Package) is a modified Java Archive (`.jar`) file generated into the project's `bin/` folder. Which files are packaged inside the `.apk`, and which CLI command lists the table of contents of `filename.apk`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Contains compiled .dex files, binary AndroidManifest.xml, compiled resources (resources.arsc), and uncompiled resource files; inspected via: jar tvf filename.apk",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Contains only raw .java source files and Eclipse .project files; inspected via: javac -list filename.apk",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Contains Windows .dll libraries only; inspected via: ipconfig /all filename.apk",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Contains uncompiled AndroidManifest.txt only; inspected via: ping filename.apk",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: An `.apk` archive packages the compiled Dalvik executable (`.dex`), a binary version of `AndroidManifest.xml`, compiled resources (`resources.arsc`), and uncompiled raw resource/asset files. Because an `.apk` is a modified `.jar` archive, running `jar tvf filename.apk` lists its contents (and `dexdump` inspects the `.dex` file).\n- **Why B, C, and D are incorrect**: `.java` source files are compiled into `.dex` before packaging, and `javac`/`ipconfig`/`ping` do not list archive contents."
+    },
+    {
+      "canonical_order": 19,
+      "external_id": "COSC4083-CH1-Q019",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "APPLY",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-CH1-MOB-018",
+      "question_text": "A developer wants to manually install a compiled `<file>.apk` onto a USB-connected physical Android phone or a running emulator from the command prompt using Android Debug Bridge (`adb`). Which prerequisites and command syntax are required?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Set android:debuggable=\"true\" on <application>, enable \"Unknown sources\" and \"USB debugging\" on the device, and run: adb [-d | -e] install <path>/<file>.apk",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Disable USB debugging, delete AndroidManifest.xml, and run: adb format-device <file>.apk",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Copy the .java file to the SIM card and run: aapt run-usb <file>.java",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Export an unsigned APK and open it inside Internet Explorer.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Running and debugging on a physical device requires setting `android:debuggable=\"true\"` in `AndroidManifest.xml`, enabling **Unknown sources** (`Settings -> Applications`) and **USB debugging** (`Settings -> Applications -> Development`), and executing `adb [-d | -e] install <path>/<file>.apk` from `<sdk>/platform-tools/`.\n- **Why B, C, and D are incorrect**: Unsigned APKs cannot be installed, and `adb install` is the standard deployment command."
+    },
+    {
+      "canonical_order": 20,
+      "external_id": "COSC4083-CH1-Q020",
+      "course_code": "IT-EDPR-203",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-CH1-MOB-019",
+      "question_text": "In the Android debugging environment, what are the distinct responsibilities of **DDMS (Dalvik Debug Monitoring Service)**, **ADB (Android Debug Bridge)**, and the **JDWP Debugger**?",
+      "options": [
+        {
+          "label": "A",
+          "text": "DDMS is a graphical tool that captures screenshots, gathers thread/stack info, and spoofs incoming calls/SMS; ADB provides device management and APK installation; JDWP steps through code, inspects variables, and pauses execution.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "DDMS compiles XML layouts into R.java; ADB renders HTML5 pages in WebKit; JDWP signs release APKs for the Play Store.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "DDMS is the relational database engine; ADB is the 3D graphics library; JDWP is the Linux kernel.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "All three are aliases for the exact same CSS preprocessor.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: In the Android debugging toolchain: **DDMS** provides a GUI to capture screenshots, inspect threads/heap/stack, and spoof incoming calls or SMS messages; **ADB** manages device/emulator connections and package installation; and the **JDWP-compliant debugger** lets developers set breakpoints, pause execution, and inspect variable values.\n- **Why B, C, and D are incorrect**: Confuse debugging tools with `aapt` (resource compiler), `SQLite` (database), and `OpenGL ES` (3D graphics)."
+    }
+  ]
+}

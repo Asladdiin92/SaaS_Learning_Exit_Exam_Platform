@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -39,6 +39,8 @@ export interface ProtectedContentReaderProps {
   courseId?: number;
   title: string;
   resourceType?: string;
+  markdownContent?: string;
+  anchorCode?: string;
   totalPages?: number;
   currentPage?: number;
   onPageChange?: (page: number) => void;
@@ -59,6 +61,8 @@ export const ProtectedContentReader: React.FC<ProtectedContentReaderProps> = ({
   courseId = 101,
   title,
   resourceType = 'LECTURE_NOTE',
+  markdownContent,
+  anchorCode,
   totalPages = 30,
   currentPage: externalCurrentPage,
   onPageChange,
@@ -88,6 +92,35 @@ export const ProtectedContentReader: React.FC<ProtectedContentReaderProps> = ({
 
   // Ephemeral memory buffer for decrypted content (purged on background/unmount)
   const [volatileDecryptedBuffer, setVolatileDecryptedBuffer] = useState<string | null>(null);
+  const markdownScrollRef = useRef<ScrollView>(null);
+  const markdownAnchorOffsets = useRef<Record<string, number>>({});
+
+  const structuredNotes = useMemo(() => {
+    if (!markdownContent) return { introduction: '', notes: [] as Array<{ anchor: string; content: string }> };
+    const anchorRegex = /<a id="(NOTE-[^"]+)"><\/a>\s*([\s\S]*?)(?=<a id="NOTE-[^"]+"><\/a>|$)/g;
+    const matches = [...markdownContent.matchAll(anchorRegex)];
+    return {
+      introduction: matches.length
+        ? markdownContent.slice(0, matches[0].index).trim()
+        : markdownContent.trim(),
+      notes: matches.map((match) => ({
+        anchor: match[1],
+        content: match[2].trim(),
+      })),
+    };
+  }, [markdownContent]);
+
+  useEffect(() => {
+    markdownAnchorOffsets.current = {};
+  }, [markdownContent]);
+
+  useEffect(() => {
+    if (!anchorCode) return;
+    const offset = markdownAnchorOffsets.current[anchorCode];
+    if (offset !== undefined) {
+      markdownScrollRef.current?.scrollTo({ y: offset, animated: false });
+    }
+  }, [anchorCode, structuredNotes]);
 
   // Decryption into volatile memory only
   const decryptInRAM = useCallback(() => {
@@ -246,13 +279,90 @@ export const ProtectedContentReader: React.FC<ProtectedContentReaderProps> = ({
       {/* Main Viewport Content */}
       <View style={{ flex: 1, position: 'relative' }}>
         <ScrollView
+          ref={markdownContent ? markdownScrollRef : undefined}
           contentContainerStyle={[
             styles.scrollContent,
             { transform: [{ scale: zoomScale }] },
           ]}
           showsVerticalScrollIndicator={false}
+          onContentSizeChange={() => {
+            if (!anchorCode) return;
+            const offset = markdownAnchorOffsets.current[anchorCode];
+            if (offset !== undefined) {
+              markdownScrollRef.current?.scrollTo({ y: offset + 20, animated: false });
+            }
+          }}
         >
-          {isPdfOrExam ? (
+          {markdownContent ? (
+            <View style={styles.markdownPage} testID="structured-study-notes">
+              <Text
+                style={[
+                  styles.markdownHeading1,
+                  { color: themeColors.text, fontSize: fontSize + 6 },
+                ]}
+              >
+                {title}
+              </Text>
+              {structuredNotes.introduction && (
+                <Text
+                  style={[
+                    styles.markdownBody,
+                    { color: themeColors.text, fontSize, lineHeight: fontSize * 1.6 },
+                  ]}
+                >
+                  {structuredNotes.introduction
+                    .replace(/^#+\s*/gm, '')
+                    .replace(/\*\*/g, '')
+                    .replace(/`/g, '')}
+                </Text>
+              )}
+              {anchorCode && !structuredNotes.notes.some((note) => note.anchor === anchorCode) && (
+                <Text
+                  accessibilityRole="alert"
+                  style={[styles.markdownBody, { color: colors.status.error, fontSize }]}
+                >
+                  The requested study-note anchor {anchorCode} is not available in this resource.
+                </Text>
+              )}
+              {structuredNotes.notes.map((note) => (
+                <View
+                  key={note.anchor}
+                  nativeID={note.anchor}
+                  testID={`study-note-${note.anchor}`}
+                  onLayout={(event) => {
+                    const y = event.nativeEvent.layout.y + 20;
+                    markdownAnchorOffsets.current[note.anchor] = y;
+                    if (note.anchor === anchorCode) {
+                      markdownScrollRef.current?.scrollTo({ y, animated: false });
+                    }
+                  }}
+                  style={[
+                    styles.calloutCard,
+                    {
+                      backgroundColor: themeColors.surface,
+                      borderLeftColor: themeColors.calloutBorder,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.calloutBody,
+                      {
+                        color: themeColors.text,
+                        fontSize,
+                        lineHeight: fontSize * 1.6,
+                      },
+                    ]}
+                  >
+                    {note.content
+                      .replace(/^#{1,6}\s*/gm, '')
+                      .replace(/\*\*/g, '')
+                      .replace(/`/g, '')}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ) : isPdfOrExam ? (
             /* --- PDF / Past Exam Paged Document View --- */
             <View style={styles.documentPage}>
               <View

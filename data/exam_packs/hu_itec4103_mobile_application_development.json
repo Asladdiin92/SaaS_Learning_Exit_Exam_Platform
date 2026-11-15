@@ -1,0 +1,620 @@
+{
+  "pack_version": "1.0",
+  "blueprint": {
+    "code": "HU-ITEC4103-EXIT-PREP",
+    "title": "ITec4103 Mobile Application Development — Exit & Academic Exam Prep",
+    "exam_type": "COURSE_EXAM",
+    "course_code": "IT-EDPR-203",
+    "source_course_code": "ITec4103",
+    "duration_minutes": 60,
+    "total_questions": 15,
+    "pass_mark_percent": 50.0,
+    "reveal_answers_immediately": true
+  },
+  "structured_notes": [
+    {
+      "linked_note_code": "NOTE-MOB-001",
+      "course_code": "IT-EDPR-203",
+      "title": "Mark Weiser's Ubiquitous Computing Device Categories (Tabs, Pads, Boards)",
+      "content_markdown": "### Mark Weiser's Classification of Ubiquitous Smart Devices\nA **smart device** is digital, active, computer-networked, user-reconfigurable, and capable of operating autonomously.\n\n| Category | Scale / Dimension | Usage Characteristic | Examples |\n| :--- | :--- | :--- | :--- |\n| **Tabs** | Centimeter-sized ($\\text{cm}$) | Accompanied or wearable devices carried by a single user | Smartphones, smart cards, wearables |\n| **Pads** | Decimeter-sized ($\\text{dm}$) | Hand-held dispositivos used temporarily and passed around | Laptops, tablets, e-readers |\n| **Boards** | Meter-sized ($\\text{m}$) | Shared interactive display surfaces in rooms | Vertical smart boards, horizontal surface computers |",
+      "summary_bullets": [
+        "Tabs = Centimeter-sized wearable/accompanied devices (smartphones, smart cards).",
+        "Pads = Decimeter-sized hand-held devices (laptops, tablets).",
+        "Boards = Meter-sized interactive multi-user displays (smart boards)."
+      ]
+    },
+    {
+      "linked_note_code": "NOTE-MOB-002",
+      "course_code": "IT-EDPR-203",
+      "title": "Feature Phone vs. Smartphone & Mobile Device Characteristics",
+      "content_markdown": "### Feature Phones vs. Smartphones\n- **Feature Phone**: Runs on proprietary firmware with limited third-party platform extensibility.\n- **Smartphone**: Runs an open and complete Mobile Operating System (Android, iOS) tightly integrated with high-resolution touchscreens, GPS, Wi-Fi/mobile broadband, and third-party SDK APIs.\n- **Core Mobile Characteristics**: Context awareness, intermittent resource connectivity, and a **locus of control** residing inside the smart device.",
+      "summary_bullets": [
+        "Feature phones rely on closed/proprietary firmware.",
+        "Smartphones run complete mobile OS platforms supporting native SDKs.",
+        "Mobile apps must handle intermittent network access and context awareness."
+      ]
+    },
+    {
+      "linked_note_code": "NOTE-MOB-003",
+      "course_code": "IT-EDPR-203",
+      "title": "Android Software Stack & ART / Dalvik Runtime",
+      "content_markdown": "### Android Architecture Layers (Bottom to Top)\n1. **Linux Kernel**: Hardware abstraction drivers (display, camera, binder IPC, power management).\n2. **Hardware Abstraction Layer (HAL)**: Standard interfaces exposing hardware capabilities.\n3. **Native C/C++ Libraries & Android Runtime (ART)**: Executes `.dex` (Dalvik Executable) bytecode using Ahead-of-Time (AOT) and Just-in-Time (JIT) compilation.\n4. **Java API Framework**: Activity Manager, Window Manager, Content Providers, View System.\n5. **System Apps**: Dialer, SMS, Browser, and user-installed apps.",
+      "summary_bullets": [
+        "Java/Kotlin source compiles to .class, then packages into .dex (Dalvik Executable) bytecode.",
+        "ART (Android Runtime) replaces legacy Dalvik VM using AOT/JIT compilation for lower battery/CPU overhead.",
+        "Linux Kernel handles low-level memory, process threading, and Binder IPC."
+      ]
+    },
+    {
+      "linked_note_code": "NOTE-MOB-004",
+      "course_code": "IT-EDPR-203",
+      "title": "Android Activity Lifecycle Callbacks & State Transitions",
+      "content_markdown": "### Activity Lifecycle Order\n- **Launch to Foreground**: `onCreate()` $\\rightarrow$ `onStart()` $\\rightarrow$ `onResume()` (Activity is visible and interactive).\n- **Partially Obscured** (e.g., dialog overlays): `onPause()`.\n- **Fully Hidden / Home Pressed**: `onPause()` $\\rightarrow$ `onStop()`.\n- **Returning from Stopped to Foreground**: `onRestart()` $\\rightarrow$ `onStart()` $\\rightarrow$ `onResume()`.\n- **Configuration Change (Screen Rotation)**: By default destroys and recreates the Activity (`onPause()` $\\rightarrow$ `onStop()` $\\rightarrow$ `onDestroy()` $\\rightarrow$ `onCreate()`), saving transient UI state via `onSaveInstanceState(Bundle)`.",
+      "summary_bullets": [
+        "onCreate() initializes layout (setContentView) once per instance.",
+        "onResume() / onPause() bracket active foreground user interaction.",
+        "Screen rotation triggers onDestroy() -> onCreate() unless handled via ViewModel or configChanges."
+      ]
+    },
+    {
+      "linked_note_code": "NOTE-MOB-005",
+      "course_code": "IT-EDPR-203",
+      "title": "Explicit vs. Implicit Intents & Intent Filters",
+      "content_markdown": "### Android Intents Comparison\n| Feature | Explicit Intent | Implicit Intent |\n| :--- | :--- | :--- |\n| **Target Specification** | Specifies exact class name (`new Intent(this, DetailActivity.class)`) | Declares general `Action`, `Data URI`, and `Category` (`Intent.ACTION_VIEW`) |\n| **Resolution Mechanism** | Direct intra-app component invocation | Resolved by Android `PackageManager` matching `<intent-filter>` declarations in `AndroidManifest.xml` |\n| **Primary Use Case** | Navigating between screens inside your own app | Delegating actions to external apps (Browser, Camera, Dialer, Share sheet) |",
+      "summary_bullets": [
+        "Explicit Intents name the exact target Component/Class.",
+        "Implicit Intents declare an Action + URI and rely on Manifest <intent-filter> matching.",
+        "An Intent Filter must match Action, Data (URI/MIME type), and Category (DEFAULT)."
+      ]
+    },
+    {
+      "linked_note_code": "NOTE-MOB-006",
+      "course_code": "IT-EDPR-203",
+      "title": "startActivityForResult / ActivityResultLauncher Two-Way Data Passing",
+      "content_markdown": "### Passing Data Between Activities\n- **Forward Passing**: `intent.putExtra(\"KEY\", value)` read via `getIntent().getStringExtra(\"KEY\")`.\n- **Returning Result to Caller**: The child Activity packs data into a return `Intent`, calls `setResult(Activity.RESULT_OK, resultIntent)`, and invokes `finish()`.",
+      "summary_bullets": [
+        "Use putExtra() / Bundle to pass primitives, Strings, or Parcelable objects.",
+        "Child Activity must call setResult(RESULT_OK, dataIntent) BEFORE calling finish()."
+      ]
+    },
+    {
+      "linked_note_code": "NOTE-MOB-007",
+      "course_code": "IT-EDPR-203",
+      "title": "Android Services: Started Service vs. Bound Service & Threading",
+      "content_markdown": "### Android Service Types & Main Thread Rule\n- **Crucial Threading Rule**: A `Service` runs on the **Main (UI) Thread** of its hosting process by default! Blocking network/CPU work inside `onStartCommand()` without a worker thread causes an **ANR (Application Not Responding)** crash after ~5 seconds.\n- **Started Service (`startService`)**: Runs indefinitely in background until `stopSelf()` or `stopService()` is called. Entry callback: `onStartCommand()`.\n- **Bound Service (`bindService`)**: Client-server interface allowing components to bind, send requests, and receive responses via `IBinder`. Entry callback: `onBind()`.",
+      "summary_bullets": [
+        "Services run on the UI/Main thread by default—always offload heavy I/O to background threads/coroutines.",
+        "Started Services use startService() -> onStartCommand() and run even after the caller unbinds.",
+        "Bound Services use bindService() -> onBind() returning an IBinder interface and stop when all clients unbind."
+      ]
+    },
+    {
+      "linked_note_code": "NOTE-MOB-008",
+      "course_code": "IT-EDPR-203",
+      "title": "Service Restart Policies: START_STICKY vs. START_NOT_STICKY vs. START_REDELIVER_INTENT",
+      "content_markdown": "### `onStartCommand()` Return Constants\n| Return Flag | OS Behavior After Low-Memory Process Kill | Intent Passed on Recreate |\n| :--- | :--- | :--- |\n| `START_NOT_STICKY` | Does **not** recreate the Service unless pending start calls exist | N/A |\n| `START_STICKY` | Recreates the Service and calls `onStartCommand()` | `null` Intent (good for music players/long-running pollers) |\n| `START_REDELIVER_INTENT` | Recreates the Service and calls `onStartCommand()` | Redelivers the **last original Intent** (good for file downloads/transactional jobs) |",
+      "summary_bullets": [
+        "START_STICKY restarts service with a null Intent.",
+        "START_NOT_STICKY does not restart automatically.",
+        "START_REDELIVER_INTENT restarts service and passes the exact original Intent."
+      ]
+    },
+    {
+      "linked_note_code": "NOTE-MOB-009",
+      "course_code": "IT-EDPR-203",
+      "title": "Broadcast Receivers & Content Providers",
+      "content_markdown": "### BroadcastReceivers & ContentProviders\n- **`BroadcastReceiver`**: Responds to system-wide or app-wide publish-subscribe announcements (e.g., `ACTION_BOOT_COMPLETED`, battery low, connectivity changes) via `onReceive(Context, Intent)`.\n- **`ContentProvider`**: Manages access to a structured central repository of data across process boundaries using `ContentResolver` and `content://authority/path` URIs.",
+      "summary_bullets": [
+        "BroadcastReceiver implements onReceive(Context, Intent) and must complete quickly (<10s).",
+        "ContentProvider shares structured data across different applications securely via URI permissions."
+      ]
+    },
+    {
+      "linked_note_code": "NOTE-MOB-010",
+      "course_code": "IT-DB-301",
+      "title": "Android Local Storage: SharedPreferences vs. SQLiteOpenHelper",
+      "content_markdown": "### Android Data Persistence Options\n- **`SharedPreferences`**: Stores lightweight primitive key-value pairs (`boolean`, `int`, `String`) in an XML file inside private app storage. `apply()` writes asynchronously to disk; `commit()` writes synchronously and blocks the calling thread.\n- **`SQLiteOpenHelper`**: Manages relational SQLite database creation (`onCreate(SQLiteDatabase db)`) and schema version migrations (`onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)`).",
+      "summary_bullets": [
+        "SharedPreferences Editor.apply() is asynchronous (in-memory immediate, disk async); commit() is synchronous.",
+        "SQLiteOpenHelper calls onCreate() only when the DB file is first created, and onUpgrade() when DATABASE_VERSION increments."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "canonical_order": 1,
+      "external_id": "ITEC4103-Q001",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "REMEMBER",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-MOB-001",
+      "question_text": "According to Mark Weiser's foundational categorization of ubiquitous computing smart devices, how are **Tabs**, **Pads**, and **Boards** classified by their physical scale and usage?\n\n| Category | Physical Scale | Typical Example |\n| :--- | :--- | :--- |\n| **I** | Centimeter-sized ($\\text{cm}$) | Smartphones, Smart Cards |\n| **II** | Decimeter-sized ($\\text{dm}$) | Laptops, Handheld Tablets |\n| **III** | Meter-sized ($\\text{m}$) | Vertical Smart Boards, Surface Computers |",
+      "options": [
+        {
+          "label": "A",
+          "text": "I = Pads, II = Tabs, III = Boards",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "I = Tabs, II = Pads, III = Boards",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "I = Boards, II = Pads, III = Tabs",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "I = Tabs, II = Boards, III = Pads",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: Mark Weiser categorized ubiquitous computing devices by physical scale: **Tabs** are centimeter-sized accompanied/wearable devices (smartphones, smart cards); **Pads** are decimeter-sized hand-held devices (laptops, tablets); and **Boards** are meter-sized interactive display surfaces.\n- **Why A is incorrect**: Reverses Tabs and Pads.\n- **Why C and D are incorrect**: Misassign meter-sized Boards to centimeter or decimeter scales."
+    },
+    {
+      "canonical_order": 2,
+      "external_id": "ITEC4103-Q002",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-MOB-002",
+      "question_text": "Which statement accurately distinguishes a **Smartphone** from a traditional **Feature Phone** in mobile computing architecture?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Feature phones run open, complete mobile operating systems, whereas smartphones rely exclusively on closed proprietary firmware.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Smartphones provide an open and complete mobile operating system tightly integrated with third-party SDKs, sensors, and broadband networking, whereas feature phones use proprietary firmware with limited platform extensibility.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Feature phones maintain the locus of control on remote cloud mainframes, whereas smartphones cannot execute local application services.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Smartphones cannot operate autonomously when disconnected from a wireless local area network.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: A smartphone combines PDA, media, GPS, and web capabilities on top of an open and complete mobile OS (such as Android) supporting native third-party application development, while a feature phone runs proprietary firmware with restricted platform APIs.\n- **Why A is incorrect**: Reverses the definitions of smartphone and feature phone.\n- **Why C and D are incorrect**: Smart mobile devices hold an internal locus of control and can execute local services autonomously despite intermittent connectivity."
+    },
+    {
+      "canonical_order": 3,
+      "external_id": "ITEC4103-Q003",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-MOB-003",
+      "question_text": "During the Android build and execution process, how is Java/Kotlin source code compiled and executed on a modern Android device?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Source code is compiled directly into native x86 Windows `.exe` binaries and executed by the BIOS.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Source code is compiled into `.class` bytecode, converted into Dalvik Executable (`.dex`) files, packaged into an `.apk`/`.aab`, and executed by the Android Runtime (ART).",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Raw `.java` source files are uploaded uncompiled into the `.apk` and interpreted line-by-line by the Linux kernel.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Bytecode is executed inside a standard desktop Oracle JVM without any `.dex` transformation.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: Android compiles `.java`/`.kt` files to JVM `.class` files, uses the `d8`/`r8` compiler to convert them into compact `.dex` (Dalvik Executable) bytecode optimized for memory-constrained devices, packages them into an `.apk`, and runs them on the Android Runtime (ART).\n- **Why A, C, and D are incorrect**: Android does not use `.exe` binaries, uncompiled source interpretation in the kernel, or standard desktop `.class` files at runtime."
+    },
+    {
+      "canonical_order": 4,
+      "external_id": "ITEC4103-Q004",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-MOB-004",
+      "question_text": "An Android `ExamActivity` is currently visible and actively receiving user touch input in the foreground. The user then receives a semi-transparent system permission dialog (or multi-window overlay) that partially obscures `ExamActivity` so it loses focus but remains partially visible on screen. Which lifecycle callback is invoked immediately?",
+      "options": [
+        {
+          "label": "A",
+          "text": "onDestroy()",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "onStop() followed immediately by onDestroy()",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "onPause() only (without calling onStop() while the Activity remains partially visible)",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "onRestart()",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why C is correct**: When an Activity loses foreground focus but remains partially visible behind a transparent/dialog Activity, Android invokes `onPause()`. `onStop()` is only invoked when the Activity becomes completely hidden from view.\n- **Why A and B are incorrect**: `onStop()` and `onDestroy()` are not called while the Activity is still visible on screen.\n- **Why D is incorrect**: `onRestart()` is called only when transitioning from a stopped (`onStop()`) state back to `onStart()`."
+    },
+    {
+      "canonical_order": 5,
+      "external_id": "ITEC4103-Q005",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "ANALYZE",
+      "difficulty": "HARD",
+      "linked_note_code": "NOTE-MOB-004",
+      "question_text": "Examine the following Android `QuizActivity` code snippet:\n\n```java\npublic class QuizActivity extends AppCompatActivity {\n    private int currentScore = 0;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_quiz);\n        // Note: savedInstanceState is not read here\n    }\n\n    public void onCorrectAnswerClicked(View view) {\n        currentScore += 10;\n    }\n}\n```\n\nA student answers 3 questions (`currentScore` becomes `30`) and then rotates the phone from portrait to landscape mode (with default manifest settings). What is the value of `currentScore` after rotation, and why?",
+      "options": [
+        {
+          "label": "A",
+          "text": "30, because Android preserves all private member variables across device rotations automatically.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "0, because a screen orientation change triggers a configuration change that destroys the current Activity instance (onPause -> onStop -> onDestroy) and creates a new instance (onCreate), resetting currentScore to 0 unless saved via onSaveInstanceState or a ViewModel.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "30, because onCreate() is only called once when the application process first boots.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "The app crashes with a NullPointerException because Activities cannot be rotated without a Service.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: By default, rotating the screen is a runtime configuration change that destroys the existing `QuizActivity` instance and instantiates a brand-new `QuizActivity` (`onCreate()`). Because `currentScore` is an instance field and `onSaveInstanceState(Bundle)` / `ViewModel` was not used, `currentScore` resets to `0`.\n- **Why A and C are incorrect**: Instance variables on an `Activity` are wiped when the instance is destroyed and recreated.\n- **Why D is incorrect**: Rotation does not require a `Service`."
+    },
+    {
+      "canonical_order": 6,
+      "external_id": "ITEC4103-Q006",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "APPLY",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-MOB-005",
+      "question_text": "Consider the following two Android `Intent` creations:\n\n```java\n// Snippet 1\nIntent intentA = new Intent(MainActivity.this, ResultActivity.class);\nintentA.putExtra(\"SCORE\", 88);\nstartActivity(intentA);\n\n// Snippet 2\nIntent intentB = new Intent(Intent.ACTION_VIEW, Uri.parse(\"[https://www.haramaya.edu.et](https://www.haramaya.edu.et)\"));\nstartActivity(intentB);\n```\n\nHow are `intentA` and `intentB` classified in Android?",
+      "options": [
+        {
+          "label": "A",
+          "text": "intentA is an Implicit Intent; intentB is an Explicit Intent.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "intentA is an Explicit Intent; intentB is an Implicit Intent.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Both intentA and intentB are Implicit Intents.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "intentA is a Broadcast Intent; intentB is a Bound Service Intent.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: `intentA` explicitly specifies the exact target component class (`ResultActivity.class`), making it an **Explicit Intent**. `intentB` specifies only an action (`ACTION_VIEW`) and data URI (`https://...`), leaving Android to resolve capable browser apps via `<intent-filter>`, making it an **Implicit Intent**.\n- **Why A, C, and D are incorrect**: Confuse component-targeted explicit intents with action-resolved implicit intents."
+    },
+    {
+      "canonical_order": 7,
+      "external_id": "ITEC4103-Q007",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "ANALYZE",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-MOB-005",
+      "question_text": "An application declares an `<activity>` in `AndroidManifest.xml` with an `<intent-filter>` so other apps can launch it using an implicit `startActivity(intent)` call (without adding explicit categories to the Intent in Java code). Which `<category>` **must** be included inside the `<intent-filter>` for `startActivity()` to resolve this Activity?",
+      "options": [
+        {
+          "label": "A",
+          "text": "android.intent.category.LAUNCHER",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "android.intent.category.DEFAULT",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "android.intent.category.HOME",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "android.intent.category.BROWSABLE only",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: When `startActivity()` or `startActivityForResult()` is called with an implicit `Intent`, Android automatically attaches `CATEGORY_DEFAULT` (`android.intent.category.DEFAULT`) to the Intent. Any Activity wishing to receive implicit Intents must therefore declare `<category android:name=\"android.intent.category.DEFAULT\" />` in its `<intent-filter>`.\n- **Why A is incorrect**: `CATEGORY_LAUNCHER` places an icon in the device's app launcher drawer.\n- **Why C and D are incorrect**: `HOME` is for home screen replacements, and `BROWSABLE` alone without `DEFAULT` will fail standard implicit `startActivity` resolution."
+    },
+    {
+      "canonical_order": 8,
+      "external_id": "ITEC4103-Q008",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-MOB-006",
+      "question_text": "`CourseCatalogActivity` launches `FilterSelectionActivity` expecting the user's selected department code back. Inside `FilterSelectionActivity`, which sequence of calls correctly sends `\"IT\"` back to the calling Activity and closes `FilterSelectionActivity`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Intent data = new Intent();\ndata.putExtra(\"DEPT\", \"IT\");\nsetResult(Activity.RESULT_OK, data);\nfinish();",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "finish();\nIntent data = new Intent();\ndata.putExtra(\"DEPT\", \"IT\");\nsetResult(Activity.RESULT_CANCELED, data);",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "startActivity(new Intent(\"IT\"));\nSystem.exit(0);",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "onDestroy();\nreturn \"IT\";",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: To return data to a parent Activity, the child Activity creates a result `Intent`, attaches extras via `putExtra()`, calls `setResult(Activity.RESULT_OK, data)`, and then calls `finish()` to pop itself off the back stack.\n- **Why B is incorrect**: Calls `finish()` before `setResult()` and sets `RESULT_CANCELED`.\n- **Why C and D are incorrect**: `System.exit(0)` kills the whole Linux process, and `onDestroy()` is a lifecycle callback, not a method used to return results."
+    },
+    {
+      "canonical_order": 9,
+      "external_id": "ITEC4103-Q009",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "ANALYZE",
+      "difficulty": "HARD",
+      "linked_note_code": "NOTE-MOB-007",
+      "question_text": "A developer writes the following Android `Service` to download a 50 MB exam package:\n\n```java\npublic class ExamDownloadService extends Service {\n    @Override\n    public int onStartCommand(Intent intent, int flags, int startId) {\n        // Performs synchronous 30-second HTTP file download directly here\n        downloadLargeExamPackageSynchronously();\n        return START_STICKY;\n    }\n    @Override\n    public IBinder onBind(Intent intent) { return null; }\n}\n```\n\nWhat happens when an Activity starts `ExamDownloadService` and the user tries to scroll the UI?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The download completes smoothly in the background because every Android Service automatically creates its own separate background thread.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "The UI freezes and Android triggers an ANR (Application Not Responding) dialog because a Service runs on the application's Main (UI) thread by default.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "The code fails to compile because onBind() returns null.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "The download is automatically converted into a BroadcastReceiver by the OS.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: A common Android exam trap is assuming `Service` runs on a background thread. By default, a `Service` runs on the hosting process's **Main (UI) thread**. Executing a 30-second synchronous network download inside `onStartCommand()` blocks the UI thread and causes both a `NetworkOnMainThreadException` and an **ANR (Application Not Responding)** timeout.\n- **Why A is incorrect**: `Service` does not spawn a worker thread automatically.\n- **Why C is incorrect**: Returning `null` from `onBind()` is standard for a pure Started (unbound) Service.\n- **Why D is incorrect**: Services are never converted into BroadcastReceivers."
+    },
+    {
+      "canonical_order": 10,
+      "external_id": "ITEC4103-Q010",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-MOB-007",
+      "question_text": "What is the key architectural difference between a **Started Service** (`startService()`) and a **Bound Service** (`bindService()`) in Android?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A Started Service continues running in the background indefinitely until explicitly stopped (even if the starting Activity is destroyed), whereas a Bound Service runs only as long as at least one client component is bound to it via IBinder.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "A Started Service requires a visible user interface layout, whereas a Bound Service does not.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "A Bound Service cannot return values or expose methods to an Activity, whereas a Started Service returns an IBinder in onStartCommand().",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "A Started Service is destroyed immediately when the user rotates the screen.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: A Started Service (`onStartCommand`) has an independent lifecycle and stays alive until `stopSelf()` or `stopService()` is called. A Bound Service (`onBind`) acts as a server in a client-server relationship via an `IBinder` and is automatically destroyed by the OS when all bound clients call `unbindService()`.\n- **Why B is incorrect**: Neither Service type has a UI layout.\n- **Why C is incorrect**: `onBind()` returns the `IBinder`, not `onStartCommand()`.\n- **Why D is incorrect**: Started Services survive Activity configuration changes."
+    },
+    {
+      "canonical_order": 11,
+      "external_id": "ITEC4103-Q011",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-MOB-008",
+      "question_text": "An Android Service is processing an offline exam submission payload passed inside the `Intent` argument of `onStartCommand(Intent intent, int flags, int startId)`. If the Android OS temporarily kills the Service process due to low memory before the job finishes, which return constant guarantees the OS will recreate the Service **and** re-pass the exact same non-null `Intent`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Service.START_NOT_STICKY",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Service.START_STICKY",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Service.START_REDELIVER_INTENT",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Service.BIND_AUTO_CREATE",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why C is correct**: `START_REDELIVER_INTENT` instructs the system to recreate the Service after a low-memory kill and call `onStartCommand()` with the last `Intent` that was delivered to the Service before it was killed.\n- **Why A is incorrect**: `START_NOT_STICKY` does not recreate the Service at all.\n- **Why B is incorrect**: `START_STICKY` recreates the Service, but passes a `null` Intent to `onStartCommand()`.\n- **Why D is incorrect**: `BIND_AUTO_CREATE` is a flag for `bindService()`, not a return value of `onStartCommand()`."
+    },
+    {
+      "canonical_order": 12,
+      "external_id": "ITEC4103-Q012",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linked_note_code": "NOTE-MOB-009",
+      "question_text": "Which of the four fundamental Android application components is specifically designed to listen for and respond to system-wide or application-wide event announcements (such as `ACTION_BATTERY_LOW` or network connectivity changes)?",
+      "options": [
+        {
+          "label": "A",
+          "text": "ContentProvider",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "BroadcastReceiver",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "RecyclerView.Adapter",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "SQLiteOpenHelper",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: `BroadcastReceiver` is the core Android component that subscribes to system or custom broadcast `Intent`s and handles them inside `onReceive(Context context, Intent intent)`.\n- **Why A is incorrect**: `ContentProvider` shares structured data across apps.\n- **Why C and D are incorrect**: `RecyclerView.Adapter` and `SQLiteOpenHelper` are helper classes, not one of the four fundamental Android components (`Activity`, `Service`, `BroadcastReceiver`, `ContentProvider`)."
+    },
+    {
+      "canonical_order": 13,
+      "external_id": "ITEC4103-Q013",
+      "course_code": "IT-EDPR-203",
+      "source_course_code": "ITec4103",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-MOB-009",
+      "question_text": "An Android app needs to read contacts stored by the system Contacts application. Which class and URI scheme does the client app use to query the Contacts `ContentProvider`?",
+      "options": [
+        {
+          "label": "A",
+          "text": "getContentResolver().query(...) using a content://authority/path URI",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "getSharedPreferences() using an http://localhost/contacts URI",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "sendBroadcast() using a file:///system/contacts.db URI",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "SQLiteDatabase.openDatabase() directly on the Contacts app's private data folder",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why A is correct**: Applications never access another app's `ContentProvider` or private SQLite file directly. Instead, they call `Context.getContentResolver().query(...)` passing a `content://` URI (`ContactsContract.Contacts.CONTENT_URI`).\n- **Why B, C, and D are incorrect**: Android Linux user-ID sandboxing forbids direct file access (`file://`) to another app's private SQLite database."
+    },
+    {
+      "canonical_order": 14,
+      "external_id": "ITEC4103-Q014",
+      "course_code": "IT-DB-301",
+      "source_course_code": "ITec4103",
+      "bloom_level": "ANALYZE",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-MOB-010",
+      "question_text": "Compare the two ways of saving a user's dark-mode preference using Android `SharedPreferences.Editor`:\n\n```java\nSharedPreferences prefs = getSharedPreferences(\"user_settings\", MODE_PRIVATE);\nSharedPreferences.Editor editor = prefs.edit();\neditor.putBoolean(\"DARK_MODE\", true);\n\n// Option 1: editor.commit();\n// Option 2: editor.apply();\n```\n\nWhy is `editor.apply()` generally recommended over `editor.commit()` when called on the UI thread?",
+      "options": [
+        {
+          "label": "A",
+          "text": "apply() encrypts the XML file with AES-256, whereas commit() stores plaintext.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "apply() updates the in-memory SharedPreferences immediately and writes to disk asynchronously on a background thread without blocking the UI thread, whereas commit() performs a synchronous disk write that can block the UI thread.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "commit() only saves data in RAM and loses changes when the app closes, whereas apply() writes to SQLite.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "apply() returns a boolean success status synchronously, whereas commit() returns void.",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: `apply()` mutates the in-memory `SharedPreferences` object immediately and schedules an asynchronous disk write, preventing UI jank/ANRs on the main thread. `commit()` blocks the calling thread until the physical disk write finishes and returns a `boolean` result.\n- **Why A and C are incorrect**: Both write to the same XML backing file.\n- **Why D is incorrect**: `commit()` returns `boolean`, whereas `apply()` has a `void` return type."
+    },
+    {
+      "canonical_order": 15,
+      "external_id": "ITEC4103-Q015",
+      "course_code": "IT-DB-301",
+      "source_course_code": "ITec4103",
+      "bloom_level": "APPLY",
+      "difficulty": "MEDIUM",
+      "linked_note_code": "NOTE-MOB-010",
+      "question_text": "A developer subclasses `SQLiteOpenHelper` to manage an offline exam database on Android:\n\n```java\npublic class ExamDbHelper extends SQLiteOpenHelper {\n    public static final int DATABASE_VERSION = 2;\n    public static final String DATABASE_NAME = \"exit_exam.db\";\n\n    public ExamDbHelper(Context context) {\n        super(context, DATABASE_NAME, null, DATABASE_VERSION);\n    }\n    @Override\n    public void onCreate(SQLiteDatabase db) { /* creates tables */ }\n    @Override\n    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { /* alters tables */ }\n}\n```\n\nIf a user already has version `1` of `exit_exam.db` installed on their phone and updates the app (where `DATABASE_VERSION` is now `2`), when and how is `onUpgrade()` triggered?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Immediately inside the ExamDbHelper constructor before any database access is requested.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "The first time getWritableDatabase() or getReadableDatabase() is called, Android detects that the stored database version (1) is lower than DATABASE_VERSION (2) and invokes onUpgrade(db, 1, 2) inside a transaction.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "onCreate(db) is called again automatically on every app launch regardless of version number.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Never, unless the developer manually invokes dbHelper.onUpgrade() inside MainActivity.onCreate().",
+          "is_correct": false
+        }
+      ],
+      "explanation": "- **Why B is correct**: `SQLiteOpenHelper` is lazy: the constructor does not open or migrate the database. When `getWritableDatabase()` or `getReadableDatabase()` is first called, Android opens the database file, compares its `PRAGMA user_version` (`1`) with `DATABASE_VERSION` (`2`), and executes `onUpgrade(db, 1, 2)`.\n- **Why A is incorrect**: The constructor only stores metadata references.\n- **Why C is incorrect**: `onCreate()` only runs once when the database file does not exist yet.\n- **Why D is incorrect**: The framework calls `onUpgrade()` automatically upon opening the database."
+    }
+  ]
+}

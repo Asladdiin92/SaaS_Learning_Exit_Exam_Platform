@@ -258,6 +258,64 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
           />
         </Card>
 
+        {/* Distraction-Free Study Workspace & Digital Library Card */}
+        <Card
+          testID="study-workspace-launcher-card"
+          variant="elevated"
+          onPress={() => navigation.navigate('StudyWorkspace')}
+          style={{
+            backgroundColor: '#0F172A',
+            borderRadius: borderRadius.lg,
+            padding: spacing.md,
+            marginBottom: spacing.md,
+            borderWidth: 1,
+            borderColor: '#1E293B',
+          }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <View style={{ flex: 1, marginRight: spacing.sm }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+                <View
+                  style={{
+                    backgroundColor: 'rgba(56, 189, 248, 0.15)',
+                    paddingHorizontal: 8,
+                    paddingVertical: 2,
+                    borderRadius: borderRadius.sm,
+                    marginRight: spacing.xs,
+                  }}
+                >
+                  <Text style={[typography.labelSm, { color: '#38BDF8', fontWeight: '700' }]}>
+                    DIGITAL LIBRARY
+                  </Text>
+                </View>
+                <Text style={[typography.labelSm, { color: '#94A3B8' }]}>
+                  Offline Ready • 5 Themes
+                </Text>
+              </View>
+
+              <Text style={[typography.h3, { color: '#F8FAFC', fontWeight: '700', marginBottom: 2 }]}>
+                Study Workspace
+              </Text>
+              <Text style={[typography.bodySm, { color: '#94A3B8' }]}>
+                Distraction-free manuscripts, exit exam cheat-sheets & typography controls
+              </Text>
+            </View>
+
+            <View
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 22,
+                backgroundColor: '#1E293B',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <BookOpen size={22} color="#38BDF8" />
+            </View>
+          </View>
+        </Card>
+
         {/* Zone 2: Offline Readiness Strip */}
         <View
           testID="offline-readiness-strip"

@@ -465,7 +465,7 @@ mobile/
 | **`local_themes`** | `theme_id PK`, `title`, `description`, `total_credit_hours`, `version`, `updated_sequence` | Server-to-device delta pull; replaceable metadata. |
 | **`local_courses`** | `course_id PK`, `theme_id FK`, `code`, `title`, `credit_hours`, `general_objective`, `version`, `updated_sequence` | Server-to-device delta pull; replaceable metadata. |
 | **`local_outcomes`** | `outcome_id PK`, `course_id FK`, `description`, `domain`, `level`, `version` | Server-to-device delta pull; linked to courses and questions. |
-| **`local_resources`** | `resource_id PK`, `course_id FK`, `tenant_id`, `type`, `title`, `size_bytes`, `package_id`, `access_state`, `version` | Server-to-device delta pull; scoped by `tenant_id` (`NULL` = global). |
+| **`local_resources`** | `resource_id PK`, `course_id FK`, `tenant_id`, `type`, `title`, `size_bytes`, `package_id`, `access_state`, `version`, `content_markdown` | Server-to-device delta pull; scoped by `tenant_id` (`NULL` = global); structured study notes are cached locally with their stable note anchors. |
 | **`download_packages`** | `package_id PK`, `resource_id FK`, `version`, `encrypted_path`, `sha256_checksum`, `size_bytes`, `state`, `grant_id`, `license_expiry`, `last_opened_at` | Resumable chunked download; LRU evictable **only** when expired/unpinned and not in use. |
 | **`local_exam_packages`** | `exam_package_id PK`, `exam_id`, `course_id`, `blueprint_version`, `question_snapshot_json`, `duration_sec`, `grant_id`, `license_expiry`, `state` | Authorized offline exam snapshot (excludes `is_correct` answer keys unless open self-check drill). |
 | **`local_exam_attempts`** | `local_attempt_id PK (UUID)`, `user_id`, `tenant_id`, `exam_package_id FK`, `status`, `started_at`, `elapsed_monotonic_sec`, `submitted_at`, `server_attempt_id` | Transactional write; **NEVER evicted** while `IN_PROGRESS` or `SUBMITTED_LOCAL_PENDING`. |
@@ -655,6 +655,7 @@ CREATE TABLE courses (
 CREATE TABLE learning_outcomes (
     outcome_id SERIAL PRIMARY KEY,
     course_id INT NOT NULL REFERENCES courses(course_id) ON DELETE CASCADE,
+    outcome_code VARCHAR(64),
     description TEXT NOT NULL,
     domain domain_type NOT NULL DEFAULT 'COGNITIVE',
     level cognitive_level NOT NULL DEFAULT 'REMEMBER',
@@ -690,6 +691,7 @@ CREATE TABLE questions (
     level cognitive_level NOT NULL DEFAULT 'REMEMBER',
     difficulty difficulty_level NOT NULL DEFAULT 'MEDIUM',
     explanation TEXT,
+    option_explanations JSONB NOT NULL DEFAULT '{}'::jsonb,
     version INT NOT NULL DEFAULT 1,
     is_published BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -886,6 +888,8 @@ CREATE POLICY rls_entitlements_owner_and_tenant ON feature_entitlements
         )
     );
 ```
+
+**ITec4133 question-bank import:** The requested source code `IT-SEC-401` is retained as a source/blueprint alias and maps to the canonical Theme 5 course `IT-IASC-401`, preserving the approved 15-course curriculum. Import the verified 80-question canonical JSON (`data/exam_packs/itec4133_information_assurance_parsed.json`); the current raw source file contains only Question 1. Stable outcome codes and per-option explanations are stored in `learning_outcomes.outcome_code` and `questions.option_explanations`. Mobile chapter/master notes are stored in `local_resources.content_markdown` so `NOTE-CHX-XXX` anchors remain available offline.
 
 ### 8.5 Zero-Conflict Local Dev to Supabase Cloud (Database & Storage) Architecture (`ADR-009`)
 

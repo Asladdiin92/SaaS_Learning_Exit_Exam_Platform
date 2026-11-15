@@ -38,6 +38,7 @@ import {
   FileCheck2,
   WifiOff,
 } from 'lucide-react-native';
+import { AITutorModalSheet } from '../ai/components/AITutorModalSheet';
 
 interface CourseOverviewScreenProps {
   route: any;
@@ -65,6 +66,7 @@ export const CourseOverviewScreen: React.FC<CourseOverviewScreenProps> = ({
   const [activeTab, setActiveTab] = useState<'outcomes' | 'resources' | 'practice'>('outcomes');
   const [isDownloaded, setIsDownloaded] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [isTutorOpen, setIsTutorOpen] = useState(false);
 
   const loadCourseData = useCallback(async () => {
     try {
@@ -528,20 +530,31 @@ export const CourseOverviewScreen: React.FC<CourseOverviewScreenProps> = ({
           </View>
         )}
 
+        {/* Distraction-Free Study Manuscript Action */}
+        <View style={{ marginTop: spacing.md }}>
+          <Button
+            testID="open-study-workspace-btn"
+            title="Read in Study Workspace"
+            variant="secondary"
+            leftIcon={<BookOpen size={20} color={colors.brand.primary} />}
+            onPress={() =>
+              navigation.navigate('StudyWorkspace', {
+                courseId: course?.course_id || courseId,
+              })
+            }
+            style={{ minHeight: 48, marginBottom: spacing.xs }}
+          />
+        </View>
+
         {/* Secondary Action: Grounded RAG AI Course Tutor Button */}
-        <View style={{ marginTop: spacing.md, marginBottom: spacing.xl }}>
+        <View style={{ marginTop: spacing.xs, marginBottom: spacing.xl }}>
           <Button
             testID="ask-ai-tutor-btn"
             title="Ask AI Course Tutor (RAG)"
             variant="outline"
             leftIcon={<Bot size={20} color={isAiTutorAvailable ? colors.brand.primary : colors.text.muted} />}
             disabled={!isAiTutorAvailable}
-            onPress={() =>
-              Alert.alert(
-                'AI Course Tutor',
-                `Connecting to grounded pgvector(384) tutor for ${course?.code || 'Course'}...`
-              )
-            }
+            onPress={() => setIsTutorOpen(true)}
             style={{
               borderColor: isAiTutorAvailable ? colors.brand.primary : colors.border.default,
               minHeight: 48,
@@ -558,6 +571,14 @@ export const CourseOverviewScreen: React.FC<CourseOverviewScreenProps> = ({
           )}
         </View>
       </ScrollView>
+
+      {/* AI Course Tutor Sheet */}
+      <AITutorModalSheet
+        visible={isTutorOpen}
+        onClose={() => setIsTutorOpen(false)}
+        courseId={courseId}
+        courseTitle={course?.title || code}
+      />
     </SafeAreaView>
   );
 };

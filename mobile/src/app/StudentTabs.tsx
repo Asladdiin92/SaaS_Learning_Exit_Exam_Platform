@@ -4,7 +4,7 @@ import { useTheme } from '../shared/theme';
 import { HomeDashboardScreen } from '../features/home/HomeDashboardScreen';
 import { ThemeCatalogScreen } from '../features/curriculum/ThemeCatalogScreen';
 import { PracticeCatalogScreen } from '../features/exams/PracticeCatalogScreen';
-import { ProgressPlaceholder } from '../features/progress/ProgressPlaceholder';
+import { ProgressOverviewScreen } from '../features/progress/screens/ProgressOverviewScreen';
 import { ProfileScreen } from '../features/profile/ProfileScreen';
 import { Home, BookOpen, Target, Award, User } from 'lucide-react-native';
 
@@ -60,7 +60,7 @@ export const StudentTabs = () => {
       />
       <Tab.Screen
         name="Progress"
-        component={ProgressPlaceholder}
+        component={ProgressOverviewScreen}
         options={{
           tabBarLabel: 'Mastery',
           tabBarIcon: ({ color, size }) => <Award size={size || 22} color={color} />,

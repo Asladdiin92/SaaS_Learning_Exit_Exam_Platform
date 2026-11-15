@@ -1,0 +1,623 @@
+[
+  {
+    "question_id": "Q01",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_SEARCH_COMPLETENESS",
+    "question_text": "Consider an infinite state space graph with a finite branching factor b > 1 and positive step costs bounded below by a positive constant ε > 0. If a goal state exists at a finite depth d, which statement correctly compares the completeness and space complexity guarantees of Breadth-First Search (BFS), Depth-First Search (DFS), and Iterative Deepening Depth-First Search (IDDFS)?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "BFS and IDDFS are both complete and optimal, requiring O(b^d) space, while DFS is incomplete and requires O(bd) space.",
+        "is_correct": false
+      },
+      {
+        "option_id": "B",
+        "text": "IDDFS retains the O(b^d) time complexity and completeness of BFS while maintaining the optimal O(bd) space complexity of DFS.",
+        "is_correct": true
+      },
+      {
+        "option_id": "C",
+        "text": "DFS is complete if the graph is finite, but IDDFS requires O(b^d) space due to storing state levels across depth limits.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "BFS requires O(bd) memory when combined with graph search duplicate detection, rendering its space complexity identical to IDDFS.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Analyze BFS space requirements. BFS stores all generated nodes in the frontier (queue), resulting in O(b^d) memory, which is often intractable.\nStep 2: Analyze DFS memory and completeness. DFS uses O(bd) memory but can get stuck in infinite paths, making it incomplete in infinite state spaces.\nStep 3: Analyze IDDFS. IDDFS combines the depth limit of DFS with iterative increments. It explores the search space up to depth d, consuming only O(bd) memory while guaranteeing completeness and optimality (for uniform step costs) identical to BFS with time complexity O(b^d).\nStep 4: Evaluate distractors. Option A incorrectly states IDDFS requires O(b^d) space. Option C incorrectly attributes O(b^d) space to IDDFS. Option D wrongly claims BFS with duplicate detection reduces space to O(bd)."
+  },
+  {
+    "question_id": "Q02",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_UCS_OPTIMALITY",
+    "question_text": "Uniform Cost Search (UCS) expands nodes in order of increasing path cost g(n). Suppose step costs can be zero (i.e., c(n, a, n') >= 0). What is the exact impact on the properties of UCS?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "Completeness is preserved, but optimality is lost because nodes with g(n)=0 create infinite cost loops.",
+        "is_correct": false
+      },
+      {
+        "option_id": "B",
+        "text": "UCS can get trapped in an infinite loop of zero-cost steps, failing completeness unless step costs are strictly strictly bounded above zero (c >= ε > 0).",
+        "is_correct": true
+      },
+      {
+        "option_id": "C",
+        "text": "UCS remains optimal and complete regardless of zero-cost edges because it uses a priority queue based on g(n).",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "Zero-step costs transform UCS into Greedy Best-First Search, altering its evaluation function to f(n) = h(n).",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Identify UCS optimality condition. UCS guarantees completeness and optimality if every step cost is greater than or equal to a small positive constant ε > 0.\nStep 2: Analyze zero-cost edges. If step costs can be 0, an infinite chain of zero-cost actions can cause the search algorithm to expand infinite nodes without increasing path cost g(n), leading to non-termination (loss of completeness).\nStep 3: Evaluate options. Option B correctly identifies that completeness fails without ε > 0. Option C overlooks infinite loop vulnerabilities. Option D incorrectly equates UCS to Greedy Best-First Search."
+  },
+  {
+    "question_id": "Q03",
+    "course_code": "ITec4121",
+    "bloom_level": "APPLY",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_ASTAR_HEURISTIC_PROPERTIES",
+    "question_text": "Let h(n) be a heuristic function for A* search. Consider the following two properties:\n1. Admissibility: h(n) <= h*(n) for all n.\n2. Consistency (Monotonicity): h(n) <= c(n, a, n') + h(n').\nWhich of the following statements strictly describes their relationship and performance implications in Graph Search versus Tree Search?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "Consistency implies admissibility, and consistency guarantees that A* Graph Search finds the optimal path without needing to reopen nodes in the closed set.",
+        "is_correct": true
+      },
+      {
+        "option_id": "B",
+        "text": "Admissibility implies consistency, ensuring A* Graph Search never expands sub-optimal nodes.",
+        "is_correct": false
+      },
+      {
+        "option_id": "C",
+        "text": "In A* Tree Search, admissibility is insufficient for optimality; consistency is strictly required.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "If h(n) is admissible but inconsistent, A* Graph Search remains optimal even if discarded repeated states are never re-evaluated or reopened.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Define relationship between consistency and admissibility. Monotonicity/consistency states that h(n) never exceeds the step cost to n' plus h(n'). By induction along any path to a goal, every consistent heuristic is admissible.\nStep 2: Analyze impact on Graph Search. Consistency ensures f(n) = g(n) + h(n) is non-decreasing along any path. Thus, when A* selects a node for expansion in Graph Search, the optimal path to that node has been found, eliminating the need to reopen closed nodes.\nStep 3: Evaluate distractors. Option B reverses the implication (admissibility does not imply consistency). Option C is false because admissibility is sufficient for Tree Search. Option D is false because graph search with an inconsistent heuristic can fail to find the optimal path if closed nodes are not reopened."
+  },
+  {
+    "question_id": "Q04",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_HEURISTIC_DOMINANCE",
+    "question_text": "Suppose h1(n) and h2(n) are two admissible heuristics for a search problem such that h2(n) >= h1(n) for all non-goal nodes n. Which statement correctly characterizes the search behavior of A* using these heuristics?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "h1 dominates h2, expanding fewer or equal nodes compared to h2.",
+        "is_correct": false
+      },
+      {
+        "option_id": "B",
+        "text": "h2 dominates h1, expanding fewer or equal nodes compared to h1, because higher admissible heuristic values prune more of the search space.",
+        "is_correct": true
+      },
+      {
+        "option_id": "C",
+        "text": "Both heuristics expand the exact same set of nodes because both are admissible and guarantee optimality.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "Combining them into h3(n) = min(h1(n), h2(n)) yields a dominant heuristic that expands fewer nodes than either.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Define dominance. A heuristic h2 dominates h1 if h2(n) >= h1(n) for all n. \nStep 2: Analyze expansion efficiency. A* expands all nodes where f(n) < C* (where C* is optimal cost). Since f2(n) = g(n) + h2(n) >= g(n) + h1(n) = f1(n), any node pruned by h1 will also be pruned by h2, and h2 will prune additional nodes where f1(n) < C* <= f2(n).\nStep 3: Evaluate distractors. Option A reverses dominance. Option C is false as closer estimates prune more space. Option D is false because max(h1, h2) dominates min(h1, h2)."
+  },
+  {
+    "question_id": "Q05",
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_MEMORY_BOUNDED_SEARCH",
+    "question_text": "Simplified Memory-Bounded A* (SMA*) is designed to operate within severe memory limits. How does SMA* handle node deletion and re-expansion when its allocated memory is completely exhausted?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "SMA* drops the node with the lowest f-value and forgets its path cost, rendering the algorithm incomplete.",
+        "is_correct": false
+      },
+      {
+        "option_id": "B",
+        "text": "SMA* drops the node with the highest f-value and backs up its f-value to its parent node, allowing re-expansion if all other paths prove worse.",
+        "is_correct": true
+      },
+      {
+        "option_id": "C",
+        "text": "SMA* switches dynamically to Depth-First Search and discards the entire priority queue.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "SMA* prunes all open leaf nodes and restarts search from the root using an increased depth limit.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Understand SMA* memory management. When memory is full, SMA* must drop a node to store a new node.\nStep 2: Analyze pruning criterion. It drops the 'worst' leaf node—the one with the highest f-value. \nStep 3: Analyze backup mechanism. Before dropping the leaf node, SMA* updates the f-value of its parent node with the minimum f-value of its children. This 'backed-up' value ensures that if all alternative generated paths turn out to have higher f-values, SMA* can regenerate the dropped sub-tree.\nStep 4: Distractor analysis. Option B accurately states this process; options A, C, and D describe incorrect mechanisms."
+  },
+  {
+    "question_id": "Q06",
+    "course_code": "ITec4121",
+    "bloom_level": "APPLY",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_RELAXED_PROBLEMS",
+    "question_text": "In the 8-puzzle problem, moving a tile from position A to position B is restricted to adjacent empty spaces. If we relax the problem rules such that 'a tile can move from tile position A to tile position B if B is adjacent to A (ignoring whether B is blank)', which derived heuristic is generated, and is it admissible?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "Manhattan Distance heuristic; it is admissible because cost in relaxed problem <= cost in original problem.",
+        "is_correct": true
+      },
+      {
+        "option_id": "B",
+        "text": "Misplaced Tiles heuristic; it is inadmissible because it overestimates total move counts.",
+        "is_correct": false
+      },
+      {
+        "option_id": "C",
+        "text": "Gaschnig's heuristic; it is consistent but inadmissible.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "Straight-line Euclidean Distance; it is non-monotonic and inadmissible.",
+        "is_correct": false
+      }
+    ],
+
+    "explanation": "Step 1: Analyze relaxed problem definition. The rule says a tile can move to any adjacent square regardless of whether it is blank. \nStep 2: Derive optimal cost in relaxed space. The minimum number of steps to move a tile from (x1, y1) to (x2, y2) on a grid when ignoring other tile collisions is |x1 - x2| + |y1 - y2|, which is the exact definition of Manhattan distance.\nStep 3: Evaluate admissibility. The optimal solution cost of a relaxed problem is guaranteed to be an admissible (and consistent) heuristic for the original problem because any valid solution in the original problem remains a valid path in the relaxed problem. Option A is correct."
+  },
+  {
+    "question_id": "Q07",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_CSP_ARC_CONSISTENCY",
+    "question_text": "Consider a Constraint Satisfaction Problem (CSP) with n variables, each having a domain size of at most d, and binary constraints between variables. What is the worst-case time complexity of enforcing arc consistency using the AC-3 algorithm?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "O(n^2 * d)",
+        "is_correct": false
+      },
+      {
+        "option_id": "B",
+        "text": "O(c * d^3), where c is the number of binary constraint arcs.",
+        "is_correct": true
+      },
+      {
+        "option_id": "C",
+        "text": "O(d^n), representing exponential backtracking cost.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "O(n * d^2)",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Count maximum arc evaluations in AC-3. A binary CSP has c directed constraint arcs (2 * number of binary constraints). \nStep 2: Track domain modifications. Each variable domain has at most d values, so a domain can be reduced at most d times. \nStep 3: Compute queue operations. Each time a domain is reduced, at most n arcs entering that variable are re-inserted into the queue. Over the algorithm execution, any arc (Xi, Xj) can be inserted into the queue at most d times. Checking consistency of an arc takes O(d^2) operations.\nStep 4: Combine bounds. Total time complexity is O(c * d * d^2) = O(c * d^3). In a full constraint network with c = O(n^2), it becomes O(n^2 * d^3)."
+  },
+  {
+    "question_id": "Q08",
+    "course_code": "ITec4121",
+    "bloom_level": "APPLY",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_CSP_HEURISTICS",
+    "question_text": "During CSP backtracking search, which combination of variable selection and value selection heuristics aims to fail early and succeed fast?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "Variable Selection: Least Constraining Value (LCV); Value Selection: Minimum Remaining Values (MRV).",
+        "is_correct": false
+      },
+      {
+        "option_id": "B",
+        "text": "Variable Selection: Minimum Remaining Values (MRV) with Degree Heuristic tie-breaker; Value Selection: Least Constraining Value (LCV).",
+        "is_correct": true
+      },
+      {
+        "option_id": "C",
+        "text": "Variable Selection: Most Constraining Variable; Value Selection: Minimum Remaining Values (MRV).",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "Variable Selection: Random; Value Selection: Forward Checking.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Analyze variable selection goal. Choose the variable most likely to fail early (Fail-First principle) to prune the search tree quickly. MRV (Most Constrained Variable) picks the variable with the fewest legal values. Degree heuristic breaks ties by picking the variable involved in the most constraints with unassigned variables.\nStep 2: Analyze value selection goal. Choose the value most likely to succeed (Succeed-Fast principle) to preserve flexibility for remaining variables. LCV (Least Constraining Value) selects the value that rules out the fewest choices for neighboring variables.\nStep 3: Option B correctly pairs MRV/Degree (Fail-First variable selection) with LCV (Succeed-Fast value selection)."
+  },
+  {
+    "question_id": "Q09",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_TREE_STRUCTURED_CSP",
+    "question_text": "If a CSP constraint graph forms an unrooted tree with n variables and maximum domain size d, it can be solved without backtracking in linear time relative to n. What is the precise worst-case time complexity algorithm sequence for solving tree-structured CSPs?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "Topological sort in O(n) time, followed by directional arc consistency pass from leaves to root in O(n * d^2) time, and assignment generation from root to leaves.",
+        "is_correct": true
+      },
+      {
+        "option_id": "B",
+        "text": "Enforce AC-3 globally in O(n^2 * d^3) time, then apply depth-first search in O(d^n) time.",
+        "is_correct": false
+      },
+      {
+        "option_id": "C",
+        "text": "Convert the tree to a junction tree in O(n^3) time and apply Min-Conflicts local search.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "Apply forward checking iteratively from any root node in O(n * d!) time.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Identify tree-structured CSP procedure. Pick an arbitrary variable as root and topologically order nodes such that parents precede children (X1, X2, ..., Xn).\nStep 2: Backward directional arc-consistency pass. From i = n down to 2, enforce arc consistency on (Parent(Xi), Xi). This takes n-1 arc checks, each taking O(d^2) time -> Total O(n * d^2).\nStep 3: Forward assignment pass. From i = 1 to n, pick any remaining valid value for Xi. Because of the backward pass, no assignment will cause a dead end.\nStep 4: Total complexity is O(n * d^2), avoiding exponential backtracking. Option A correctly outlines this exact workflow."
+  },
+  {
+    "question_id": "Q10",
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_MINIMAX_PROPERTIES",
+    "question_text": "In a two-player, zero-sum, perfect information game tree with maximum depth m and branching factor b at each node, what are the exact space and time complexities of the standard Minimax algorithm assuming depth-first evaluation?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "Time Complexity: O(b^m); Space Complexity: O(bm)",
+        "is_correct": true
+      },
+      {
+        "option_id": "B",
+        "text": "Time Complexity: O(bm); Space Complexity: O(b^m)",
+        "is_correct": false
+      },
+      {
+        "option_id": "C",
+        "text": "Time Complexity: O(b^(m/2)); Space Complexity: O(bm)",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "Time Complexity: O(b^m); Space Complexity: O(b^m)",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Compute Minimax time complexity. Minimax performs a full depth-first traversal of the game tree. At depth m with branching factor b, there are b^m terminal leaves. Thus, time complexity is O(b^m).\nStep 2: Compute Minimax space complexity. Because it performs depth-first traversal, it only needs to store the current path of state nodes from root to leaf and their unvisited siblings. At depth m with b successors, memory stored is O(bm).\nStep 3: Match with options. Option A is the correct complexity pair."
+  },
+  {
+    "question_id": "Q11",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_ALPHABETA_PRUNING",
+    "question_text": "Alpha-Beta pruning computes the exact same Minimax decision as standard Minimax while skipping unpromising branches. Under OPTIMAL move ordering (best moves evaluated first), what is the effective time complexity of Alpha-Beta pruning?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "O(b^(m/2)), effectively doubling the search depth solvable within a given time budget.",
+        "is_correct": true
+      },
+      {
+        "option_id": "B",
+        "text": "O(bm/2), reducing time complexity from exponential to polynomial.",
+        "is_correct": false
+      },
+      {
+        "option_id": "C",
+        "text": "O(b^m), showing no reduction in time complexity even with optimal move ordering.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "O((b/2)^m),halving the branching factor at every single level.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Understand Alpha-Beta efficiency under perfect move ordering. When the best move is examined first at every node, Alpha-Beta prunes all other actions at MIN nodes once a refutation is found.\nStep 2: Calculate node count. Instead of examining b^m leaves, Alpha-Beta examines approximately 2 * b^(m/2) leaves (or O(b^(m/2)) asymptotic time).\nStep 3: Interpret result. O(b^(m/2)) means the effective branching factor is reduced from b to sqrt(b). This allows searching twice as deep (2m) in the same time it would take standard Minimax to reach depth m. Option A is correct."
+  },
+  {
+    "question_id": "Q12",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_HORIZON_EFFECT",
+    "question_text": "In game-playing software, the 'Horizon Effect' occurs when an algorithm encounters an inevitable bad outcome. How does depth-limited Minimax exhibit this vulnerability, and what technique is used to mitigate it?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "The agent delays unavoidable losses by executing delay moves that push the catastrophic event beyond the fixed search horizon; mitigated by Quiescence Search.",
+        "is_correct": true
+      },
+      {
+        "option_id": "B",
+        "text": "The agent overestimates utility due to inconsistent heuristics; mitigated by Iterative Deepening.",
+        "is_correct": false
+      },
+      {
+        "option_id": "C",
+        "text": "The agent loops infinitely between safe states; mitigated by enforcing Arc Consistency.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "The evaluation function fails on terminal nodes; mitigated by Monte Carlo Tree Search.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Define Horizon Effect. When a serious disadvantage is unavoidable (e.g., losing a queen), a depth-limited search may make stall moves (e.g., sacrificing pawns) simply to push the queen capture past the maximum depth limit d. The search engine incorrectly thinks it saved the piece because the loss isn't visible within the horizon depth.\nStep 2: Identify solution. Quiescence Search evaluates whether states at the search horizon are 'quiet' (non-turbulent, with no pending captures or major threats). If a state is non-quiet, search continues deeper for tactical moves until a quiet state is reached before applying evaluation functions. Option A is correct."
+  },
+  {
+    "question_id": "Q13",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_EXPECTIMAX_SEARCH",
+    "question_text": "Consider Expectimax search in games with chance elements (e.g., backgammon or dice rolls). Which statement correctly describes the mathematical behavior of evaluation values under positive monotonic transformations?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "Like standard Minimax, applying any order-preserving (monotonic) transformation to terminal evaluation values leaves Expectimax decisions unchanged.",
+        "is_correct": false
+      },
+      {
+        "option_id": "B",
+        "text": "Unlike Minimax, Expectimax decisions can change under non-linear positive monotonic transformations because chance nodes calculate expected values (linear combinations).",
+        "is_correct": true
+      },
+      {
+        "option_id": "C",
+        "text": "Expectimax reduces to Minimax when all outcome probabilities at chance nodes are non-zero.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "Alpha-Beta pruning operates with identical efficiency on Expectimax trees regardless of chance node placement.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Contrast Minimax and Expectimax evaluation scaling. In Minimax, only max and min operations are applied. Applying any strictly increasing monotonic transformation f(x) to utility values doesn't alter max/min comparisons.\nStep 2: Analyze chance node operations. Expectimax computes probability-weighted averages sum(p_i * v_i) at chance nodes. A non-linear transformation (e.g., squaring values) alters relative expected value proportions, which can change optimal move selections.\nStep 3: Option B correctly highlights that scale matters for expected utilities in stochastic search."
+  },
+  {
+    "question_id": "Q14",
+    "course_code": "ITec4121",
+    "bloom_level": "APPLY",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_BIDIRECTIONAL_SEARCH",
+    "question_text": "Bidirectional search runs two simultaneous searches: one forward from the initial state and one backward from the goal. If both searches use Breadth-First Search (BFS) in a graph where every step cost is 1 and branching factor is b, what is the combined time and space complexity to find a path of length d?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "Time: O(b^d); Space: O(b^d)",
+        "is_correct": false
+      },
+      {
+        "option_id": "B",
+        "text": "Time: O(b^(d/2)); Space: O(b^(d/2))",
+        "is_correct": true
+      },
+      {
+        "option_id": "C",
+        "text": "Time: O(b^(d/2)); Space: O(d/2)",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "Time: O(bd); Space: O(bd)",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Analyze search depth. Forward search expands to depth d/2 and backward search expands to depth d/2 until frontiers intersect.\nStep 2: Calculate complexity. Generating nodes up to depth d/2 from both directions requires expanding O(b^(d/2)) + O(b^(d/2)) = O(b^(d/2)) nodes.\nStep 3: Analyze space requirements. At least one frontier (or both frontiers in BFS) must be kept in memory to perform intersection checks in O(1) time via hash tables. Thus space complexity is also O(b^(d/2)). Option B is correct."
+  },
+  {
+    "question_id": "Q15",
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_GREEDY_BEST_FIRST",
+    "question_text": "Greedy Best-First Search expands nodes using the evaluation function f(n) = h(n). What are its worst-case completeness and optimality characteristics in a graph search with loops?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "It is both complete and optimal, running in O(bd) time.",
+        "is_correct": false
+      },
+      {
+        "option_id": "B",
+        "text": "It is incomplete (can get stuck in infinite loops in graph search without duplicate detection) and non-optimal, with worst-case time complexity O(b^m).",
+        "is_correct": true
+      },
+      {
+        "option_id": "C",
+        "text": "It is complete but non-optimal, with worst-case space complexity bounded by O(bm).",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "It guarantees finding the shortest path provided h(n) is admissible.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Evaluate Greedy Best-First evaluation function f(n) = h(n). It solely expands the node estimated to be closest to the goal, ignoring accumulated path cost g(n).\nStep 2: Evaluate completeness. Like DFS, Greedy Best-First Search can follow an infinite path of misleading heuristic values, getting trapped in cycles unless duplicate checking is implemented on graphs. Hence it is incomplete in infinite or looping spaces.\nStep 3: Evaluate optimality. Because it ignores path cost g(n), it frequently picks sub-optimal paths with small initial heuristic values. Worst-case time/space is O(b^m) where m is maximum depth. Option B is correct."
+  },
+  {
+    "question_id": "Q16",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_IDDFS_OVERHEAD",
+    "question_text": "In Iterative Deepening Depth-First Search (IDDFS), nodes at upper levels of the search tree are generated repeatedly across depth iterations. For a search tree with branching factor b = 10 and target depth d = 5, what is the approximate overhead ratio of total node expansions in IDDFS compared to a single BFS pass at depth d?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "IDDFS expands around 10 times more nodes than BFS.",
+        "is_correct": false
+      },
+      {
+        "option_id": "B",
+        "text": "IDDFS has negligible overhead, expanding only ~11% more nodes (ratio ~1.11) because the bottom depth level dominates total node count.",
+        "is_correct": true
+      },
+      {
+        "option_id": "C",
+        "text": "IDDFS expands 50% fewer nodes because of depth limits.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "IDDFS requires exponential memory expansion compared to BFS.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Express total node expansions in IDDFS: N(IDDFS) = (d)*b^1 + (d-1)*b^2 + (d-2)*b^3 + ... + 1*b^d.\nStep 2: Compute for b=10, d=5:\n- Level 1: 5 * 10 = 50\n- Level 2: 4 * 100 = 400\n- Level 3: 3 * 1,000 = 3,000\n- Level 4: 2 * 10,000 = 20,000\n- Level 5: 1 * 100,000 = 100,000\nTotal IDDFS nodes = 123,450.\nStep 3: Express BFS node count at depth 5: N(BFS) = 10^1 + 10^2 + 10^3 + 10^4 + 10^5 = 111,110 nodes.\nStep 4: Compute overhead ratio: 123,450 / 111,110 ≈ 1.11 (roughly b / (b - 1)). The overhead is only ~11%, making IDDFS highly efficient while saving immense memory. Option B is correct."
+  },
+  {
+    "question_id": "Q17",
+    "course_code": "ITec4121",
+    "bloom_level": "APPLY",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_MIN_CONFLICTS_LOCAL_SEARCH",
+    "question_text": "The Min-Conflicts algorithm is a local search technique for CSPs. When applied to large N-Queens problems (e.g., N = 1,000,000), how does Min-Conflicts select its next move, and what is its typical empirical runtime performance?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "It chooses a random conflicted variable and assigns it the value that minimizes conflicting constraints; it solves N-Queens in almost constant time independent of N.",
+        "is_correct": true
+      },
+      {
+        "option_id": "B",
+        "text": "It constructs a full search tree using AC-3 and runs in exponential O(d^N) time.",
+        "is_correct": false
+      },
+      {
+        "option_id": "C",
+        "text": "It systematically backtracks over unassigned variables, running in linear O(N) time.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "It uses Simulated Annealing to prune all non-binary constraint arcs in O(N^2) time.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Understand Min-Conflicts step. At each iteration, it randomly selects any conflicted variable (a queen under attack). Then it assigns that variable the value (row) that minimizes the total number of constraint violations (conflicts).\nStep 2: Empirical performance. For problems with high solution density such as N-Queens, Min-Conflicts exhibits near O(1) runtime per move, solving million-queen problems in a small, nearly constant number of total steps. Option A accurately describes this mechanism and performance."
+  },
+  {
+    "question_id": "Q18",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_INCONSISTENT_HEURISTIC_GRAPH_SEARCH",
+    "question_text": "Suppose A* Graph Search is executed using an admissible but INCONSISTENT heuristic function h(n). If standard graph search rules drop any newly generated state if that state already exists in the closed list (without checking for lower g-values), what risk is introduced?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "A* Graph Search can return a suboptimal goal path because a node reached first via an suboptimal path might be placed on the closed list, blocking its later expansion via a shorter path.",
+        "is_correct": true
+      },
+      {
+        "option_id": "B",
+        "text": "A* Graph Search will loop infinitely and violate completeness guarantees.",
+        "is_correct": false
+      },
+      {
+        "option_id": "C",
+        "text": "The heuristic will automatically become consistent due to graph closed-list pruning.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "No risk is introduced; admissibility alone guarantees graph search optimality under all closed list policies.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Analyze inconsistency effect on f-values. If h(n) is inconsistent, the f-values along a path can decrease. This means A* might expand node n via a sub-optimal path FIRST (because its initial f-value was artificially small).\nStep 2: Analyze closed list behavior. If n is placed in the closed list and a subsequent optimal path to n with lower g(n) is discovered later, dropping the newly discovered optimal path (because n is closed) prevents A* from revising path costs to n's descendants.\nStep 3: Conclusion. To guarantee optimality with inconsistent admissible heuristics in Graph Search, one must allow closed nodes to be reopened if a lower g-cost path is found, or modify the heuristic via f-conforming path-max (consistency conversion). Option A is correct."
+  },
+  {
+    "question_id": "Q19",
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_EFFECTIVE_BRANCHING_FACTOR",
+    "question_text": "The Effective Branching Factor b* is commonly used to evaluate heuristic quality in search problems. If A* expands a total of N nodes to reach a goal at depth d, how is b* defined mathematically?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "N + 1 = 1 + b* + (b*)^2 + ... + (b*)^d",
+        "is_correct": true
+      },
+      {
+        "option_id": "B",
+        "text": "b* = N / d",
+        "is_correct": false
+      },
+      {
+        "option_id": "C",
+        "text": "b* = (N)^(1/d) - b",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "b* = d * log(N)",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Define Effective Branching Factor. The effective branching factor b* is the branching factor that a uniform search tree of depth d would need to contain N total nodes.\nStep 2: Write geometric series formula. The total number of nodes in a uniform tree of depth d with branching factor b* is:\nN + 1 = 1 + b* + (b*)^2 + ... + (b*)^d.\nStep 3: Interpretation. An effective branching factor close to 1 indicates an extraordinarily effective heuristic, as search proceeds almost directly to the goal without exploring extra branches. Option A is the exact formula."
+  },
+  {
+    "question_id": "Q20",
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "linked_note_code": "NOTE_EXPECTIMINIMAX_PRUNING",
+    "question_text": "Why is Alpha-Beta style pruning significantly LESS effective in Expectiminimax game trees (which contain MAX, MIN, and CHANCE nodes) compared to standard deterministic Minimax trees?",
+    "options": [
+      {
+        "option_id": "A",
+        "text": "Chance nodes calculate weighted averages over all child values, meaning high-value outcomes cannot easily bound branch values without strict bounds on evaluation function ranges.",
+        "is_correct": true
+      },
+      {
+        "option_id": "B",
+        "text": "Chance nodes prohibit depth-first evaluation, forcing breadth-first traversal.",
+        "is_correct": false
+      },
+      {
+        "option_id": "C",
+        "text": "Expectiminimax trees have zero terminal nodes, rendering evaluation functions useless.",
+        "is_correct": false
+      },
+      {
+        "option_id": "D",
+        "text": "Pruning chance nodes alters game probability distributions, violating probability axioms.",
+        "is_correct": false
+      }
+    ],
+    "explanation": "Step 1: Analyze MAX/MIN pruning mechanism. In standard Minimax, if MAX sees a successor with value 10, any MIN node sibling yielding <= 5 can be pruned instantly because MIN will never allow a value higher than 5.\nStep 2: Analyze CHANCE node mechanism. A chance node value is sum(p_i * v_i). Even if one child outcome yields a very low value (e.g., -100), another unexamined outcome might yield +1000 with high probability. Unless the static evaluation function has strict upper and lower bounds [V_min, V_max], no branch of a chance node can be pruned without evaluating all possible outcomes.\nStep 3: Option A accurately identifies why evaluation bounds are strictly required to prune chance branches."
+  }
+]

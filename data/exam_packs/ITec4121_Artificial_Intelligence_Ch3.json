@@ -1,0 +1,382 @@
+[
+  {
+    "question_number": 1,
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "Consider the following Prolog query executed in standard SWI-Prolog:\n\n`?- X = 3 + 4, Y is 3 + 4, X = Y.`\n\nWhat is the evaluation outcome of this query?",
+    "options": {
+      "A": "Succeeds with bindings X = 7, Y = 7.",
+      "B": "Fails (returns false).",
+      "C": "Succeeds with bindings X = 3 + 4, Y = 7.",
+      "D": "Throws a syntax error due to re-assignment of X."
+    },
+    "is_correct": "B",
+    "explanation": {
+      "correct_reason": "In Prolog, `=` represents syntactic unification without expression evaluation. Therefore, `X = 3 + 4` binds `X` to the unreduced compound term `+(3, 4)`. The `is` operator evaluates arithmetic expressions, so `Y is 3 + 4` evaluates to the integer `7` and binds `Y = 7`. Finally, `X = Y` attempts to unify the compound term `+(3, 4)` with the integer `7`, which fails.",
+      "distractor_analysis": "Option A incorrectly assumes `=` performs arithmetic evaluation. Option C mistakenly assumes Prolog allows unification between unequal structure types without raising a failure. Option D incorrectly assumes Prolog variables are subject to imperative reassignment errors."
+    },
+    "linked_note_code": "NOTE-PROLOG-UNIF-ARITH"
+  },
+  {
+    "question_number": 2,
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "Prolog lists are recursively structured objects built using head-tail notation. Which of the following Prolog list representations is NOT syntactically equivalent to `[a, b, c]`?",
+    "options": {
+      "A": "[a | [b, c]]",
+      "B": "[a, b | [c]]",
+      "C": "[a, b, c | []]",
+      "D": "[a | [b | c]]"
+    },
+    "is_correct": "D",
+    "explanation": {
+      "correct_reason": "In Prolog, the tail of a proper list must be another list. The expression `[a | [b | c]]` sets `c` as the tail of the sublist, making it an improper list ending in an atom rather than `[]`. The correct recursive expansion for `[a, b, c]` down to the empty list is `[a | [b | [c | []]]]`, matching slide 28.",
+      "distractor_analysis": "Option A separates head `a` and tail `[b, c]`, which equals `[a, b, c]`. Option B separates two elements and tail `[c]`, which equals `[a, b, c]`. Option C explicitly appends the empty list `[]` as tail, which is valid."
+    },
+    "linked_note_code": "NOTE-PROLOG-LIST-SYNTAX"
+  },
+  {
+    "question_number": 3,
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "Given the following recursive Prolog predicate definition:\n\n```prolog\nis_digesting(X, Y) :- is_digesting(Z, Y), just_ate(X, Z).\nis_digesting(X, Y) :- just_ate(X, Y).\njust_ate(mosquito, blood).\n```\n\nWhat happens when querying `?- is_digesting(mosquito, blood).`?",
+    "options": {
+      "A": "Returns true.",
+      "B": "Returns false.",
+      "C": "Encounters an infinite recursion / stack overflow error.",
+      "D": "Returns X = mosquito, Y = blood."
+    },
+    "is_correct": "C",
+    "explanation": {
+      "correct_reason": "Prolog processes goals left-to-right and top-to-bottom. Because the recursive rule is placed first and contains left-recursion (`is_digesting(Z, Y)` as the first sub-goal in the body), Prolog recursively invokes `is_digesting` indefinitely before ever reaching the base clause `just_ate/2` or evaluating `just_ate(X, Z)`.",
+      "distractor_analysis": "Option A assumes the base case will be checked first (which only occurs if non-recursive base clauses or right-recursive goal orderings are used). Option B wrongly assumes Prolog terminates on unfulfilled goals without exhausting depth-first search branches. Option D confuses variable substitution with procedure outputs."
+    },
+    "linked_note_code": "NOTE-PROLOG-RECURSION-LEFT"
+  },
+  {
+    "question_number": 4,
+    "course_code": "ITec4121",
+    "bloom_level": "APPLY",
+    "difficulty": "HARD",
+    "question_text": "Given the structure rules for geometric points:\n\n```prolog\nvertical(line(point(X, Y), point(X, Y2))).\nhorizontal(line(point(X, Y), point(X2, Y))).\n```\n\nWhich of the following Prolog unification queries evaluates to `true`?",
+    "options": {
+      "A": "?- vertical(line(point(2, 4), point(3, 8))).",
+      "B": "?- horizontal(line(point(5, 10), point(5, 20))).",
+      "C": "?- vertical(line(point(4, 7), point(4, 12))).",
+      "D": "?- horizontal(line(point(X, Y), point(X, Y2)))."
+    },
+    "is_correct": "C",
+    "explanation": {
+      "correct_reason": "The `vertical/1` predicate requires the X-coordinates of both endpoint structures to unify to the same value (`X`). In Option C, `point(4, 7)` and `point(4, 12)` share X-coordinate `4`. `X` unifies to `4`, `Y` unifies to `7`, and `Y2` unifies to `12`, satisfying the fact.",
+      "distractor_analysis": "Option A fails because X-coordinates differ (2 vs 3). Option B tests `horizontal/1` (which requires identical Y-coordinates), but Y-coordinates differ (10 vs 20). Option D tests `horizontal/1` against vertical line structure constraints."
+    },
+    "linked_note_code": "NOTE-PROLOG-STRUCT-UNIF"
+  },
+  {
+    "question_number": 5,
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "Evaluate the variable bindings in Prolog for integer division versus floating-point division:\n\n`?- A is 7 // 2, B is 7 / 2.`\n\nWhat are the resulting bindings for `A` and `B`?",
+    "options": {
+      "A": "A = 3.5, B = 3.5",
+      "B": "A = 3, B = 3.5",
+      "C": "A = 3, B = 3",
+      "D": "A = 3.5, B = 3"
+    },
+    "is_correct": "B",
+    "explanation": {
+      "correct_reason": "In Prolog arithmetic, `//` represents integer division (truncating fractional parts) while `/` represents standard floating-point division. Evaluating `7 // 2` yields integer `3`, whereas `7 / 2` yields float `3.5`.",
+      "distractor_analysis": "Option A treats `//` as float division. Option C treats `/` as integer division. Option D reverses operator definitions."
+    },
+    "linked_note_code": "NOTE-PROLOG-ARITH-OPS"
+  },
+  {
+    "question_number": 6,
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "In Knowledge-Based Agent architectures, what is the key conceptual distinction between the Knowledge Base (KB) and the Inference Engine?",
+    "options": {
+      "A": "The KB contains domain-independent reasoning algorithms, while the Inference Engine contains domain-specific facts.",
+      "B": "The KB stores domain-specific declarative sentences, while the Inference Engine provides domain-independent logical deduction mechanisms.",
+      "C": "The KB executes actuators directly, while the Inference Engine processes sensor data.",
+      "D": "The KB handles procedural learning, while the Inference Engine acts as a static lookup table."
+    },
+    "is_correct": "B",
+    "explanation": {
+      "correct_reason": "A core principle of Knowledge-Based Agents is the separation of representation and reasoning. The KB contains domain-specific knowledge expressed in formal sentences, whereas the Inference Engine applies domain-independent algorithms to derive new inferences.",
+      "distractor_analysis": "Option A reverses the definitions. Option C confuses reasoners with physical agent architectures (PEAS). Option D incorrectly classifies inference engines as passive lookup tables."
+    },
+    "linked_note_code": "NOTE-AI-KB-AGENT-STRUCT"
+  },
+  {
+    "question_number": 7,
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "In Propositional Logic, if a Knowledge Base entails a sentence α (denoted as KB ⊨ α), which of the following logical assertions MUST be true?",
+    "options": {
+      "A": "KB ∧ α is unsatisfiable.",
+      "B": "KB ∧ ¬α is unsatisfiable.",
+      "C": "KB → ¬α is a valid tautology.",
+      "D": "α is true in at least one model where KB is false."
+    },
+    "is_correct": "B",
+    "explanation": {
+      "correct_reason": "By definition of logical entailment, α is true in every model where KB is true. Proof by contradiction (refutation) dictates that KB ⊨ α if and only if the sentence (KB ∧ ¬α) has no satisfying model (is unsatisfiable).",
+      "distractor_analysis": "Option A is wrong because KB ∧ α is satisfiable whenever KB is satisfiable. Option C represents the logical negation of entailment. Option D is irrelevant to entailment truth conditions."
+    },
+    "linked_note_code": "NOTE-LOGIC-ENTAIL-REFUTE"
+  },
+  {
+    "question_number": 8,
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "Which First-Order Logic (FOL) sentence is logically equivalent to the statement: ¬∃x (P(x) ∧ ¬Q(x))?",
+    "options": {
+      "A": "∀x (P(x) → Q(x))",
+      "B": "∃x (¬P(x) ∧ Q(x))",
+      "C": "∀x (¬P(x) ∧ Q(x))",
+      "D": "¬∀x (P(x) → Q(x))"
+    },
+    "is_correct": "A",
+    "explanation": {
+      "correct_reason": "Applying quantifier negation rules: ¬∃x S ≡ ∀x ¬S. Thus, ¬∃x (P(x) ∧ ¬Q(x)) becomes ∀x ¬(P(x) ∧ ¬Q(x)). By De Morgan's Law, ¬(P(x) ∧ ¬Q(x)) ≡ ¬P(x) ∨ Q(x). Using implication equivalence (A → B ≡ ¬A ∨ B), this simplifies to ∀x (P(x) → Q(x)).",
+      "distractor_analysis": "Option B applies negation incorrectly across quantifiers. Option C mistakes conjunction for disjunction. Option D states the contradiction of the original sentence."
+    },
+    "linked_note_code": "NOTE-FOL-QUANT-EQUIV"
+  },
+  {
+    "question_number": 9,
+    "course_code": "ITec4121",
+    "bloom_level": "APPLY",
+    "difficulty": "HARD",
+    "question_text": "Given the Prolog list unification goal:\n\n`?- [X, Y | Z] = [1, 2, 3, 4].`\n\nWhat are the resulting bindings for variables `X`, `Y`, and `Z`?",
+    "options": {
+      "A": "X = 1, Y = 2, Z = [3, 4]",
+      "B": "X = 1, Y = [2, 3, 4], Z = []",
+      "C": "X = 1, Y = 2, Z = 3",
+      "D": "Unification fails."
+    },
+    "is_correct": "A",
+    "explanation": {
+      "correct_reason": "Prolog list matching allows specifying multiple head elements before the bar `|`. The first element `1` unifies with `X`, the second element `2` unifies with `Y`, and the remaining sublist `[3, 4]` unifies with the tail variable `Z`.",
+      "distractor_analysis": "Option B ignores the position of `Y` before the tail bar. Option C treats `Z` as a single element atom rather than the proper list tail `[3, 4]`. Option D incorrectly assumes matching multiple heads fails."
+    },
+    "linked_note_code": "NOTE-PROLOG-HEAD-TAIL-MULTI"
+  },
+  {
+    "question_number": 10,
+    "course_code": "ITec4121",
+    "bloom_level": "REMEMBER",
+    "difficulty": "HARD",
+    "question_text": "In logical inference systems, an inference algorithm ⊢ is defined as **complete** if and only if:",
+    "options": {
+      "A": "Whenever KB ⊢ α, it is also true that KB ⊨ α.",
+      "B": "Whenever KB ⊨ α, it is also true that KB ⊢ α.",
+      "C": "It derives sentences without requiring search.",
+      "D": "It terminates in polynomial time for all inputs."
+    },
+    "is_correct": "B",
+    "explanation": {
+      "correct_reason": "Completeness means an inference engine can derive every sentence that is logically entailed by the KB (if KB ⊨ α, then KB ⊢ α). Soundness, by contrast, means the engine derives ONLY entailed sentences (if KB ⊢ α, then KB ⊨ α).",
+      "distractor_analysis": "Option A defines **Soundness**. Option C describes searchless lookup, not complete inference. Option D describes computational efficiency (tractability), not logical completeness."
+    },
+    "linked_note_code": "NOTE-LOGIC-SOUND-COMPLETE"
+  },
+  {
+    "question_number": 11,
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "Consider the Prolog program for list membership:\n\n```prolog\nmember(X, [X | _]).\nmember(X, [_ | Tail]) :- member(X, Tail).\n```\n\nWhat are all the solutions returned in sequence when querying `?- member(X, [1, 2, 3]), X > 1.` using backtracking?",
+    "options": {
+      "A": "X = 2 ; X = 3.",
+      "B": "X = 1 ; X = 2 ; X = 3.",
+      "C": "false.",
+      "D": "X = 2 ; false."
+    },
+    "is_correct": "A",
+    "explanation": {
+      "correct_reason": "First, `member/2` binds `X = 1`. Goal `1 > 1` fails, triggering backtracking. Next clause matches tail `[2, 3]`, binding `X = 2`. Goal `2 > 1` succeeds, yielding `X = 2`. Requesting another answer (via `;`) backtracks into `member/2` again to process tail `[3]`, binding `X = 3`. Goal `3 > 1` succeeds, yielding `X = 3`.",
+      "distractor_analysis": "Option B includes `X = 1`, ignoring the failure of `1 > 1`. Option C misses valid solutions. Option D prematurely terminates before finding `X = 3`."
+    },
+    "linked_note_code": "NOTE-PROLOG-MEMBER-BACKTRACK"
+  },
+  {
+    "question_number": 12,
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "Why are **Horn Clauses** foundational to logic programming languages such as Prolog?",
+    "options": {
+      "A": "They allow representation of higher-order quantifiers directly.",
+      "B": "Inference using Horn clauses can be executed in linear time using Forward or Backward Chaining.",
+      "C": "They eliminate the need for recursive search trees.",
+      "D": "They allow disjunction of multiple positive literals in clause heads."
+    },
+    "is_correct": "B",
+    "explanation": {
+      "correct_reason": "A Horn clause contains at most one positive literal. This restriction enables linear-time resolution via forward and backward chaining algorithms, making inference computationally tractable for logic programming systems like Prolog.",
+      "distractor_analysis": "Option A is incorrect because Horn clauses belong to first-order/propositional logic subsets. Option C is false as Horn clauses still require depth-first resolution search. Option D describes general non-Horn clauses."
+    },
+    "linked_note_code": "NOTE-LOGIC-HORN-CLAUSES"
+  },
+  {
+    "question_number": 13,
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "Prolog relies on the **Closed World Assumption (CWA)** and **Negation as Failure (NAF)**. If the fact `happy(john).` is NOT present in the database, how does Prolog evaluate the query `?- \\+ happy(john).`?",
+    "options": {
+      "A": "Returns unknown due to incomplete information.",
+      "B": "Throws a missing predicate error.",
+      "C": "Evaluates to true.",
+      "D": "Evaluates to false."
+    },
+    "is_correct": "C",
+    "explanation": {
+      "correct_reason": "Under the Closed World Assumption, any statement that cannot be proven true from the Knowledge Base is assumed false. The Negation as Failure operator (`\\+`) succeeds if proving the target goal fails. Since `happy(john)` fails, `\\+ happy(john)` evaluates to `true`.",
+      "distractor_analysis": "Option A applies to three-valued open-world logics, not Prolog. Option B applies only if the predicate signature is completely undeclared in static mode settings. Option D describes standard evaluation without negation."
+    },
+    "linked_note_code": "NOTE-PROLOG-NAF-CWA"
+  },
+  {
+    "question_number": 14,
+    "course_code": "ITec4121",
+    "bloom_level": "APPLY",
+    "difficulty": "HARD",
+    "question_text": "Consider the Prolog temperature conversion program:\n\n```prolog\navg_temp(dire, 100).\navg_temp(harar, 68).\navg_temp_cel(Town, C_Temp) :-\n    avg_temp(Town, F_Temp),\n    C_Temp is (F_Temp - 32) * 5 // 9.\n```\n\nWhat is the value bound to `C` when executing `?- avg_temp_cel(dire, C).`?",
+    "options": {
+      "A": "C = 37.77777777777778",
+      "B": "C = 37",
+      "C": "C = 38",
+      "D": "false"
+    },
+    "is_correct": "B",
+    "explanation": {
+      "correct_reason": "Querying `avg_temp_cel(dire, C)` unifies `Town = dire` and retrieves `F_Temp = 100`. The arithmetic evaluation step evaluates `(100 - 32) * 5 // 9` = `68 * 5 // 9` = `340 // 9`. Because `//` performs integer division, the result truncates to `37`.",
+      "distractor_analysis": "Option A assumes standard real division `/`. Option C rounds up, whereas integer division `//` truncates down. Option D incorrectly assumes rule failure."
+    },
+    "linked_note_code": "NOTE-PROLOG-TEMP-CONV"
+  },
+  {
+    "question_number": 15,
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "During Skolemization when converting FOL formulas to Conjunctive Normal Form (CNF), how is an existential quantifier (∃x) eliminated if it occurs inside the scope of a universal quantifier (∀y)?",
+    "options": {
+      "A": "By replacing x with a constant symbol C.",
+      "B": "By replacing x with a Skolem function f(y) dependent on y.",
+      "C": "By removing the existential quantifier without substituting x.",
+      "D": "By converting ∃x to ∀x."
+    },
+    "is_correct": "B",
+    "explanation": {
+      "correct_reason": "If an existential quantifier lies within the scope of a universal quantifier, the value satisfying x depends on y. Thus, x must be replaced by a Skolem function `f(y)` that maps each domain element y to its corresponding x.",
+      "distractor_analysis": "Option A (Skolem constant) is used only when the existential quantifier is NOT in the scope of any universal quantifier. Option C leaves free variables. Option D alters logical meaning."
+    },
+    "linked_note_code": "NOTE-FOL-SKOLEMIZATION"
+  },
+  {
+    "question_number": 16,
+    "course_code": "ITec4121",
+    "bloom_level": "APPLY",
+    "difficulty": "HARD",
+    "question_text": "Applying the Resolution Rule to the two propositional clauses (P ∨ Q) and (¬P ∨ R) yields which resolvent clause?",
+    "options": {
+      "A": "P ∨ R",
+      "B": "Q ∨ R",
+      "C": "Q ∧ R",
+      "D": "¬P ∨ Q ∨ R"
+    },
+    "is_correct": "B",
+    "explanation": {
+      "correct_reason": "The resolution rule takes two clauses containing complementary literals (`P` and `¬P`) and combines their remaining literals into a new clause. Resolving `(P ∨ Q)` and `(¬P ∨ R)` cancels `P` and `¬P`, producing `(Q ∨ R)`.",
+      "distractor_analysis": "Option A retains the canceled variable P. Option C replaces disjunction with conjunction. Option D simply concatenates clauses without performing resolution."
+    },
+    "linked_note_code": "NOTE-LOGIC-RESOLUTION-RULE"
+  },
+  {
+    "question_number": 17,
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "What distinguishes the Prolog anonymous variable `_` from named variables (e.g., `X` or `Tail`) within a single rule clause?",
+    "options": {
+      "A": "Every occurrence of `_` within a clause represents an independent, distinct variable.",
+      "B": "The `_` variable can only bind to integer values.",
+      "C": "The `_` variable retains global state across different rule queries.",
+      "D": "The `_` variable prevents backtracking."
+    },
+    "is_correct": "A",
+    "explanation": {
+      "correct_reason": "The anonymous variable `_` acts as a wildcard. Unlike named variables (which enforce coreference so all instances of `X` in a clause bind to the same term), each instance of `_` is independent and can unify with different terms without binding restrictions.",
+      "distractor_analysis": "Option B is incorrect because `_` unifies with any Prolog term. Option C is false as Prolog variables have scope restricted to their clause. Option D is false as `_` does not alter backtracking flow."
+    },
+    "linked_note_code": "NOTE-PROLOG-ANON-VAR"
+  },
+  {
+    "question_number": 18,
+    "course_code": "ITec4121",
+    "bloom_level": "ANALYZE",
+    "difficulty": "HARD",
+    "question_text": "Which of the following First-Order Logic (FOL) assertions is a **valid sentence** (true in all models under all interpretations)?",
+    "options": {
+      "A": "(∀x P(x)) → (∃x P(x)) (assuming non-empty domain)",
+      "B": "(∃x P(x)) → (∀x P(x))",
+      "C": "∀x ∃y P(x, y) → ∃y ∀x P(x, y)",
+      "D": "∀x (P(x) ∨ Q(x)) → (∀x P(x) ∧ ∀x Q(x))"
+    },
+    "is_correct": "A",
+    "explanation": {
+      "correct_reason": "Assuming a standard non-empty universe of discourse, if property P holds for every element in the domain (`∀x P(x)`), there must exist at least one element for which P holds (`∃x P(x)`). Thus, `(∀x P(x)) → (∃x P(x))` is valid.",
+      "distractor_analysis": "Option B is invalid because a single instance of P does not imply universal truth. Option C is invalid because swapping quantifier order changes scope semantics. Option D is invalid because disjunction under universal quantifiers does not distribute into conjunctions."
+    },
+    "linked_note_code": "NOTE-FOL-VALIDITY"
+  },
+  {
+    "question_number": 19,
+    "course_code": "ITec4121",
+    "bloom_level": "UNDERSTAND",
+    "difficulty": "HARD",
+    "question_text": "Why is **Tail Recursion Optimization (Last Call Optimization)** important in Prolog implementation?",
+    "options": {
+      "A": "It reuses the current stack frame for the final recursive call, allowing execution in O(1) auxiliary space.",
+      "B": "It replaces unification with direct memory pointer references.",
+      "C": "It enforces deterministic execution by disabling backtracking entirely.",
+      "D": "It automatically converts depth-first search into breadth-first search."
+    },
+    "is_correct": "A",
+    "explanation": {
+      "correct_reason": "When a recursive call is in tail position (the final goal in a rule body), Prolog's engine reuses the active stack frame instead of pushing a new frame. This optimization enables recursive predicates to run indefinitely without incurring stack overflow errors.",
+      "distractor_analysis": "Option B is incorrect because unification is still required. Option C is false as non-deterministic choices prior to tail calls retain choice points. Option D is false as search ordering remains depth-first."
+    },
+    "linked_note_code": "NOTE-PROLOG-TAIL-RECURSION"
+  },
+  {
+    "question_number": 20,
+    "course_code": "ITec4121",
+    "bloom_level": "APPLY",
+    "difficulty": "HARD",
+    "question_text": "In the Wumpus World domain, the rule 'Square (1,1) is breezy if and only if an adjacent square contains a pit' is expressed as: B_1,1 ⇔ (P_1,2 ∨ P_2,1). Which set of clauses represents this biconditional in Conjunctive Normal Form (CNF)?",
+    "options": {
+      "A": "(¬B_1,1 ∨ P_1,2 ∨ P_2,1) ∧ (B_1,1 ∨ ¬P_1,2) ∧ (B_1,1 ∨ ¬P_2,1)",
+      "B": "(B_1,1 ∨ P_1,2 ∨ P_2,1) ∧ (¬B_1,1 ∨ ¬P_1,2 ∨ ¬P_2,1)",
+      "C": "(¬B_1,1 ∧ P_1,2 ∧ P_2,1) ∨ (B_1,1 ∧ ¬P_1,2 ∧ ¬P_2,1)",
+      "D": "(B_1,1 → P_1,2) ∧ (B_1,1 → P_2,1)"
+    },
+    "is_correct": "A",
+    "explanation": {
+      "correct_reason": "To convert α ⇔ β to CNF: break into (α → β) ∧ (β → α). First implication: B_1,1 → (P_1,2 ∨ P_2,1) ≡ (¬B_1,1 ∨ P_1,2 ∨ P_2,1). Second implication: (P_1,2 ∨ P_2,1) → B_1,1 ≡ ¬(P_1,2 ∨ P_2,1) ∨ B_1,1 ≡ (¬P_1,2 ∧ ¬P_2,1) ∨ B_1,1 ≡ (B_1,1 ∨ ¬P_1,2) ∧ (B_1,1 ∨ ¬P_2,1). Combining both yields Option A.",
+      "distractor_analysis": "Option B applies De Morgan's laws incorrectly across implications. Option C is in Disjunctive Normal Form (DNF), not CNF. Option D retains implications instead of converting to clause form."
+    },
+    "linked_note_code": "NOTE-LOGIC-CNF-CONV"
+  }
+]

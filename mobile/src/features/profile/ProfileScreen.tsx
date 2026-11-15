@@ -3,7 +3,20 @@ import { View, Text, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { useTheme } from '../../shared/theme';
 import { Button, Card } from '../../shared/components';
 import { useAuthSession } from '../../services/auth-session/AuthSessionContext';
-import { User, Building2, LogOut, Shield, HardDrive, Bell } from 'lucide-react-native';
+import {
+  User,
+  Building2,
+  LogOut,
+  Shield,
+  HardDrive,
+  Bell,
+  ShieldCheck,
+  ShoppingBag,
+  Smartphone,
+  Globe,
+  RefreshCw,
+  HelpCircle,
+} from 'lucide-react-native';
 
 interface ProfileScreenProps {
   navigation: any;
@@ -80,25 +93,109 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           />
         </Card>
 
-        {/* Device & Storage Settings */}
+        {/* Commercial Access & Store */}
+        <Card variant="outlined" style={{ marginBottom: spacing.md }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
+            <ShieldCheck size={20} color={colors.brand.primary} />
+            <Text style={[typography.h3, { color: colors.text.primary, marginLeft: 8 }]}>
+              Plans & Licensing
+            </Text>
+          </View>
+          <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
+            Personal subscriptions, one-time packs & institutional seats
+          </Text>
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            <View style={{ flex: 1 }}>
+              <Button
+                title="Plans & Access (MOB-24)"
+                variant="outline"
+                size="sm"
+                onPress={() => navigation.navigate('PlansAndAccess')}
+              />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Button
+                title="Study Store (MOB-25)"
+                variant="primary"
+                size="sm"
+                onPress={() => navigation.navigate('StoreCatalog')}
+              />
+            </View>
+          </View>
+        </Card>
+
+        {/* Offline Downloads & Sync Center */}
         <Card variant="outlined" style={{ marginBottom: spacing.md }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
             <HardDrive size={20} color={colors.status.online} />
             <Text style={[typography.h3, { color: colors.text.primary, marginLeft: 8 }]}>
-              Storage & Offline Mode
+              Offline Data & Sync
             </Text>
           </View>
-          <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: 4 }]}>
-            SQLCipher Database: exit_exam_encrypted.db
+          <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
+            SQLCipher encrypted database • Opaque change ledger
           </Text>
-          <Text style={[typography.labelSm, { color: colors.status.online, marginBottom: spacing.sm }]}>
-            Encrypted with AES-256 local envelope key
-          </Text>
+          <View style={{ flexDirection: 'row', gap: 8, marginBottom: 8 }}>
+            <View style={{ flex: 1 }}>
+              <Button
+                title="Download Manager (MOB-12)"
+                variant="outline"
+                size="sm"
+                onPress={() => navigation.navigate('DownloadManager')}
+              />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Button
+                title="Sync Center (MOB-28)"
+                variant="outline"
+                size="sm"
+                onPress={() => navigation.navigate('SyncCenter')}
+              />
+            </View>
+          </View>
           <Button
-            title="Download Manager (MOB-12)"
+            title="Storage & Cache Settings (MOB-27)"
             variant="outline"
             size="sm"
-            onPress={() => navigation.navigate('DownloadManager')}
+            onPress={() => navigation.navigate('StorageSettings')}
+          />
+        </Card>
+
+        {/* Security & Devices */}
+        <Card variant="outlined" style={{ marginBottom: spacing.md }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
+            <Smartphone size={20} color={colors.brand.primary} />
+            <Text style={[typography.h3, { color: colors.text.primary, marginLeft: 8 }]}>
+              Devices & Security
+            </Text>
+          </View>
+          <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
+            Active sessions, refresh token families & offline biometrics
+          </Text>
+          <Button
+            title="Manage Devices (MOB-29)"
+            variant="outline"
+            size="sm"
+            onPress={() => navigation.navigate('DevicesSecurity')}
+          />
+        </Card>
+
+        {/* Settings, Language & Help */}
+        <Card variant="outlined" style={{ marginBottom: spacing.md }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
+            <Globe size={20} color={colors.brand.primary} />
+            <Text style={[typography.h3, { color: colors.text.primary, marginLeft: 8 }]}>
+              Settings & Offline Help
+            </Text>
+          </View>
+          <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
+            English, አማርኛ, Afaan Oromoo & exam troubleshooting
+          </Text>
+          <Button
+            title="Settings & Help (MOB-30)"
+            variant="outline"
+            size="sm"
+            onPress={() => navigation.navigate('SettingsAndHelp')}
           />
         </Card>
 
@@ -107,7 +204,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           variant="danger"
           leftIcon={<LogOut size={18} color="#FFFFFF" />}
           onPress={handleLogout}
-          style={{ marginTop: spacing.md }}
+          style={{ marginTop: spacing.md, marginBottom: spacing.xl }}
         />
       </ScrollView>
     </SafeAreaView>

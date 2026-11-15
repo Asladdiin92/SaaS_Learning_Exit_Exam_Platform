@@ -72,6 +72,7 @@ class ReviewItem(BaseModel):
     is_correct: Optional[bool] = None
     correct_option_id: Optional[UUID] = None
     explanation: Optional[str] = None
+    option_explanations: Optional[dict[str, str]] = None
 
 
 class AttemptResultResponse(BaseModel):

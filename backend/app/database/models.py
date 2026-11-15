@@ -96,6 +96,11 @@ attempt_status_enum = ENUM(
     name="attempt_status",
     create_type=False,
 )
+order_status_enum = ENUM(
+    "PENDING", "PAID", "FAILED", "REFUNDED", "DISPUTED",
+    name="order_status",
+    create_type=False,
+)
 
 
 class Tenant(Base):
@@ -323,6 +328,7 @@ class Question(Base):
     level = Column(String(32), nullable=False, default="REMEMBER")
     difficulty = Column(difficulty_level_enum, nullable=False)
     explanation = Column(Text, nullable=True)
+    option_explanations = Column(JSONB, nullable=False, default=dict)
     version = Column(Integer, nullable=False, default=1)
     is_published = Column(Boolean, nullable=False, default=True)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
@@ -365,6 +371,7 @@ class LearningOutcome(Base):
 
     outcome_id = Column(Integer, primary_key=True, autoincrement=True)
     course_id = Column(Integer, ForeignKey("courses.course_id", ondelete="CASCADE"), nullable=False)
+    outcome_code = Column(String(64), nullable=True)
     description = Column(Text, nullable=False)
     domain = Column(domain_type_enum, default="COGNITIVE", nullable=False)
     level = Column(cognitive_level_enum, default="REMEMBER", nullable=False)
@@ -417,6 +424,23 @@ class CourseResource(Base):
     )
 
 
+class OutcomeMastery(Base):
+    __tablename__ = "outcome_mastery"
+
+    mastery_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.tenant_id", ondelete="CASCADE"), nullable=True)
+    outcome_id = Column(Integer, ForeignKey("learning_outcomes.outcome_id", ondelete="CASCADE"), nullable=False)
+    attempts_evidence_count = Column(Integer, default=0, nullable=False)
+    correct_evidence_count = Column(Integer, default=0, nullable=False)
+    mastery_score = Column(Numeric(4, 3), default=0.000, nullable=False)
+    last_evaluated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    user = relationship("User", backref="outcome_masteries")
+    tenant = relationship("Tenant", backref="outcome_masteries")
+    outcome = relationship("LearningOutcome", backref="mastery_records")
+
+
 class FeatureEntitlement(Base):
     __tablename__ = "feature_entitlements"
 
@@ -437,3 +461,53 @@ class FeatureEntitlement(Base):
 
     user = relationship("User", backref="entitlements")
     tenant = relationship("Tenant", backref="entitlements")
+
+
+class Product(Base):
+    __tablename__ = "products"
+
+    product_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    code = Column(String(64), unique=True, nullable=False)
+    title = Column(String(255), nullable=False)
+    is_recurring = Column(Boolean, default=False, nullable=False)
+    billing_interval_days = Column(Integer, nullable=True)
+    price_amount = Column(Numeric(10, 2), nullable=False)
+    currency = Column(String(8), default="ETB", nullable=False)
+    entitlement_spec = Column(JSONB, default=dict, nullable=False)
+    is_active = Column(Boolean, default=True, nullable=False)
+
+
+class Order(Base):
+    __tablename__ = "orders"
+
+    order_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    idempotency_key = Column(UUID(as_uuid=True), unique=True, nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id", ondelete="RESTRICT"), nullable=False)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.tenant_id", ondelete="RESTRICT"), nullable=True)
+    product_id = Column(UUID(as_uuid=True), ForeignKey("products.product_id", ondelete="RESTRICT"), nullable=False)
+    amount = Column(Numeric(10, 2), nullable=False)
+    currency = Column(String(8), nullable=False)
+    status = Column(order_status_enum, default="PENDING", nullable=False)
+    payment_provider = Column(String(64), nullable=True)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc), nullable=False)
+
+    user = relationship("User", backref="orders")
+    tenant = relationship("Tenant", backref="orders")
+    product = relationship("Product", backref="orders")
+
+
+class PaymentEvent(Base):
+    __tablename__ = "payment_events"
+
+    payment_event_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    provider = Column(String(64), nullable=False)
+    provider_event_id = Column(String(255), nullable=False)
+    order_id = Column(UUID(as_uuid=True), ForeignKey("orders.order_id", ondelete="RESTRICT"), nullable=False)
+    verified_amount = Column(Numeric(10, 2), nullable=False)
+    verified_currency = Column(String(8), nullable=False)
+    raw_payload = Column(JSONB, default=dict, nullable=False)
+    processed_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    order = relationship("Order", backref="payment_events")
+

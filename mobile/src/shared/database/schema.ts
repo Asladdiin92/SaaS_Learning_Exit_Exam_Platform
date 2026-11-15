@@ -42,7 +42,8 @@ CREATE TABLE IF NOT EXISTS local_resources (
   size_bytes INTEGER NOT NULL DEFAULT 0,
   package_id TEXT,
   access_state TEXT NOT NULL DEFAULT 'AVAILABLE',
-  version INTEGER NOT NULL DEFAULT 1
+  version INTEGER NOT NULL DEFAULT 1,
+  content_markdown TEXT
 );
 
 -- 5. download_packages

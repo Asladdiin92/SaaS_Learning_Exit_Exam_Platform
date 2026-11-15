@@ -99,7 +99,11 @@ export class ApiClient {
     options: RequestInit = {},
     isRetry = false
   ): Promise<T> {
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    let cleanPath = path.startsWith('/') ? path : `/${path}`;
+    // Strip duplicate /api/v1 prefix if API_BASE_URL already contains /api/v1
+    if (API_BASE_URL.endsWith('/api/v1') && cleanPath.startsWith('/api/v1/')) {
+      cleanPath = cleanPath.slice(7);
+    }
     const url = `${API_BASE_URL}${cleanPath}`;
 
     const headers: Record<string, string> = {
@@ -137,10 +141,34 @@ export class ApiClient {
       }
     }
 
-    const response = await fetch(url, {
-      ...options,
-      headers,
-    });
+    let response: Response;
+    try {
+      response = await fetch(url, {
+        ...options,
+        headers,
+      });
+    } catch (fetchErr: any) {
+      if (
+        (url.includes('localhost') || url.includes('127.0.0.1')) &&
+        !url.includes('10.232.98.77')
+      ) {
+        const altUrl = url.replace(/(localhost|127\.0\.0\.1):8000/, '10.232.98.77:8000');
+        try {
+          response = await fetch(altUrl, { ...options, headers });
+        } catch (_) {
+          throw fetchErr;
+        }
+      } else if (url.includes('10.232.98.77')) {
+        const altUrl = url.replace('10.232.98.77:8000', '127.0.0.1:8000');
+        try {
+          response = await fetch(altUrl, { ...options, headers });
+        } catch (_) {
+          throw fetchErr;
+        }
+      } else {
+        throw fetchErr;
+      }
+    }
 
     // 5. Single-Flight 401 Interceptor with Rotating Token Refresh
     if (

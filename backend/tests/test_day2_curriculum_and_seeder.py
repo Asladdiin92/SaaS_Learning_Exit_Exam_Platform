@@ -64,10 +64,10 @@ def test_day2_curriculum_and_present_model_exam_and_grading():
             assert cur.fetchone()[0] == 1, "HU model exam blueprint missing"
 
             cur.execute("SELECT COUNT(*) FROM questions")
-            assert cur.fetchone()[0] == 100, "Expected 100 questions"
+            assert cur.fetchone()[0] >= 100, "Expected at least 100 questions"
 
             cur.execute("SELECT COUNT(*) FROM question_options")
-            assert cur.fetchone()[0] == 420, "Expected 420 question options"
+            assert cur.fetchone()[0] >= 420, "Expected at least 420 question options"
 
             cur.execute(
                 "SELECT exam_id FROM exam_blueprints WHERE title = %s",

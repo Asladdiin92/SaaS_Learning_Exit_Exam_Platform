@@ -231,7 +231,7 @@ async def test_push_exam_attempt_is_scored_and_replay_is_idempotent(day15_client
             FROM questions q
             JOIN question_options qo
               ON qo.question_id = q.question_id AND qo.is_correct = TRUE
-            WHERE q.is_published = TRUE
+            WHERE q.is_published = TRUE AND q.question_text LIKE '**[Q%'
             ORDER BY q.created_at, q.question_id
             """
         )

@@ -36,7 +36,7 @@ from backend.app.learning.service import recompute_outcome_mastery
 assessments_router = APIRouter(tags=["Assessments"])
 EXAM_TYPES = {"PRACTICE_QUIZ", "COURSE_EXAM", "NATIONAL_EXIT_SIMULATION"}
 DIFFICULTIES = {"EASY", "MEDIUM", "HARD"}
-HU_QUESTION_NUMBER = re.compile(r"\[Q(\d+)\b")
+HU_QUESTION_NUMBER = re.compile(r"\*\*\[Q(\d+)\b")
 
 
 @assessments_router.get(
@@ -118,11 +118,15 @@ def _client_snapshot(snapshots: list[dict[str, Any]]) -> list[dict[str, Any]]:
         {
             key: value
             for key, value in item.items()
-            if key not in {"explanation"}
+            if key not in {"explanation", "option_explanations"}
         }
         | {
             "options": [
-                {key: value for key, value in option.items() if key != "is_correct"}
+                {
+                    key: value
+                    for key, value in option.items()
+                    if key not in {"is_correct", "explanation"}
+                }
                 for option in item["options"]
             ]
         }
@@ -208,6 +212,9 @@ async def _load_snapshot(
         questions = [question for question in questions if str(question.question_id) in positions]
         questions.sort(key=lambda question: positions[str(question.question_id)])
     elif blueprint.type == "NATIONAL_EXIT_SIMULATION":
+        hu_questions = [q for q in questions if HU_QUESTION_NUMBER.search(q.question_text)]
+        if len(hu_questions) >= blueprint.total_questions:
+            questions = hu_questions
         questions.sort(
             key=lambda question: (
                 int(match.group(1)) if (match := HU_QUESTION_NUMBER.search(question.question_text)) else 2**31,
@@ -255,11 +262,15 @@ async def _load_snapshot(
                 "level": str(question.level),
                 "difficulty": str(question.difficulty),
                 "explanation": question.explanation,
+                "option_explanations": question.option_explanations or {},
                 "options": [
                     {
                         "option_id": str(option.option_id),
                         "option_label": option.option_label.strip(),
                         "option_text": option.option_text,
+                        "explanation": (question.option_explanations or {}).get(
+                            option.option_label.strip()
+                        ),
                         "is_correct": option.is_correct,
                     }
                     for option in options
@@ -540,6 +551,11 @@ async def _scored_result(db: AsyncSession, attempt: ExamAttempt) -> dict[str, An
                     "is_correct": is_correct,
                     "correct_option_id": correct_option["option_id"] if correct_option else None,
                     "explanation": question.get("explanation"),
+                    "option_explanations": {
+                        option["option_label"]: option.get("explanation")
+                        for option in question["options"]
+                        if option.get("explanation")
+                    },
                 }
             )
         review_items.append(review_item)

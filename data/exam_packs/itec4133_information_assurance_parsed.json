@@ -1,0 +1,4379 @@
+{
+  "metadata": {
+    "title": "ITec4133 / IT-SEC-401 Information Assurance and Security Comprehensive Question Bank",
+    "courseCode": "IT-SEC-401",
+    "courseTitle": "Information Assurance and Security",
+    "totalQuestions": 80,
+    "difficultyCounts": {
+      "EASY": 28,
+      "MEDIUM": 36,
+      "HARD": 16
+    },
+    "chapters": [
+      {
+        "chapter_number": 1,
+        "title": "Introduction to Information Security & Security Architecture",
+        "question_range": [
+          1,
+          20
+        ],
+        "outcome_id": "OUTCOME-ITSEC-CH1",
+        "resource_id": "res_itsec_ch1_notes"
+      },
+      {
+        "chapter_number": 2,
+        "title": "Classical Encryption Techniques & Symmetric Ciphers",
+        "question_range": [
+          21,
+          40
+        ],
+        "outcome_id": "OUTCOME-ITSEC-CH2",
+        "resource_id": "res_itsec_ch2_notes"
+      },
+      {
+        "chapter_number": 3,
+        "title": "Modern Block Ciphers & Data Encryption Standard (DES)",
+        "question_range": [
+          41,
+          60
+        ],
+        "outcome_id": "OUTCOME-ITSEC-CH3",
+        "resource_id": "res_itsec_ch3_notes"
+      },
+      {
+        "chapter_number": 4,
+        "title": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+        "question_range": [
+          61,
+          80
+        ],
+        "outcome_id": "OUTCOME-ITSEC-CH4",
+        "resource_id": "res_itsec_ch4_notes"
+      }
+    ]
+  },
+  "questions": [
+    {
+      "questionNumber": 1,
+      "id": "Q-CH1-001",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH1-001",
+      "prompt": "Which component of the CIA triad ensures that information and programs are changed only in a specified and authorized manner?",
+      "options": [
+        {
+          "id": "q001_a",
+          "label": "A",
+          "text": "Confidentiality",
+          "isCorrect": false,
+          "explanation": "Confidentiality ensures that sensitive information is not disclosed to unauthorized individuals."
+        },
+        {
+          "id": "q001_b",
+          "label": "B",
+          "text": "Integrity",
+          "isCorrect": true,
+          "explanation": "Data integrity guarantees that data has not been altered, deleted, or modified in an unauthorized or accidental manner."
+        },
+        {
+          "id": "q001_c",
+          "label": "C",
+          "text": "Availability",
+          "isCorrect": false,
+          "explanation": "Availability ensures that system resources are accessible to authorized users when needed."
+        },
+        {
+          "id": "q001_d",
+          "label": "D",
+          "text": "Nonrepudiation",
+          "isCorrect": false,
+          "explanation": "Nonrepudiation prevents an entity from denying a performed action or sent message."
+        }
+      ],
+      "correctOptionId": "q001_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Data integrity guarantees that data has not been altered, deleted, or modified in an unauthorized or accidental manner.\nWhy A is incorrect: Confidentiality ensures that sensitive information is not disclosed to unauthorized individuals.\nWhy C is incorrect: Availability ensures that system resources are accessible to authorized users when needed.\nWhy D is incorrect: Nonrepudiation prevents an entity from denying a performed action or sent message.",
+      "cheatSheetNote": "Integrity: Preserving data correctness and guarding against unauthorized modification or destruction.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 2,
+      "id": "Q-CH1-002",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH1-002",
+      "prompt": "An unauthorized user eavesdrops on a network transmission to capture sensitive employee payroll records without altering the traffic. How is this attack categorized?",
+      "options": [
+        {
+          "id": "q002_a",
+          "label": "A",
+          "text": "Active Attack",
+          "isCorrect": false,
+          "explanation": "Active attacks involve modification of data stream or creation of a false stream."
+        },
+        {
+          "id": "q002_b",
+          "label": "B",
+          "text": "Passive Attack",
+          "isCorrect": true,
+          "explanation": "Passive attacks focus on learning or intercepting information without altering system resources or network operations."
+        },
+        {
+          "id": "q002_c",
+          "label": "C",
+          "text": "Denial of Service Attack",
+          "isCorrect": false,
+          "explanation": "Denial of Service is an active attack that disrupts or impairs system availability."
+        },
+        {
+          "id": "q002_d",
+          "label": "D",
+          "text": "Masquerade Attack",
+          "isCorrect": false,
+          "explanation": "Masquerade is an active attack where an entity pretends to be a different entity."
+        }
+      ],
+      "correctOptionId": "q002_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Passive attacks focus on learning or intercepting information without altering system resources or network operations.\nWhy A is incorrect: Active attacks involve modification of data stream or creation of a false stream.\nWhy C is incorrect: Denial of Service is an active attack that disrupts or impairs system availability.\nWhy D is incorrect: Masquerade is an active attack where an entity pretends to be a different entity.",
+      "cheatSheetNote": "Passive Attacks: Interception/snooping that compromises confidentiality without altering data or system states.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 3,
+      "id": "Q-CH1-003",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH1-003",
+      "prompt": "What type of passive attack involves observing the pattern, frequency, and length of encrypted messages to derive intelligence?",
+      "options": [
+        {
+          "id": "q003_a",
+          "label": "A",
+          "text": "Release of message contents",
+          "isCorrect": false,
+          "explanation": "Release of message contents involves reading unencrypted or decrypted telecommunication payloads."
+        },
+        {
+          "id": "q003_b",
+          "label": "B",
+          "text": "Traffic Analysis",
+          "isCorrect": true,
+          "explanation": "Traffic analysis examines communication patterns even when payloads are encrypted, allowing attackers to infer communication location and frequency."
+        },
+        {
+          "id": "q003_c",
+          "label": "C",
+          "text": "Replay Attack",
+          "isCorrect": false,
+          "explanation": "Replay is an active attack involving the passive capture and subsequent retransmission of data units."
+        },
+        {
+          "id": "q003_d",
+          "label": "D",
+          "text": "Modification of messages",
+          "isCorrect": false,
+          "explanation": "Modification of messages is an active attack altering legitimate data."
+        }
+      ],
+      "correctOptionId": "q003_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Traffic analysis examines communication patterns even when payloads are encrypted, allowing attackers to infer communication location and frequency.\nWhy A is incorrect: Release of message contents involves reading unencrypted or decrypted telecommunication payloads.\nWhy C is incorrect: Replay is an active attack involving the passive capture and subsequent retransmission of data units.\nWhy D is incorrect: Modification of messages is an active attack altering legitimate data.",
+      "cheatSheetNote": "Traffic Analysis: Inferring intelligence by examining connection timing, volume, and message headers.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 4,
+      "id": "Q-CH1-004",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "APPLY",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH1-004",
+      "prompt": "An attacker captures a valid authentication token sent by a legitimate user to a server, and later resends the exact token to gain unauthorized access. Which attack occurred?",
+      "options": [
+        {
+          "id": "q004_a",
+          "label": "A",
+          "text": "Replay Attack",
+          "isCorrect": true,
+          "explanation": "A replay attack captures valid data transmissions (such as authentication tokens) and retransmits them later to produce an unauthorized effect."
+        },
+        {
+          "id": "q004_b",
+          "label": "B",
+          "text": "Masquerade Attack",
+          "isCorrect": false,
+          "explanation": "Masquerading involves pretending to be a different user by forging credentials directly rather than replaying captured valid ones."
+        },
+        {
+          "id": "q004_c",
+          "label": "C",
+          "text": "Traffic Analysis",
+          "isCorrect": false,
+          "explanation": "Traffic analysis is passive observation."
+        },
+        {
+          "id": "q004_d",
+          "label": "D",
+          "text": "Service Denial",
+          "isCorrect": false,
+          "explanation": "Service denial attempts to prevent legitimate usage, not gain access."
+        }
+      ],
+      "correctOptionId": "q004_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: A replay attack captures valid data transmissions (such as authentication tokens) and retransmits them later to produce an unauthorized effect.\nWhy B is incorrect: Masquerading involves pretending to be a different user by forging credentials directly rather than replaying captured valid ones.\nWhy C is incorrect: Traffic analysis is passive observation.\nWhy D is incorrect: Service denial attempts to prevent legitimate usage, not gain access.",
+      "cheatSheetNote": "Replay Attack: Passive capture followed by active retransmission of legitimate data blocks.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 5,
+      "id": "Q-CH1-005",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH1-005",
+      "prompt": "According to the OSI Security Architecture (X.800), which service provides protection against denial of message delivery or origin by sender or receiver?",
+      "options": [
+        {
+          "id": "q005_a",
+          "label": "A",
+          "text": "Access Control",
+          "isCorrect": false,
+          "explanation": "Access control limits resource usage to authorized entities."
+        },
+        {
+          "id": "q005_b",
+          "label": "B",
+          "text": "Data Confidentiality",
+          "isCorrect": false,
+          "explanation": "Data confidentiality protects data against unauthorized disclosure."
+        },
+        {
+          "id": "q005_c",
+          "label": "C",
+          "text": "Nonrepudiation",
+          "isCorrect": true,
+          "explanation": "Nonrepudiation prevents either sender or receiver from denying a transmitted message or transaction."
+        },
+        {
+          "id": "q005_d",
+          "label": "D",
+          "text": "Authentication",
+          "isCorrect": false,
+          "explanation": "Authentication assures that a communicating entity is who it claims to be."
+        }
+      ],
+      "correctOptionId": "q005_c",
+      "correctLabel": "C",
+      "explanation": "Why C is correct: Nonrepudiation prevents either sender or receiver from denying a transmitted message or transaction.\nWhy A is incorrect: Access control limits resource usage to authorized entities.\nWhy B is incorrect: Data confidentiality protects data against unauthorized disclosure.\nWhy D is incorrect: Authentication assures that a communicating entity is who it claims to be.",
+      "cheatSheetNote": "Nonrepudiation: Mathematical or cryptographic proof of message origin/delivery that cannot be denied.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 6,
+      "id": "Q-CH1-006",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH1-006",
+      "prompt": "What is the key distinction between a security threat and a security attack?",
+      "options": [
+        {
+          "id": "q006_a",
+          "label": "A",
+          "text": "A threat is an active event, while an attack is a passive condition.",
+          "isCorrect": false,
+          "explanation": "Threats are potential risks/states, not active events."
+        },
+        {
+          "id": "q006_b",
+          "label": "B",
+          "text": "A threat represents a potential violation of security, while an attack is an action taken to breach security.",
+          "isCorrect": true,
+          "explanation": "A threat is a potential vulnerability or danger that might compromise security; an attack is an active execution of an action to exploit a threat."
+        },
+        {
+          "id": "q006_c",
+          "label": "C",
+          "text": "A threat targets hardware only, whereas an attack targets software.",
+          "isCorrect": false,
+          "explanation": "Both threats and attacks target hardware, software, data, and personnel."
+        },
+        {
+          "id": "q006_d",
+          "label": "D",
+          "text": "Threats occur externally, while attacks originate exclusively internally.",
+          "isCorrect": false,
+          "explanation": "Threats and attacks can originate both internally and externally."
+        }
+      ],
+      "correctOptionId": "q006_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: A threat is a potential vulnerability or danger that might compromise security; an attack is an active execution of an action to exploit a threat.\nWhy A is incorrect: Threats are potential risks/states, not active events.\nWhy C is incorrect: Both threats and attacks target hardware, software, data, and personnel.\nWhy D is incorrect: Threats and attacks can originate both internally and externally.",
+      "cheatSheetNote": "Threat vs. Attack: Threat is potential harm; attack is the realization/exploitation of a threat.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 7,
+      "id": "Q-CH1-007",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH1-007",
+      "prompt": "Which fundamental security principle states that security mechanisms should be as simple and small as possible?",
+      "options": [
+        {
+          "id": "q007_a",
+          "label": "A",
+          "text": "Fail-safe defaults",
+          "isCorrect": false,
+          "explanation": "Fail-safe defaults mean access decisions should be based on permission rather than exclusion (default deny)."
+        },
+        {
+          "id": "q007_b",
+          "label": "B",
+          "text": "Complete mediation",
+          "isCorrect": false,
+          "explanation": "Complete mediation requires every access request to be checked against access control policy."
+        },
+        {
+          "id": "q007_c",
+          "label": "C",
+          "text": "Economy of mechanism",
+          "isCorrect": true,
+          "explanation": "Economy of mechanism requires that security design remain simple and compact to minimize flaws and simplify verification."
+        },
+        {
+          "id": "q007_d",
+          "label": "D",
+          "text": "Open design",
+          "isCorrect": false,
+          "explanation": "Open design states security should not depend on secrecy of design/implementation."
+        }
+      ],
+      "correctOptionId": "q007_c",
+      "correctLabel": "C",
+      "explanation": "Why C is correct: Economy of mechanism requires that security design remain simple and compact to minimize flaws and simplify verification.\nWhy A is incorrect: Fail-safe defaults mean access decisions should be based on permission rather than exclusion (default deny).\nWhy B is incorrect: Complete mediation requires every access request to be checked against access control policy.\nWhy D is incorrect: Open design states security should not depend on secrecy of design/implementation.",
+      "cheatSheetNote": "Economy of Mechanism: Keep security mechanisms simple to minimize bugs and vulnerabilities.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 8,
+      "id": "Q-CH1-008",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH1-008",
+      "prompt": "In the X.800 architecture, encipherment and digital signatures belong to which category?",
+      "options": [
+        {
+          "id": "q008_a",
+          "label": "A",
+          "text": "Security Attacks",
+          "isCorrect": false,
+          "explanation": "Security attacks are threats/actions aimed at compromising security."
+        },
+        {
+          "id": "q008_b",
+          "label": "B",
+          "text": "Security Mechanisms",
+          "isCorrect": true,
+          "explanation": "Encipherment and digital signatures are specific technical mechanisms used to implement security services like confidentiality and authentication."
+        },
+        {
+          "id": "q008_c",
+          "label": "C",
+          "text": "Security Services",
+          "isCorrect": false,
+          "explanation": "Services are high-level capabilities (e.g., Data Confidentiality) provided by mechanisms."
+        },
+        {
+          "id": "q008_d",
+          "label": "D",
+          "text": "Security Policies",
+          "isCorrect": false,
+          "explanation": "Security policies define overall organizational rules."
+        }
+      ],
+      "correctOptionId": "q008_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Encipherment and digital signatures are specific technical mechanisms used to implement security services like confidentiality and authentication.\nWhy A is incorrect: Security attacks are threats/actions aimed at compromising security.\nWhy C is incorrect: Services are high-level capabilities (e.g., Data Confidentiality) provided by mechanisms.\nWhy D is incorrect: Security policies define overall organizational rules.",
+      "cheatSheetNote": "Security Mechanisms: Algorithms and tools (encipherment, signatures) implementing security services.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 9,
+      "id": "Q-CH1-009",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH1-009",
+      "prompt": "Which access control model assigns access rights based on user roles and job functions within an organization?",
+      "options": [
+        {
+          "id": "q009_a",
+          "label": "A",
+          "text": "Discretionary Access Control (DAC)",
+          "isCorrect": false,
+          "explanation": "DAC leaves access decisions to the discretion of the object owner."
+        },
+        {
+          "id": "q009_b",
+          "label": "B",
+          "text": "Mandatory Access Control (MAC)",
+          "isCorrect": false,
+          "explanation": "MAC enforces central security clearances and labels (e.g., Top Secret)."
+        },
+        {
+          "id": "q009_c",
+          "label": "C",
+          "text": "Role-Based Access Control (RBAC)",
+          "isCorrect": true,
+          "explanation": "RBAC grants privileges based on organizational roles (e.g., doctor, nurse, administrator) rather than individual identities."
+        },
+        {
+          "id": "q009_d",
+          "label": "D",
+          "text": "Rule-Based Access Control (RBAC)",
+          "isCorrect": false,
+          "explanation": "Rule-Based Access Control uses static operational rules (e.g., firewall ACLs)."
+        }
+      ],
+      "correctOptionId": "q009_c",
+      "correctLabel": "C",
+      "explanation": "Why C is correct: RBAC grants privileges based on organizational roles (e.g., doctor, nurse, administrator) rather than individual identities.\nWhy A is incorrect: DAC leaves access decisions to the discretion of the object owner.\nWhy B is incorrect: MAC enforces central security clearances and labels (e.g., Top Secret).\nWhy D is incorrect: Rule-Based Access Control uses static operational rules (e.g., firewall ACLs).",
+      "cheatSheetNote": "RBAC: Access rights tied to organizational functions and user roles.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 10,
+      "id": "Q-CH1-010",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "ANALYZE",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH1-010",
+      "prompt": "An organization deploys firewalls, host-based intrusion detection systems (HIDS), multi-factor authentication, and database encryption. Which security design concept is being demonstrated?",
+      "options": [
+        {
+          "id": "q010_a",
+          "label": "A",
+          "text": "Single Point of Security",
+          "isCorrect": false,
+          "explanation": "Single Point of Security is an anti-pattern that creates vulnerable single points of failure."
+        },
+        {
+          "id": "q010_b",
+          "label": "B",
+          "text": "Defense in Depth",
+          "isCorrect": true,
+          "explanation": "Defense in Depth employs multiple redundant layers of security defense so that if one layer fails, others continue to protect assets."
+        },
+        {
+          "id": "q010_c",
+          "label": "C",
+          "text": "Open Design",
+          "isCorrect": false,
+          "explanation": "Open Design avoids security through obscurity."
+        },
+        {
+          "id": "q010_d",
+          "label": "D",
+          "text": "Separation of Privilege",
+          "isCorrect": false,
+          "explanation": "Separation of privilege requires multiple credentials to grant sensitive access."
+        }
+      ],
+      "correctOptionId": "q010_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Defense in Depth employs multiple redundant layers of security defense so that if one layer fails, others continue to protect assets.\nWhy A is incorrect: Single Point of Security is an anti-pattern that creates vulnerable single points of failure.\nWhy C is incorrect: Open Design avoids security through obscurity.\nWhy D is incorrect: Separation of privilege requires multiple credentials to grant sensitive access.",
+      "cheatSheetNote": "Defense in Depth: Layered security mechanisms providing redundant asset protection.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 11,
+      "id": "Q-CH1-011",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH1-011",
+      "prompt": "Which term describes an assurance that communicating entities are authentic and that input data comes from a legitimate source?",
+      "options": [
+        {
+          "id": "q011_a",
+          "label": "A",
+          "text": "Availability",
+          "isCorrect": false,
+          "explanation": "Availability guarantees accessible resources."
+        },
+        {
+          "id": "q011_b",
+          "label": "B",
+          "text": "Authentication",
+          "isCorrect": true,
+          "explanation": "Authentication verifies the identity of communicating entities and message origins."
+        },
+        {
+          "id": "q011_c",
+          "label": "C",
+          "text": "Authorization",
+          "isCorrect": false,
+          "explanation": "Authorization determines allowed actions for an authenticated user."
+        },
+        {
+          "id": "q011_d",
+          "label": "D",
+          "text": "Auditing",
+          "isCorrect": false,
+          "explanation": "Auditing logs and reviews system activity."
+        }
+      ],
+      "correctOptionId": "q011_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Authentication verifies the identity of communicating entities and message origins.\nWhy A is incorrect: Availability guarantees accessible resources.\nWhy C is incorrect: Authorization determines allowed actions for an authenticated user.\nWhy D is incorrect: Auditing logs and reviews system activity.",
+      "cheatSheetNote": "Authentication: Verification of identity and message origin authenticity.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 12,
+      "id": "Q-CH1-012",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH1-012",
+      "prompt": "A web server experiences a flood of malicious traffic that exhausts its CPU and RAM, rendering it unresponsive to legitimate clients. Which CIA triad property is violated?",
+      "options": [
+        {
+          "id": "q012_a",
+          "label": "A",
+          "text": "Confidentiality",
+          "isCorrect": false,
+          "explanation": "Confidentiality is about data secrecy, which is not compromised here."
+        },
+        {
+          "id": "q012_b",
+          "label": "B",
+          "text": "Integrity",
+          "isCorrect": false,
+          "explanation": "Integrity refers to unauthorized data modification."
+        },
+        {
+          "id": "q012_c",
+          "label": "C",
+          "text": "Availability",
+          "isCorrect": true,
+          "explanation": "Denial of Service attacks explicitly target and disrupt resource availability for legitimate users."
+        },
+        {
+          "id": "q012_d",
+          "label": "D",
+          "text": "Authenticity",
+          "isCorrect": false,
+          "explanation": "Authenticity refers to verifying entity identities."
+        }
+      ],
+      "correctOptionId": "q012_c",
+      "correctLabel": "C",
+      "explanation": "Why C is correct: Denial of Service attacks explicitly target and disrupt resource availability for legitimate users.\nWhy A is incorrect: Confidentiality is about data secrecy, which is not compromised here.\nWhy B is incorrect: Integrity refers to unauthorized data modification.\nWhy D is incorrect: Authenticity refers to verifying entity identities.",
+      "cheatSheetNote": "Availability Loss: Resource exhaustion resulting in service denial to authorized users.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 13,
+      "id": "Q-CH1-013",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH1-013",
+      "prompt": "In Mandatory Access Control (MAC), who holds the authority to change access rights on objects?",
+      "options": [
+        {
+          "id": "q013_a",
+          "label": "A",
+          "text": "The owner of the object",
+          "isCorrect": false,
+          "explanation": "Owners control rights in DAC, not MAC."
+        },
+        {
+          "id": "q013_b",
+          "label": "B",
+          "text": "The central security authority",
+          "isCorrect": true,
+          "explanation": "In MAC systems, access rules are defined centrally by a system administrator/authority based on security clearances and labels; individual owners cannot alter rights."
+        },
+        {
+          "id": "q013_c",
+          "label": "C",
+          "text": "Any user with Read access",
+          "isCorrect": false,
+          "explanation": "Read access does not grant administrative control."
+        },
+        {
+          "id": "q013_d",
+          "label": "D",
+          "text": "The system administrator's automated script",
+          "isCorrect": false,
+          "explanation": "Automated scripts execute policies set by central authorities."
+        }
+      ],
+      "correctOptionId": "q013_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: In MAC systems, access rules are defined centrally by a system administrator/authority based on security clearances and labels; individual owners cannot alter rights.\nWhy A is incorrect: Owners control rights in DAC, not MAC.\nWhy C is incorrect: Read access does not grant administrative control.\nWhy D is incorrect: Automated scripts execute policies set by central authorities.",
+      "cheatSheetNote": "MAC Control: Centralized access enforcement based on system-wide security clearances.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 14,
+      "id": "Q-CH1-014",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH1-014",
+      "prompt": "Which mechanism is designed to prevent an attacker from modifying network packets in transit without detection?",
+      "options": [
+        {
+          "id": "q014_a",
+          "label": "A",
+          "text": "Encipherment",
+          "isCorrect": false,
+          "explanation": "Encipherment protects confidentiality."
+        },
+        {
+          "id": "q014_b",
+          "label": "B",
+          "text": "Data Integrity Mechanism",
+          "isCorrect": true,
+          "explanation": "Data integrity mechanisms (such as MACs or digital signatures) detect unauthorized packet tampering in transit."
+        },
+        {
+          "id": "q014_c",
+          "label": "C",
+          "text": "Traffic Padding",
+          "isCorrect": false,
+          "explanation": "Traffic padding prevents traffic analysis by adding dummy traffic."
+        },
+        {
+          "id": "q014_d",
+          "label": "D",
+          "text": "Routing Control",
+          "isCorrect": false,
+          "explanation": "Routing control selects physically secure paths."
+        }
+      ],
+      "correctOptionId": "q014_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Data integrity mechanisms (such as MACs or digital signatures) detect unauthorized packet tampering in transit.\nWhy A is incorrect: Encipherment protects confidentiality.\nWhy C is incorrect: Traffic padding prevents traffic analysis by adding dummy traffic.\nWhy D is incorrect: Routing control selects physically secure paths.",
+      "cheatSheetNote": "Data Integrity: Cryptographic checks detecting transit data alteration.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 15,
+      "id": "Q-CH1-015",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "APPLY",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH1-015",
+      "prompt": "A system administrator configures firewall rules with a \"Default Discard\" policy. Which security principle does this implement?",
+      "options": [
+        {
+          "id": "q015_a",
+          "label": "A",
+          "text": "Fail-safe defaults",
+          "isCorrect": true,
+          "explanation": "Default Discard (deny all by default) embodies fail-safe defaults—access is denied unless explicitly permitted."
+        },
+        {
+          "id": "q015_b",
+          "label": "B",
+          "text": "Psychological acceptability",
+          "isCorrect": false,
+          "explanation": "Psychological acceptability focuses on user ease of use."
+        },
+        {
+          "id": "q015_c",
+          "label": "C",
+          "text": "Least common mechanism",
+          "isCorrect": false,
+          "explanation": "Least common mechanism minimizes shared resources."
+        },
+        {
+          "id": "q015_d",
+          "label": "D",
+          "text": "Work factor",
+          "isCorrect": false,
+          "explanation": "Work factor measures effort required to break security."
+        }
+      ],
+      "correctOptionId": "q015_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: Default Discard (deny all by default) embodies fail-safe defaults—access is denied unless explicitly permitted.\nWhy B is incorrect: Psychological acceptability focuses on user ease of use.\nWhy C is incorrect: Least common mechanism minimizes shared resources.\nWhy D is incorrect: Work factor measures effort required to break security.",
+      "cheatSheetNote": "Fail-safe Defaults: Explicit permission requirement (default deny state).",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 16,
+      "id": "Q-CH1-016",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH1-016",
+      "prompt": "What type of access control matrix (ACM) optimization stores access rights column-by-column along with each object?",
+      "options": [
+        {
+          "id": "q016_a",
+          "label": "A",
+          "text": "Capability List",
+          "isCorrect": false,
+          "explanation": "Decomposing an ACM by rows produces Capability Lists associated with subjects."
+        },
+        {
+          "id": "q016_b",
+          "label": "B",
+          "text": "Access Control List (ACL)",
+          "isCorrect": true,
+          "explanation": "Decomposing an ACM by columns produces Access Control Lists (ACLs) attached directly to objects."
+        },
+        {
+          "id": "q016_c",
+          "label": "C",
+          "text": "Protection Domain",
+          "isCorrect": false,
+          "explanation": "Protection domains group objects and rights."
+        },
+        {
+          "id": "q016_d",
+          "label": "D",
+          "text": "Role Matrix",
+          "isCorrect": false,
+          "explanation": "Role matrices map roles to permissions."
+        }
+      ],
+      "correctOptionId": "q016_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Decomposing an ACM by columns produces Access Control Lists (ACLs) attached directly to objects.\nWhy A is incorrect: Decomposing an ACM by rows produces Capability Lists associated with subjects.\nWhy C is incorrect: Protection domains group objects and rights.\nWhy D is incorrect: Role matrices map roles to permissions.",
+      "cheatSheetNote": "ACL vs. Capability: ACLs store rights by column (with object); Capability lists store rights by row (with subject).",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 17,
+      "id": "Q-CH1-017",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH1-017",
+      "prompt": "Which component of the network security model is responsible for delivering secret keys securely to communicating parties?",
+      "options": [
+        {
+          "id": "q017_a",
+          "label": "A",
+          "text": "Opponent",
+          "isCorrect": false,
+          "explanation": "Opponents attempt to intercept or compromise communication."
+        },
+        {
+          "id": "q017_b",
+          "label": "B",
+          "text": "Information Channel",
+          "isCorrect": false,
+          "explanation": "Information channel is the unsecured medium for transmission."
+        },
+        {
+          "id": "q017_c",
+          "label": "C",
+          "text": "Trusted Third Party",
+          "isCorrect": true,
+          "explanation": "In symmetric models, a trusted third party (e.g., Key Distribution Center) securely generates and distributes keys to communicating parties."
+        },
+        {
+          "id": "q017_d",
+          "label": "D",
+          "text": "Verifier",
+          "isCorrect": false,
+          "explanation": "Verifiers validate authentication claims."
+        }
+      ],
+      "correctOptionId": "q017_c",
+      "correctLabel": "C",
+      "explanation": "Why C is correct: In symmetric models, a trusted third party (e.g., Key Distribution Center) securely generates and distributes keys to communicating parties.\nWhy A is incorrect: Opponents attempt to intercept or compromise communication.\nWhy B is incorrect: Information channel is the unsecured medium for transmission.\nWhy D is incorrect: Verifiers validate authentication claims.",
+      "cheatSheetNote": "Trusted Third Party: Key distribution and trust management authority.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 18,
+      "id": "Q-CH1-018",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "ANALYZE",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH1-018",
+      "prompt": "An attacker intercepts an encrypted banking transfer and alters several random bytes. When decrypted, the transaction contains corrupted monetary amounts. What attack took place?",
+      "options": [
+        {
+          "id": "q018_a",
+          "label": "A",
+          "text": "Passive Traffic Analysis",
+          "isCorrect": false,
+          "explanation": "Traffic analysis is non-intrusive passive observation."
+        },
+        {
+          "id": "q018_b",
+          "label": "B",
+          "text": "Active Data Modification",
+          "isCorrect": true,
+          "explanation": "Modifying encrypted or unencrypted data stream bytes in transit constitutes an active modification attack violating data integrity."
+        },
+        {
+          "id": "q018_c",
+          "label": "C",
+          "text": "Repudiation of Origin",
+          "isCorrect": false,
+          "explanation": "Repudiation is denying having sent or received data."
+        },
+        {
+          "id": "q018_d",
+          "label": "D",
+          "text": "Masquerade",
+          "isCorrect": false,
+          "explanation": "Masquerading is forging an identity from the start."
+        }
+      ],
+      "correctOptionId": "q018_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Modifying encrypted or unencrypted data stream bytes in transit constitutes an active modification attack violating data integrity.\nWhy A is incorrect: Traffic analysis is non-intrusive passive observation.\nWhy C is incorrect: Repudiation is denying having sent or received data.\nWhy D is incorrect: Masquerading is forging an identity from the start.",
+      "cheatSheetNote": "Active Data Modification: Unauthorized tampering of payload data during transit.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 19,
+      "id": "Q-CH1-019",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH1-019",
+      "prompt": "Which security mechanism continuously logs system activities to review and investigate security breaches post-incident?",
+      "options": [
+        {
+          "id": "q019_a",
+          "label": "A",
+          "text": "Security Audit Trail",
+          "isCorrect": true,
+          "explanation": "Audit trails record historical system events and actions to enable post-incident analysis and accountability."
+        },
+        {
+          "id": "q019_b",
+          "label": "B",
+          "text": "Routing Control",
+          "isCorrect": false,
+          "explanation": "Routing control dictates physical communication paths."
+        },
+        {
+          "id": "q019_c",
+          "label": "C",
+          "text": "Encipherment",
+          "isCorrect": false,
+          "explanation": "Encipherment scrambles data."
+        },
+        {
+          "id": "q019_d",
+          "label": "D",
+          "text": "Access Control",
+          "isCorrect": false,
+          "explanation": "Access control restricts real-time operations."
+        }
+      ],
+      "correctOptionId": "q019_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: Audit trails record historical system events and actions to enable post-incident analysis and accountability.\nWhy B is incorrect: Routing control dictates physical communication paths.\nWhy C is incorrect: Encipherment scrambles data.\nWhy D is incorrect: Access control restricts real-time operations.",
+      "cheatSheetNote": "Audit Trail: Logging system transactions to maintain accountability and trace breaches.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 20,
+      "id": "Q-CH1-020",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 1,
+      "chapterTitle": "Introduction to Information Security & Security Architecture",
+      "outcomeId": "OUTCOME-ITSEC-CH1",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH1-020",
+      "prompt": "What security requirement extends the basic CIA triad to ensure that actions of an entity can be traced uniquely to that specific entity?",
+      "options": [
+        {
+          "id": "q020_a",
+          "label": "A",
+          "text": "Authenticity",
+          "isCorrect": false,
+          "explanation": "Authenticity focuses on verifying genuine credentials."
+        },
+        {
+          "id": "q020_b",
+          "label": "B",
+          "text": "Accountability",
+          "isCorrect": true,
+          "explanation": "Accountability guarantees that system actions can be traced back uniquely to the responsible individual or process."
+        },
+        {
+          "id": "q020_c",
+          "label": "C",
+          "text": "Availability",
+          "isCorrect": false,
+          "explanation": "Availability ensures access."
+        },
+        {
+          "id": "q020_d",
+          "label": "D",
+          "text": "Confidentiality",
+          "isCorrect": false,
+          "explanation": "Confidentiality protects secrecy."
+        }
+      ],
+      "correctOptionId": "q020_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Accountability guarantees that system actions can be traced back uniquely to the responsible individual or process.\nWhy A is incorrect: Authenticity focuses on verifying genuine credentials.\nWhy C is incorrect: Availability ensures access.\nWhy D is incorrect: Confidentiality protects secrecy.",
+      "cheatSheetNote": "Accountability: Traceability of all system events to responsible entities.",
+      "recommendedResourceId": "res_itsec_ch1_notes"
+    },
+    {
+      "questionNumber": 21,
+      "id": "Q-CH2-021",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH2-021",
+      "prompt": "What principle asserts that the security of a cryptosystem must rely entirely on the secrecy of the key, not on the secrecy of the algorithm?",
+      "options": [
+        {
+          "id": "q021_a",
+          "label": "A",
+          "text": "Shannon's Law",
+          "isCorrect": false,
+          "explanation": "Shannon introduced confusion/diffusion principles."
+        },
+        {
+          "id": "q021_b",
+          "label": "B",
+          "text": "Kerckhoffs' Principle",
+          "isCorrect": true,
+          "explanation": "Kerckhoffs' principle states that system security should remain intact even if everything about the system except the key is public knowledge."
+        },
+        {
+          "id": "q021_c",
+          "label": "C",
+          "text": "Fermat's Theorem",
+          "isCorrect": false,
+          "explanation": "Fermat established prime modulo properties."
+        },
+        {
+          "id": "q021_d",
+          "label": "D",
+          "text": "Feistel's Property",
+          "isCorrect": false,
+          "explanation": "Feistel designed symmetric cipher structures."
+        }
+      ],
+      "correctOptionId": "q021_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Kerckhoffs' principle states that system security should remain intact even if everything about the system except the key is public knowledge.\nWhy A is incorrect: Shannon introduced confusion/diffusion principles.\nWhy C is incorrect: Fermat established prime modulo properties.\nWhy D is incorrect: Feistel designed symmetric cipher structures.",
+      "cheatSheetNote": "Kerckhoffs' Principle: System security must depend solely on key secrecy.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 22,
+      "id": "Q-CH2-022",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH2-022",
+      "prompt": "How many possible keys exist for a Caesar cipher operating on the 26-letter standard English alphabet?",
+      "options": [
+        {
+          "id": "q022_a",
+          "label": "A",
+          "text": "26",
+          "isCorrect": false,
+          "explanation": "Shift of $0$ provides no encryption, leaving $25$ effective keys."
+        },
+        {
+          "id": "q022_b",
+          "label": "B",
+          "text": "25",
+          "isCorrect": true,
+          "explanation": "A Caesar cipher shift key $k$ can take values from $1$ to $25$. A shift of $0$ (or $26$) leaves plaintext unchanged and is trivial."
+        },
+        {
+          "id": "q022_c",
+          "label": "C",
+          "text": "312",
+          "isCorrect": false,
+          "explanation": "$312$ is the key space for an Affine cipher ($12 \\times 26$)."
+        },
+        {
+          "id": "q022_d",
+          "label": "D",
+          "text": "$26!$",
+          "isCorrect": false,
+          "explanation": "$26!$ is the key space for general monoalphabetic substitution."
+        }
+      ],
+      "correctOptionId": "q022_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: A Caesar cipher shift key $k$ can take values from $1$ to $25$. A shift of $0$ (or $26$) leaves plaintext unchanged and is trivial.\nWhy A is incorrect: Shift of $0$ provides no encryption, leaving $25$ effective keys.\nWhy C is incorrect: $312$ is the key space for an Affine cipher ($12 \\times 26$).\nWhy D is incorrect: $26!$ is the key space for general monoalphabetic substitution.",
+      "cheatSheetNote": "Caesar Key Space: 25 non-trivial shift keys ($C = (p + k) \\pmod{26}$).",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 23,
+      "id": "Q-CH2-023",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "APPLY",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH2-023",
+      "prompt": "Encrypt the plaintext letter h (numerical value 7) using an Additive (Caesar) Cipher with key $k = 15$ modulo 26. What is the resulting ciphertext character?",
+      "options": [
+        {
+          "id": "q023_a",
+          "label": "A",
+          "text": "W",
+          "isCorrect": true,
+          "explanation": "Encryption formula is $C = (p + k) \\pmod{26}$. Given $p = 7$ (h) and $k = 15$, $C = (7 + 15) \\pmod{26} = 22 \\pmod{26}$. The 22nd letter (0-indexed: a=0, b=1... v=21, w=22) is W."
+        },
+        {
+          "id": "q023_b",
+          "label": "B",
+          "text": "V",
+          "isCorrect": false,
+          "explanation": "V corresponds to index 21."
+        },
+        {
+          "id": "q023_c",
+          "label": "C",
+          "text": "X",
+          "isCorrect": false,
+          "explanation": "X corresponds to index 23."
+        },
+        {
+          "id": "q023_d",
+          "label": "D",
+          "text": "T",
+          "isCorrect": false,
+          "explanation": "T corresponds to index 19."
+        }
+      ],
+      "correctOptionId": "q023_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: Encryption formula is $C = (p + k) \\pmod{26}$. Given $p = 7$ (h) and $k = 15$, $C = (7 + 15) \\pmod{26} = 22 \\pmod{26}$. The 22nd letter (0-indexed: a=0, b=1... v=21, w=22) is W.\nWhy B is incorrect: V corresponds to index 21.\nWhy C is incorrect: X corresponds to index 23.\nWhy D is incorrect: T corresponds to index 19.",
+      "cheatSheetNote": "Additive Cipher Calculation: $C = (p + k) \\pmod{26}$.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 24,
+      "id": "Q-CH2-024",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH2-024",
+      "prompt": "Why can only 12 specific integer values be used as valid key $k$ in a Multiplicative Cipher over $\\mathbb{Z}_{26}$?",
+      "options": [
+        {
+          "id": "q024_a",
+          "label": "A",
+          "text": "Only odd numbers can be used.",
+          "isCorrect": false,
+          "explanation": "13 is odd but $\\gcd(13, 26) = 13 \\neq 1$, so 13 is invalid."
+        },
+        {
+          "id": "q024_b",
+          "label": "B",
+          "text": "The key $k$ must be prime.",
+          "isCorrect": false,
+          "explanation": "Composite numbers like 9, 15, 21, 25 are valid keys because $\\gcd(k, 26) = 1$."
+        },
+        {
+          "id": "q024_c",
+          "label": "C",
+          "text": "The key $k$ must be relatively prime to 26 ($\\gcd(k, 26) = 1$).",
+          "isCorrect": true,
+          "explanation": "For decryption to be possible, the key $k$ must possess a modular multiplicative inverse in $\\mathbb{Z}_{26}$, which requires $\\gcd(k, 26) = 1$. There are $\\phi(26) = 12$ such numbers."
+        },
+        {
+          "id": "q024_d",
+          "label": "D",
+          "text": "The key must be less than 13.",
+          "isCorrect": false,
+          "explanation": "Valid keys span up to 25 (e.g., 15, 17, 19, 21, 23, 25)."
+        }
+      ],
+      "correctOptionId": "q024_c",
+      "correctLabel": "C",
+      "explanation": "Why C is correct: For decryption to be possible, the key $k$ must possess a modular multiplicative inverse in $\\mathbb{Z}_{26}$, which requires $\\gcd(k, 26) = 1$. There are $\\phi(26) = 12$ such numbers.\nWhy A is incorrect: 13 is odd but $\\gcd(13, 26) = 13 \\neq 1$, so 13 is invalid.\nWhy B is incorrect: Composite numbers like 9, 15, 21, 25 are valid keys because $\\gcd(k, 26) = 1$.\nWhy D is incorrect: Valid keys span up to 25 (e.g., 15, 17, 19, 21, 23, 25).",
+      "cheatSheetNote": "Multiplicative Keys: Require $\\gcd(k, 26) = 1$; total valid keys = $\\phi(26) = 12$.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 25,
+      "id": "Q-CH2-025",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH2-025",
+      "prompt": "What is the total size of the key domain for an Affine Cipher operating modulo 26?",
+      "options": [
+        {
+          "id": "q025_a",
+          "label": "A",
+          "text": "26",
+          "isCorrect": false,
+          "explanation": "26 is additive key range."
+        },
+        {
+          "id": "q025_b",
+          "label": "B",
+          "text": "312",
+          "isCorrect": true,
+          "explanation": "Affine Cipher uses key pair $(k_1, k_2)$ where $C = (k_1 \\cdot p + k_2) \\pmod{26}$. There are 12 valid choices for multiplicative key $k_1$ ($\\gcd(k_1, 26)=1$) and 26 choices for additive key $k_2$. Key space size = $12 \\times 26 = 312$."
+        },
+        {
+          "id": "q025_c",
+          "label": "C",
+          "text": "676",
+          "isCorrect": false,
+          "explanation": "$676 = 26 \\times 26$, ignoring coprime constraints on $k_1$."
+        },
+        {
+          "id": "q025_d",
+          "label": "D",
+          "text": "25",
+          "isCorrect": false,
+          "explanation": "25 is Caesar cipher key space."
+        }
+      ],
+      "correctOptionId": "q025_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Affine Cipher uses key pair $(k_1, k_2)$ where $C = (k_1 \\cdot p + k_2) \\pmod{26}$. There are 12 valid choices for multiplicative key $k_1$ ($\\gcd(k_1, 26)=1$) and 26 choices for additive key $k_2$. Key space size = $12 \\times 26 = 312$.\nWhy A is incorrect: 26 is additive key range.\nWhy C is incorrect: $676 = 26 \\times 26$, ignoring coprime constraints on $k_1$.\nWhy D is incorrect: 25 is Caesar cipher key space.",
+      "cheatSheetNote": "Affine Key Space: $|K| = \\phi(26) \\times 26 = 12 \\times 26 = 312$.\n|---|",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 26,
+      "id": "Q-CH2-026",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "APPLY",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH2-026",
+      "prompt": "Using the Playfair cipher with keyword MONARCHY, how is the plaintext letter pair balloon prepared before applying matrix rules?",
+      "options": [
+        {
+          "id": "q026_a",
+          "label": "A",
+          "text": "ba ll oo n",
+          "isCorrect": false,
+          "explanation": "Fails to separate identical letters ll and oo within pairs."
+        },
+        {
+          "id": "q026_b",
+          "label": "B",
+          "text": "ba lx lo on",
+          "isCorrect": true,
+          "explanation": "Playfair rule 1: repeating letters in a pair must be separated with a filler letter (typically x). balloon -> ba ll (separated to lx lo) on -> ba lx lo on."
+        },
+        {
+          "id": "q026_c",
+          "label": "C",
+          "text": "ba lo on zx",
+          "isCorrect": false,
+          "explanation": "Alters word structure incorrectly."
+        },
+        {
+          "id": "q026_d",
+          "label": "D",
+          "text": "bal loo n",
+          "isCorrect": false,
+          "explanation": "Digrams must be paired in groups of 2."
+        }
+      ],
+      "correctOptionId": "q026_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Playfair rule 1: repeating letters in a pair must be separated with a filler letter (typically x). balloon -> ba ll (separated to lx lo) on -> ba lx lo on.\nWhy A is incorrect: Fails to separate identical letters ll and oo within pairs.\nWhy C is incorrect: Alters word structure incorrectly.\nWhy D is incorrect: Digrams must be paired in groups of 2.",
+      "cheatSheetNote": "Playfair Rule 1: Split duplicate letters in digram pairs with filler 'x'.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 27,
+      "id": "Q-CH2-027",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH2-027",
+      "prompt": "In a Playfair cipher, if two plaintext letters fall in the same column of the key matrix, how are they encrypted?",
+      "options": [
+        {
+          "id": "q027_a",
+          "label": "A",
+          "text": "Replaced by letters to their immediate right.",
+          "isCorrect": false,
+          "explanation": "Same-row letters are replaced by letters to their right."
+        },
+        {
+          "id": "q027_b",
+          "label": "B",
+          "text": "Replaced by letters directly beneath them (wrapping to top).",
+          "isCorrect": true,
+          "explanation": "Playfair rule 3 states that letters in the same column are replaced by the letters beneath them, wrapping around to the top if at the bottom."
+        },
+        {
+          "id": "q027_c",
+          "label": "C",
+          "text": "Replaced by opposite corners of their rectangle.",
+          "isCorrect": false,
+          "explanation": "Letters in different rows and columns form a rectangle and take opposite corner letters."
+        },
+        {
+          "id": "q027_d",
+          "label": "D",
+          "text": "Replaced by letters directly above them.",
+          "isCorrect": false,
+          "explanation": "Above is used for decryption, not encryption."
+        }
+      ],
+      "correctOptionId": "q027_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Playfair rule 3 states that letters in the same column are replaced by the letters beneath them, wrapping around to the top if at the bottom.\nWhy A is incorrect: Same-row letters are replaced by letters to their right.\nWhy C is incorrect: Letters in different rows and columns form a rectangle and take opposite corner letters.\nWhy D is incorrect: Above is used for decryption, not encryption.",
+      "cheatSheetNote": "Playfair Column Rule: Replace each character with the element directly below it.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 28,
+      "id": "Q-CH2-028",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "ANALYZE",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH2-028",
+      "prompt": "For a $2 \\times 2$ Hill Cipher matrix key $K = \\begin{pmatrix} k_{11} & k_{12} \\ k_{21} & k_{22} \\end{pmatrix}$ to be invertible modulo 26, what condition must its determinant satisfy?",
+      "options": [
+        {
+          "id": "q028_a",
+          "label": "A",
+          "text": "$\\det(K) \\neq 0$",
+          "isCorrect": false,
+          "explanation": "In real arithmetic $\\det \\neq 0$ suffices, but in modular arithmetic $\\mathbb{Z}_{26}$, $\\det(K)$ can be non-zero (e.g. 2 or 13) yet still lack an inverse."
+        },
+        {
+          "id": "q028_b",
+          "label": "B",
+          "text": "$\\gcd(\\det(K), 26) = 1$",
+          "isCorrect": true,
+          "explanation": "A matrix over $\\mathbb{Z}_{26}$ is invertible if and only if its determinant is coprime to 26 ($\\gcd(\\det(K), 26) = 1$), allowing multiplicative inverse $(\\det K)^{-1} \\pmod{26}$ to exist."
+        },
+        {
+          "id": "q028_c",
+          "label": "C",
+          "text": "$\\det(K) = 1$",
+          "isCorrect": false,
+          "explanation": "$\\det(K)=1$ works but is overly restrictive; any coprime determinant works."
+        },
+        {
+          "id": "q028_d",
+          "label": "D",
+          "text": "$\\det(K)$ must be an even number.",
+          "isCorrect": false,
+          "explanation": "Even numbers share factor 2 with 26 ($\\gcd \\ge 2$), making them non-invertible."
+        }
+      ],
+      "correctOptionId": "q028_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: A matrix over $\\mathbb{Z}_{26}$ is invertible if and only if its determinant is coprime to 26 ($\\gcd(\\det(K), 26) = 1$), allowing multiplicative inverse $(\\det K)^{-1} \\pmod{26}$ to exist.\nWhy A is incorrect: In real arithmetic $\\det \\neq 0$ suffices, but in modular arithmetic $\\mathbb{Z}_{26}$, $\\det(K)$ can be non-zero (e.g. 2 or 13) yet still lack an inverse.\nWhy C is incorrect: $\\det(K)=1$ works but is overly restrictive; any coprime determinant works.\nWhy D is incorrect: Even numbers share factor 2 with 26 ($\\gcd \\ge 2$), making them non-invertible.",
+      "cheatSheetNote": "Hill Cipher Key Invertibility: Requires $\\gcd(\\det(K), 26) = 1$.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 29,
+      "id": "Q-CH2-029",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "APPLY",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH2-029",
+      "prompt": "Encrypt the plaintext letter p (index 15) using Vigenère cipher with key character d (index 3). What is the resulting ciphertext index and character?",
+      "options": [
+        {
+          "id": "q029_a",
+          "label": "A",
+          "text": "Index 18 (S)",
+          "isCorrect": true,
+          "explanation": "Vigenère encryption is $C_i = (p_i + k_i) \\pmod{26}$. $C_i = (15 + 3) \\pmod{26} = 18 \\pmod{26}$, which corresponds to letter S."
+        },
+        {
+          "id": "q029_b",
+          "label": "B",
+          "text": "Index 17 (R)",
+          "isCorrect": false,
+          "explanation": "Index 17 is R."
+        },
+        {
+          "id": "q029_c",
+          "label": "C",
+          "text": "Index 19 (T)",
+          "isCorrect": false,
+          "explanation": "Index 19 is T."
+        },
+        {
+          "id": "q029_d",
+          "label": "D",
+          "text": "Index 12 (M)",
+          "isCorrect": false,
+          "explanation": "Index 12 is M (resulting from subtraction instead of addition)."
+        }
+      ],
+      "correctOptionId": "q029_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: Vigenère encryption is $C_i = (p_i + k_i) \\pmod{26}$. $C_i = (15 + 3) \\pmod{26} = 18 \\pmod{26}$, which corresponds to letter S.\nWhy B is incorrect: Index 17 is R.\nWhy C is incorrect: Index 19 is T.\nWhy D is incorrect: Index 12 is M (resulting from subtraction instead of addition).",
+      "cheatSheetNote": "Vigenère Encryption: $C_i = (p_i + k_{i \\bmod m}) \\pmod{26}$.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 30,
+      "id": "Q-CH3-030",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH2-030",
+      "prompt": "What statistical cryptanalysis method is used to determine the key length of a Vigenère cipher by analyzing repeated ciphertext sequences?",
+      "options": [
+        {
+          "id": "q030_a",
+          "label": "A",
+          "text": "Frequency Analysis",
+          "isCorrect": false,
+          "explanation": "Monoalphabetic frequency analysis fails directly on polyalphabetic ciphers without knowing key length."
+        },
+        {
+          "id": "q030_b",
+          "label": "B",
+          "text": "Kasiski Examination",
+          "isCorrect": true,
+          "explanation": "Kasiski examination locates repeated ciphertext fragments and computes the greatest common divisor of their distances to deduce keyword length."
+        },
+        {
+          "id": "q030_c",
+          "label": "C",
+          "text": "Differential Cryptanalysis",
+          "isCorrect": false,
+          "explanation": "Differential cryptanalysis targets modern block ciphers."
+        },
+        {
+          "id": "q030_d",
+          "label": "D",
+          "text": "Linear Cryptanalysis",
+          "isCorrect": false,
+          "explanation": "Linear cryptanalysis targets block ciphers using linear approximations."
+        }
+      ],
+      "correctOptionId": "q030_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Kasiski examination locates repeated ciphertext fragments and computes the greatest common divisor of their distances to deduce keyword length.\nWhy A is incorrect: Monoalphabetic frequency analysis fails directly on polyalphabetic ciphers without knowing key length.\nWhy C is incorrect: Differential cryptanalysis targets modern block ciphers.\nWhy D is incorrect: Linear cryptanalysis targets block ciphers using linear approximations.",
+      "cheatSheetNote": "Kasiski Test: Finds keyword length by analyzing distances between repeated ciphertext patterns.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 31,
+      "id": "Q-CH2-031",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH2-031",
+      "prompt": "Which classical cipher achieves perfect secrecy (unbreakable in practice and theory) when implemented correctly?",
+      "options": [
+        {
+          "id": "q031_a",
+          "label": "A",
+          "text": "Playfair Cipher",
+          "isCorrect": false,
+          "explanation": "Playfair is polygraphic but retains language structure."
+        },
+        {
+          "id": "q031_b",
+          "label": "B",
+          "text": "Hill Cipher",
+          "isCorrect": false,
+          "explanation": "Hill cipher is vulnerable to known-plaintext matrix attacks."
+        },
+        {
+          "id": "q031_c",
+          "label": "C",
+          "text": "One-Time Pad (Vernam Cipher)",
+          "isCorrect": true,
+          "explanation": "The One-Time Pad (OTP) offers perfect secrecy (unconditionally secure) because the ciphertext contains zero statistical information about plaintext."
+        },
+        {
+          "id": "q031_d",
+          "label": "D",
+          "text": "Vigenère Cipher",
+          "isCorrect": false,
+          "explanation": "Vigenère exhibits periodic repetition patterns broken by Kasiski."
+        }
+      ],
+      "correctOptionId": "q031_c",
+      "correctLabel": "C",
+      "explanation": "Why C is correct: The One-Time Pad (OTP) offers perfect secrecy (unconditionally secure) because the ciphertext contains zero statistical information about plaintext.\nWhy A is incorrect: Playfair is polygraphic but retains language structure.\nWhy B is incorrect: Hill cipher is vulnerable to known-plaintext matrix attacks.\nWhy C is incorrect: Vigenère exhibits periodic repetition patterns broken by Kasiski.",
+      "cheatSheetNote": "One-Time Pad: Truly random key of message length, used once, providing perfect secrecy.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 32,
+      "id": "Q-CH2-032",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH2-032",
+      "prompt": "What are the two primary practical drawbacks preventing widespread use of the One-Time Pad in modern networks?",
+      "options": [
+        {
+          "id": "q032_a",
+          "label": "A",
+          "text": "Slow execution speed and complex matrix inversion",
+          "isCorrect": false,
+          "explanation": "Bitwise XOR is extremely fast; no matrix operations are involved."
+        },
+        {
+          "id": "q032_b",
+          "label": "B",
+          "text": "Large key generation volume and severe key distribution/protection challenges",
+          "isCorrect": true,
+          "explanation": "OTP requires massive quantities of truly random keys equal to total message volume, creating enormous key generation and secure distribution bottlenecks."
+        },
+        {
+          "id": "q032_c",
+          "label": "C",
+          "text": "Vulnerability to linear cryptanalysis and short key length",
+          "isCorrect": false,
+          "explanation": "OTP is mathematically immune to linear cryptanalysis."
+        },
+        {
+          "id": "q032_d",
+          "label": "D",
+          "text": "Lack of nonrepudiation and lack of hardware support",
+          "isCorrect": false,
+          "explanation": "Key management is the issue, not hardware support."
+        }
+      ],
+      "correctOptionId": "q032_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: OTP requires massive quantities of truly random keys equal to total message volume, creating enormous key generation and secure distribution bottlenecks.\nWhy A is incorrect: Bitwise XOR is extremely fast; no matrix operations are involved.\nWhy C is incorrect: OTP is mathematically immune to linear cryptanalysis.\nWhy D is incorrect: Key management is the issue, not hardware support.",
+      "cheatSheetNote": "OTP Limitations: Enormous random key generation requirements and difficult key distribution.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 33,
+      "id": "Q-CH2-033",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "APPLY",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH2-033",
+      "prompt": "Using a Rail Fence cipher of depth 2, what is the ciphertext generated for the plaintext MEETMEATTHEPARK?",
+      "options": [
+        {
+          "id": "q033_a",
+          "label": "A",
+          "text": "MEMATEAKETETHPR",
+          "isCorrect": true,
+          "explanation": "Writing diagonally with depth 2:\nRow 1: M . M . A . T . E . A . K -> MEMATEK\nWait! Let's trace letter by letter:\nM e M a T e T h P r k\n e t e t e o a a t\nLet's write:\nRow 1: M . M . A . T . E . A . K -> MEMATEK\nRow 2: . E . T . E . T . H . P . R -> ETETHPR\nCombining rows gives: MEMATEAKETETHPR."
+        },
+        {
+          "id": "q033_b",
+          "label": "B",
+          "text": "MEETMEATTHEPARK",
+          "isCorrect": false,
+          "explanation": "Unencrypted plaintext."
+        },
+        {
+          "id": "q033_c",
+          "label": "C",
+          "text": "KRAPEHTTETEMTEM",
+          "isCorrect": false,
+          "explanation": "Reverse of plaintext."
+        },
+        {
+          "id": "q033_d",
+          "label": "D",
+          "text": "MMTAEEHREAEKTTP",
+          "isCorrect": false,
+          "explanation": "Transposition using 4 columns."
+        }
+      ],
+      "correctOptionId": "q033_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: Writing diagonally with depth 2:\nRow 1: M . M . A . T . E . A . K -> MEMATEK\nWait! Let's trace letter by letter:\nM e M a T e T h P r k\n e t e t e o a a t\nLet's write:\nRow 1: M . M . A . T . E . A . K -> MEMATEK\nRow 2: . E . T . E . T . H . P . R -> ETETHPR\nCombining rows gives: MEMATEAKETETHPR.\nWhy B is incorrect: Unencrypted plaintext.\nWhy C is incorrect: Reverse of plaintext.\nWhy D is incorrect: Transposition using 4 columns.",
+      "cheatSheetNote": "Rail Fence Cipher: Write plaintext diagonally across $N$ depth rows, read row-by-row.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 34,
+      "id": "Q-CH2-034",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH2-034",
+      "prompt": "How does a Transposition Cipher differ fundamentally from a Substitution Cipher?",
+      "options": [
+        {
+          "id": "q034_a",
+          "label": "A",
+          "text": "Transposition replaces symbols with numbers; substitution replaces numbers with symbols.",
+          "isCorrect": false,
+          "explanation": "Both can operate on symbols or bits."
+        },
+        {
+          "id": "q034_b",
+          "label": "B",
+          "text": "Transposition reorders plaintext character positions without altering identity; substitution replaces characters with other symbols.",
+          "isCorrect": true,
+          "explanation": "Transposition performs permutations on symbol positions; substitution maps symbol values into different values."
+        },
+        {
+          "id": "q034_c",
+          "label": "C",
+          "text": "Transposition uses public keys; substitution uses secret keys.",
+          "isCorrect": false,
+          "explanation": "Both classical forms are symmetric techniques."
+        },
+        {
+          "id": "q034_d",
+          "label": "D",
+          "text": "Transposition is asymmetric; substitution is symmetric.",
+          "isCorrect": false,
+          "explanation": "Both are symmetric."
+        }
+      ],
+      "correctOptionId": "q034_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Transposition performs permutations on symbol positions; substitution maps symbol values into different values.\nWhy A is incorrect: Both can operate on symbols or bits.\nWhy C is incorrect: Both classical forms are symmetric techniques.\nWhy D is incorrect: Both are symmetric.",
+      "cheatSheetNote": "Transposition vs. Substitution: Transposition permutes character positions; substitution changes character values.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 35,
+      "id": "Q-CH2-035",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "ANALYZE",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH2-035",
+      "prompt": "Given a known plaintext attack on a $2 \\times 2$ Hill cipher with input pairs $P = \\begin{pmatrix} 7 & 8 \\ 11 & 11 \\end{pmatrix}$ and ciphertext $C = \\begin{pmatrix} 11 & 7 \\ 17 & 25 \\end{pmatrix}$, how is the key matrix $K$ derived?",
+      "options": [
+        {
+          "id": "q035_a",
+          "label": "A",
+          "text": "$K = P \\cdot C \\pmod{26}$",
+          "isCorrect": false,
+          "explanation": "Incorrect matrix multiplication without inversion."
+        },
+        {
+          "id": "q035_b",
+          "label": "B",
+          "text": "$K = P^{-1} \\cdot C \\pmod{26}$",
+          "isCorrect": true,
+          "explanation": "The encryption equation is $C = P \\cdot K \\pmod{26}$. Multiplying both sides on the left by $P^{-1}$ yields $P^{-1} \\cdot C = P^{-1} \\cdot P \\cdot K = I \\cdot K = K \\pmod{26}$."
+        },
+        {
+          "id": "q035_c",
+          "label": "C",
+          "text": "$K = C^{-1} \\cdot P \\pmod{26}$",
+          "isCorrect": false,
+          "explanation": "Inverts ciphertext matrix $C$ instead of plaintext matrix $P$."
+        },
+        {
+          "id": "q035_d",
+          "label": "D",
+          "text": "$K = C \\cdot P \\pmod{26}$",
+          "isCorrect": false,
+          "explanation": "Ignores matrix inversion requirements."
+        }
+      ],
+      "correctOptionId": "q035_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: The encryption equation is $C = P \\cdot K \\pmod{26}$. Multiplying both sides on the left by $P^{-1}$ yields $P^{-1} \\cdot C = P^{-1} \\cdot P \\cdot K = I \\cdot K = K \\pmod{26}$.\nWhy A is incorrect: Incorrect matrix multiplication without inversion.\nWhy C is incorrect: Inverts ciphertext matrix $C$ instead of plaintext matrix $P$.\nWhy D is incorrect: Ignores matrix inversion requirements.",
+      "cheatSheetNote": "Hill Cipher Cryptanalysis: Solve for key matrix using $K = P^{-1} \\cdot C \\pmod{26}$.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 36,
+      "id": "Q-CH2-036",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH2-036",
+      "prompt": "What technique conceals the very existence of a secret message by embedding it inside another cover medium (such as an image file)?",
+      "options": [
+        {
+          "id": "q036_a",
+          "label": "A",
+          "text": "Cryptanalysis",
+          "isCorrect": false,
+          "explanation": "Cryptanalysis breaks ciphers."
+        },
+        {
+          "id": "q036_b",
+          "label": "B",
+          "text": "Steganography",
+          "isCorrect": true,
+          "explanation": "Steganography hides the existence of a message, whereas cryptography scrambles the message content."
+        },
+        {
+          "id": "q036_c",
+          "label": "C",
+          "text": "Encipherment",
+          "isCorrect": false,
+          "explanation": "Encipherment makes content unreadable, not invisible."
+        },
+        {
+          "id": "q036_d",
+          "label": "D",
+          "text": "Authentication",
+          "isCorrect": false,
+          "explanation": "Authentication verifies identity."
+        }
+      ],
+      "correctOptionId": "q036_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Steganography hides the existence of a message, whereas cryptography scrambles the message content.\nWhy A is incorrect: Cryptanalysis breaks ciphers.\nWhy C is incorrect: Encipherment makes content unreadable, not invisible.\nWhy D is incorrect: Authentication verifies identity.",
+      "cheatSheetNote": "Steganography: Hiding message presence within secondary digital media.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 37,
+      "id": "Q-CH2-037",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH2-037",
+      "prompt": "What type of cryptanalytic attack assumes the attacker has access to a set of plaintexts and their corresponding encrypted ciphertexts produced with the secret key?",
+      "options": [
+        {
+          "id": "q037_a",
+          "label": "A",
+          "text": "Ciphertext-Only Attack",
+          "isCorrect": false,
+          "explanation": "Ciphertext-Only provides only the ciphertext."
+        },
+        {
+          "id": "q037_b",
+          "label": "B",
+          "text": "Known-Plaintext Attack",
+          "isCorrect": true,
+          "explanation": "In a Known-Plaintext attack, the attacker possesses one or more plaintext-ciphertext pairs generated with the target key."
+        },
+        {
+          "id": "q037_c",
+          "label": "C",
+          "text": "Chosen-Ciphertext Attack",
+          "isCorrect": false,
+          "explanation": "Chosen-Ciphertext allows the attacker to select ciphertexts and observe decrypted plaintexts."
+        },
+        {
+          "id": "q037_d",
+          "label": "D",
+          "text": "Probable-Cause Attack",
+          "isCorrect": false,
+          "explanation": "Non-standard cryptographic term."
+        }
+      ],
+      "correctOptionId": "q037_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: In a Known-Plaintext attack, the attacker possesses one or more plaintext-ciphertext pairs generated with the target key.\nWhy A is incorrect: Ciphertext-Only provides only the ciphertext.\nWhy C is incorrect: Chosen-Ciphertext allows the attacker to select ciphertexts and observe decrypted plaintexts.\nWhy D is incorrect: Non-standard cryptographic term.",
+      "cheatSheetNote": "Known-Plaintext Attack: Attacker possesses matching pairs of plaintexts and ciphertexts.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 38,
+      "id": "Q-CH2-038",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH2-038",
+      "prompt": "Why is a simple monoalphabetic substitution cipher vulnerable to frequency analysis, despite having a massive key space of $26! \\approx 4 \\times 10^{26}$ keys?",
+      "options": [
+        {
+          "id": "q038_a",
+          "label": "A",
+          "text": "The key space is too small for modern computers.",
+          "isCorrect": false,
+          "explanation": "$26!$ is far too large for brute force."
+        },
+        {
+          "id": "q038_b",
+          "label": "B",
+          "text": "The single-letter statistical frequencies of the original language are preserved directly in the ciphertext.",
+          "isCorrect": true,
+          "explanation": "Monoalphabetic substitution maps each plaintext letter uniquely to one cipher letter, preserving natural language letter frequencies (e.g., e occurs most frequently)."
+        },
+        {
+          "id": "q038_c",
+          "label": "C",
+          "text": "Monoalphabetic ciphers use asymmetric keys.",
+          "isCorrect": false,
+          "explanation": "It is a symmetric technique."
+        },
+        {
+          "id": "q038_d",
+          "label": "D",
+          "text": "They are vulnerable to matrix inversion.",
+          "isCorrect": false,
+          "explanation": "Matrix inversion applies to Hill ciphers."
+        }
+      ],
+      "correctOptionId": "q038_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Monoalphabetic substitution maps each plaintext letter uniquely to one cipher letter, preserving natural language letter frequencies (e.g., e occurs most frequently).\nWhy A is incorrect: $26!$ is far too large for brute force.\nWhy C is incorrect: It is a symmetric technique.\nWhy D is incorrect: Matrix inversion applies to Hill ciphers.",
+      "cheatSheetNote": "Monoalphabetic Weakness: Single-letter frequency patterns survive substitution intact.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 39,
+      "id": "Q-CH2-039",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH2-039",
+      "prompt": "What term describes an encryption algorithm where the cost of breaking the cipher exceeds the value of the encrypted information, or the time required exceeds the useful lifespan of the data?",
+      "options": [
+        {
+          "id": "q039_a",
+          "label": "A",
+          "text": "Unconditionally Secure",
+          "isCorrect": false,
+          "explanation": "Unconditionally secure means breaking it is impossible regardless of resources (OTP)."
+        },
+        {
+          "id": "q039_b",
+          "label": "B",
+          "text": "Computationally Secure",
+          "isCorrect": true,
+          "explanation": "A cipher is computationally secure when cryptanalysis is theoretically possible but computationally infeasible in terms of cost or time."
+        },
+        {
+          "id": "q039_c",
+          "label": "C",
+          "text": "Perfectly Secure",
+          "isCorrect": false,
+          "explanation": "Perfectly secure is synonymous with unconditionally secure."
+        },
+        {
+          "id": "q039_d",
+          "label": "D",
+          "text": "Physically Secure",
+          "isCorrect": false,
+          "explanation": "Physical security protects physical hardware assets."
+        }
+      ],
+      "correctOptionId": "q039_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: A cipher is computationally secure when cryptanalysis is theoretically possible but computationally infeasible in terms of cost or time.\nWhy A is incorrect: Unconditionally secure means breaking it is impossible regardless of resources (OTP).\nWhy C is incorrect: Perfectly secure is synonymous with unconditionally secure.\nWhy D is incorrect: Physical security protects physical hardware assets.",
+      "cheatSheetNote": "Computationally Secure: Practical security defined by computational time/cost constraints.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 40,
+      "id": "Q-CH2-040",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 2,
+      "chapterTitle": "Classical Encryption Techniques & Symmetric Ciphers",
+      "outcomeId": "OUTCOME-ITSEC-CH2",
+      "bloomLevel": "APPLY",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH2-040",
+      "prompt": "Decrypt the Caesar ciphertext PHHW PH DIWHU (shift $k = 3$). What is the original plaintext?",
+      "options": [
+        {
+          "id": "q040_a",
+          "label": "A",
+          "text": "MEET ME AFTER",
+          "isCorrect": true,
+          "explanation": "Decryption formula is $p = (C - 3) \\pmod{26}$.\nP (15) - 3 = 12 (M)\nH (7) - 3 = 4 (E)\nH (7) - 3 = 4 (E)\nW (22) - 3 = 19 (T) -> MEET.\nRepeating for PH -> ME and DIWHU -> AFTER. Output: MEET ME AFTER."
+        },
+        {
+          "id": "q040_b",
+          "label": "B",
+          "text": "LOOK AT FRONT",
+          "isCorrect": false,
+          "explanation": "Incorrect shift decoding."
+        },
+        {
+          "id": "q040_c",
+          "label": "C",
+          "text": "CALL ME LATER",
+          "isCorrect": false,
+          "explanation": "Incorrect shift decoding."
+        },
+        {
+          "id": "q040_d",
+          "label": "D",
+          "text": "SEND MORE HELP",
+          "isCorrect": false,
+          "explanation": "Incorrect shift decoding."
+        }
+      ],
+      "correctOptionId": "q040_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: Decryption formula is $p = (C - 3) \\pmod{26}$.\nP (15) - 3 = 12 (M)\nH (7) - 3 = 4 (E)\nH (7) - 3 = 4 (E)\nW (22) - 3 = 19 (T) -> MEET.\nRepeating for PH -> ME and DIWHU -> AFTER. Output: MEET ME AFTER.\nWhy B is incorrect: Incorrect shift decoding.\nWhy C is incorrect: Incorrect shift decoding.\nWhy D is incorrect: Incorrect shift decoding.",
+      "cheatSheetNote": "Caesar Decryption: $p = (C - k) \\pmod{26}$.",
+      "recommendedResourceId": "res_itsec_ch2_notes"
+    },
+    {
+      "questionNumber": 41,
+      "id": "Q-CH3-041",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH3-041",
+      "prompt": "What is the fundamental difference between a block cipher and a stream cipher?",
+      "options": [
+        {
+          "id": "q041_a",
+          "label": "A",
+          "text": "Block ciphers encrypt asymmetric data; stream ciphers encrypt symmetric data.",
+          "isCorrect": false,
+          "explanation": "Both are symmetric cipher types."
+        },
+        {
+          "id": "q041_b",
+          "label": "B",
+          "text": "Block ciphers process input data in fixed-size blocks; stream ciphers process input elements continuously one bit or byte at a time.",
+          "isCorrect": true,
+          "explanation": "Block ciphers process a block of data (e.g., 64 or 128 bits) as a single unit; stream ciphers process continuous data streams bit-by-bit or byte-by-byte."
+        },
+        {
+          "id": "q041_c",
+          "label": "C",
+          "text": "Block ciphers use public keys; stream ciphers use private keys.",
+          "isCorrect": false,
+          "explanation": "Both use symmetric secret keys."
+        },
+        {
+          "id": "q041_d",
+          "label": "D",
+          "text": "Block ciphers operate only on hardware; stream ciphers operate in software.",
+          "isCorrect": false,
+          "explanation": "Both can be implemented in software or hardware."
+        }
+      ],
+      "correctOptionId": "q041_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Block ciphers process a block of data (e.g., 64 or 128 bits) as a single unit; stream ciphers process continuous data streams bit-by-bit or byte-by-byte.\nWhy A is incorrect: Both are symmetric cipher types.\nWhy C is incorrect: Both use symmetric secret keys.\nWhy D is incorrect: Both can be implemented in software or hardware.",
+      "cheatSheetNote": "Block vs. Stream Cipher: Block processes fixed-size data blocks; stream processes bit/byte streams continuously.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 42,
+      "id": "Q-CH3-042",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH3-042",
+      "prompt": "Which cryptographic property defined by Claude Shannon seeks to dissipate the statistical structure of the plaintext across the bulk of the ciphertext?",
+      "options": [
+        {
+          "id": "q042_a",
+          "label": "A",
+          "text": "Confusion",
+          "isCorrect": false,
+          "explanation": "Confusion makes the complex relationship between ciphertext and key obscured."
+        },
+        {
+          "id": "q042_b",
+          "label": "B",
+          "text": "Diffusion",
+          "isCorrect": true,
+          "explanation": "Diffusion spreads the statistical structure of plaintext across long ranges of ciphertext so an attacker cannot deduce plaintext statistics."
+        },
+        {
+          "id": "q042_c",
+          "label": "C",
+          "text": "Autokeying",
+          "isCorrect": false,
+          "explanation": "Autokeying uses plaintext/ciphertext bits to generate keystream."
+        },
+        {
+          "id": "q042_d",
+          "label": "D",
+          "text": "Permutation",
+          "isCorrect": false,
+          "explanation": "Permutation is a positional rearrangement technique."
+        }
+      ],
+      "correctOptionId": "q042_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Diffusion spreads the statistical structure of plaintext across long ranges of ciphertext so an attacker cannot deduce plaintext statistics.\nWhy A is incorrect: Confusion makes the complex relationship between ciphertext and key obscured.\nWhy C is incorrect: Autokeying uses plaintext/ciphertext bits to generate keystream.\nWhy D is incorrect: Permutation is a positional rearrangement technique.",
+      "cheatSheetNote": "Diffusion: Spreading plaintext statistics throughout ciphertext to obscure patterns.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 43,
+      "id": "Q-CH3-043",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH3-043",
+      "prompt": "Which cryptographic property defined by Claude Shannon makes the relationship between the encryption key and the ciphertext as complex as possible?",
+      "options": [
+        {
+          "id": "q043_a",
+          "label": "A",
+          "text": "Diffusion",
+          "isCorrect": false,
+          "explanation": "Diffusion spreads plaintext statistics."
+        },
+        {
+          "id": "q043_b",
+          "label": "B",
+          "text": "Confusion",
+          "isCorrect": true,
+          "explanation": "Confusion ensures that key bits affect ciphertext bits in a highly complex, non-linear manner, preventing key recovery."
+        },
+        {
+          "id": "q043_c",
+          "label": "C",
+          "text": "Autoclaving",
+          "isCorrect": false,
+          "explanation": "Autoclaving/autokeying refers to key generation techniques."
+        },
+        {
+          "id": "q043_d",
+          "label": "D",
+          "text": "Expansion",
+          "isCorrect": false,
+          "explanation": "Expansion increases bit length in round operations."
+        }
+      ],
+      "correctOptionId": "q043_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Confusion ensures that key bits affect ciphertext bits in a highly complex, non-linear manner, preventing key recovery.\nWhy A is incorrect: Diffusion spreads plaintext statistics.\nWhy C is incorrect: Autoclaving/autokeying refers to key generation techniques.\nWhy D is incorrect: Expansion increases bit length in round operations.",
+      "cheatSheetNote": "Confusion: Obscuring the relationship between secret key and ciphertext.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 44,
+      "id": "Q-CH3-044",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH3-044",
+      "prompt": "What structural architecture forms the basis of DES and many modern symmetric block ciphers, dividing input blocks into two equal halves?",
+      "options": [
+        {
+          "id": "q044_a",
+          "label": "A",
+          "text": "Substitution-Permutation Network",
+          "isCorrect": false,
+          "explanation": "SPN is an alternative non-Feistel block structure (used in AES)."
+        },
+        {
+          "id": "q044_b",
+          "label": "B",
+          "text": "Feistel Cipher Structure",
+          "isCorrect": true,
+          "explanation": "Horst Feistel devised the Feistel structure, which splits data into left ($L$) and right ($R$) halves and processes them iteratively through multiple rounds."
+        },
+        {
+          "id": "q044_c",
+          "label": "C",
+          "text": "Galois Field Matrix",
+          "isCorrect": false,
+          "explanation": "Galois field matrices are used in AES mathematical operations."
+        },
+        {
+          "id": "q044_d",
+          "label": "D",
+          "text": "RSA Trapdoor Structure",
+          "isCorrect": false,
+          "explanation": "RSA is an asymmetric public-key cryptosystem."
+        }
+      ],
+      "correctOptionId": "q044_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Horst Feistel devised the Feistel structure, which splits data into left ($L$) and right ($R$) halves and processes them iteratively through multiple rounds.\nWhy A is incorrect: SPN is an alternative non-Feistel block structure (used in AES).\nWhy C is incorrect: Galois field matrices are used in AES mathematical operations.\nWhy D is incorrect: RSA is an asymmetric public-key cryptosystem.",
+      "cheatSheetNote": "Feistel Cipher: Iterative architecture partitioning data blocks into $L$ and $R$ halves.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 45,
+      "id": "Q-CH3-045",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH3-045",
+      "prompt": "Why is a Feistel cipher guaranteed to be reversible (decryption works) regardless of whether the round function $F$ is invertible?",
+      "options": [
+        {
+          "id": "q045_a",
+          "label": "A",
+          "text": "$F$ must always be a linear matrix.",
+          "isCorrect": false,
+          "explanation": "$F$ is highly non-linear."
+        },
+        {
+          "id": "q045_b",
+          "label": "B",
+          "text": "Decryption runs the exact same algorithm using round subkeys in reverse order ($K_{16}$ to $K_1$).",
+          "isCorrect": true,
+          "explanation": "The mathematical structure of Feistel equations ($L_i = R_{i-1}$, $R_i = L_{i-1} \\oplus F(R_{i-1}, K_i)$) cancels out $F$ during reverse execution with reversed subkeys, so $F$ does not need to be invertible."
+        },
+        {
+          "id": "q045_c",
+          "label": "C",
+          "text": "The key is inverted using Extended Euclidean Algorithm.",
+          "isCorrect": false,
+          "explanation": "Modular arithmetic inversion is for RSA/Affine ciphers."
+        },
+        {
+          "id": "q045_d",
+          "label": "D",
+          "text": "S-Boxes are self-inverting.",
+          "isCorrect": false,
+          "explanation": "S-Boxes in Feistel ciphers are not required to be self-inverting."
+        }
+      ],
+      "correctOptionId": "q045_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: The mathematical structure of Feistel equations ($L_i = R_{i-1}$, $R_i = L_{i-1} \\oplus F(R_{i-1}, K_i)$) cancels out $F$ during reverse execution with reversed subkeys, so $F$ does not need to be invertible.\nWhy A is incorrect: $F$ is highly non-linear.\nWhy C is incorrect: Modular arithmetic inversion is for RSA/Affine ciphers.\nWhy D is incorrect: S-Boxes in Feistel ciphers are not required to be self-inverting.",
+      "cheatSheetNote": "Feistel Decryption: Exact same encryption operations executed with reversed subkey schedule.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 46,
+      "id": "Q-CH3-046",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH3-046",
+      "prompt": "What are the input block size and effective secret key length in the Data Encryption Standard (DES)?",
+      "options": [
+        {
+          "id": "q046_a",
+          "label": "A",
+          "text": "128-bit block size and 128-bit key length",
+          "isCorrect": false,
+          "explanation": "128-bit block/key is standard for AES."
+        },
+        {
+          "id": "q046_b",
+          "label": "B",
+          "text": "64-bit block size and 56-bit key length",
+          "isCorrect": true,
+          "explanation": "DES operates on 64-bit data blocks and accepts a 64-bit key, of which 8 bits are parity bits, leaving 56 effective secret key bits."
+        },
+        {
+          "id": "q046_c",
+          "label": "C",
+          "text": "64-bit block size and 64-bit key length",
+          "isCorrect": false,
+          "explanation": "8 key bits are parity/check bits, so effective key size is 56 bits."
+        },
+        {
+          "id": "q046_d",
+          "label": "D",
+          "text": "32-bit block size and 56-bit key length",
+          "isCorrect": false,
+          "explanation": "Block size is 64 bits, split into two 32-bit halves."
+        }
+      ],
+      "correctOptionId": "q046_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: DES operates on 64-bit data blocks and accepts a 64-bit key, of which 8 bits are parity bits, leaving 56 effective secret key bits.\nWhy A is incorrect: 128-bit block/key is standard for AES.\nWhy C is incorrect: 8 key bits are parity/check bits, so effective key size is 56 bits.\nWhy D is incorrect: Block size is 64 bits, split into two 32-bit halves.",
+      "cheatSheetNote": "DES Parameters: 64-bit block size; 56-bit effective key length (8 parity bits discarded).",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 47,
+      "id": "Q-CH3-047",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH3-047",
+      "prompt": "In DES, what step immediately precedes the 16 Feistel rounds, reordering the input data bits?",
+      "options": [
+        {
+          "id": "q047_a",
+          "label": "A",
+          "text": "Permuted Choice 1 (PC-1)",
+          "isCorrect": false,
+          "explanation": "PC-1 is used in key schedule generation."
+        },
+        {
+          "id": "q047_b",
+          "label": "B",
+          "text": "Initial Permutation (IP)",
+          "isCorrect": true,
+          "explanation": "Initial Permutation (IP) transposes the 64 input bits before Round 1."
+        },
+        {
+          "id": "q047_c",
+          "label": "C",
+          "text": "Inverse Initial Permutation ($IP^{-1}$)",
+          "isCorrect": false,
+          "explanation": "$IP^{-1}$ occurs after round 16 to generate ciphertext."
+        },
+        {
+          "id": "q047_d",
+          "label": "D",
+          "text": "Expansion Permutation (E)",
+          "isCorrect": false,
+          "explanation": "Expansion permutation occurs inside the round function $F$."
+        }
+      ],
+      "correctOptionId": "q047_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Initial Permutation (IP) transposes the 64 input bits before Round 1.\nWhy A is incorrect: PC-1 is used in key schedule generation.\nWhy C is incorrect: $IP^{-1}$ occurs after round 16 to generate ciphertext.\nWhy D is incorrect: Expansion permutation occurs inside the round function $F$.",
+      "cheatSheetNote": "Initial Permutation (IP): Pre-round 64-bit input transposition.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 48,
+      "id": "Q-CH3-048",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH3-048",
+      "prompt": "What is the purpose of the Expansion Permutation ($E$) within the DES round function $F$?",
+      "options": [
+        {
+          "id": "q048_a",
+          "label": "A",
+          "text": "Expands the 32-bit right data half $R_{i-1}$ to 48 bits to match the subkey length.",
+          "isCorrect": true,
+          "explanation": "The 32-bit right data block $R_{i-1}$ is expanded to 48 bits by duplicating 16 bits, matching the 48-bit subkey size for XOR addition."
+        },
+        {
+          "id": "q048_b",
+          "label": "B",
+          "text": "Expands 56-bit key to 64-bit key.",
+          "isCorrect": false,
+          "explanation": "Key selection uses Permuted Choice 1 and 2."
+        },
+        {
+          "id": "q048_c",
+          "label": "C",
+          "text": "Expands 48-bit output to 64-bit output.",
+          "isCorrect": false,
+          "explanation": "Round function output is permuted back to 32 bits by Permutation $P$."
+        },
+        {
+          "id": "q048_d",
+          "label": "D",
+          "text": "Expands 8 S-boxes to 16 S-boxes.",
+          "isCorrect": false,
+          "explanation": "DES strictly uses 8 S-boxes."
+        }
+      ],
+      "correctOptionId": "q048_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: The 32-bit right data block $R_{i-1}$ is expanded to 48 bits by duplicating 16 bits, matching the 48-bit subkey size for XOR addition.\nWhy B is incorrect: Key selection uses Permuted Choice 1 and 2.\nWhy C is incorrect: Round function output is permuted back to 32 bits by Permutation $P$.\nWhy D is incorrect: DES strictly uses 8 S-boxes.",
+      "cheatSheetNote": "DES Expansion Permutation (E): Converts 32-bit data block to 48-bit vector for subkey XORing.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 49,
+      "id": "Q-CH3-049",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH3-049",
+      "prompt": "Which component within the DES round function $F$ provides the critical non-linear confusion step?",
+      "options": [
+        {
+          "id": "q049_a",
+          "label": "A",
+          "text": "Expansion Permutation ($E$)",
+          "isCorrect": false,
+          "explanation": "Expansion $E$ is linear permutation/duplication."
+        },
+        {
+          "id": "q049_b",
+          "label": "B",
+          "text": "Permutation Function ($P$)",
+          "isCorrect": false,
+          "explanation": "Permutation $P$ is a linear bit rearrangement."
+        },
+        {
+          "id": "q049_c",
+          "label": "C",
+          "text": "Substitution Boxes (S-Boxes)",
+          "isCorrect": true,
+          "explanation": "DES S-Boxes perform non-linear mapping (6 input bits to 4 output bits) providing the primary non-linear confusion element of DES."
+        },
+        {
+          "id": "q049_d",
+          "label": "D",
+          "text": "Bitwise XOR operation",
+          "isCorrect": false,
+          "explanation": "XOR is a linear bitwise operation."
+        }
+      ],
+      "correctOptionId": "q049_c",
+      "correctLabel": "C",
+      "explanation": "Why C is correct: DES S-Boxes perform non-linear mapping (6 input bits to 4 output bits) providing the primary non-linear confusion element of DES.\nWhy A is incorrect: Expansion $E$ is linear permutation/duplication.\nWhy B is incorrect: Permutation $P$ is a linear bit rearrangement.\nWhy D is incorrect: XOR is a linear bitwise operation.",
+      "cheatSheetNote": "DES S-Boxes: Non-linear substitution tables mapping 6 bits to 4 bits.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 50,
+      "id": "Q-CH3-050",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "APPLY",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH3-050",
+      "prompt": "Given a 6-bit input 100110 to a DES S-box, how are the row and column indices selected for lookup?",
+      "options": [
+        {
+          "id": "q050_a",
+          "label": "A",
+          "text": "Outer bits 10 select the row; inner bits 0011 select the column.",
+          "isCorrect": true,
+          "explanation": "In DES S-boxes, bits 1 and 6 (outer bits 10 = row 2) select the matrix row (0 to 3), and bits 2-5 (inner bits 0011 = column 3) select the column (0 to 15)."
+        },
+        {
+          "id": "q050_b",
+          "label": "B",
+          "text": "Inner bits 0011 select the row; outer bits 10 select the column.",
+          "isCorrect": false,
+          "explanation": "Reverses row and column bit roles."
+        },
+        {
+          "id": "q050_c",
+          "label": "C",
+          "text": "First 3 bits 100 select row; last 3 bits 110 select column.",
+          "isCorrect": false,
+          "explanation": "Incorrect 3x3 partitioning."
+        },
+        {
+          "id": "q050_d",
+          "label": "D",
+          "text": "Row and column are selected randomly.",
+          "isCorrect": false,
+          "explanation": "S-box lookup is deterministic."
+        }
+      ],
+      "correctOptionId": "q050_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: In DES S-boxes, bits 1 and 6 (outer bits 10 = row 2) select the matrix row (0 to 3), and bits 2-5 (inner bits 0011 = column 3) select the column (0 to 15).\nWhy B is incorrect: Reverses row and column bit roles.\nWhy C is incorrect: Incorrect 3x3 partitioning.\nWhy D is incorrect: S-box lookup is deterministic.",
+      "cheatSheetNote": "S-Box Indexing: Row = outer bits 1 & 6; Column = inner bits 2-5.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 51,
+      "id": "Q-CH3-051",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH3-051",
+      "prompt": "In the DES key schedule, how many 48-bit subkeys ($K_1$ through $K_{16}$) are generated for the 16 rounds?",
+      "options": [
+        {
+          "id": "q051_a",
+          "label": "A",
+          "text": "8",
+          "isCorrect": false,
+          "explanation": "8 is number of S-boxes."
+        },
+        {
+          "id": "q051_b",
+          "label": "B",
+          "text": "16",
+          "isCorrect": true,
+          "explanation": "The key schedule algorithm generates exactly 16 subkeys of 48 bits each—one subkey for each of the 16 rounds of DES."
+        },
+        {
+          "id": "q051_c",
+          "label": "C",
+          "text": "32",
+          "isCorrect": false,
+          "explanation": "32 is half block bit size."
+        },
+        {
+          "id": "q051_d",
+          "label": "D",
+          "text": "64",
+          "isCorrect": false,
+          "explanation": "64 is total block size."
+        }
+      ],
+      "correctOptionId": "q051_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: The key schedule algorithm generates exactly 16 subkeys of 48 bits each—one subkey for each of the 16 rounds of DES.\nWhy A is incorrect: 8 is number of S-boxes.\nWhy C is incorrect: 32 is half block bit size.\nWhy D is incorrect: 64 is total block size.",
+      "cheatSheetNote": "DES Key Schedule: Generates sixteen 48-bit round subkeys from 56-bit key.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 52,
+      "id": "Q-CH3-052",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH3-052",
+      "prompt": "What desirable property of encryption algorithms ensures that a single bit change in plaintext or key results in changing approximately half of the ciphertext bits?",
+      "options": [
+        {
+          "id": "q052_a",
+          "label": "A",
+          "text": "Avalanche Effect",
+          "isCorrect": true,
+          "explanation": "The avalanche effect dictates that a minute change in either plaintext or key propagates rapidly through rounds, changing roughly 50% of ciphertext bits."
+        },
+        {
+          "id": "q052_b",
+          "label": "B",
+          "text": "Completeness Property",
+          "isCorrect": false,
+          "explanation": "Completeness means each ciphertext bit depends on all plaintext bits."
+        },
+        {
+          "id": "q052_c",
+          "label": "C",
+          "text": "Linear Dependency",
+          "isCorrect": false,
+          "explanation": "Linear dependency is a weakness targeted by linear cryptanalysis."
+        },
+        {
+          "id": "q052_d",
+          "label": "D",
+          "text": "Key Clustering",
+          "isCorrect": false,
+          "explanation": "Key clustering is an undesirable property where different keys yield identical ciphertext."
+        }
+      ],
+      "correctOptionId": "q052_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: The avalanche effect dictates that a minute change in either plaintext or key propagates rapidly through rounds, changing roughly 50% of ciphertext bits.\nWhy B is incorrect: Completeness means each ciphertext bit depends on all plaintext bits.\nWhy C is incorrect: Linear dependency is a weakness targeted by linear cryptanalysis.\nWhy D is incorrect: Key clustering is an undesirable property where different keys yield identical ciphertext.",
+      "cheatSheetNote": "Avalanche Effect: Small input change produces large, unpredictable output bit changes (~50%).",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 53,
+      "id": "Q-CH3-053",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "ANALYZE",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH3-053",
+      "prompt": "Why is standard single-key DES no longer considered secure for modern financial applications?",
+      "options": [
+        {
+          "id": "q053_a",
+          "label": "A",
+          "text": "S-Boxes were proven to be linear.",
+          "isCorrect": false,
+          "explanation": "S-Boxes are non-linear."
+        },
+        {
+          "id": "q053_b",
+          "label": "B",
+          "text": "The 56-bit key length is vulnerable to exhaustive brute-force search using modern hardware.",
+          "isCorrect": true,
+          "explanation": "A key space of $2^{56} \\approx 7.2 \\times 10^{16}$ keys can be exhaustively searched in hours/days using custom parallel hardware (e.g., EFF Deep Crack)."
+        },
+        {
+          "id": "q053_c",
+          "label": "C",
+          "text": "Feistel ciphers cannot be decrypted.",
+          "isCorrect": false,
+          "explanation": "Feistel ciphers decrypt reversibly."
+        },
+        {
+          "id": "q053_d",
+          "label": "D",
+          "text": "Differential cryptanalysis breaks DES instantly in 1 round.",
+          "isCorrect": false,
+          "explanation": "DES was intentionally designed to resist differential cryptanalysis."
+        }
+      ],
+      "correctOptionId": "q053_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: A key space of $2^{56} \\approx 7.2 \\times 10^{16}$ keys can be exhaustively searched in hours/days using custom parallel hardware (e.g., EFF Deep Crack).\nWhy A is incorrect: S-Boxes are non-linear.\nWhy C is incorrect: Feistel ciphers decrypt reversibly.\nWhy D is incorrect: DES was intentionally designed to resist differential cryptanalysis.",
+      "cheatSheetNote": "DES Vulnerability: 56-bit key space is susceptible to brute-force key search attacks.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 54,
+      "id": "Q-CH3-054",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH3-054",
+      "prompt": "How does Differential Cryptanalysis attack block ciphers like DES?",
+      "options": [
+        {
+          "id": "q054_a",
+          "label": "A",
+          "text": "By solving discrete logarithms modulo $p$.",
+          "isCorrect": false,
+          "explanation": "Discrete logarithms apply to Diffie-Hellman/ElGamal."
+        },
+        {
+          "id": "q054_b",
+          "label": "B",
+          "text": "By analyzing output differences resulting from specific known differences in pairs of plaintexts.",
+          "isCorrect": true,
+          "explanation": "Differential cryptanalysis compares the differences between pairs of plaintexts and the corresponding differences in ciphertexts across rounds to assign probabilities to candidate subkeys."
+        },
+        {
+          "id": "q054_c",
+          "label": "C",
+          "text": "By solving linear equations over S-boxes.",
+          "isCorrect": false,
+          "explanation": "Linear equations over S-boxes describe Linear Cryptanalysis."
+        },
+        {
+          "id": "q054_d",
+          "label": "D",
+          "text": "By factorizing the 64-bit modulus into prime numbers.",
+          "isCorrect": false,
+          "explanation": "Prime factorization applies to RSA."
+        }
+      ],
+      "correctOptionId": "q054_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Differential cryptanalysis compares the differences between pairs of plaintexts and the corresponding differences in ciphertexts across rounds to assign probabilities to candidate subkeys.\nWhy A is incorrect: Discrete logarithms apply to Diffie-Hellman/ElGamal.\nWhy C is incorrect: Linear equations over S-boxes describe Linear Cryptanalysis.\nWhy D is incorrect: Prime factorization applies to RSA.",
+      "cheatSheetNote": "Differential Cryptanalysis: Statistical attack examining input/output differences of plaintext pairs.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 55,
+      "id": "Q-CH3-055",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH3-055",
+      "prompt": "What approach does Linear Cryptanalysis utilize to attack block cipher structures?",
+      "options": [
+        {
+          "id": "q055_a",
+          "label": "A",
+          "text": "Linear approximations of non-linear S-boxes to deduce key bits.",
+          "isCorrect": true,
+          "explanation": "Linear cryptanalysis finds linear relations combining plaintext, ciphertext, and key bits with high probability, approximating non-linear S-boxes."
+        },
+        {
+          "id": "q055_b",
+          "label": "B",
+          "text": "Matrix inversion over real numbers.",
+          "isCorrect": false,
+          "explanation": "Operations take place over Galois fields / binary arithmetic."
+        },
+        {
+          "id": "q055_c",
+          "label": "C",
+          "text": "Timing differences during exponentiation.",
+          "isCorrect": false,
+          "explanation": "Timing attacks target implementation side-channels."
+        },
+        {
+          "id": "q055_d",
+          "label": "D",
+          "text": "Modulo polynomial arithmetic over $GF(2^8)$.",
+          "isCorrect": false,
+          "explanation": "$GF(2^8)$ is used in AES, not linear cryptanalysis of DES."
+        }
+      ],
+      "correctOptionId": "q055_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: Linear cryptanalysis finds linear relations combining plaintext, ciphertext, and key bits with high probability, approximating non-linear S-boxes.\nWhy B is incorrect: Operations take place over Galois fields / binary arithmetic.\nWhy C is incorrect: Timing attacks target implementation side-channels.\nWhy D is incorrect: $GF(2^8)$ is used in AES, not linear cryptanalysis of DES.",
+      "cheatSheetNote": "Linear Cryptanalysis: Finding linear approximations of S-box behavior to recover keys.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 56,
+      "id": "Q-CH3-056",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH3-056",
+      "prompt": "Triple DES (3DES) with two or three keys increases security against brute-force attacks by executing which sequence of operations?",
+      "options": [
+        {
+          "id": "q056_a",
+          "label": "A",
+          "text": "Encrypt-Encrypt-Encrypt (EEE)",
+          "isCorrect": false,
+          "explanation": "EEE does not provide backward compatibility with single DES."
+        },
+        {
+          "id": "q056_b",
+          "label": "B",
+          "text": "Encrypt-Decrypt-Encrypt (EDE)",
+          "isCorrect": true,
+          "explanation": "3DES uses Encrypt-Decrypt-Encrypt (EDE) sequence: $C = E(K_3, D(K_2, E(K_1, P)))$. Setting $K_1 = K_2 = K_3$ maintains backward compatibility with single DES."
+        },
+        {
+          "id": "q056_c",
+          "label": "C",
+          "text": "Decrypt-Decrypt-Decrypt (DDD)",
+          "isCorrect": false,
+          "explanation": "DDD is not standard."
+        },
+        {
+          "id": "q056_d",
+          "label": "D",
+          "text": "Permute-Substitute-Permute (PSP)",
+          "isCorrect": false,
+          "explanation": "PSP describes round functions, not block key modes."
+        }
+      ],
+      "correctOptionId": "q056_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: 3DES uses Encrypt-Decrypt-Encrypt (EDE) sequence: $C = E(K_3, D(K_2, E(K_1, P)))$. Setting $K_1 = K_2 = K_3$ maintains backward compatibility with single DES.\nWhy A is incorrect: EEE does not provide backward compatibility with single DES.\nWhy C is incorrect: DDD is not standard.\nWhy D is incorrect: PSP describes round functions, not block key modes.",
+      "cheatSheetNote": "Triple DES (3DES): Uses Encrypt-Decrypt-Encrypt (EDE) for backward compatibility.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 57,
+      "id": "Q-CH3-057",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "APPLY",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH3-057",
+      "prompt": "In DES key generation, the 56-bit key is split into two 28-bit halves ($C_0, D_0$). What action is performed on each half in each round before PC-2?",
+      "options": [
+        {
+          "id": "q057_a",
+          "label": "A",
+          "text": "Matrix inversion modulo 26",
+          "isCorrect": false,
+          "explanation": "Matrix inversion is not used in key scheduling."
+        },
+        {
+          "id": "q057_b",
+          "label": "B",
+          "text": "Circular left bit shift (by 1 or 2 positions)",
+          "isCorrect": true,
+          "explanation": "In each round $i$, halves $C_{i-1}$ and $D_{i-1}$ are separately rotated left by 1 or 2 bits according to a fixed schedule before PC-2 selects 48 subkey bits."
+        },
+        {
+          "id": "q057_c",
+          "label": "C",
+          "text": "XOR with round counter",
+          "isCorrect": false,
+          "explanation": "AES uses round constants, DES uses bit shifts."
+        },
+        {
+          "id": "q057_d",
+          "label": "D",
+          "text": "Substitution using S-box 1",
+          "isCorrect": false,
+          "explanation": "S-boxes process data, not key scheduling."
+        }
+      ],
+      "correctOptionId": "q057_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: In each round $i$, halves $C_{i-1}$ and $D_{i-1}$ are separately rotated left by 1 or 2 bits according to a fixed schedule before PC-2 selects 48 subkey bits.\nWhy A is incorrect: Matrix inversion is not used in key scheduling.\nWhy C is incorrect: AES uses round constants, DES uses bit shifts.\nWhy D is incorrect: S-boxes process data, not key scheduling.",
+      "cheatSheetNote": "DES Key Rotation: 28-bit key halves are rotated left by 1 or 2 bits per round.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 58,
+      "id": "Q-CH3-058",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH3-058",
+      "prompt": "How does the Feistel decryption process handle round keys compared to encryption?",
+      "options": [
+        {
+          "id": "q058_a",
+          "label": "A",
+          "text": "Keys are inverted numerically ($K_i^{-1} \\pmod{26}$).",
+          "isCorrect": false,
+          "explanation": "Subkey values are unchanged, only schedule order is reversed."
+        },
+        {
+          "id": "q058_b",
+          "label": "B",
+          "text": "Subkeys are applied in exact reverse order ($K_{16}, K_{15}, \\dots, K_1$).",
+          "isCorrect": true,
+          "explanation": "Feistel decryption uses the identical encryption algorithm structure, but feeds subkeys in reverse order ($K_{16}$ down to $K_1$)."
+        },
+        {
+          "id": "q058_c",
+          "label": "C",
+          "text": "Subkeys are XORed with $0xFF$.",
+          "isCorrect": false,
+          "explanation": "No bit inversion occurs."
+        },
+        {
+          "id": "q058_d",
+          "label": "D",
+          "text": "Keys remain in identical order ($K_1, K_2, \\dots, K_{16}$).",
+          "isCorrect": false,
+          "explanation": "Identical key order would re-encrypt the data instead of decrypting."
+        }
+      ],
+      "correctOptionId": "q058_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Feistel decryption uses the identical encryption algorithm structure, but feeds subkeys in reverse order ($K_{16}$ down to $K_1$).\nWhy A is incorrect: Subkey values are unchanged, only schedule order is reversed.\nWhy C is incorrect: No bit inversion occurs.\nWhy D is incorrect: Identical key order would re-encrypt the data instead of decrypting.",
+      "cheatSheetNote": "Subkey Reversal: Feistel decryption applies round keys in reverse sequence.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 59,
+      "id": "Q-CH3-059",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH3-059",
+      "prompt": "What function does the final step of DES perform after Round 16 to produce the ciphertext block?",
+      "options": [
+        {
+          "id": "q059_a",
+          "label": "A",
+          "text": "Inverse Initial Permutation ($IP^{-1}$)",
+          "isCorrect": true,
+          "explanation": "The output of round 16 (swapped) passes through $IP^{-1}$ (the inverse of initial permutation IP) to yield final 64-bit ciphertext."
+        },
+        {
+          "id": "q059_b",
+          "label": "B",
+          "text": "Expansion Permutation ($E$)",
+          "isCorrect": false,
+          "explanation": "Expansion $E$ is inside $F$ function."
+        },
+        {
+          "id": "q059_c",
+          "label": "C",
+          "text": "Permuted Choice 2 (PC-2)",
+          "isCorrect": false,
+          "explanation": "PC-2 compresses key halves."
+        },
+        {
+          "id": "q059_d",
+          "label": "D",
+          "text": "Modulo 2 multiplication",
+          "isCorrect": false,
+          "explanation": "Modular multiplication is public-key arithmetic."
+        }
+      ],
+      "correctOptionId": "q059_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: The output of round 16 (swapped) passes through $IP^{-1}$ (the inverse of initial permutation IP) to yield final 64-bit ciphertext.\nWhy B is incorrect: Expansion $E$ is inside $F$ function.\nWhy C is incorrect: PC-2 compresses key halves.\nWhy D is incorrect: Modular multiplication is public-key arithmetic.",
+      "cheatSheetNote": "Inverse IP: Final 64-bit permutation step producing output ciphertext.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 60,
+      "id": "Q-CH3-060",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 3,
+      "chapterTitle": "Modern Block Ciphers & Data Encryption Standard (DES)",
+      "outcomeId": "OUTCOME-ITSEC-CH3",
+      "bloomLevel": "ANALYZE",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH3-060",
+      "prompt": "In a Feistel cipher round $i$, if $L_{i-1}$ and $R_{i-1}$ are the input halves, what are the output equations for $L_i$ and $R_i$?",
+      "options": [
+        {
+          "id": "q060_a",
+          "label": "A",
+          "text": "$L_i = R_{i-1}$ and $R_i = L_{i-1} \\oplus F(R_{i-1}, K_i)$",
+          "isCorrect": true,
+          "explanation": "Standard Feistel round equations pass the right half directly to the next left half ($L_i = R_{i-1}$) and XOR the old left half with $F(R_{i-1}, K_i)$ to form the new right half."
+        },
+        {
+          "id": "q060_b",
+          "label": "B",
+          "text": "$L_i = L_{i-1} \\oplus F(R_{i-1}, K_i)$ and $R_i = R_{i-1}$",
+          "isCorrect": false,
+          "explanation": "Swapping roles of $L$ and $R$ incorrectly."
+        },
+        {
+          "id": "q060_c",
+          "label": "C",
+          "text": "$L_i = R_{i-1} \\oplus K_i$ and $R_i = L_{i-1} \\oplus K_i$",
+          "isCorrect": false,
+          "explanation": "Missing round function $F$."
+        },
+        {
+          "id": "q060_d",
+          "label": "D",
+          "text": "$L_i = F(L_{i-1}, K_i)$ and $R_i = F(R_{i-1}, K_i)$",
+          "isCorrect": false,
+          "explanation": "Ignores Feistel cross-over structure."
+        }
+      ],
+      "correctOptionId": "q060_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: Standard Feistel round equations pass the right half directly to the next left half ($L_i = R_{i-1}$) and XOR the old left half with $F(R_{i-1}, K_i)$ to form the new right half.\nWhy B is incorrect: Swapping roles of $L$ and $R$ incorrectly.\nWhy C is incorrect: Missing round function $F$.\nWhy D is incorrect: Ignores Feistel cross-over structure.",
+      "cheatSheetNote": "Feistel Equations: $L_i = R_{i-1}$; $R_i = L_{i-1} \\oplus F(R_{i-1}, K_i)$.",
+      "recommendedResourceId": "res_itsec_ch3_notes"
+    },
+    {
+      "questionNumber": 61,
+      "id": "Q-CH4-061",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH4-061",
+      "prompt": "What is the Greatest Common Divisor ($\\gcd$) of any two consecutive positive integers $n$ and $n + 1$?",
+      "options": [
+        {
+          "id": "q061_a",
+          "label": "A",
+          "text": "$n$",
+          "isCorrect": false,
+          "explanation": "$n$ cannot divide $n+1$ for $n > 1$."
+        },
+        {
+          "id": "q061_b",
+          "label": "B",
+          "text": "$1$",
+          "isCorrect": true,
+          "explanation": "If integer $d$ divides both $n$ and $n+1$, then $d$ must divide their difference $(n+1) - n = 1$. Since the only positive divisor of 1 is 1, $\\gcd(n, n+1) = 1$ for all consecutive integers."
+        },
+        {
+          "id": "q061_c",
+          "label": "C",
+          "text": "$2$",
+          "isCorrect": false,
+          "explanation": "2 only divides consecutive integers if both were even, which is impossible."
+        },
+        {
+          "id": "q061_d",
+          "label": "D",
+          "text": "$n(n+1)$",
+          "isCorrect": false,
+          "explanation": "$n(n+1)$ is the least common multiple ($\\text{lcm}$), not $\\gcd$."
+        }
+      ],
+      "correctOptionId": "q061_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: If integer $d$ divides both $n$ and $n+1$, then $d$ must divide their difference $(n+1) - n = 1$. Since the only positive divisor of 1 is 1, $\\gcd(n, n+1) = 1$ for all consecutive integers.\nWhy A is incorrect: $n$ cannot divide $n+1$ for $n > 1$.\nWhy C is incorrect: 2 only divides consecutive integers if both were even, which is impossible.\nWhy D is incorrect: $n(n+1)$ is the least common multiple ($\\text{lcm}$), not $\\gcd$.",
+      "cheatSheetNote": "Consecutive Integers Coprimality: $\\gcd(n, n+1) = 1$ because any common divisor must divide $(n+1)-n = 1$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 62,
+      "id": "Q-CH4-062",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH4-062",
+      "prompt": "What does Euler's Totient Function $\\phi(n)$ measure in number theory?",
+      "options": [
+        {
+          "id": "q062_a",
+          "label": "A",
+          "text": "The sum of all prime factors of $n$.",
+          "isCorrect": false,
+          "explanation": "Prime factor sum is a different arithmetic function."
+        },
+        {
+          "id": "q062_b",
+          "label": "B",
+          "text": "The number of positive integers less than $n$ that are relatively prime to $n$.",
+          "isCorrect": true,
+          "explanation": "By definition, Euler's totient function $\\phi(n)$ counts the positive integers $k < n$ such that $\\gcd(k, n) = 1$."
+        },
+        {
+          "id": "q062_c",
+          "label": "C",
+          "text": "The total number of divisors of $n$.",
+          "isCorrect": false,
+          "explanation": "Divisor count is denoted $d(n)$."
+        },
+        {
+          "id": "q062_d",
+          "label": "D",
+          "text": "The largest prime number smaller than $n$.",
+          "isCorrect": false,
+          "explanation": "Primality counting is $\\pi(n)$."
+        }
+      ],
+      "correctOptionId": "q062_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: By definition, Euler's totient function $\\phi(n)$ counts the positive integers $k < n$ such that $\\gcd(k, n) = 1$.\nWhy A is incorrect: Prime factor sum is a different arithmetic function.\nWhy C is incorrect: Divisor count is denoted $d(n)$.\nWhy D is incorrect: Primality counting is $\\pi(n)$.",
+      "cheatSheetNote": "Euler's Totient $\\phi(n)$: Count of positive integers $< n$ coprime to $n$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 63,
+      "id": "Q-CH4-063",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "APPLY",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH4-063",
+      "prompt": "If $p = 17$ and $q = 11$ are prime numbers, what is the value of $\\phi(n)$ where $n = p \\cdot q = 187$?",
+      "options": [
+        {
+          "id": "q063_a",
+          "label": "A",
+          "text": "187",
+          "isCorrect": false,
+          "explanation": "187 is $n$, not $\\phi(n)$."
+        },
+        {
+          "id": "q063_b",
+          "label": "B",
+          "text": "160",
+          "isCorrect": true,
+          "explanation": "For distinct primes $p$ and $q$, $\\phi(n) = (p - 1)(q - 1) = (17 - 1)(11 - 1) = 16 \\times 10 = 160$."
+        },
+        {
+          "id": "q063_c",
+          "label": "C",
+          "text": "170",
+          "isCorrect": false,
+          "explanation": "$17 \\times 10 = 170$, subtracted only 1 from $q$."
+        },
+        {
+          "id": "q063_d",
+          "label": "D",
+          "text": "165",
+          "isCorrect": false,
+          "explanation": "Incorrect arithmetic."
+        }
+      ],
+      "correctOptionId": "q063_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: For distinct primes $p$ and $q$, $\\phi(n) = (p - 1)(q - 1) = (17 - 1)(11 - 1) = 16 \\times 10 = 160$.\nWhy A is incorrect: 187 is $n$, not $\\phi(n)$.\nWhy C is incorrect: $17 \\times 10 = 170$, subtracted only 1 from $q$.\nWhy D is incorrect: Incorrect arithmetic.",
+      "cheatSheetNote": "Totient of Prime Product: $\\phi(pq) = (p-1)(q-1)$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 64,
+      "id": "Q-CH4-064",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH4-064",
+      "prompt": "According to Euler's Theorem, for any integers $a$ and $n$ that are relatively prime ($\\gcd(a, n) = 1$), what congruence relation holds true?",
+      "options": [
+        {
+          "id": "q064_a",
+          "label": "A",
+          "text": "$a^{\\phi(n)} \\equiv 1 \\pmod n$",
+          "isCorrect": true,
+          "explanation": "Euler's theorem states that if $\\gcd(a, n) = 1$, then $a^{\\phi(n)} \\equiv 1 \\pmod n$."
+        },
+        {
+          "id": "q064_b",
+          "label": "B",
+          "text": "$a^n \\equiv 1 \\pmod{\\phi(n)}$",
+          "isCorrect": false,
+          "explanation": "Exponents and moduli are reversed."
+        },
+        {
+          "id": "q064_c",
+          "label": "C",
+          "text": "$a^{\\phi(n)} \\equiv 0 \\pmod n$",
+          "isCorrect": false,
+          "explanation": "Congruence is to 1, not 0."
+        },
+        {
+          "id": "q064_d",
+          "label": "D",
+          "text": "$a^{n-1} \\equiv 1 \\pmod n$",
+          "isCorrect": false,
+          "explanation": "Fermat's Little Theorem applies $a^{p-1} \\equiv 1 \\pmod p$ specifically when $p$ is prime."
+        }
+      ],
+      "correctOptionId": "q064_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: Euler's theorem states that if $\\gcd(a, n) = 1$, then $a^{\\phi(n)} \\equiv 1 \\pmod n$.\nWhy B is incorrect: Exponents and moduli are reversed.\nWhy C is incorrect: Congruence is to 1, not 0.\nWhy D is incorrect: Fermat's Little Theorem applies $a^{p-1} \\equiv 1 \\pmod p$ specifically when $p$ is prime.",
+      "cheatSheetNote": "Euler's Theorem: $a^{\\phi(n)} \\equiv 1 \\pmod n$ when $\\gcd(a, n) = 1$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 65,
+      "id": "Q-CH4-065",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH4-065",
+      "prompt": "In asymmetric public-key cryptography used for confidential communication, which key does the sender use to encrypt the message intended for Bob?",
+      "options": [
+        {
+          "id": "q065_a",
+          "label": "A",
+          "text": "Sender's Private Key",
+          "isCorrect": false,
+          "explanation": "Encrypting with sender's private key creates a digital signature (authentication/nonrepudiation)."
+        },
+        {
+          "id": "q065_b",
+          "label": "B",
+          "text": "Receiver's (Bob's) Public Key",
+          "isCorrect": true,
+          "explanation": "To provide confidentiality, the sender encrypts the plaintext using the recipient's public key ($PU_b$). Only Bob's matching private key ($PR_b$) can decrypt it."
+        },
+        {
+          "id": "q065_c",
+          "label": "C",
+          "text": "Receiver's (Bob's) Private Key",
+          "isCorrect": false,
+          "explanation": "Private key is kept secret by Bob and never shared."
+        },
+        {
+          "id": "q065_d",
+          "label": "D",
+          "text": "Shared Secret Key",
+          "isCorrect": false,
+          "explanation": "Asymmetric crypto uses key pairs rather than shared secret keys."
+        }
+      ],
+      "correctOptionId": "q065_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: To provide confidentiality, the sender encrypts the plaintext using the recipient's public key ($PU_b$). Only Bob's matching private key ($PR_b$) can decrypt it.\nWhy A is incorrect: Encrypting with sender's private key creates a digital signature (authentication/nonrepudiation).\nWhy C is incorrect: Private key is kept secret by Bob and never shared.\nWhy D is incorrect: Asymmetric crypto uses key pairs rather than shared secret keys.",
+      "cheatSheetNote": "Asymmetric Confidentiality: Encrypt with recipient's Public Key; decrypt with recipient's Private Key.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 66,
+      "id": "Q-CH4-066",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH4-066",
+      "prompt": "To create a Digital Signature that proves authenticity and nonrepudiation, which key does Alice use to sign the message?",
+      "options": [
+        {
+          "id": "q066_a",
+          "label": "A",
+          "text": "Alice's Private Key",
+          "isCorrect": true,
+          "explanation": "A sender signs data using their own secret Private Key. Anyone can verify the signature using the sender's corresponding Public Key."
+        },
+        {
+          "id": "q066_b",
+          "label": "B",
+          "text": "Alice's Public Key",
+          "isCorrect": false,
+          "explanation": "Public key verifies signatures; it cannot create them."
+        },
+        {
+          "id": "q066_c",
+          "label": "C",
+          "text": "Bob's Public Key",
+          "isCorrect": false,
+          "explanation": "Encrypts data for Bob."
+        },
+        {
+          "id": "q066_d",
+          "label": "D",
+          "text": "Bob's Private Key",
+          "isCorrect": false,
+          "explanation": "Alice does not possess Bob's private key."
+        }
+      ],
+      "correctOptionId": "q066_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: A sender signs data using their own secret Private Key. Anyone can verify the signature using the sender's corresponding Public Key.\nWhy B is incorrect: Public key verifies signatures; it cannot create them.\nWhy C is incorrect: Encrypts data for Bob.\nWhy D is incorrect: Alice does not possess Bob's private key.",
+      "cheatSheetNote": "Digital Signatures: Sign with sender's Private Key; verify with sender's Public Key.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 67,
+      "id": "Q-CH4-067",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "APPLY",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH4-067",
+      "prompt": "Given RSA prime parameters $p = 3$ and $q = 11$, with public encryption exponent $e = 7$, calculate the private decryption key $d$.",
+      "options": [
+        {
+          "id": "q067_a",
+          "label": "A",
+          "text": "$d = 3$",
+          "isCorrect": true,
+          "explanation": "Compute $n = p \\cdot q = 3 \\times 11 = 33$.\nCompute $\\phi(n) = (p - 1)(q - 1) = 2 \\times 10 = 20$.\nSolve $e \\cdot d \\equiv 1 \\pmod{\\phi(n)} \\implies 7d \\equiv 1 \\pmod{20}$.\nTesting integers: $7 \\times 3 = 21 = (1 \\times 20) + 1 \\equiv 1 \\pmod{20}$.\nHence $d = 3$."
+        },
+        {
+          "id": "q067_b",
+          "label": "B",
+          "text": "$d = 7$",
+          "isCorrect": false,
+          "explanation": "$e=7$."
+        },
+        {
+          "id": "q067_c",
+          "label": "C",
+          "text": "$d = 11$",
+          "isCorrect": false,
+          "explanation": "$7 \\times 11 = 77 \\equiv 17 \\pmod{20} \\neq 1$."
+        },
+        {
+          "id": "q067_d",
+          "label": "D",
+          "text": "$d = 20$",
+          "isCorrect": false,
+          "explanation": "20 is $\\phi(n)$."
+        }
+      ],
+      "correctOptionId": "q067_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct:\nCompute $n = p \\cdot q = 3 \\times 11 = 33$.\nCompute $\\phi(n) = (p - 1)(q - 1) = 2 \\times 10 = 20$.\nSolve $e \\cdot d \\equiv 1 \\pmod{\\phi(n)} \\implies 7d \\equiv 1 \\pmod{20}$.\nTesting integers: $7 \\times 3 = 21 = (1 \\times 20) + 1 \\equiv 1 \\pmod{20}$.\nHence $d = 3$.\nWhy B is incorrect: $e=7$.\nWhy C is incorrect: $7 \\times 11 = 77 \\equiv 17 \\pmod{20} \\neq 1$.\nWhy D is incorrect: 20 is $\\phi(n)$.",
+      "cheatSheetNote": "RSA Private Key Calculation: $d = e^{-1} \\pmod{\\phi(n)}$ where $e \\cdot d \\equiv 1 \\pmod{\\phi(n)}$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 68,
+      "id": "Q-CH4-068",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "APPLY",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH4-068",
+      "prompt": "Using the RSA key setup from Question 67 ($n = 33, e = 7$), encrypt the plaintext message $M = 5$. What is the resulting ciphertext $C$?",
+      "options": [
+        {
+          "id": "q068_a",
+          "label": "A",
+          "text": "$C = 14$",
+          "isCorrect": true,
+          "explanation": "Encryption formula: $C = M^e \\pmod n = 5^7 \\pmod{33}$.\n$5^1 = 5$\n$5^2 = 25 \\equiv -8 \\pmod{33}$\n$5^4 = (-8)^2 = 64 \\equiv 31 \\equiv -2 \\pmod{33}$\n$5^7 = 5^4 \\cdot 5^2 \\cdot 5^1 = (-2) \\cdot (-8) \\cdot 5 = 16 \\cdot 5 = 80 \\pmod{33}$.\n$80 = (2 \\times 33) + 14 \\equiv 14 \\pmod{33}$. Thus $C = 14$."
+        },
+        {
+          "id": "q068_b",
+          "label": "B",
+          "text": "$C = 26$",
+          "isCorrect": false,
+          "explanation": "Calculation error."
+        },
+        {
+          "id": "q068_c",
+          "label": "C",
+          "text": "$C = 10$",
+          "isCorrect": false,
+          "explanation": "Calculation error."
+        },
+        {
+          "id": "q068_d",
+          "label": "D",
+          "text": "$C = 5$",
+          "isCorrect": false,
+          "explanation": "Plaintext unencrypted."
+        }
+      ],
+      "correctOptionId": "q068_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct:\nEncryption formula: $C = M^e \\pmod n = 5^7 \\pmod{33}$.\n$5^1 = 5$\n$5^2 = 25 \\equiv -8 \\pmod{33}$\n$5^4 = (-8)^2 = 64 \\equiv 31 \\equiv -2 \\pmod{33}$\n$5^7 = 5^4 \\cdot 5^2 \\cdot 5^1 = (-2) \\cdot (-8) \\cdot 5 = 16 \\cdot 5 = 80 \\pmod{33}$.\n$80 = (2 \\times 33) + 14 \\equiv 14 \\pmod{33}$. Thus $C = 14$.\nWhy B is incorrect: Calculation error.\nWhy C is incorrect: Calculation error.\nWhy D is incorrect: Plaintext unencrypted.",
+      "cheatSheetNote": "RSA Encryption: $C = M^e \\pmod n$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 69,
+      "id": "Q-CH4-069",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "APPLY",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH4-069",
+      "prompt": "Perform RSA decryption on ciphertext $C = 14$ using private decryption key $d = 3$ and modulus $n = 33$. Verify the recovered plaintext $M$.",
+      "options": [
+        {
+          "id": "q069_a",
+          "label": "A",
+          "text": "$M = 5$",
+          "isCorrect": true,
+          "explanation": "Decryption formula: $M = C^d \\pmod n = 14^3 \\pmod{33}$.\n$14^1 = 14$\n$14^2 = 196 = (5 \\times 33) + 31 \\equiv 31 \\equiv -2 \\pmod{33}$\n$14^3 = 14^2 \\cdot 14 \\equiv (-2) \\cdot 14 = -28 \\pmod{33}$.\n$-28 + 33 = 5 \\pmod{33}$.\nRecovered plaintext $M = 5$."
+        },
+        {
+          "id": "q069_b",
+          "label": "B",
+          "text": "$M = 7$",
+          "isCorrect": false,
+          "explanation": "Calculation error."
+        },
+        {
+          "id": "q069_c",
+          "label": "C",
+          "text": "$M = 9$",
+          "isCorrect": false,
+          "explanation": "Calculation error."
+        },
+        {
+          "id": "q069_d",
+          "label": "D",
+          "text": "$M = 14$",
+          "isCorrect": false,
+          "explanation": "Ciphertext un-decrypted."
+        }
+      ],
+      "correctOptionId": "q069_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct:\nDecryption formula: $M = C^d \\pmod n = 14^3 \\pmod{33}$.\n$14^1 = 14$\n$14^2 = 196 = (5 \\times 33) + 31 \\equiv 31 \\equiv -2 \\pmod{33}$\n$14^3 = 14^2 \\cdot 14 \\equiv (-2) \\cdot 14 = -28 \\pmod{33}$.\n$-28 + 33 = 5 \\pmod{33}$.\nRecovered plaintext $M = 5$.\nWhy B is incorrect: Calculation error.\nWhy C is incorrect: Calculation error.\nWhy D is incorrect: Ciphertext un-decrypted.",
+      "cheatSheetNote": "RSA Decryption: $M = C^d \\pmod n$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 70,
+      "id": "Q-CH4-070",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "APPLY",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH4-070",
+      "prompt": "For RSA parameters $p = 5, q = 11, e = 3$, encrypt plaintext $M = 9$. What is the resulting ciphertext $C$?",
+      "options": [
+        {
+          "id": "q070_a",
+          "label": "A",
+          "text": "$C = 14$",
+          "isCorrect": true,
+          "explanation": "Modulus $n = p \\cdot q = 5 \\times 11 = 55$.\nEncryption: $C = M^e \\pmod n = 9^3 \\pmod{55}$.\n$9^3 = 729$.\n$729 \\div 55 = 13$ remainder $14$ ($13 \\times 55 = 715$; $729 - 715 = 14$).\nThus $C = 14$."
+        },
+        {
+          "id": "q070_b",
+          "label": "B",
+          "text": "$C = 9$",
+          "isCorrect": false,
+          "explanation": "Plaintext $M$."
+        },
+        {
+          "id": "q070_c",
+          "label": "C",
+          "text": "$C = 27$",
+          "isCorrect": false,
+          "explanation": "$9 \\times 3 = 27$ (multiplication instead of exponentiation)."
+        },
+        {
+          "id": "q070_d",
+          "label": "D",
+          "text": "$C = 34$",
+          "isCorrect": false,
+          "explanation": "Incorrect remainder."
+        }
+      ],
+      "correctOptionId": "q070_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct:\nModulus $n = p \\cdot q = 5 \\times 11 = 55$.\nEncryption: $C = M^e \\pmod n = 9^3 \\pmod{55}$.\n$9^3 = 729$.\n$729 \\div 55 = 13$ remainder $14$ ($13 \\times 55 = 715$; $729 - 715 = 14$).\nThus $C = 14$.\nWhy B is incorrect: Plaintext $M$.\nWhy C is incorrect: $9 \\times 3 = 27$ (multiplication instead of exponentiation).\nWhy D is incorrect: Incorrect remainder.",
+      "cheatSheetNote": "RSA Calculation: $C = M^e \\pmod{pq}$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 71,
+      "id": "Q-CH4-071",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "ANALYZE",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH4-071",
+      "prompt": "An attacker intercepts RSA ciphertext $C = 10$ sent to a user with public key $e = 5, n = 35$. By factoring $n$, deduce the original plaintext $M$.",
+      "options": [
+        {
+          "id": "q071_a",
+          "label": "A",
+          "text": "$M = 5$",
+          "isCorrect": true,
+          "explanation": "Factor $n = 35 \\implies p = 5, q = 7$.\nCompute $\\phi(n) = (5 - 1)(7 - 1) = 4 \\times 6 = 24$.\nFind $d$: $e \\cdot d \\equiv 1 \\pmod{24} \\implies 5d \\equiv 1 \\pmod{24}$.\nSince $5 \\times 5 = 25 \\equiv 1 \\pmod{24}$, private key $d = 5$.\nDecrypt: $M = C^d \\pmod n = 10^5 \\pmod{35}$.\n$10^1 = 10$\n$10^2 = 100 \\equiv 30 \\equiv -5 \\pmod{35}$\n$10^4 = (-5)^2 = 25 \\equiv -10 \\pmod{35}$\n$10^5 = 10^4 \\cdot 10^1 = (-10) \\cdot 10 = -100 \\pmod{35}$.\n$-100 + (3 \\times 35) = -100 + 105 = 5 \\pmod{35}$.\nPlaintext $M = 5$."
+        },
+        {
+          "id": "q071_b",
+          "label": "B",
+          "text": "$M = 10$",
+          "isCorrect": false,
+          "explanation": "Un-decrypted ciphertext."
+        },
+        {
+          "id": "q071_c",
+          "label": "C",
+          "text": "$M = 15$",
+          "isCorrect": false,
+          "explanation": "Incorrect exponentiation."
+        },
+        {
+          "id": "q071_d",
+          "label": "D",
+          "text": "$M = 20$",
+          "isCorrect": false,
+          "explanation": "Incorrect modular reduction."
+        }
+      ],
+      "correctOptionId": "q071_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct:\nFactor $n = 35 \\implies p = 5, q = 7$.\nCompute $\\phi(n) = (5 - 1)(7 - 1) = 4 \\times 6 = 24$.\nFind $d$: $e \\cdot d \\equiv 1 \\pmod{24} \\implies 5d \\equiv 1 \\pmod{24}$.\nSince $5 \\times 5 = 25 \\equiv 1 \\pmod{24}$, private key $d = 5$.\nDecrypt: $M = C^d \\pmod n = 10^5 \\pmod{35}$.\n$10^1 = 10$\n$10^2 = 100 \\equiv 30 \\equiv -5 \\pmod{35}$\n$10^4 = (-5)^2 = 25 \\equiv -10 \\pmod{35}$\n$10^5 = 10^4 \\cdot 10^1 = (-10) \\cdot 10 = -100 \\pmod{35}$.\n$-100 + (3 \\times 35) = -100 + 105 = 5 \\pmod{35}$.\nPlaintext $M = 5$.\nWhy B is incorrect: Un-decrypted ciphertext.\nWhy C is incorrect: Incorrect exponentiation.\nWhy D is incorrect: Incorrect modular reduction.",
+      "cheatSheetNote": "RSA Cryptanalysis via Factoring: Factoring $n \\rightarrow p, q \\rightarrow \\phi(n) \\rightarrow d \\rightarrow M = C^d \\bmod n$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 72,
+      "id": "Q-CH4-072",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH4-072",
+      "prompt": "What procedure describes an efficient real-world computational process for picking prime numbers $p$ and $q$ for RSA key generation?",
+      "options": [
+        {
+          "id": "q072_a",
+          "label": "A",
+          "text": "Deterministically test every odd integer sequentially using trial division up to $n$.",
+          "isCorrect": false,
+          "explanation": "Trial division on 1024+ bit numbers is computationally impossible."
+        },
+        {
+          "id": "q072_b",
+          "label": "B",
+          "text": "Generate a large random odd integer and apply a probabilistic primality test (such as Miller-Rabin); repeat until prime.",
+          "isCorrect": true,
+          "explanation": "Generating high-bit random odd integers and evaluating them with efficient probabilistic primality algorithms (e.g., Miller-Rabin) allows fast prime identification."
+        },
+        {
+          "id": "q072_c",
+          "label": "C",
+          "text": "Factorize large composite numbers into primes using Euclid's algorithm.",
+          "isCorrect": false,
+          "explanation": "Euclid's algorithm finds GCDs, not prime factorization."
+        },
+        {
+          "id": "q072_d",
+          "label": "D",
+          "text": "Use Euler's totient function to output primes directly.",
+          "isCorrect": false,
+          "explanation": "Euler's totient function counts coprimes, it does not generate primes."
+        }
+      ],
+      "correctOptionId": "q072_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Generating high-bit random odd integers and evaluating them with efficient probabilistic primality algorithms (e.g., Miller-Rabin) allows fast prime identification.\nWhy A is incorrect: Trial division on 1024+ bit numbers is computationally impossible.\nWhy C is incorrect: Euclid's algorithm finds GCDs, not prime factorization.\nWhy D is incorrect: Euler's totient function counts coprimes, it does not generate primes.",
+      "cheatSheetNote": "Prime Generation Procedure: Pick random large odd integer $\\rightarrow$ Run Miller-Rabin probabilistic primality test.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 73,
+      "id": "Q-CH4-073",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH4-073",
+      "prompt": "What hard mathematical problem forms the basis for the security of the Diffie-Hellman Key Exchange algorithm?",
+      "options": [
+        {
+          "id": "q073_a",
+          "label": "A",
+          "text": "Integer Factorization Problem",
+          "isCorrect": false,
+          "explanation": "Integer factorization underpins RSA security."
+        },
+        {
+          "id": "q073_b",
+          "label": "B",
+          "text": "Discrete Logarithm Problem",
+          "isCorrect": true,
+          "explanation": "Diffie-Hellman security relies on the computational difficulty of calculating discrete logarithms in prime fields: given $y = a^x \\pmod q$, finding $x$ is infeasible for large $q$."
+        },
+        {
+          "id": "q073_c",
+          "label": "C",
+          "text": "Elliptic Curve Addition Problem",
+          "isCorrect": false,
+          "explanation": "Point addition is easy; scalar point multiplication discrete log is the EC hard problem."
+        },
+        {
+          "id": "q073_d",
+          "label": "D",
+          "text": "Euclidean Division Problem",
+          "isCorrect": false,
+          "explanation": "Euclidean division is computationally easy ($O((\\log n)^2)$)."
+        }
+      ],
+      "correctOptionId": "q073_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Diffie-Hellman security relies on the computational difficulty of calculating discrete logarithms in prime fields: given $y = a^x \\pmod q$, finding $x$ is infeasible for large $q$.\nWhy A is incorrect: Integer factorization underpins RSA security.\nWhy C is incorrect: Point addition is easy; scalar point multiplication discrete log is the EC hard problem.\nWhy D is incorrect: Euclidean division is computationally easy ($O((\\log n)^2)$).",
+      "cheatSheetNote": "Diffie-Hellman Hard Problem: Computing Discrete Logarithms in finite fields.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 74,
+      "id": "Q-CH4-074",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "APPLY",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH4-074",
+      "prompt": "In Diffie-Hellman setup with global prime $q = 353$ and primitive root $a = 3$, Alice selects private key $x_A = 97$. Compute Alice's public key $y_A$.",
+      "options": [
+        {
+          "id": "q074_a",
+          "label": "A",
+          "text": "$y_A = 40$",
+          "isCorrect": true,
+          "explanation": "Public key equation: $y_A = a^{x_A} \\pmod q = 3^{97} \\pmod{353}$.\nUsing modular exponentiation yields $y_A = 40$."
+        },
+        {
+          "id": "q074_b",
+          "label": "B",
+          "text": "$y_A = 248$",
+          "isCorrect": false,
+          "explanation": "248 is Bob's public key $y_B = 3^{233} \\pmod{353}$."
+        },
+        {
+          "id": "q074_c",
+          "label": "C",
+          "text": "$y_A = 160$",
+          "isCorrect": false,
+          "explanation": "160 is the shared secret key $K_{AB}$."
+        },
+        {
+          "id": "q074_d",
+          "label": "D",
+          "text": "$y_A = 97$",
+          "isCorrect": false,
+          "explanation": "97 is the private key $x_A$."
+        }
+      ],
+      "correctOptionId": "q074_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct:\nPublic key equation: $y_A = a^{x_A} \\pmod q = 3^{97} \\pmod{353}$.\nUsing modular exponentiation yields $y_A = 40$.\nWhy B is incorrect: 248 is Bob's public key $y_B = 3^{233} \\pmod{353}$.\nWhy C is incorrect: 160 is the shared secret key $K_{AB}$.\nWhy D is incorrect: 97 is the private key $x_A$.",
+      "cheatSheetNote": "Diffie-Hellman Public Key: $y_A = a^{x_A} \\pmod q$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 75,
+      "id": "Q-CH4-075",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "APPLY",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH4-075",
+      "prompt": "Using public keys $y_A = 40, y_B = 248$ and prime $q = 353$, Alice ($x_A = 97$) computes the shared secret key $K$. Calculate $K$.",
+      "options": [
+        {
+          "id": "q075_a",
+          "label": "A",
+          "text": "$K = 160$",
+          "isCorrect": true,
+          "explanation": "Shared key formula: $K = (y_B)^{x_A} \\pmod q = 248^{97} \\pmod{353} = 160$.\nEquivalently, Bob computes $K = (y_A)^{x_B} \\pmod q = 40^{233} \\pmod{353} = 160$."
+        },
+        {
+          "id": "q075_b",
+          "label": "B",
+          "text": "$K = 40$",
+          "isCorrect": false,
+          "explanation": "40 is $y_A$."
+        },
+        {
+          "id": "q075_c",
+          "label": "C",
+          "text": "$K = 248$",
+          "isCorrect": false,
+          "explanation": "248 is $y_B$."
+        },
+        {
+          "id": "q075_d",
+          "label": "D",
+          "text": "$K = 353$",
+          "isCorrect": false,
+          "explanation": "353 is modulus $q$."
+        }
+      ],
+      "correctOptionId": "q075_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct:\nShared key formula: $K = (y_B)^{x_A} \\pmod q = 248^{97} \\pmod{353} = 160$.\nEquivalently, Bob computes $K = (y_A)^{x_B} \\pmod q = 40^{233} \\pmod{353} = 160$.\nWhy B is incorrect: 40 is $y_A$.\nWhy C is incorrect: 248 is $y_B$.\nWhy D is incorrect: 353 is modulus $q$.",
+      "cheatSheetNote": "Diffie-Hellman Shared Secret: $K = (y_B)^{x_A} \\pmod q = (y_A)^{x_B} \\pmod q$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 76,
+      "id": "Q-CH4-076",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "MEDIUM",
+      "linkedNoteCode": "NOTE-CH4-076",
+      "prompt": "What major vulnerability affects basic, unauthenticated Diffie-Hellman Key Exchange?",
+      "options": [
+        {
+          "id": "q076_a",
+          "label": "A",
+          "text": "Brute-force key search of $x_A$ in $O(1)$ time",
+          "isCorrect": false,
+          "explanation": "Discrete log key search is computationally hard."
+        },
+        {
+          "id": "q076_b",
+          "label": "B",
+          "text": "Man-in-the-Middle (MitM) Attack",
+          "isCorrect": true,
+          "explanation": "Because standard Diffie-Hellman exchange does not authenticate participant identities, an active attacker (Darth) can intercept keys, negotiate independent secret keys with Alice and Bob, and relay decrypted messages."
+        },
+        {
+          "id": "q076_c",
+          "label": "C",
+          "text": "Factoring of prime modulus $q$",
+          "isCorrect": false,
+          "explanation": "$q$ is prime, so factoring is not applicable."
+        },
+        {
+          "id": "q076_d",
+          "label": "D",
+          "text": "Non-linearity of Modular Addition",
+          "isCorrect": false,
+          "explanation": "Modular exponentiation is used, not addition."
+        }
+      ],
+      "correctOptionId": "q076_b",
+      "correctLabel": "B",
+      "explanation": "Why B is correct: Because standard Diffie-Hellman exchange does not authenticate participant identities, an active attacker (Darth) can intercept keys, negotiate independent secret keys with Alice and Bob, and relay decrypted messages.\nWhy A is incorrect: Discrete log key search is computationally hard.\nWhy C is incorrect: $q$ is prime, so factoring is not applicable.\nWhy D is incorrect: Modular exponentiation is used, not addition.",
+      "cheatSheetNote": "Diffie-Hellman Vulnerability: Susceptible to Man-in-the-Middle attacks unless authenticated with digital signatures/certificates.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 77,
+      "id": "Q-CH4-077",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "UNDERSTAND",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH4-077",
+      "prompt": "What is the relationship between Fermat's Little Theorem and Euler's Totient Theorem?",
+      "options": [
+        {
+          "id": "q077_a",
+          "label": "A",
+          "text": "Fermat's Little Theorem is a special case of Euler's Theorem where the modulus is a prime number $p$.",
+          "isCorrect": true,
+          "explanation": "Euler's theorem states $a^{\\phi(n)} \\equiv 1 \\pmod n$. When $n = p$ (a prime), $\\phi(p) = p - 1$, yielding $a^{p-1} \\equiv 1 \\pmod p$, which is Fermat's Little Theorem."
+        },
+        {
+          "id": "q077_b",
+          "label": "B",
+          "text": "Euler's Theorem applies only to matrix ciphers.",
+          "isCorrect": false,
+          "explanation": "Applies to integer modular arithmetic."
+        },
+        {
+          "id": "q077_c",
+          "label": "C",
+          "text": "Fermat's Theorem applies to composite numbers; Euler's applies to primes.",
+          "isCorrect": false,
+          "explanation": "Reverses composite/prime applicability."
+        },
+        {
+          "id": "q077_d",
+          "label": "D",
+          "text": "They are completely unrelated independent theorems.",
+          "isCorrect": false,
+          "explanation": "Fermat's theorem directly derives from Euler's."
+        }
+      ],
+      "correctOptionId": "q077_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: Euler's theorem states $a^{\\phi(n)} \\equiv 1 \\pmod n$. When $n = p$ (a prime), $\\phi(p) = p - 1$, yielding $a^{p-1} \\equiv 1 \\pmod p$, which is Fermat's Little Theorem.\nWhy B is incorrect: Applies to integer modular arithmetic.\nWhy C is incorrect: Reverses composite/prime applicability.\nWhy D is incorrect: Fermat's theorem directly derives from Euler's.",
+      "cheatSheetNote": "Fermat vs. Euler: Fermat's Little Theorem ($a^{p-1} \\equiv 1 \\pmod p$) is a special case of Euler's Theorem ($a^{\\phi(n)} \\equiv 1 \\pmod n$) for prime moduli.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 78,
+      "id": "Q-CH4-078",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "APPLY",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH4-078",
+      "prompt": "Calculate $11 \\bmod 7$ and $-12 \\bmod 7$.",
+      "options": [
+        {
+          "id": "q078_a",
+          "label": "A",
+          "text": "$4$ and $2$",
+          "isCorrect": true,
+          "explanation": "$11 \\div 7 = 1$ remainder $4 \\implies 11 \\bmod 7 = 4$.\n$-12 = (-2 \\times 7) + 2 \\implies -12 \\bmod 7 = 2$ (or $-12 \\equiv -5 \\equiv 2 \\pmod 7$)."
+        },
+        {
+          "id": "q078_b",
+          "label": "B",
+          "text": "$4$ and $-5$",
+          "isCorrect": false,
+          "explanation": "$-5$ is a valid negative residue, but standard reduced positive residue set is ${0, \\dots, 6}$, giving 2."
+        },
+        {
+          "id": "q078_c",
+          "label": "C",
+          "text": "$3$ and $5$",
+          "isCorrect": false,
+          "explanation": "Arithmetic errors."
+        },
+        {
+          "id": "q078_d",
+          "label": "D",
+          "text": "$1$ and $2$",
+          "isCorrect": false,
+          "explanation": "Arithmetic errors."
+        }
+      ],
+      "correctOptionId": "q078_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct:\n$11 \\div 7 = 1$ remainder $4 \\implies 11 \\bmod 7 = 4$.\n$-12 = (-2 \\times 7) + 2 \\implies -12 \\bmod 7 = 2$ (or $-12 \\equiv -5 \\equiv 2 \\pmod 7$).\nWhy B is incorrect: $-5$ is a valid negative residue, but standard reduced positive residue set is ${0, \\dots, 6}$, giving 2.\nWhy C is incorrect: Arithmetic errors.\nWhy D is incorrect: Arithmetic errors.",
+      "cheatSheetNote": "Modular Reduction: Positive residue $r \\in {0, \\dots, n-1}$ such that $a = qn + r$.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 79,
+      "id": "Q-CH4-079",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "REMEMBER",
+      "difficulty": "EASY",
+      "linkedNoteCode": "NOTE-CH4-079",
+      "prompt": "Which algorithm is used to efficiently compute the multiplicative inverse $a^{-1} \\pmod n$ when $\\gcd(a, n) = 1$?",
+      "options": [
+        {
+          "id": "q079_a",
+          "label": "A",
+          "text": "Extended Euclidean Algorithm",
+          "isCorrect": true,
+          "explanation": "The Extended Euclidean Algorithm finds integer coefficients $x, y$ such that $ax + ny = \\gcd(a, n) = 1$, yielding $a^{-1} \\equiv x \\pmod n$."
+        },
+        {
+          "id": "q079_b",
+          "label": "B",
+          "text": "Diffie-Hellman Key Setup",
+          "isCorrect": false,
+          "explanation": "Key exchange protocol."
+        },
+        {
+          "id": "q079_c",
+          "label": "C",
+          "text": "Kasiski Sequential Test",
+          "isCorrect": false,
+          "explanation": "Polyalphabetic cryptanalysis tool."
+        },
+        {
+          "id": "q079_d",
+          "label": "D",
+          "text": "Playfair Matrix Expansion",
+          "isCorrect": false,
+          "explanation": "Classical substitution layout."
+        }
+      ],
+      "correctOptionId": "q079_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: The Extended Euclidean Algorithm finds integer coefficients $x, y$ such that $ax + ny = \\gcd(a, n) = 1$, yielding $a^{-1} \\equiv x \\pmod n$.\nWhy B is incorrect: Key exchange protocol.\nWhy C is incorrect: Polyalphabetic cryptanalysis tool.\nWhy D is incorrect: Classical substitution layout.",
+      "cheatSheetNote": "Extended Euclidean Algorithm: Computes linear combination coefficients yielding modular inverse.",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    },
+    {
+      "questionNumber": 80,
+      "id": "Q-CH4-080",
+      "courseCode": "IT-SEC-401",
+      "chapterNumber": 4,
+      "chapterTitle": "Basic Concepts in Number Theory, Finite Fields & Public-Key Cryptography (RSA, Diffie-Hellman)",
+      "outcomeId": "OUTCOME-ITSEC-CH4",
+      "bloomLevel": "ANALYZE",
+      "difficulty": "HARD",
+      "linkedNoteCode": "NOTE-CH4-080",
+      "prompt": "In RSA, why must the message $M$ satisfy the constraint $0 \\le M < n$?",
+      "options": [
+        {
+          "id": "q080_a",
+          "label": "A",
+          "text": "Because encryption operations are performed modulo $n$, mapping values uniquely only within $\\mathbb{Z}_n$.",
+          "isCorrect": true,
+          "explanation": "RSA arithmetic operates in the ring $\\mathbb{Z}_n$. If $M \\ge n$, $M$ would be reduced modulo $n$ during encryption ($M \\bmod n$), making distinct messages larger than $n$ indistinguishable after decryption."
+        },
+        {
+          "id": "q080_b",
+          "label": "B",
+          "text": "Because $M$ must be a prime number.",
+          "isCorrect": false,
+          "explanation": "$M$ can be any arbitrary data block integer, composite or prime."
+        },
+        {
+          "id": "q080_c",
+          "label": "C",
+          "text": "To prevent linear cryptanalysis of S-boxes.",
+          "isCorrect": false,
+          "explanation": "S-boxes are symmetric block cipher components (DES/AES)."
+        },
+        {
+          "id": "q080_d",
+          "label": "D",
+          "text": "To ensure $M$ is coprime to $e$.",
+          "isCorrect": false,
+          "explanation": "RSA does not strictly require $\\gcd(M, e) = 1$."
+        }
+      ],
+      "correctOptionId": "q080_a",
+      "correctLabel": "A",
+      "explanation": "Why A is correct: RSA arithmetic operates in the ring $\\mathbb{Z}_n$. If $M \\ge n$, $M$ would be reduced modulo $n$ during encryption ($M \\bmod n$), making distinct messages larger than $n$ indistinguishable after decryption.\nWhy B is incorrect: $M$ can be any arbitrary data block integer, composite or prime.\nWhy C is incorrect: S-boxes are symmetric block cipher components (DES/AES).\nWhy D is incorrect: RSA does not strictly require $\\gcd(M, e) = 1$.",
+      "cheatSheetNote": "RSA Message Constraint: Plaintext numerical value $M$ must be smaller than system modulus $n$ ($M < n$).",
+      "recommendedResourceId": "res_itsec_ch4_notes"
+    }
+  ],
+  "cheatNotes": [
+    {
+      "code": "NOTE-CH1-001",
+      "anchor": "NOTE-CH1-001",
+      "questionNumber": 1,
+      "chapterNumber": 1,
+      "note": "Integrity: Preserving data correctness and guarding against unauthorized modification or destruction."
+    },
+    {
+      "code": "NOTE-CH1-002",
+      "anchor": "NOTE-CH1-002",
+      "questionNumber": 2,
+      "chapterNumber": 1,
+      "note": "Passive Attacks: Interception/snooping that compromises confidentiality without altering data or system states."
+    },
+    {
+      "code": "NOTE-CH1-003",
+      "anchor": "NOTE-CH1-003",
+      "questionNumber": 3,
+      "chapterNumber": 1,
+      "note": "Traffic Analysis: Inferring intelligence by examining connection timing, volume, and message headers."
+    },
+    {
+      "code": "NOTE-CH1-004",
+      "anchor": "NOTE-CH1-004",
+      "questionNumber": 4,
+      "chapterNumber": 1,
+      "note": "Replay Attack: Passive capture followed by active retransmission of legitimate data blocks."
+    },
+    {
+      "code": "NOTE-CH1-005",
+      "anchor": "NOTE-CH1-005",
+      "questionNumber": 5,
+      "chapterNumber": 1,
+      "note": "Nonrepudiation: Mathematical or cryptographic proof of message origin/delivery that cannot be denied."
+    },
+    {
+      "code": "NOTE-CH1-006",
+      "anchor": "NOTE-CH1-006",
+      "questionNumber": 6,
+      "chapterNumber": 1,
+      "note": "Threat vs. Attack: Threat is potential harm; attack is the realization/exploitation of a threat."
+    },
+    {
+      "code": "NOTE-CH1-007",
+      "anchor": "NOTE-CH1-007",
+      "questionNumber": 7,
+      "chapterNumber": 1,
+      "note": "Economy of Mechanism: Keep security mechanisms simple to minimize bugs and vulnerabilities."
+    },
+    {
+      "code": "NOTE-CH1-008",
+      "anchor": "NOTE-CH1-008",
+      "questionNumber": 8,
+      "chapterNumber": 1,
+      "note": "Security Mechanisms: Algorithms and tools (encipherment, signatures) implementing security services."
+    },
+    {
+      "code": "NOTE-CH1-009",
+      "anchor": "NOTE-CH1-009",
+      "questionNumber": 9,
+      "chapterNumber": 1,
+      "note": "RBAC: Access rights tied to organizational functions and user roles."
+    },
+    {
+      "code": "NOTE-CH1-010",
+      "anchor": "NOTE-CH1-010",
+      "questionNumber": 10,
+      "chapterNumber": 1,
+      "note": "Defense in Depth: Layered security mechanisms providing redundant asset protection."
+    },
+    {
+      "code": "NOTE-CH1-011",
+      "anchor": "NOTE-CH1-011",
+      "questionNumber": 11,
+      "chapterNumber": 1,
+      "note": "Authentication: Verification of identity and message origin authenticity."
+    },
+    {
+      "code": "NOTE-CH1-012",
+      "anchor": "NOTE-CH1-012",
+      "questionNumber": 12,
+      "chapterNumber": 1,
+      "note": "Availability Loss: Resource exhaustion resulting in service denial to authorized users."
+    },
+    {
+      "code": "NOTE-CH1-013",
+      "anchor": "NOTE-CH1-013",
+      "questionNumber": 13,
+      "chapterNumber": 1,
+      "note": "MAC Control: Centralized access enforcement based on system-wide security clearances."
+    },
+    {
+      "code": "NOTE-CH1-014",
+      "anchor": "NOTE-CH1-014",
+      "questionNumber": 14,
+      "chapterNumber": 1,
+      "note": "Data Integrity: Cryptographic checks detecting transit data alteration."
+    },
+    {
+      "code": "NOTE-CH1-015",
+      "anchor": "NOTE-CH1-015",
+      "questionNumber": 15,
+      "chapterNumber": 1,
+      "note": "Fail-safe Defaults: Explicit permission requirement (default deny state)."
+    },
+    {
+      "code": "NOTE-CH1-016",
+      "anchor": "NOTE-CH1-016",
+      "questionNumber": 16,
+      "chapterNumber": 1,
+      "note": "ACL vs. Capability: ACLs store rights by column (with object); Capability lists store rights by row (with subject)."
+    },
+    {
+      "code": "NOTE-CH1-017",
+      "anchor": "NOTE-CH1-017",
+      "questionNumber": 17,
+      "chapterNumber": 1,
+      "note": "Trusted Third Party: Key distribution and trust management authority."
+    },
+    {
+      "code": "NOTE-CH1-018",
+      "anchor": "NOTE-CH1-018",
+      "questionNumber": 18,
+      "chapterNumber": 1,
+      "note": "Active Data Modification: Unauthorized tampering of payload data during transit."
+    },
+    {
+      "code": "NOTE-CH1-019",
+      "anchor": "NOTE-CH1-019",
+      "questionNumber": 19,
+      "chapterNumber": 1,
+      "note": "Audit Trail: Logging system transactions to maintain accountability and trace breaches."
+    },
+    {
+      "code": "NOTE-CH1-020",
+      "anchor": "NOTE-CH1-020",
+      "questionNumber": 20,
+      "chapterNumber": 1,
+      "note": "Accountability: Traceability of all system events to responsible entities."
+    },
+    {
+      "code": "NOTE-CH2-021",
+      "anchor": "NOTE-CH2-021",
+      "questionNumber": 21,
+      "chapterNumber": 2,
+      "note": "Kerckhoffs' Principle: System security must depend solely on key secrecy."
+    },
+    {
+      "code": "NOTE-CH2-022",
+      "anchor": "NOTE-CH2-022",
+      "questionNumber": 22,
+      "chapterNumber": 2,
+      "note": "Caesar Key Space: 25 non-trivial shift keys ($C = (p + k) \\pmod{26}$)."
+    },
+    {
+      "code": "NOTE-CH2-023",
+      "anchor": "NOTE-CH2-023",
+      "questionNumber": 23,
+      "chapterNumber": 2,
+      "note": "Additive Cipher Calculation: $C = (p + k) \\pmod{26}$."
+    },
+    {
+      "code": "NOTE-CH2-024",
+      "anchor": "NOTE-CH2-024",
+      "questionNumber": 24,
+      "chapterNumber": 2,
+      "note": "Multiplicative Keys: Require $\\gcd(k, 26) = 1$; total valid keys = $\\phi(26) = 12$."
+    },
+    {
+      "code": "NOTE-CH2-025",
+      "anchor": "NOTE-CH2-025",
+      "questionNumber": 25,
+      "chapterNumber": 2,
+      "note": "Affine Key Space: $|K| = \\phi(26) \\times 26 = 12 \\times 26 = 312$.\n|---|"
+    },
+    {
+      "code": "NOTE-CH2-026",
+      "anchor": "NOTE-CH2-026",
+      "questionNumber": 26,
+      "chapterNumber": 2,
+      "note": "Playfair Rule 1: Split duplicate letters in digram pairs with filler 'x'."
+    },
+    {
+      "code": "NOTE-CH2-027",
+      "anchor": "NOTE-CH2-027",
+      "questionNumber": 27,
+      "chapterNumber": 2,
+      "note": "Playfair Column Rule: Replace each character with the element directly below it."
+    },
+    {
+      "code": "NOTE-CH2-028",
+      "anchor": "NOTE-CH2-028",
+      "questionNumber": 28,
+      "chapterNumber": 2,
+      "note": "Hill Cipher Key Invertibility: Requires $\\gcd(\\det(K), 26) = 1$."
+    },
+    {
+      "code": "NOTE-CH2-029",
+      "anchor": "NOTE-CH2-029",
+      "questionNumber": 29,
+      "chapterNumber": 2,
+      "note": "Vigenère Encryption: $C_i = (p_i + k_{i \\bmod m}) \\pmod{26}$."
+    },
+    {
+      "code": "NOTE-CH2-030",
+      "anchor": "NOTE-CH2-030",
+      "questionNumber": 30,
+      "chapterNumber": 2,
+      "note": "Kasiski Test: Finds keyword length by analyzing distances between repeated ciphertext patterns."
+    },
+    {
+      "code": "NOTE-CH2-031",
+      "anchor": "NOTE-CH2-031",
+      "questionNumber": 31,
+      "chapterNumber": 2,
+      "note": "One-Time Pad: Truly random key of message length, used once, providing perfect secrecy."
+    },
+    {
+      "code": "NOTE-CH2-032",
+      "anchor": "NOTE-CH2-032",
+      "questionNumber": 32,
+      "chapterNumber": 2,
+      "note": "OTP Limitations: Enormous random key generation requirements and difficult key distribution."
+    },
+    {
+      "code": "NOTE-CH2-033",
+      "anchor": "NOTE-CH2-033",
+      "questionNumber": 33,
+      "chapterNumber": 2,
+      "note": "Rail Fence Cipher: Write plaintext diagonally across $N$ depth rows, read row-by-row."
+    },
+    {
+      "code": "NOTE-CH2-034",
+      "anchor": "NOTE-CH2-034",
+      "questionNumber": 34,
+      "chapterNumber": 2,
+      "note": "Transposition vs. Substitution: Transposition permutes character positions; substitution changes character values."
+    },
+    {
+      "code": "NOTE-CH2-035",
+      "anchor": "NOTE-CH2-035",
+      "questionNumber": 35,
+      "chapterNumber": 2,
+      "note": "Hill Cipher Cryptanalysis: Solve for key matrix using $K = P^{-1} \\cdot C \\pmod{26}$."
+    },
+    {
+      "code": "NOTE-CH2-036",
+      "anchor": "NOTE-CH2-036",
+      "questionNumber": 36,
+      "chapterNumber": 2,
+      "note": "Steganography: Hiding message presence within secondary digital media."
+    },
+    {
+      "code": "NOTE-CH2-037",
+      "anchor": "NOTE-CH2-037",
+      "questionNumber": 37,
+      "chapterNumber": 2,
+      "note": "Known-Plaintext Attack: Attacker possesses matching pairs of plaintexts and ciphertexts."
+    },
+    {
+      "code": "NOTE-CH2-038",
+      "anchor": "NOTE-CH2-038",
+      "questionNumber": 38,
+      "chapterNumber": 2,
+      "note": "Monoalphabetic Weakness: Single-letter frequency patterns survive substitution intact."
+    },
+    {
+      "code": "NOTE-CH2-039",
+      "anchor": "NOTE-CH2-039",
+      "questionNumber": 39,
+      "chapterNumber": 2,
+      "note": "Computationally Secure: Practical security defined by computational time/cost constraints."
+    },
+    {
+      "code": "NOTE-CH2-040",
+      "anchor": "NOTE-CH2-040",
+      "questionNumber": 40,
+      "chapterNumber": 2,
+      "note": "Caesar Decryption: $p = (C - k) \\pmod{26}$."
+    },
+    {
+      "code": "NOTE-CH3-041",
+      "anchor": "NOTE-CH3-041",
+      "questionNumber": 41,
+      "chapterNumber": 3,
+      "note": "Block vs. Stream Cipher: Block processes fixed-size data blocks; stream processes bit/byte streams continuously."
+    },
+    {
+      "code": "NOTE-CH3-042",
+      "anchor": "NOTE-CH3-042",
+      "questionNumber": 42,
+      "chapterNumber": 3,
+      "note": "Diffusion: Spreading plaintext statistics throughout ciphertext to obscure patterns."
+    },
+    {
+      "code": "NOTE-CH3-043",
+      "anchor": "NOTE-CH3-043",
+      "questionNumber": 43,
+      "chapterNumber": 3,
+      "note": "Confusion: Obscuring the relationship between secret key and ciphertext."
+    },
+    {
+      "code": "NOTE-CH3-044",
+      "anchor": "NOTE-CH3-044",
+      "questionNumber": 44,
+      "chapterNumber": 3,
+      "note": "Feistel Cipher: Iterative architecture partitioning data blocks into $L$ and $R$ halves."
+    },
+    {
+      "code": "NOTE-CH3-045",
+      "anchor": "NOTE-CH3-045",
+      "questionNumber": 45,
+      "chapterNumber": 3,
+      "note": "Feistel Decryption: Exact same encryption operations executed with reversed subkey schedule."
+    },
+    {
+      "code": "NOTE-CH3-046",
+      "anchor": "NOTE-CH3-046",
+      "questionNumber": 46,
+      "chapterNumber": 3,
+      "note": "DES Parameters: 64-bit block size; 56-bit effective key length (8 parity bits discarded)."
+    },
+    {
+      "code": "NOTE-CH3-047",
+      "anchor": "NOTE-CH3-047",
+      "questionNumber": 47,
+      "chapterNumber": 3,
+      "note": "Initial Permutation (IP): Pre-round 64-bit input transposition."
+    },
+    {
+      "code": "NOTE-CH3-048",
+      "anchor": "NOTE-CH3-048",
+      "questionNumber": 48,
+      "chapterNumber": 3,
+      "note": "DES Expansion Permutation (E): Converts 32-bit data block to 48-bit vector for subkey XORing."
+    },
+    {
+      "code": "NOTE-CH3-049",
+      "anchor": "NOTE-CH3-049",
+      "questionNumber": 49,
+      "chapterNumber": 3,
+      "note": "DES S-Boxes: Non-linear substitution tables mapping 6 bits to 4 bits."
+    },
+    {
+      "code": "NOTE-CH3-050",
+      "anchor": "NOTE-CH3-050",
+      "questionNumber": 50,
+      "chapterNumber": 3,
+      "note": "S-Box Indexing: Row = outer bits 1 & 6; Column = inner bits 2-5."
+    },
+    {
+      "code": "NOTE-CH3-051",
+      "anchor": "NOTE-CH3-051",
+      "questionNumber": 51,
+      "chapterNumber": 3,
+      "note": "DES Key Schedule: Generates sixteen 48-bit round subkeys from 56-bit key."
+    },
+    {
+      "code": "NOTE-CH3-052",
+      "anchor": "NOTE-CH3-052",
+      "questionNumber": 52,
+      "chapterNumber": 3,
+      "note": "Avalanche Effect: Small input change produces large, unpredictable output bit changes (~50%)."
+    },
+    {
+      "code": "NOTE-CH3-053",
+      "anchor": "NOTE-CH3-053",
+      "questionNumber": 53,
+      "chapterNumber": 3,
+      "note": "DES Vulnerability: 56-bit key space is susceptible to brute-force key search attacks."
+    },
+    {
+      "code": "NOTE-CH3-054",
+      "anchor": "NOTE-CH3-054",
+      "questionNumber": 54,
+      "chapterNumber": 3,
+      "note": "Differential Cryptanalysis: Statistical attack examining input/output differences of plaintext pairs."
+    },
+    {
+      "code": "NOTE-CH3-055",
+      "anchor": "NOTE-CH3-055",
+      "questionNumber": 55,
+      "chapterNumber": 3,
+      "note": "Linear Cryptanalysis: Finding linear approximations of S-box behavior to recover keys."
+    },
+    {
+      "code": "NOTE-CH3-056",
+      "anchor": "NOTE-CH3-056",
+      "questionNumber": 56,
+      "chapterNumber": 3,
+      "note": "Triple DES (3DES): Uses Encrypt-Decrypt-Encrypt (EDE) for backward compatibility."
+    },
+    {
+      "code": "NOTE-CH3-057",
+      "anchor": "NOTE-CH3-057",
+      "questionNumber": 57,
+      "chapterNumber": 3,
+      "note": "DES Key Rotation: 28-bit key halves are rotated left by 1 or 2 bits per round."
+    },
+    {
+      "code": "NOTE-CH3-058",
+      "anchor": "NOTE-CH3-058",
+      "questionNumber": 58,
+      "chapterNumber": 3,
+      "note": "Subkey Reversal: Feistel decryption applies round keys in reverse sequence."
+    },
+    {
+      "code": "NOTE-CH3-059",
+      "anchor": "NOTE-CH3-059",
+      "questionNumber": 59,
+      "chapterNumber": 3,
+      "note": "Inverse IP: Final 64-bit permutation step producing output ciphertext."
+    },
+    {
+      "code": "NOTE-CH3-060",
+      "anchor": "NOTE-CH3-060",
+      "questionNumber": 60,
+      "chapterNumber": 3,
+      "note": "Feistel Equations: $L_i = R_{i-1}$; $R_i = L_{i-1} \\oplus F(R_{i-1}, K_i)$."
+    },
+    {
+      "code": "NOTE-CH4-061",
+      "anchor": "NOTE-CH4-061",
+      "questionNumber": 61,
+      "chapterNumber": 4,
+      "note": "Consecutive Integers Coprimality: $\\gcd(n, n+1) = 1$ because any common divisor must divide $(n+1)-n = 1$."
+    },
+    {
+      "code": "NOTE-CH4-062",
+      "anchor": "NOTE-CH4-062",
+      "questionNumber": 62,
+      "chapterNumber": 4,
+      "note": "Euler's Totient $\\phi(n)$: Count of positive integers $< n$ coprime to $n$."
+    },
+    {
+      "code": "NOTE-CH4-063",
+      "anchor": "NOTE-CH4-063",
+      "questionNumber": 63,
+      "chapterNumber": 4,
+      "note": "Totient of Prime Product: $\\phi(pq) = (p-1)(q-1)$."
+    },
+    {
+      "code": "NOTE-CH4-064",
+      "anchor": "NOTE-CH4-064",
+      "questionNumber": 64,
+      "chapterNumber": 4,
+      "note": "Euler's Theorem: $a^{\\phi(n)} \\equiv 1 \\pmod n$ when $\\gcd(a, n) = 1$."
+    },
+    {
+      "code": "NOTE-CH4-065",
+      "anchor": "NOTE-CH4-065",
+      "questionNumber": 65,
+      "chapterNumber": 4,
+      "note": "Asymmetric Confidentiality: Encrypt with recipient's Public Key; decrypt with recipient's Private Key."
+    },
+    {
+      "code": "NOTE-CH4-066",
+      "anchor": "NOTE-CH4-066",
+      "questionNumber": 66,
+      "chapterNumber": 4,
+      "note": "Digital Signatures: Sign with sender's Private Key; verify with sender's Public Key."
+    },
+    {
+      "code": "NOTE-CH4-067",
+      "anchor": "NOTE-CH4-067",
+      "questionNumber": 67,
+      "chapterNumber": 4,
+      "note": "RSA Private Key Calculation: $d = e^{-1} \\pmod{\\phi(n)}$ where $e \\cdot d \\equiv 1 \\pmod{\\phi(n)}$."
+    },
+    {
+      "code": "NOTE-CH4-068",
+      "anchor": "NOTE-CH4-068",
+      "questionNumber": 68,
+      "chapterNumber": 4,
+      "note": "RSA Encryption: $C = M^e \\pmod n$."
+    },
+    {
+      "code": "NOTE-CH4-069",
+      "anchor": "NOTE-CH4-069",
+      "questionNumber": 69,
+      "chapterNumber": 4,
+      "note": "RSA Decryption: $M = C^d \\pmod n$."
+    },
+    {
+      "code": "NOTE-CH4-070",
+      "anchor": "NOTE-CH4-070",
+      "questionNumber": 70,
+      "chapterNumber": 4,
+      "note": "RSA Calculation: $C = M^e \\pmod{pq}$."
+    },
+    {
+      "code": "NOTE-CH4-071",
+      "anchor": "NOTE-CH4-071",
+      "questionNumber": 71,
+      "chapterNumber": 4,
+      "note": "RSA Cryptanalysis via Factoring: Factoring $n \\rightarrow p, q \\rightarrow \\phi(n) \\rightarrow d \\rightarrow M = C^d \\bmod n$."
+    },
+    {
+      "code": "NOTE-CH4-072",
+      "anchor": "NOTE-CH4-072",
+      "questionNumber": 72,
+      "chapterNumber": 4,
+      "note": "Prime Generation Procedure: Pick random large odd integer $\\rightarrow$ Run Miller-Rabin probabilistic primality test."
+    },
+    {
+      "code": "NOTE-CH4-073",
+      "anchor": "NOTE-CH4-073",
+      "questionNumber": 73,
+      "chapterNumber": 4,
+      "note": "Diffie-Hellman Hard Problem: Computing Discrete Logarithms in finite fields."
+    },
+    {
+      "code": "NOTE-CH4-074",
+      "anchor": "NOTE-CH4-074",
+      "questionNumber": 74,
+      "chapterNumber": 4,
+      "note": "Diffie-Hellman Public Key: $y_A = a^{x_A} \\pmod q$."
+    },
+    {
+      "code": "NOTE-CH4-075",
+      "anchor": "NOTE-CH4-075",
+      "questionNumber": 75,
+      "chapterNumber": 4,
+      "note": "Diffie-Hellman Shared Secret: $K = (y_B)^{x_A} \\pmod q = (y_A)^{x_B} \\pmod q$."
+    },
+    {
+      "code": "NOTE-CH4-076",
+      "anchor": "NOTE-CH4-076",
+      "questionNumber": 76,
+      "chapterNumber": 4,
+      "note": "Diffie-Hellman Vulnerability: Susceptible to Man-in-the-Middle attacks unless authenticated with digital signatures/certificates."
+    },
+    {
+      "code": "NOTE-CH4-077",
+      "anchor": "NOTE-CH4-077",
+      "questionNumber": 77,
+      "chapterNumber": 4,
+      "note": "Fermat vs. Euler: Fermat's Little Theorem ($a^{p-1} \\equiv 1 \\pmod p$) is a special case of Euler's Theorem ($a^{\\phi(n)} \\equiv 1 \\pmod n$) for prime moduli."
+    },
+    {
+      "code": "NOTE-CH4-078",
+      "anchor": "NOTE-CH4-078",
+      "questionNumber": 78,
+      "chapterNumber": 4,
+      "note": "Modular Reduction: Positive residue $r \\in {0, \\dots, n-1}$ such that $a = qn + r$."
+    },
+    {
+      "code": "NOTE-CH4-079",
+      "anchor": "NOTE-CH4-079",
+      "questionNumber": 79,
+      "chapterNumber": 4,
+      "note": "Extended Euclidean Algorithm: Computes linear combination coefficients yielding modular inverse."
+    },
+    {
+      "code": "NOTE-CH4-080",
+      "anchor": "NOTE-CH4-080",
+      "questionNumber": 80,
+      "chapterNumber": 4,
+      "note": "RSA Message Constraint: Plaintext numerical value $M$ must be smaller than system modulus $n$ ($M < n$)."
+    }
+  ]
+}

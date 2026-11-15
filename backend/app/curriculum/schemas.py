@@ -32,6 +32,7 @@ class ThemeOut(BaseModel):
 class LearningOutcomeOut(BaseModel):
     outcome_id: int
     course_id: int
+    outcome_code: Optional[str] = None
     description: str
     domain: str
     level: str

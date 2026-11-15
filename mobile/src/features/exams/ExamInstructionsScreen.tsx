@@ -113,10 +113,11 @@ export const ExamInstructionsScreen: React.FC<{ navigation: any; route: any }> =
         studyMode,
         examType,
       });
-    } catch (err) {
+    } catch (err: any) {
+      console.error('Failed to create local attempt:', err);
       Alert.alert(
         'Failed to Start Exam',
-        'Could not create a local attempt. Please try again.'
+        err?.message || 'Could not create a local attempt. Please try again.'
       );
     } finally {
       setLoading(false);
