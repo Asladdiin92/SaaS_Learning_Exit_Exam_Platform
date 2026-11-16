@@ -1,5 +1,5 @@
 export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+  process.env.NEXT_PUBLIC_API_URL || 'https://saas-learning-exit-exam-platform.onrender.com/api/v1';
 
 export const DEFAULT_ADMIN_KEY = 'asladin-platform-owner-master-key-2026';
 

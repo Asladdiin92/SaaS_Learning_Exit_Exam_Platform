@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: process.env.OUTPUT_EXPORT === 'true' ? 'export' : undefined,
+  images: { unoptimized: true },
   reactStrictMode: true,
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://saas-learning-exit-exam-platform.onrender.com/api/v1',
   },
 };
 
