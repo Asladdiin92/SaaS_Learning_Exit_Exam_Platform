@@ -216,6 +216,8 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
           {filteredThemes.map((theme) => {
             const courseCount = theme.courses?.length || theme.total_courses || 0;
             const isReady = Boolean(theme.is_offline_ready || (theme.downloaded_courses || 0) > 0);
+            const canonicalCredits = [4, 15, 6, 9, 11][(theme.theme_number || 1) - 1] || theme.total_credit_hours || 6;
+            const mastery = theme.mastery_percentage || 0;
 
             return (
               <Card
@@ -232,7 +234,7 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
               >
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <View style={{ flex: 1, marginRight: spacing.sm }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4, flexWrap: 'wrap', gap: 6 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6, flexWrap: 'wrap', gap: 6 }}>
                       <View
                         style={{
                           backgroundColor: '#E0F2FE',
@@ -246,9 +248,18 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
                         </Text>
                       </View>
 
-                      <Text style={[typography.labelSm, { color: colors.text.secondary, fontWeight: '600' }]}>
-                        {theme.total_credit_hours} Credit Hours
-                      </Text>
+                      <View
+                        style={{
+                          backgroundColor: '#F1F5F9',
+                          paddingHorizontal: 7,
+                          paddingVertical: 2,
+                          borderRadius: borderRadius.sm,
+                        }}
+                      >
+                        <Text style={[typography.labelSm, { color: colors.text.secondary, fontWeight: '700' }]}>
+                          {canonicalCredits} Cr
+                        </Text>
+                      </View>
 
                       {isReady && (
                         <View
@@ -286,6 +297,35 @@ export const ThemeCatalogScreen: React.FC<ThemeCatalogScreenProps> = ({ navigati
                         {theme.description}
                       </Text>
                     )}
+
+                    {/* Theme Mastery Progress Bar */}
+                    <View style={{ marginBottom: spacing.sm }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 3 }}>
+                        <Text style={[typography.labelSm, { color: colors.text.muted, fontSize: 11 }]}>
+                          Theme Mastery
+                        </Text>
+                        <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700', fontSize: 11 }]}>
+                          {mastery}%
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          height: 5,
+                          backgroundColor: colors.surface.secondary,
+                          borderRadius: 3,
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <View
+                          style={{
+                            width: `${Math.min(100, Math.max(mastery > 0 ? 3 : 0, mastery))}%`,
+                            height: '100%',
+                            backgroundColor: colors.brand.primary,
+                            borderRadius: 3,
+                          }}
+                        />
+                      </View>
+                    </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
                       <Text style={[typography.labelSm, { color: colors.text.muted }]}>

@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import { useTheme } from '../theme';
 
-interface ButtonProps extends TouchableOpacityProps {
+export interface ButtonProps extends TouchableOpacityProps {
   title: string;
-  variant?: 'primary' | 'secondary' | 'outline' | 'danger';
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'inverse';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   leftIcon?: React.ReactNode;
@@ -28,30 +28,35 @@ export const Button: React.FC<ButtonProps> = ({
   style,
   ...props
 }) => {
-  const { colors, typography, spacing, borderRadius } = useTheme();
+  const { isDark, typography, spacing, borderRadius } = useTheme();
 
   const getContainerStyle = (): ViewStyle => {
-    let backgroundColor = colors.brand.primary;
+    let backgroundColor = '#2563EB'; // primary
     let borderColor = 'transparent';
     let borderWidth = 0;
 
-    if (variant === 'secondary') {
-      backgroundColor = colors.surface.secondary;
+    if (variant === 'inverse') {
+      backgroundColor = '#FFFFFF';
+    } else if (variant === 'secondary') {
+      backgroundColor = isDark ? '#1E293B' : '#E2E8F0';
+      borderColor = '#334155';
+      borderWidth = 1;
     } else if (variant === 'outline') {
       backgroundColor = 'transparent';
-      borderColor = colors.border.default;
+      borderColor = '#3B82F6';
       borderWidth = 1.5;
     } else if (variant === 'danger') {
-      backgroundColor = colors.status.error;
+      backgroundColor = '#DC2626';
     }
 
     if (disabled) {
-      backgroundColor = colors.status.locked;
+      backgroundColor = isDark ? '#334155' : '#CBD5E1';
       borderColor = 'transparent';
+      borderWidth = 0;
     }
 
-    const minHeight = size === 'sm' ? spacing.minTouchTarget : 52;
-    const paddingHorizontal = size === 'sm' ? 12 : 20;
+    const minHeight = size === 'sm' ? spacing.minTouchTarget : size === 'lg' ? 56 : 50;
+    const paddingHorizontal = size === 'sm' ? 12 : size === 'lg' ? 24 : 20;
 
     return {
       backgroundColor,
@@ -63,24 +68,45 @@ export const Button: React.FC<ButtonProps> = ({
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      opacity: disabled || loading ? 0.7 : 1,
+      opacity: disabled || loading ? 0.65 : 1,
     };
   };
 
   const getTextStyle = (): TextStyle => {
     let color = '#FFFFFF';
-    if (variant === 'secondary') {
-      color = colors.text.primary;
+    let fontWeight: TextStyle['fontWeight'] = '700';
+
+    if (variant === 'inverse') {
+      color = '#1E3A8A'; // deep navy blue
+      fontWeight = '700';
+    } else if (variant === 'secondary') {
+      color = isDark ? '#F8FAFC' : '#0F172A';
+      fontWeight = '600';
     } else if (variant === 'outline') {
-      color = colors.brand.primary;
+      color = isDark ? '#60A5FA' : '#1D4ED8';
+      fontWeight = '600';
+    } else if (variant === 'danger') {
+      color = '#FFFFFF';
+      fontWeight = '700';
+    }
+
+    if (disabled) {
+      color = isDark ? '#94A3B8' : '#64748B';
     }
 
     return {
       ...typography.bodyLg,
-      fontWeight: '600',
+      fontWeight,
       color,
       marginLeft: leftIcon ? 8 : 0,
     };
+  };
+
+  const getIndicatorColor = () => {
+    if (variant === 'inverse') return '#1E3A8A';
+    if (variant === 'outline') return isDark ? '#60A5FA' : '#1D4ED8';
+    if (variant === 'secondary') return isDark ? '#F8FAFC' : '#0F172A';
+    return '#FFFFFF';
   };
 
   return (
@@ -91,7 +117,7 @@ export const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'outline' ? colors.brand.primary : '#FFFFFF'} />
+        <ActivityIndicator color={getIndicatorColor()} />
       ) : (
         <>
           {leftIcon}

@@ -65,10 +65,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
             <View style={{ flex: 1 }}>
               <Text style={[typography.h2, { color: colors.text.primary }]}>
-                {user?.fullName || 'Student User'}
+                {user?.fullName || 'Asladdiin (Student)'}
               </Text>
               <Text style={[typography.bodySm, { color: colors.text.secondary }]}>
-                {user?.email || 'student@university.edu.et'}
+                {user?.email || 'asladdin@hu.edu.et'}
               </Text>
             </View>
           </View>
@@ -83,10 +83,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             </Text>
           </View>
           <Text style={[typography.bodyMd, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
-            {currentWorkspace?.organizationName} ({currentWorkspace?.role})
+            {currentWorkspace?.organizationName || 'Personal Workspace'} {currentWorkspace?.role ? `(${currentWorkspace.role})` : ''}
           </Text>
           <Button
-            title="Switch Workspace (MOB-04)"
+            title="Switch Workspace"
             variant="outline"
             size="sm"
             onPress={() => navigation.navigate('WorkspaceSelection')}
@@ -98,16 +98,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
             <ShieldCheck size={20} color={colors.brand.primary} />
             <Text style={[typography.h3, { color: colors.text.primary, marginLeft: 8 }]}>
-              Plans & Licensing
+              My Plans & Licensing
             </Text>
           </View>
           <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
-            Personal subscriptions, one-time packs & institutional seats
+            Personal subscriptions, one-time packs & university licenses
           </Text>
           <View style={{ flexDirection: 'row', gap: 8 }}>
             <View style={{ flex: 1 }}>
               <Button
-                title="Plans & Access (MOB-24)"
+                title="My Plans & Access"
                 variant="outline"
                 size="sm"
                 onPress={() => navigation.navigate('PlansAndAccess')}
@@ -115,7 +115,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             </View>
             <View style={{ flex: 1 }}>
               <Button
-                title="Study Store (MOB-25)"
+                title="Study Store"
                 variant="primary"
                 size="sm"
                 onPress={() => navigation.navigate('StoreCatalog')}
@@ -129,16 +129,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
             <HardDrive size={20} color={colors.status.online} />
             <Text style={[typography.h3, { color: colors.text.primary, marginLeft: 8 }]}>
-              Offline Data & Sync
+              Offline Storage & Downloads
             </Text>
           </View>
           <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
-            SQLCipher encrypted database • Opaque change ledger
+            Encrypted local database • Automatic cloud sync
           </Text>
           <View style={{ flexDirection: 'row', gap: 8, marginBottom: 8 }}>
             <View style={{ flex: 1 }}>
               <Button
-                title="Download Manager (MOB-12)"
+                title="Download Manager"
                 variant="outline"
                 size="sm"
                 onPress={() => navigation.navigate('DownloadManager')}
@@ -146,7 +146,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             </View>
             <View style={{ flex: 1 }}>
               <Button
-                title="Sync Center (MOB-28)"
+                title="Saved Work & Updates"
                 variant="outline"
                 size="sm"
                 onPress={() => navigation.navigate('SyncCenter')}
@@ -154,7 +154,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             </View>
           </View>
           <Button
-            title="Storage & Cache Settings (MOB-27)"
+            title="Offline Storage & Cache"
             variant="outline"
             size="sm"
             onPress={() => navigation.navigate('StorageSettings')}
@@ -166,14 +166,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
             <Smartphone size={20} color={colors.brand.primary} />
             <Text style={[typography.h3, { color: colors.text.primary, marginLeft: 8 }]}>
-              Devices & Security
+              Connected Devices & Security
             </Text>
           </View>
           <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
-            Active sessions, refresh token families & offline biometrics
+            Active devices, secure sessions & fingerprint unlock
           </Text>
           <Button
-            title="Manage Devices (MOB-29)"
+            title="Connected Devices & Security"
             variant="outline"
             size="sm"
             onPress={() => navigation.navigate('DevicesSecurity')}
@@ -185,14 +185,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: spacing.xs }}>
             <Globe size={20} color={colors.brand.primary} />
             <Text style={[typography.h3, { color: colors.text.primary, marginLeft: 8 }]}>
-              Settings & Offline Help
+              Help, Language & Alerts
             </Text>
           </View>
           <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
             English, አማርኛ, Afaan Oromoo & exam troubleshooting
           </Text>
           <Button
-            title="Settings & Help (MOB-30)"
+            title="Help, Language & Alerts"
             variant="outline"
             size="sm"
             onPress={() => navigation.navigate('SettingsAndHelp')}

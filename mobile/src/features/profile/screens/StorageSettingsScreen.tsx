@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../../shared/theme';
 import { Card, Button } from '../../../shared/components';
+import { database } from '../../../shared/database/db';
 import {
   ArrowLeft,
   HardDrive,
@@ -42,43 +43,50 @@ export const StorageSettingsScreen: React.FC<StorageSettingsScreenProps> = ({ na
 
   const [quota, setQuota] = useState<StorageQuota>('2GB');
   const [wifiOnly, setWifiOnly] = useState<boolean>(true);
-  const [packages, setPackages] = useState<CachedPackage[]>([
-    {
-      id: 'pkg-hu-exam-2023',
-      title: 'HU CCI B.Sc. IT Model Exit Exam (Jan 2023)',
-      type: 'EXAM_PACKAGE',
-      sizeMb: 14.2,
-      isLocked: true, // Referenced by active or provisional attempt
-      expiryDate: '2026-12-31',
-    },
-    {
-      id: 'pkg-cmts-notes',
-      title: 'IT-CMTS-101 Hardware Diagnostics & Maintenance Notes',
-      type: 'COURSE_PACKAGE',
-      sizeMb: 48.6,
-      isLocked: false,
-      expiryDate: '2026-12-31',
-    },
-    {
-      id: 'pkg-dsa-curriculum',
-      title: 'IT-DSA-201 Data Structures & Algorithms Lab Guide',
-      type: 'COURSE_PACKAGE',
-      sizeMb: 36.4,
-      isLocked: false,
-      expiryDate: '2026-12-31',
-    },
-    {
-      id: 'pkg-net-sec',
-      title: 'IT-NET-301 Computer Networking & Subnetting Archive',
-      type: 'COURSE_PACKAGE',
-      sizeMb: 28.1,
-      isLocked: false,
-      expiryDate: '2026-12-31',
-    },
-  ]);
+  const [packages, setPackages] = useState<CachedPackage[]>([]);
+  const [lockedExamDataMb, setLockedExamDataMb] = useState<number>(2.4);
+
+  useEffect(() => {
+    let active = true;
+    const loadRealStorageData = async () => {
+      try {
+        const examPkgs = await database.query<any>(
+          `SELECT exam_package_id as id, 'HU CCI Model Exit Exam (2023)' as title, 'EXAM_PACKAGE' as type, 14.2 as sizeMb, 1 as isLocked
+           FROM local_exam_packages;`
+        );
+        const resPkgs = await database.query<any>(
+          `SELECT resource_id as id, title, 'COURSE_PACKAGE' as type, ROUND(file_size_bytes / (1024.0 * 1024.0), 1) as sizeMb, 0 as isLocked
+           FROM local_resources
+           WHERE local_path IS NOT NULL;`
+        );
+        const unsynced = await database.query<any>(
+          `SELECT COUNT(*) as c FROM local_exam_attempts WHERE status = 'SUBMITTED_LOCAL_PENDING' OR status = 'IN_PROGRESS';`
+        );
+
+        if (!active) return;
+        const all: CachedPackage[] = [...(examPkgs || []), ...(resPkgs || [])].map((item: any) => ({
+          id: item.id,
+          title: item.title || item.id,
+          type: (item.type || 'COURSE_PACKAGE') as any,
+          sizeMb: Math.max(0.5, Number(item.sizeMb) || 1.0),
+          isLocked: Boolean(item.isLocked),
+          expiryDate: '2026-12-31',
+        }));
+
+        setPackages(all);
+        setLockedExamDataMb(unsynced && unsynced[0]?.c > 0 ? 2.4 : 0.0);
+      } catch (err) {
+        console.warn('Failed to load local storage breakdown:', err);
+      }
+    };
+
+    loadRealStorageData();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // Storage breakdown calculations
-  const lockedExamDataMb = 2.4; // Protected answer events & unsubmitted attempts
   const downloadedPackagesMb = packages.reduce((acc, p) => acc + p.sizeMb, 0);
   const temporaryCacheMb = 18.5;
   const totalUsedMb = lockedExamDataMb + downloadedPackagesMb + temporaryCacheMb;
@@ -161,10 +169,10 @@ export const StorageSettingsScreen: React.FC<StorageSettingsScreenProps> = ({ na
         </TouchableOpacity>
         <View>
           <Text style={[typography.h2, { color: colors.text.primary, fontWeight: '700' }]}>
-            Storage & Cache
+            Offline Storage & Downloads
           </Text>
           <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
-            MOB-27 • Offline Memory & LRU Guard
+            Encrypted storage meter & download packages
           </Text>
         </View>
       </View>
@@ -363,59 +371,77 @@ export const StorageSettingsScreen: React.FC<StorageSettingsScreenProps> = ({ na
             Manage encrypted AES-256 local course manuscripts and model exams.
           </Text>
 
-          {packages.map((pkg) => (
-            <Card
-              key={pkg.id}
-              testID={`package-row-${pkg.id}`}
-              variant="outlined"
-              style={{ marginBottom: spacing.xs, padding: spacing.sm }}
-            >
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <View style={{ flex: 1, paddingRight: spacing.sm }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-                    {pkg.isLocked ? (
-                      <Lock size={14} color="#F59E0B" />
-                    ) : (
-                      <FileCheck size={14} color={colors.brand.primary} />
-                    )}
-                    <Text
-                      style={[
-                        typography.labelSm,
-                        {
-                          color: pkg.isLocked ? '#D97706' : colors.brand.primary,
-                          fontWeight: '700',
-                        },
-                      ]}
-                    >
-                      {pkg.isLocked ? 'PROTECTED (UNSYNCED ATTEMPT)' : 'AVAILABLE OFFLINE'}
+          {packages.length === 0 ? (
+            <Card variant="outlined" style={{ padding: spacing.lg, alignItems: 'center' }}>
+              <HardDrive size={32} color={colors.text.muted} />
+              <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600', marginTop: spacing.xs }]}>
+                No Offline Packages Downloaded Yet
+              </Text>
+              <Text style={[typography.bodySm, { color: colors.text.secondary, textAlign: 'center', marginTop: 4, marginBottom: spacing.md }]}>
+                Download course lecture notes, past exams, or model simulations to study without internet access.
+              </Text>
+              <Button
+                title="Browse Course Library"
+                variant="outline"
+                size="sm"
+                onPress={() => navigation.navigate('ResourceLibrary')}
+              />
+            </Card>
+          ) : (
+            packages.map((pkg) => (
+              <Card
+                key={pkg.id}
+                testID={`package-row-${pkg.id}`}
+                variant="outlined"
+                style={{ marginBottom: spacing.xs, padding: spacing.sm }}
+              >
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <View style={{ flex: 1, paddingRight: spacing.sm }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                      {pkg.isLocked ? (
+                        <Lock size={14} color="#F59E0B" />
+                      ) : (
+                        <FileCheck size={14} color={colors.brand.primary} />
+                      )}
+                      <Text
+                        style={[
+                          typography.labelSm,
+                          {
+                            color: pkg.isLocked ? '#D97706' : colors.brand.primary,
+                            fontWeight: '700',
+                          },
+                        ]}
+                      >
+                        {pkg.isLocked ? 'PROTECTED (UNSYNCED ATTEMPT)' : 'AVAILABLE OFFLINE'}
+                      </Text>
+                    </View>
+                    <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}>
+                      {pkg.title}
+                    </Text>
+                    <Text style={[typography.labelSm, { color: colors.text.muted, marginTop: 2 }]}>
+                      {pkg.sizeMb} MB • Valid through {pkg.expiryDate}
                     </Text>
                   </View>
-                  <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}>
-                    {pkg.title}
-                  </Text>
-                  <Text style={[typography.labelSm, { color: colors.text.muted, marginTop: 2 }]}>
-                    {pkg.sizeMb} MB • Valid through {pkg.expiryDate}
-                  </Text>
-                </View>
 
-                <TouchableOpacity
-                  testID={`delete-pkg-${pkg.id}`}
-                  onPress={() => handleRemovePackage(pkg)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Delete ${pkg.title}`}
-                  style={{
-                    minHeight: 48,
-                    minWidth: 48,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    opacity: pkg.isLocked ? 0.35 : 1,
-                  }}
-                >
-                  <Trash2 size={18} color={pkg.isLocked ? colors.text.muted : colors.status.offline} />
-                </TouchableOpacity>
-              </View>
-            </Card>
-          ))}
+                  <TouchableOpacity
+                    testID={`delete-pkg-${pkg.id}`}
+                    onPress={() => handleRemovePackage(pkg)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Delete ${pkg.title}`}
+                    style={{
+                      minHeight: 48,
+                      minWidth: 48,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      opacity: pkg.isLocked ? 0.35 : 1,
+                    }}
+                  >
+                    <Trash2 size={18} color={pkg.isLocked ? colors.text.muted : colors.status.offline} />
+                  </TouchableOpacity>
+                </View>
+              </Card>
+            ))
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

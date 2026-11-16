@@ -4,6 +4,16 @@ import Svg, { Polygon, Line, Circle, Text as SvgText, G } from 'react-native-svg
 import { useTheme } from '../../../shared/theme';
 import { BloomLevel } from '../../../shared/database/progressRepository';
 
+export const BLOOM_DISPLAY_NAMES: Record<string, string> = {
+  REMEMBER: 'Recall',
+  UNDERSTAND: 'Understanding',
+  APPLY: 'Application',
+  ANALYSE: 'Analysis',
+  ANALYZE: 'Analysis',
+  EVALUATE: 'Evaluation',
+  CREATE: 'Design',
+};
+
 interface BloomsRadarChartProps {
   data: BloomLevel[];
   size?: number;
@@ -18,15 +28,22 @@ export const BloomsRadarChart: React.FC<BloomsRadarChartProps> = ({
   // 6 Cognitive Levels in canonical hierarchy order
   const order = ['REMEMBER', 'UNDERSTAND', 'APPLY', 'ANALYSE', 'EVALUATE', 'CREATE'];
   const sortedData = order.map((lvl) => {
+    const raw = data.find((d) => d.level.toUpperCase() === lvl);
+    const friendlyName = BLOOM_DISPLAY_NAMES[lvl] || (lvl.charAt(0) + lvl.slice(1).toLowerCase());
     return (
-      data.find((d) => d.level.toUpperCase() === lvl) || {
-        level: lvl,
-        display_name: lvl.charAt(0) + lvl.slice(1).toLowerCase(),
-        attempted_count: 0,
-        correct_count: 0,
-        mastery_score: 0.0,
-        mastery_percentage: 0.0,
-      }
+      raw
+        ? {
+            ...raw,
+            display_name: friendlyName,
+          }
+        : {
+            level: lvl,
+            display_name: friendlyName,
+            attempted_count: 0,
+            correct_count: 0,
+            mastery_score: 0.0,
+            mastery_percentage: 0.0,
+          }
     );
   });
 

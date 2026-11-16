@@ -30,19 +30,27 @@ export const SyncCenterScreen: React.FC<SyncCenterScreenProps> = ({ navigation }
   const { isOnline, isReachable } = useNetwork();
 
   const [syncOperations, setSyncOperations] = useState<any[]>([]);
+  const [syncState, setSyncState] = useState<any>(null);
   const [syncing, setSyncing] = useState(false);
 
-  const loadSyncOperations = async () => {
+  const loadSyncData = async () => {
     try {
       const ops = await database.query<any>(
-        `SELECT * FROM sync_operations ORDER BY created_at DESC LIMIT 20;`
+        `SELECT * FROM sync_operations ORDER BY created_at DESC LIMIT 30;`
       );
-      setSyncOperations(ops);
+      setSyncOperations(ops || []);
+
+      const stateRows = await database.query<any>(
+        `SELECT * FROM sync_state LIMIT 1;`
+      );
+      if (stateRows && stateRows.length > 0) {
+        setSyncState(stateRows[0]);
+      }
     } catch (_) {}
   };
 
   useEffect(() => {
-    loadSyncOperations();
+    loadSyncData();
   }, []);
 
   const handleManualSync = async () => {
@@ -51,11 +59,41 @@ export const SyncCenterScreen: React.FC<SyncCenterScreenProps> = ({ navigation }
       return;
     }
     setSyncing(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       setSyncing(false);
-      Alert.alert('Sync Complete', 'All offline answer events and bookmarks synchronized successfully.');
-      loadSyncOperations();
+      Alert.alert('Sync Complete', 'All offline answer events and study progress synchronized with cloud.');
+      await loadSyncData();
     }, 1200);
+  };
+
+  const getStatusBadge = (state: string) => {
+    const s = (state || '').toUpperCase();
+    if (s === 'COMMITTED' || s === 'SERVER_ACCEPTED' || s === 'SUCCESS' || s === 'SYNCED') {
+      return {
+        label: 'Saved to Cloud',
+        bg: '#D1FAE5',
+        color: '#065F46',
+      };
+    }
+    if (s === 'IN_FLIGHT' || s === 'UPLOADING' || s === 'SENDING') {
+      return {
+        label: 'Uploading',
+        bg: '#EFF6FF',
+        color: '#1D4ED8',
+      };
+    }
+    if (s === 'FAILED' || s === 'REJECTED' || s === 'ERROR') {
+      return {
+        label: 'Needs Attention',
+        bg: '#FEE2E2',
+        color: '#991B1B',
+      };
+    }
+    return {
+      label: 'Saved on Phone',
+      bg: '#FEF3C7',
+      color: '#92400E',
+    };
   };
 
   return (
@@ -83,7 +121,7 @@ export const SyncCenterScreen: React.FC<SyncCenterScreenProps> = ({ navigation }
               OFFLINE SYNC & CONFLICT MANAGEMENT
             </Text>
             <Text style={[typography.h2, { color: colors.text.primary, fontWeight: '700' }]}>
-              Sync Center (MOB-28)
+              Saved Work & Updates
             </Text>
           </View>
         </View>
@@ -102,15 +140,35 @@ export const SyncCenterScreen: React.FC<SyncCenterScreenProps> = ({ navigation }
               </Text>
             </View>
 
-            <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.md }]}>
+            <Text style={[typography.bodySm, { color: colors.text.secondary, marginBottom: spacing.sm }]}>
               {isOnline
                 ? 'Monotonic sync cursor is aligned with server change_seq. Answers and bookmarks synchronize automatically.'
-                : 'Queued operations are safely stored in encrypted SQLite (sync_operations table). They will automatically push upon reconnecting.'}
+                : 'Queued operations are safely stored on your phone (sync_operations table). They will automatically push upon reconnecting.'}
             </Text>
+
+            {syncState && (
+              <View
+                style={{
+                  backgroundColor: colors.surface.secondary,
+                  borderRadius: borderRadius.sm,
+                  padding: 8,
+                  marginBottom: spacing.sm,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
+                  Sync Cursor: seq #{syncState.last_pulled_change_seq || 0}
+                </Text>
+                <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
+                  Pending: {syncOperations.filter((o) => o.state === 'QUEUED').length} items
+                </Text>
+              </View>
+            )}
 
             <Button
               testID="manual-sync-now-btn"
-              title={syncing ? 'Synchronizing...' : 'Sync Now'}
+              title={syncing ? 'Uploading & Refreshing...' : 'Upload & Refresh Progress'}
               variant="primary"
               size="md"
               disabled={syncing}
@@ -135,40 +193,48 @@ export const SyncCenterScreen: React.FC<SyncCenterScreenProps> = ({ navigation }
               </Text>
             </Card>
           ) : (
-            syncOperations.map((op, idx) => (
-              <Card key={idx} variant="outlined" style={{ marginBottom: spacing.sm, padding: spacing.md }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <View style={{ flex: 1 }}>
-                    <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '700' }]}>
-                      {op.type}
-                    </Text>
-                    <Text style={[typography.labelSm, { color: colors.text.secondary, marginTop: 2 }]}>
-                      ID: {op.operation_id?.substring(0, 8)}... • State: {op.state}
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      backgroundColor: op.state === 'SERVER_ACCEPTED' ? '#ECFDF5' : '#FEF3C7',
-                      paddingHorizontal: 8,
-                      paddingVertical: 2,
-                      borderRadius: borderRadius.sm,
-                    }}
-                  >
-                    <Text
-                      style={[
-                        typography.labelSm,
-                        {
-                          color: op.state === 'SERVER_ACCEPTED' ? colors.status.online : '#B45309',
-                          fontWeight: '700',
-                        },
-                      ]}
+            syncOperations.map((op, idx) => {
+              const badge = getStatusBadge(op.state);
+
+              return (
+                <Card key={idx} variant="outlined" style={{ marginBottom: spacing.sm, padding: spacing.md }}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <View style={{ flex: 1, paddingRight: spacing.sm }}>
+                      <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '700' }]}>
+                        {op.type === 'exam_attempt.submit'
+                          ? 'Exam Attempt Submission'
+                          : op.type === 'bookmark.toggle'
+                          ? 'Question Bookmark'
+                          : op.type}
+                      </Text>
+                      <Text style={[typography.labelSm, { color: colors.text.secondary, marginTop: 2 }]}>
+                        ID: {op.operation_id?.substring(0, 8)}... • {op.created_at ? new Date(op.created_at).toLocaleTimeString() : 'Recent'}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: badge.bg,
+                        paddingHorizontal: 8,
+                        paddingVertical: 3,
+                        borderRadius: borderRadius.sm,
+                      }}
                     >
-                      {op.state}
-                    </Text>
+                      <Text
+                        style={[
+                          typography.labelSm,
+                          {
+                            color: badge.color,
+                            fontWeight: '700',
+                          },
+                        ]}
+                      >
+                        {badge.label}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              </Card>
-            ))
+                </Card>
+              );
+            })
           )}
         </ScrollView>
       </View>

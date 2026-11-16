@@ -12,6 +12,7 @@ import {
 import * as ScreenCapture from 'expo-screen-capture';
 import { useTheme } from '../theme';
 import { WatermarkOverlay } from './WatermarkOverlay';
+import { RichContentRenderer } from './RichContentRenderer';
 import {
   Bookmark,
   BookmarkCheck,
@@ -304,17 +305,13 @@ export const ProtectedContentReader: React.FC<ProtectedContentReaderProps> = ({
                 {title}
               </Text>
               {structuredNotes.introduction && (
-                <Text
-                  style={[
-                    styles.markdownBody,
-                    { color: themeColors.text, fontSize, lineHeight: fontSize * 1.6 },
-                  ]}
-                >
-                  {structuredNotes.introduction
-                    .replace(/^#+\s*/gm, '')
-                    .replace(/\*\*/g, '')
-                    .replace(/`/g, '')}
-                </Text>
+                <View style={{ marginBottom: 12 }}>
+                  <RichContentRenderer
+                    content={structuredNotes.introduction}
+                    fontScale={fontSize / 16}
+                    themeMode={readerTheme === 'dark' ? 'dark' : 'light'}
+                  />
+                </View>
               )}
               {anchorCode && !structuredNotes.notes.some((note) => note.anchor === anchorCode) && (
                 <Text
@@ -344,21 +341,11 @@ export const ProtectedContentReader: React.FC<ProtectedContentReaderProps> = ({
                     },
                   ]}
                 >
-                  <Text
-                    style={[
-                      styles.calloutBody,
-                      {
-                        color: themeColors.text,
-                        fontSize,
-                        lineHeight: fontSize * 1.6,
-                      },
-                    ]}
-                  >
-                    {note.content
-                      .replace(/^#{1,6}\s*/gm, '')
-                      .replace(/\*\*/g, '')
-                      .replace(/`/g, '')}
-                  </Text>
+                  <RichContentRenderer
+                    content={note.content}
+                    fontScale={fontSize / 16}
+                    themeMode={readerTheme === 'dark' ? 'dark' : 'light'}
+                  />
                 </View>
               ))}
             </View>
@@ -669,7 +656,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 60,
+    paddingBottom: 120,
   },
   documentPage: {
     flex: 1,

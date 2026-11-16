@@ -1,16 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Eye, EyeOff, ShieldCheck, ArrowRight, ExternalLink } from 'lucide-react';
 import { DEFAULT_ADMIN_KEY } from '@/lib/api';
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('asladdiinabduqaadir@gmail.com');
   const [password, setPassword] = useState('••••••••••••');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Automatic SSO Handshake from https://www.asladin.me/login
+  useEffect(() => {
+    const ssoToken = searchParams.get('sso_token');
+    if (ssoToken) {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('asladin_admin_jwt', ssoToken);
+        sessionStorage.setItem('asladin_admin_email', 'asladdiinabduqaadir@gmail.com');
+        localStorage.setItem('asladin_admin_jwt', ssoToken);
+        localStorage.setItem('asladin_admin_token', ssoToken);
+        localStorage.setItem('asladin_admin_email', 'asladdiinabduqaadir@gmail.com');
+      }
+      router.replace('/');
+    }
+  }, [searchParams, router]);
 
   const handleLogin = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -18,7 +34,9 @@ export default function LoginPage() {
     // Development mode master key storage
     if (typeof window !== 'undefined') {
       localStorage.setItem('asladin_admin_key', DEFAULT_ADMIN_KEY);
+      sessionStorage.setItem('asladin_admin_key', DEFAULT_ADMIN_KEY);
       localStorage.setItem('asladin_admin_email', email);
+      sessionStorage.setItem('asladin_admin_email', email);
     }
     setTimeout(() => {
       router.push('/');
@@ -202,5 +220,20 @@ export default function LoginPage() {
         © 2026 Asladdiin Abduqaadir · Ethiopian National Exit Exam SaaS Platform
       </footer>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#070A12] flex items-center justify-center text-slate-400">
+          <span className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mr-3" />
+          <span>Authenticating platform session...</span>
+        </div>
+      }
+    >
+      <LoginContent />
+    </Suspense>
   );
 }

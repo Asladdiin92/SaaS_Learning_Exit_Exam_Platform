@@ -18,6 +18,7 @@ import {
   OutcomeMasteryItem,
   StudentProgressData,
 } from '../../../shared/database/progressRepository';
+import { BLOOM_DISPLAY_NAMES } from '../components/BloomsRadarChart';
 import {
   ArrowLeft,
   Award,
@@ -130,6 +131,10 @@ export const CourseProgressScreen: React.FC = () => {
       : outcomes.filter((o) => (o.domain || 'COGNITIVE').toUpperCase() === selectedDomain);
 
   const masteryPct = Math.round(courseData?.mastery_percentage || 0);
+
+  const weakestOutcome = outcomes.length > 0
+    ? [...outcomes].sort((a, b) => (a.mastery_score || 0) - (b.mastery_score || 0))[0]
+    : null;
 
   const getBloomLevelColor = (level: string) => {
     switch (level.toUpperCase()) {
@@ -255,6 +260,38 @@ export const CourseProgressScreen: React.FC = () => {
               </View>
             )}
           </View>
+
+          {/* Improve Weakest Topic Action */}
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#2563EB',
+              borderRadius: 8,
+              paddingVertical: 12,
+              paddingHorizontal: 16,
+              marginTop: 14,
+            }}
+            onPress={() => {
+              if (weakestOutcome) {
+                handlePracticeOutcome(weakestOutcome);
+              } else {
+                navigation.navigate('ExamInstructions', {
+                  courseId: courseId,
+                  examType: 'PRACTICE_QUIZ',
+                  title: `${courseData?.code || 'Course'} Practice Quiz`,
+                });
+              }
+            }}
+            activeOpacity={0.8}
+            testID="improve-weakest-topic-btn"
+          >
+            <Sparkles size={16} color="#FFFFFF" style={{ marginRight: 6 }} />
+            <Text style={[typography.labelSm, { color: '#FFFFFF', fontWeight: '700' }]}>
+              Improve Weakest Topic {weakestOutcome?.outcome_code ? `(${weakestOutcome.outcome_code})` : ''}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -333,7 +370,7 @@ export const CourseProgressScreen: React.FC = () => {
                     )}
                     <View style={[styles.bloomPill, { backgroundColor: `${levelColor}1A` }]}>
                       <Text style={[typography.labelSm, { color: levelColor, fontWeight: '700' }]}>
-                        {lo.level}
+                        {BLOOM_DISPLAY_NAMES[lo.level.toUpperCase()] || lo.level}
                       </Text>
                     </View>
                   </View>
@@ -389,7 +426,7 @@ export const CourseProgressScreen: React.FC = () => {
                   />
                 </View>
 
-                {/* Practice This Outcome CTA Button */}
+                {/* Practice This Topic CTA Button */}
                 <TouchableOpacity
                   style={[styles.practiceOutcomeBtn, { borderColor: colors.brand.primary }]}
                   onPress={() => handlePracticeOutcome(lo)}
@@ -398,7 +435,7 @@ export const CourseProgressScreen: React.FC = () => {
                 >
                   <Target size={14} color={colors.brand.primary} />
                   <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700', marginLeft: 6 }]}>
-                    Practice This Outcome
+                    Practice This Topic
                   </Text>
                 </TouchableOpacity>
               </View>

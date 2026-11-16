@@ -276,7 +276,7 @@ export const PlansAndAccessScreen: React.FC = () => {
           >
             <ShoppingBag size={18} color="#FFFFFF" />
             <Text style={[typography.h3, { color: '#FFFFFF', marginLeft: 8 }]}>
-              Browse Store & Exam Bundles
+              View Study Plans
             </Text>
           </TouchableOpacity>
         </View>

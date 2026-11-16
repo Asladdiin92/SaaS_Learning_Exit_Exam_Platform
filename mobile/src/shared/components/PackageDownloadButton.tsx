@@ -37,6 +37,7 @@ interface PackageDownloadButtonProps {
   onPress: () => void;
   disabled?: boolean;
   testID?: string;
+  variant?: 'primary' | 'secondary' | 'outline';
 }
 
 export const PackageDownloadButton: React.FC<PackageDownloadButtonProps> = ({
@@ -46,8 +47,9 @@ export const PackageDownloadButton: React.FC<PackageDownloadButtonProps> = ({
   onPress,
   disabled = false,
   testID = 'package-download-button',
+  variant = 'primary',
 }) => {
-  const { colors, typography } = useTheme();
+  const { colors, typography, isDark } = useTheme();
 
   const toMB = (bytes: number) => {
     if (!bytes || isNaN(bytes)) return '0.0';
@@ -263,6 +265,34 @@ export const PackageDownloadButton: React.FC<PackageDownloadButtonProps> = ({
   }
 
   // 8. ELIGIBLE / IDLE (Default CTA)
+  const isSecondary = variant === 'secondary';
+  const isOutline = variant === 'outline';
+  const textColor = isSecondary
+    ? isDark
+      ? '#93C5FD'
+      : '#2563EB'
+    : isOutline
+      ? isDark
+        ? '#60A5FA'
+        : '#1D4ED8'
+      : '#FFFFFF';
+
+  const containerBg = isSecondary
+    ? isDark
+      ? '#1E293B'
+      : '#F1F5F9'
+    : isOutline
+      ? 'transparent'
+      : colors.brand.primary;
+
+  const containerBorder = isSecondary
+    ? isDark
+      ? '#334155'
+      : '#CBD5E1'
+    : isOutline
+      ? '#3B82F6'
+      : colors.brand.primary;
+
   return (
     <TouchableOpacity
       testID={testID}
@@ -273,16 +303,16 @@ export const PackageDownloadButton: React.FC<PackageDownloadButtonProps> = ({
       style={[
         styles.container,
         {
-          backgroundColor: colors.brand.primary,
-          borderColor: colors.brand.primary,
+          backgroundColor: containerBg,
+          borderColor: containerBorder,
         },
       ]}
     >
-      <Download size={16} color="#FFFFFF" />
+      <Download size={16} color={textColor} />
       <Text
         style={[
           typography.labelSm,
-          { color: '#FFFFFF', marginLeft: 8, fontWeight: '700' },
+          { color: textColor, marginLeft: 8, fontWeight: '700' },
         ]}
       >
         Download ({toMB(sizeBytes)} MB)

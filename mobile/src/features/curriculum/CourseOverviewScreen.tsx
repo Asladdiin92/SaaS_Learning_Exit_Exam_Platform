@@ -14,6 +14,7 @@ import {
   Button,
   EntitlementBadge,
   PackageDownloadButton,
+  RichContentRenderer,
 } from '../../shared/components';
 import {
   curriculumRepository,
@@ -22,6 +23,10 @@ import {
   LocalResource,
   LocalExamPackage,
 } from '../../shared/database/curriculumRepository';
+import {
+  CANONICAL_STUDY_MATERIALS,
+  CourseMaterialItem,
+} from '../../shared/database/courseStudyMaterials';
 import { api } from '../../shared/api/client';
 import { useAuthSession } from '../../services/auth-session/AuthSessionContext';
 import { useNetwork } from '../../shared/network/NetworkContext';
@@ -49,7 +54,7 @@ export const CourseOverviewScreen: React.FC<CourseOverviewScreenProps> = ({
   route,
   navigation,
 }) => {
-  const { colors, typography, spacing, borderRadius } = useTheme();
+  const { colors, typography, spacing, borderRadius, isDark } = useTheme();
   const { isOfflineMode } = useAuthSession();
   const { isOnline } = useNetwork();
   const { courseId = 101, code = 'IT-CMTS-101' } = route.params || {};
@@ -67,6 +72,10 @@ export const CourseOverviewScreen: React.FC<CourseOverviewScreenProps> = ({
   const [isDownloaded, setIsDownloaded] = useState(true);
   const [loading, setLoading] = useState(true);
   const [isTutorOpen, setIsTutorOpen] = useState(false);
+
+  const studyMaterial = CANONICAL_STUDY_MATERIALS.find(
+    (m) => m.courseId === Number(courseId) || (course && m.courseCode === course.code) || m.courseCode === code
+  );
 
   const loadCourseData = useCallback(async () => {
     try {
@@ -168,9 +177,12 @@ export const CourseOverviewScreen: React.FC<CourseOverviewScreenProps> = ({
             {course?.title || 'Computer Maintenance and Technical Support'}
           </Text>
 
-          <Text style={[typography.bodyMd, { color: colors.text.secondary, marginBottom: spacing.md }]}>
-            {course?.general_objective || 'Diagnose and repair computer hardware, peripherals, and system software failures.'}
-          </Text>
+          <View style={{ marginBottom: spacing.md }}>
+            <RichContentRenderer
+              content={course?.general_objective || 'Diagnose and repair computer hardware, peripherals, and system software failures.'}
+              themeMode={isDark ? 'dark' : 'light'}
+            />
+          </View>
 
           {/* Course Package Control Card (Package v1 • Size • Download) */}
           <View
@@ -207,6 +219,64 @@ export const CourseOverviewScreen: React.FC<CourseOverviewScreenProps> = ({
             />
           </View>
         </Card>
+
+        {/* Course Study Manuscript / Cheat Sheet Card */}
+        {studyMaterial && (
+          <Card
+            testID="course-study-material-card"
+            variant="elevated"
+            style={{
+              backgroundColor: '#0F172A',
+              borderColor: '#1E293B',
+              borderWidth: 1,
+              borderRadius: borderRadius.md,
+              padding: spacing.md,
+              marginBottom: spacing.md,
+            }}
+          >
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View
+                  style={{
+                    backgroundColor: 'rgba(56, 189, 248, 0.15)',
+                    paddingHorizontal: 8,
+                    paddingVertical: 2,
+                    borderRadius: borderRadius.sm,
+                    marginRight: spacing.xs,
+                  }}
+                >
+                  <Text style={[typography.labelSm, { color: '#38BDF8', fontWeight: '700' }]}>
+                    STUDY MANUSCRIPT
+                  </Text>
+                </View>
+                <Text style={[typography.labelSm, { color: '#94A3B8' }]}>
+                  {studyMaterial.readTimeMin} min read
+                </Text>
+              </View>
+              <BookOpen size={18} color="#38BDF8" />
+            </View>
+
+            <Text style={[typography.h3, { color: '#F8FAFC', marginBottom: 2, fontWeight: '700' }]}>
+              {studyMaterial.title}
+            </Text>
+            <Text numberOfLines={2} style={[typography.bodySm, { color: '#94A3B8', marginBottom: spacing.sm }]}>
+              {studyMaterial.subtitle}
+            </Text>
+
+            <Button
+              title="Open Manuscript in Study Workspace"
+              variant="inverse"
+              size="sm"
+              onPress={() =>
+                navigation.navigate('StudyWorkspace', {
+                  materialId: studyMaterial.id,
+                  courseId: studyMaterial.courseId,
+                })
+              }
+              style={{ minHeight: 40 }}
+            />
+          </Card>
+        )}
 
         {/* Segmented Tabs (Outcomes | Resources | Practice) */}
         <View
@@ -269,61 +339,50 @@ export const CourseOverviewScreen: React.FC<CourseOverviewScreenProps> = ({
                 </Text>
               </Card>
             ) : (
-              outcomes.map((outcome, idx) => (
-                <Card key={idx} testID={`outcome-card-${idx}`} variant="outlined" style={{ marginBottom: spacing.sm, padding: spacing.md }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
-                    <View
-                      style={{
-                        backgroundColor: '#F3E8FF',
-                        paddingHorizontal: 8,
-                        paddingVertical: 2,
-                        borderRadius: borderRadius.sm,
-                        marginRight: spacing.xs,
-                      }}
-                    >
-                      <Text style={[typography.labelSm, { color: '#7E22CE', fontWeight: '700' }]}>
-                        {outcome.level}
-                      </Text>
-                    </View>
-                    <Text style={[typography.labelSm, { color: colors.text.muted }]}>
-                      {outcome.domain} DOMAIN
-                    </Text>
-                  </View>
+              outcomes.map((outcome, idx) => {
+                const norm = (outcome.level || '').toUpperCase();
+                let badge = { bg: '#F3E8FF', text: '#7E22CE' };
+                if (norm.includes('REMEMBER')) badge = { bg: '#DBEAFE', text: '#1D4ED8' };
+                else if (norm.includes('UNDERSTAND')) badge = { bg: '#CCFBF1', text: '#0F766E' };
+                else if (norm.includes('APPLY')) badge = { bg: '#DCFCE7', text: '#15803D' };
+                else if (norm.includes('ANALY')) badge = { bg: '#F3E8FF', text: '#7E22CE' };
+                else if (norm.includes('EVALUATE')) badge = { bg: '#FEF3C7', text: '#B45309' };
+                else if (norm.includes('CREATE')) badge = { bg: '#FFE4E6', text: '#BE123C' };
 
-                  <Text style={[typography.bodyMd, { color: colors.text.primary, marginBottom: spacing.xs }]}>
-                    {outcome.description}
-                  </Text>
-
-                  {/* Mastery Score Progress Bar */}
-                  <View style={{ marginTop: spacing.xs }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
-                      <Text style={[typography.labelSm, { color: colors.text.muted, fontSize: 11 }]}>
-                        Mastery Level
-                      </Text>
-                      <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700', fontSize: 11 }]}>
-                        78% Proficient
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        height: 4,
-                        backgroundColor: colors.surface.secondary,
-                        borderRadius: 2,
-                        overflow: 'hidden',
-                      }}
-                    >
+                return (
+                  <Card key={idx} testID={`outcome-card-${idx}`} variant="outlined" style={{ marginBottom: spacing.sm, padding: spacing.md }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
                       <View
                         style={{
-                          width: '78%',
-                          height: '100%',
-                          backgroundColor: colors.brand.primary,
-                          borderRadius: 2,
+                          backgroundColor: badge.bg,
+                          paddingHorizontal: 8,
+                          paddingVertical: 2,
+                          borderRadius: borderRadius.sm,
+                          marginRight: spacing.xs,
                         }}
-                      />
+                      >
+                        <Text style={[typography.labelSm, { color: badge.text, fontWeight: '700' }]}>
+                          {outcome.level}
+                        </Text>
+                      </View>
+                      <Text style={[typography.labelSm, { color: colors.text.muted }]}>
+                        {outcome.domain} DOMAIN
+                      </Text>
                     </View>
-                  </View>
-                </Card>
-              ))
+
+                    <Text style={[typography.bodyMd, { color: colors.text.primary, marginBottom: spacing.xs }]}>
+                      {outcome.description}
+                    </Text>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
+                      <Target size={14} color={colors.brand.primary} />
+                      <Text style={[typography.labelSm, { color: colors.text.secondary, marginLeft: 4, fontSize: 11 }]}>
+                        National Exit Exam Core Competency
+                      </Text>
+                    </View>
+                  </Card>
+                );
+              })
             )}
           </View>
         )}

@@ -271,34 +271,34 @@ describe('Day 13 Verification: MOB-13/14/15 Exam Runner & Transactional State', 
   test('Invariant 3: EXAM_QUESTIONS yields 100 questions with core curriculum items and accurate palette filtering', () => {
     expect(EXAM_QUESTIONS.length).toBe(100);
 
-    // Q1: Computer Architecture (Von Neumann - Control Unit)
+    // Q1: Java OOP (Constructors)
     const q1 = EXAM_QUESTIONS[0];
     expect(q1.questionNumber).toBe(1);
-    expect(q1.courseCode).toBe('IT-FCOM-102');
-    expect(q1.correctOptionId).toBe('q001_b');
-    expect(q1.options.find((o) => o.id === 'q001_b')?.text).toContain('Control Unit');
+    expect(q1.courseCode).toBe('IT-OOPJ-201');
+    expect(q1.correctOptionId).toBe('q001_a');
+    expect(q1.options.find((o) => o.id === 'q001_a')?.text).toContain('constructors will be called');
 
-    // Q19: Event Driven Programming (Observer Pattern)
+    // Q19: Event Driven Programming (IndexOutOfRangeException)
     const q19 = EXAM_QUESTIONS[18];
     expect(q19.questionNumber).toBe(19);
     expect(q19.courseCode).toBe('IT-EDPR-203');
-    expect(q19.correctOptionId).toBe('q019_b');
-    expect(q19.options.find((o) => o.id === 'q019_b')?.text).toBe('Observer Pattern');
-    expect(q19.bloomLevel).toBe('ANALYZE');
+    expect(q19.correctOptionId).toBe('q019_a');
+    expect(q19.options.find((o) => o.id === 'q019_a')?.text).toBe('IndexOutOfRangeException');
+    expect(q19.bloomLevel).toBe('APPLY');
 
-    // Q91: Database Systems (3NF Transitive Dependency)
+    // Q91: Fundamentals of Database Systems (Relational Algebra Projection & Selection)
     const q91 = EXAM_QUESTIONS[90];
     expect(q91.questionNumber).toBe(91);
-    expect(q91.courseCode).toBe('IT-DBMS-301');
-    expect(q91.correctOptionId).toBe('q091_c');
-    expect(q91.options.find((o) => o.id === 'q091_c')?.text).toContain('Third Normal Form');
+    expect(q91.courseCode).toBe('IT-FDBS-201');
+    expect(q91.correctOptionId).toBe('q091_d');
+    expect(q91.options.find((o) => o.id === 'q091_d')?.text).toContain('Amir');
     expect(q91.bloomLevel).toBe('APPLY');
 
     // Test Palette Filtering logic
     const mockAnswered: Record<string, string> = {
-      q_hu2023_001: 'q001_b',
-      q_hu2023_019: 'q019_b',
-      q_hu2023_091: 'q091_c',
+      q_hu2023_001: 'q001_a',
+      q_hu2023_019: 'q019_a',
+      q_hu2023_091: 'q091_d',
     };
     const mockFlagged = new Set<string>(['q_hu2023_019', 'q_hu2023_050']);
 

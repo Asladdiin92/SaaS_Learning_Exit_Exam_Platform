@@ -52,6 +52,14 @@ class CheckoutSessionResponse(BaseModel):
     expires_at: str
 
 
+class ManualTransferRequest(BaseModel):
+    product_id: UUID
+    payment_method: str = Field(..., description="'telebirr_manual' or 'cbe_manual'")
+    transaction_reference: str = Field(..., min_length=3, max_length=128, description="SMS transaction code or reference ID (e.g., FT... or Telebirr trans ref)")
+    sender_phone_or_name: Optional[str] = Field(None, max_length=128, description="Payer phone number or account name")
+    notes: Optional[str] = Field(None, max_length=500, description="Additional transfer details")
+
+
 class WebhookResponse(BaseModel):
     status: str
     order_id: UUID

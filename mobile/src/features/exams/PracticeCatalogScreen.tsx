@@ -12,11 +12,12 @@ import { useTheme } from '../../shared/theme';
 import { Card, Button, EntitlementBadge, PackageDownloadButton } from '../../shared/components';
 import { useAuthSession } from '../../services/auth-session';
 import { database } from '../../shared/database/db';
+import { examRepository } from '../../shared/database/examRepository';
 import {
   ITEC4133_BLUEPRINTS,
   seedItec4133ToDatabase,
 } from '../../shared/database/parseHuQuestionBank';
-import { BookOpen, Clock, FileText } from 'lucide-react-native';
+import { AlertCircle, BookOpen, Clock, FileText } from 'lucide-react-native';
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -26,9 +27,9 @@ type ExamType =
   | 'COURSE_EXAM'
   | 'OFFLINE_READY';
 
-type FilterKey = 'ALL' | ExamType;
+type FilterKey = 'ALL' | 'NATIONAL_EXIT_SIMULATION' | 'BY_THEME' | 'OFFLINE_READY' | ExamType;
 
-interface ExamBlueprint {
+export interface ExamBlueprint {
   id: string;
   title: string;
   courseCode: string;
@@ -44,99 +45,12 @@ interface InProgressAttempt {
   packageTitle: string;
 }
 
-// ─── Static Blueprint Data ─────────────────────────────────────────────────────
-
-const EXAM_BLUEPRINTS: ExamBlueprint[] = [
-  {
-    id: 'pkg_hu_cci_model_exit_2023',
-    title: 'HU CCI B.Sc. IT Model Exit Exam (Jan 2023)',
-    courseCode: 'ALL-COURSES',
-    type: 'NATIONAL_EXIT_SIMULATION',
-    questionCount: 100,
-    durationMin: 180,
-    sizeBytes: 2450000,
-  },
-  {
-    id: 'pkg_edpr_quiz_203',
-    title: 'IT-EDPR-203 Event Driven Programming Quiz',
-    courseCode: 'IT-EDPR-203',
-    type: 'PRACTICE_QUIZ',
-    questionCount: 25,
-    durationMin: 45,
-    sizeBytes: 820000,
-  },
-  {
-    id: 'pkg_oop_java_quiz',
-    title: 'OOP in Java — Chapter Assessment',
-    courseCode: 'IT-OOPR-202',
-    type: 'COURSE_EXAM',
-    questionCount: 30,
-    durationMin: 60,
-    sizeBytes: 650000,
-  },
-  {
-    id: 'pkg_db_systems_quiz',
-    title: 'Database Systems Design Quiz',
-    courseCode: 'IT-DBMS-301',
-    type: 'PRACTICE_QUIZ',
-    questionCount: 25,
-    durationMin: 45,
-    sizeBytes: 490000,
-  },
-  {
-    id: 'pkg_networking_quiz',
-    title: 'Computer Networking Protocols Quiz',
-    courseCode: 'IT-CNET-301',
-    type: 'PRACTICE_QUIZ',
-    questionCount: 25,
-    durationMin: 45,
-    sizeBytes: 530000,
-  },
-  {
-    id: 'pkg_web_dev_quiz',
-    title: 'Web Development Technologies Quiz',
-    courseCode: 'IT-WEBP-304',
-    type: 'COURSE_EXAM',
-    questionCount: 30,
-    durationMin: 60,
-    sizeBytes: 710000,
-  },
-  {
-    id: 'pkg_ias_quiz',
-    title: 'Information Assurance & Security Quiz',
-    courseCode: 'IT-IASE-401',
-    type: 'PRACTICE_QUIZ',
-    questionCount: 25,
-    durationMin: 45,
-    sizeBytes: 680000,
-  },
-  {
-    id: 'pkg_sad_quiz',
-    title: 'System Analysis & Design Quiz',
-    courseCode: 'IT-SASD-302',
-    type: 'COURSE_EXAM',
-    questionCount: 30,
-    durationMin: 60,
-    sizeBytes: 590000,
-  },
-  ...ITEC4133_BLUEPRINTS.map((blueprint) => ({
-    id: blueprint.id,
-    title: blueprint.title,
-    courseCode: blueprint.courseCode,
-    type: blueprint.type,
-    questionCount: blueprint.questionCount,
-    durationMin: blueprint.durationMin,
-    sizeBytes: blueprint.sizeBytes,
-  })),
-];
-
 // ─── Filter Chips Config ────────────────────────────────────────────────────────
 
 const FILTERS: { key: FilterKey; label: string }[] = [
   { key: 'ALL', label: 'All' },
-  { key: 'PRACTICE_QUIZ', label: 'Practice Quiz' },
-  { key: 'COURSE_EXAM', label: 'Course Exam' },
-  { key: 'NATIONAL_EXIT_SIMULATION', label: 'National Exit Simulation' },
+  { key: 'NATIONAL_EXIT_SIMULATION', label: 'Exit Exam Simulation' },
+  { key: 'BY_THEME', label: 'By Theme' },
   { key: 'OFFLINE_READY', label: 'Offline Ready' },
 ];
 
@@ -158,70 +72,105 @@ export const PracticeCatalogScreen: React.FC<{ navigation: any; route: any }> = 
   const { user } = useAuthSession();
 
   const [selectedFilter, setSelectedFilter] = useState<FilterKey>('ALL');
+  const [blueprints, setBlueprints] = useState<ExamBlueprint[]>([]);
   const [inProgressAttempt, setInProgressAttempt] = useState<InProgressAttempt | null>(null);
   const [loadingAttempt, setLoadingAttempt] = useState(true);
   const [downloadStates, setDownloadStates] = useState<Record<string, boolean>>({});
   const [catalogError, setCatalogError] = useState<string | null>(null);
 
-  // ── Load any in-progress attempt from SQLite ────────────────────────────────
-  const fetchInProgressAttempt = useCallback(async () => {
-    if (!user?.userId) {
-      setLoadingAttempt(false);
-      return;
-    }
+  // ── Load live/cached blueprints and in-progress attempt from SQLite ──────────
+  const fetchCatalogAndAttempt = useCallback(async () => {
     try {
-      const rows = await database.query<{
-        local_attempt_id: string;
-        exam_package_id: string;
-      }>(
-        `SELECT local_attempt_id, exam_package_id
-         FROM local_exam_attempts
-         WHERE user_id = ? AND status = 'IN_PROGRESS'
-         ORDER BY started_at DESC
-         LIMIT 1;`,
-        [user.userId]
-      );
+      await examRepository.seedCanonicalExamsIfEmpty();
+      await seedItec4133ToDatabase();
 
-      if (rows.length > 0) {
-        const row = rows[0];
-        // Resolve package title from blueprint data (or fall back to id)
-        const blueprint = EXAM_BLUEPRINTS.find((b) => b.id === row.exam_package_id);
-        setInProgressAttempt({
-          local_attempt_id: row.local_attempt_id,
-          exam_package_id: row.exam_package_id,
-          packageTitle: blueprint?.title ?? row.exam_package_id,
-        });
+      const localPkgs = await examRepository.getAllExamPackages();
+      const mapped: ExamBlueprint[] = localPkgs.map((pkg) => {
+        let title = 'Practice Assessment';
+        let questionCount = 25;
+        let courseCode = 'ALL-COURSES';
+
+        try {
+          const snapshot = JSON.parse(pkg.question_snapshot_json);
+          if (snapshot.title) title = snapshot.title;
+          if (Array.isArray(snapshot.questions)) questionCount = snapshot.questions.length;
+          else if (snapshot.total_questions) questionCount = snapshot.total_questions;
+          if (snapshot.course_code) courseCode = snapshot.course_code;
+        } catch (_) {}
+
+        const isSim = pkg.exam_package_id.includes('model_exit') || questionCount >= 100;
+        return {
+          id: pkg.exam_package_id,
+          title,
+          courseCode,
+          type: (isSim ? 'NATIONAL_EXIT_SIMULATION' : 'PRACTICE_QUIZ') as ExamType,
+          questionCount,
+          durationMin: Math.max(15, Math.round(pkg.duration_sec / 60)),
+          sizeBytes: 2450000,
+        };
+      });
+
+      // Append any ITEC4133 blueprints not already present
+      for (const ib of ITEC4133_BLUEPRINTS) {
+        if (!mapped.some((m) => m.id === ib.id)) {
+          mapped.push(ib);
+        }
+      }
+
+      setBlueprints(mapped);
+
+      // Check for active in-progress attempt
+      if (user?.userId) {
+        const rows = await database.query<{
+          local_attempt_id: string;
+          exam_package_id: string;
+        }>(
+          `SELECT local_attempt_id, exam_package_id
+           FROM local_exam_attempts
+           WHERE user_id = ? AND status = 'IN_PROGRESS'
+           ORDER BY started_at DESC
+           LIMIT 1;`,
+          [user.userId]
+        );
+
+        if (rows.length > 0) {
+          const row = rows[0];
+          const matchedBp = mapped.find((b) => b.id === row.exam_package_id);
+          setInProgressAttempt({
+            local_attempt_id: row.local_attempt_id,
+            exam_package_id: row.exam_package_id,
+            packageTitle: matchedBp?.title ?? row.exam_package_id,
+          });
+        } else {
+          setInProgressAttempt(null);
+        }
       } else {
         setInProgressAttempt(null);
       }
-    } catch (_err) {
-      setInProgressAttempt(null);
+    } catch (err) {
+      console.warn('Failed to load practice catalog:', err);
+      setCatalogError('Could not load exam packages. Please try again.');
     } finally {
       setLoadingAttempt(false);
     }
   }, [user?.userId]);
 
   useEffect(() => {
-    let active = true;
-    seedItec4133ToDatabase()
-      .then(() => fetchInProgressAttempt())
-      .catch((error: unknown) => {
-        console.error('Failed to seed the ITec4133 offline question bank:', error);
-        if (active) {
-          setCatalogError('The ITec4133 question bank could not be prepared. Please try again.');
-          setLoadingAttempt(false);
-        }
-      });
-    return () => {
-      active = false;
-    };
-  }, [fetchInProgressAttempt]);
+    fetchCatalogAndAttempt();
+  }, [fetchCatalogAndAttempt]);
 
   // ── Filter blueprints ───────────────────────────────────────────────────────
-  const filteredBlueprints = EXAM_BLUEPRINTS.filter((bp) => {
+  const filteredBlueprints = blueprints.filter((bp) => {
     if (selectedFilter === 'ALL') return true;
-    // OFFLINE_READY: all packages are offline-capable in this platform
-    if (selectedFilter === 'OFFLINE_READY') return true;
+    if (selectedFilter === 'NATIONAL_EXIT_SIMULATION') {
+      return bp.type === 'NATIONAL_EXIT_SIMULATION';
+    }
+    if (selectedFilter === 'BY_THEME') {
+      return bp.type === 'PRACTICE_QUIZ' || bp.type === 'COURSE_EXAM';
+    }
+    if (selectedFilter === 'OFFLINE_READY') {
+      return true;
+    }
     return bp.type === selectedFilter;
   });
 
@@ -291,18 +240,6 @@ export const PracticeCatalogScreen: React.FC<{ navigation: any; route: any }> = 
               </Text>
             </View>
 
-            {catalogError && (
-              <Text
-                accessibilityRole="alert"
-                style={{
-                  color: colors.status.error,
-                  paddingHorizontal: spacing.screenPadding,
-                  paddingBottom: spacing.sm,
-                }}
-              >
-                {catalogError}
-              </Text>
-            )}
             <View
               style={{
                 backgroundColor: colors.surface.secondary,
@@ -358,26 +295,25 @@ export const PracticeCatalogScreen: React.FC<{ navigation: any; route: any }> = 
           </View>
         </View>
 
-        {/* Download button row */}
-        <View style={{ marginBottom: spacing.sm }}>
-          <PackageDownloadButton
-            testID={`download-btn-${item.id}`}
-            state={isDownloaded ? 'AVAILABLE_OFFLINE' : 'ELIGIBLE'}
-            sizeBytes={item.sizeBytes}
-            onPress={() =>
-              setDownloadStates((prev) => ({ ...prev, [item.id]: !prev[item.id] }))
-            }
-          />
-        </View>
-
-        {/* CTA button */}
+        {/* Primary CTA button */}
         <Button
           testID={`start-exam-btn-${item.id}`}
           title={hasActiveAttempt ? 'Resume Exam' : 'Start Exam'}
           variant={hasActiveAttempt ? 'outline' : 'primary'}
           size="md"
           onPress={() => handleStartOrResume(item, hasActiveAttempt)}
-          style={{ minHeight: 48 }}
+          style={{ minHeight: 48, marginBottom: spacing.xs }}
+        />
+
+        {/* Secondary Download package button */}
+        <PackageDownloadButton
+          testID={`download-btn-${item.id}`}
+          state={isDownloaded ? 'AVAILABLE_OFFLINE' : 'ELIGIBLE'}
+          variant="secondary"
+          sizeBytes={item.sizeBytes}
+          onPress={() =>
+            setDownloadStates((prev) => ({ ...prev, [item.id]: !prev[item.id] }))
+          }
         />
       </Card>
     );
@@ -403,6 +339,36 @@ export const PracticeCatalogScreen: React.FC<{ navigation: any; route: any }> = 
             Exam Catalog
           </Text>
         </View>
+
+        {/* ── Catalog Alert Banner (if error) ──────────────────────────────── */}
+        {catalogError && (
+          <View
+            testID="catalog-error-banner"
+            style={{
+              marginHorizontal: spacing.screenPadding,
+              marginBottom: spacing.sm,
+              padding: spacing.md,
+              backgroundColor: colors.status.error + '15',
+              borderColor: colors.status.error,
+              borderWidth: 1,
+              borderRadius: borderRadius.md,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 8,
+            }}
+          >
+            <AlertCircle size={18} color={colors.status.error} />
+            <Text
+              accessibilityRole="alert"
+              style={[
+                typography.labelSm,
+                { color: colors.status.error, flex: 1, fontWeight: '600' },
+              ]}
+            >
+              {catalogError}
+            </Text>
+          </View>
+        )}
 
         {/* ── Pinned Resume Banner ─────────────────────────────────────────── */}
         {!loadingAttempt && inProgressAttempt && (

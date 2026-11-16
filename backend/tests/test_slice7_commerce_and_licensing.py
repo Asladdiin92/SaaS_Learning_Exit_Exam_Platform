@@ -143,3 +143,93 @@ async def test_commerce_products_and_order_flow():
         assert ent_data["storage_quota_mb"] >= 2048
         assert ent_data["ai_monthly_quota"] >= 50
         assert "offline_grant" in ent_data
+
+
+@pytest.mark.asyncio
+async def test_manual_bank_and_telebirr_transfer_flow():
+    ADMIN_HEADER = {"X-Admin-Key": "asladin-platform-owner-master-key-2026"}
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        # 1. Register student
+        unique = uuid.uuid4().hex[:8]
+        email = f"student_transfer_{unique}@hu.edu.et"
+        device_id = str(uuid.uuid4())
+        reg_res = await client.post(
+            "/api/v1/auth/register",
+            json={
+                "email": email,
+                "password": "SecurePassword123!",
+                "full_name": f"Haramaya Student {unique}",
+                "device_id": device_id,
+            },
+        )
+        assert reg_res.status_code == 201
+        token = reg_res.json()["access_token"]
+        headers = {"Authorization": f"Bearer {token}"}
+
+        # 2. Get active product
+        p_res = await client.get("/api/v1/products")
+        assert p_res.status_code == 200
+        products = p_res.json()
+        product = products[0]
+
+        # 3. Student submits CBE manual transfer proof
+        tx_code = f"FT{uuid.uuid4().hex[:10].upper()}"
+        submit_res = await client.post(
+            "/api/v1/orders/manual-transfer",
+            headers=headers,
+            json={
+                "product_id": product["product_id"],
+                "payment_method": "cbe_manual",
+                "transaction_reference": tx_code,
+                "sender_phone_or_name": "0911223344",
+                "notes": "Paid at CBE branch for Exit Exam Prep",
+            },
+        )
+        assert submit_res.status_code == 201, submit_res.text
+        order_data = submit_res.json()
+        order_id = order_data["order_id"]
+        assert order_data["status"] == "PENDING"
+        assert order_data["payment_provider"] == "cbe_manual"
+
+        # 4. Duplicate transaction reference rejected (409 Conflict)
+        dup_submit = await client.post(
+            "/api/v1/orders/manual-transfer",
+            headers=headers,
+            json={
+                "product_id": product["product_id"],
+                "payment_method": "cbe_manual",
+                "transaction_reference": tx_code,
+            },
+        )
+        assert dup_submit.status_code == 409
+
+        # 5. Platform Owner queries pending transfers
+        pending_res = await client.get("/api/v1/admin/pending-transfers", headers=ADMIN_HEADER)
+        assert pending_res.status_code == 200, pending_res.text
+        pending_list = pending_res.json()
+        matching_claim = next((item for item in pending_list if item["order_id"] == order_id), None)
+        assert matching_claim is not None
+        assert matching_claim["transaction_reference"] == tx_code
+        assert matching_claim["payment_method"] == "cbe_manual"
+        assert matching_claim["user_email"] == email
+
+        # 6. Platform Owner click-to-approve
+        approve_res = await client.post(f"/api/v1/admin/orders/{order_id}/approve", headers=ADMIN_HEADER)
+        assert approve_res.status_code == 200, approve_res.text
+        action_data = approve_res.json()
+        assert action_data["status"] == "APPROVED"
+        assert "entitlement_id" in action_data
+
+        # 7. Student checks order status -> now PAID
+        check_order = await client.get(f"/api/v1/orders/{order_id}", headers=headers)
+        assert check_order.status_code == 200
+        assert check_order.json()["status"] == "PAID"
+
+        # 8. Student checks entitlements -> feature unlocked!
+        ent_res = await client.get(f"/api/v1/me/entitlements?device_id={device_id}", headers=headers)
+        assert ent_res.status_code == 200
+        ent_data = ent_res.json()
+        assert ent_data["offline_download_allowed"] is True
+        assert ent_data["storage_quota_mb"] >= 2048
+

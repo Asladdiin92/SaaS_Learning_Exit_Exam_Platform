@@ -149,10 +149,10 @@ export const DevicesSecurityScreen: React.FC<DevicesSecurityScreenProps> = ({ na
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
           <Text style={[typography.h2, { color: colors.text.primary, fontWeight: '700' }]}>
-            Devices & Security
+            Connected Devices & Security
           </Text>
           <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
-            MOB-29 • Token Family Revocation & Biometrics
+            Active devices, secure sessions & fingerprint unlock
           </Text>
         </View>
         <TouchableOpacity

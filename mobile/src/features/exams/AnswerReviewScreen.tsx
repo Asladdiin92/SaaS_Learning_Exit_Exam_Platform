@@ -8,7 +8,7 @@ import {
   Modal,
 } from 'react-native';
 import { useTheme } from '../../shared/theme';
-import { Card, Button } from '../../shared/components';
+import { Card, Button, RichContentRenderer } from '../../shared/components';
 import { ExamQuestion, EXAM_QUESTIONS } from './ExamRunnerScreen';
 import {
   ArrowLeft,
@@ -35,7 +35,7 @@ export const AnswerReviewScreen: React.FC<AnswerReviewScreenProps> = ({
   route,
   navigation,
 }) => {
-  const { colors, typography, spacing, borderRadius } = useTheme();
+  const { colors, typography, spacing, borderRadius, isDark } = useTheme();
 
   const {
     localAttemptId,
@@ -306,10 +306,17 @@ export const AnswerReviewScreen: React.FC<AnswerReviewScreenProps> = ({
                   </View>
                 </View>
 
-                {/* Prompt */}
-                <Text style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600', lineHeight: 22, marginBottom: spacing.sm }]}>
-                  {q.prompt}
-                </Text>
+                {/* Prompt with Rich Content */}
+                <View style={{ marginBottom: spacing.sm }}>
+                  <RichContentRenderer
+                    content={
+                      q.codeSnippet && !q.prompt.includes(q.codeSnippet)
+                        ? `${q.prompt}\n\n\`\`\`\n${q.codeSnippet}\n\`\`\``
+                        : q.prompt
+                    }
+                    themeMode={isDark ? 'dark' : 'light'}
+                  />
+                </View>
 
                 {/* Options List */}
                 <View style={{ gap: 6, marginBottom: spacing.md }}>
@@ -320,15 +327,27 @@ export const AnswerReviewScreen: React.FC<AnswerReviewScreenProps> = ({
                     let bg = colors.surface.secondary;
                     let border = colors.border.default;
                     let textCol = colors.text.primary;
+                    let badgeLabel: string | null = null;
+                    let badgeColor = colors.status.online;
 
-                    if (isRightChoice) {
-                      bg = '#F0FDF4';
+                    if (isRightChoice && isUserChoice) {
+                      bg = isDark ? '#064E3B' : '#F0FDF4';
                       border = colors.status.online;
-                      textCol = '#065F46';
-                    } else if (isUserChoice && !isRightChoice) {
-                      bg = '#FEF2F2';
+                      textCol = isDark ? '#A7F3D0' : '#065F46';
+                      badgeLabel = '✓ Your Answer (Correct)';
+                      badgeColor = colors.status.online;
+                    } else if (isRightChoice) {
+                      bg = isDark ? '#064E3B' : '#F0FDF4';
+                      border = colors.status.online;
+                      textCol = isDark ? '#A7F3D0' : '#065F46';
+                      badgeLabel = '✓ Correct Answer';
+                      badgeColor = colors.status.online;
+                    } else if (isUserChoice) {
+                      bg = isDark ? '#7F1D1D' : '#FEF2F2';
                       border = colors.status.error;
-                      textCol = '#991B1B';
+                      textCol = isDark ? '#FECACA' : '#991B1B';
+                      badgeLabel = '✗ Your Answer';
+                      badgeColor = colors.status.error;
                     }
 
                     return (
@@ -350,14 +369,9 @@ export const AnswerReviewScreen: React.FC<AnswerReviewScreenProps> = ({
                           <Text style={[typography.bodySm, { flex: 1, color: textCol }]}>
                             {opt.text}
                           </Text>
-                          {isRightChoice && (
-                            <Text style={[typography.labelSm, { color: colors.status.online, fontWeight: '700' }]}>
-                              ✓ Correct
-                            </Text>
-                          )}
-                          {isUserChoice && !isRightChoice && (
-                            <Text style={[typography.labelSm, { color: colors.status.error, fontWeight: '700' }]}>
-                              ✗ Your Choice
+                          {badgeLabel && (
+                            <Text style={[typography.labelSm, { color: badgeColor, fontWeight: '700' }]}>
+                              {badgeLabel}
                             </Text>
                           )}
                         </View>
@@ -382,7 +396,7 @@ export const AnswerReviewScreen: React.FC<AnswerReviewScreenProps> = ({
                   })}
                 </View>
 
-                {/* Instructor Explanation Box */}
+                {/* Instructor Explanation Box with Rich Content */}
                 <View
                   style={{
                     backgroundColor: colors.surface.secondary,
@@ -393,12 +407,10 @@ export const AnswerReviewScreen: React.FC<AnswerReviewScreenProps> = ({
                     marginBottom: spacing.sm,
                   }}
                 >
-                  <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700', marginBottom: 4 }]}>
+                  <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700', marginBottom: 6 }]}>
                     OFFICIAL INSTRUCTOR EXPLANATION
                   </Text>
-                  <Text style={[typography.bodySm, { color: colors.text.primary, lineHeight: 20 }]}>
-                    {q.explanation}
-                  </Text>
+                  <RichContentRenderer content={q.explanation} themeMode={isDark ? 'dark' : 'light'} />
                 </View>
 
                 {/* Deep Link to Course Study Note (MOB-11) & AI Tutor CTA */}
@@ -434,15 +446,17 @@ export const AnswerReviewScreen: React.FC<AnswerReviewScreenProps> = ({
                       flexDirection: 'row',
                       alignItems: 'center',
                       gap: 4,
-                      backgroundColor: '#EFF6FF',
-                      paddingHorizontal: 8,
-                      paddingVertical: 4,
+                      backgroundColor: isDark ? '#1E3A8A' : '#EFF6FF',
+                      borderWidth: 1,
+                      borderColor: '#3B82F6',
+                      paddingHorizontal: 10,
+                      paddingVertical: 6,
                       borderRadius: borderRadius.sm,
                     }}
                   >
-                    <Sparkles size={14} color={colors.brand.primary} />
-                    <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700' }]}>
-                      Ask AI Tutor
+                    <Sparkles size={14} color={isDark ? '#93C5FD' : colors.brand.primary} />
+                    <Text style={[typography.labelSm, { color: isDark ? '#93C5FD' : colors.brand.primary, fontWeight: '700' }]}>
+                      Ask AI Tutor to Explain
                     </Text>
                   </TouchableOpacity>
                 </View>

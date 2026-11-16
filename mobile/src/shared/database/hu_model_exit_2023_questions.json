@@ -1,0 +1,3402 @@
+[
+  {
+    "id": "q_hu2023_001",
+    "questionNumber": 1,
+    "courseCode": "IT-OOPJ-201",
+    "courseTitle": "Basic Programming",
+    "prompt": "If there are one or more constructors for a class then:",
+    "options": [
+      {
+        "id": "q001_a",
+        "label": "A",
+        "text": "Exactly one of the constructors will be called each time an object of that class is created"
+      },
+      {
+        "id": "q001_b",
+        "label": "B",
+        "text": "All of the constructors will be called each time an object of that class is created"
+      },
+      {
+        "id": "q001_c",
+        "label": "C",
+        "text": "A destructor must also be written."
+      },
+      {
+        "id": "q001_d",
+        "label": "D",
+        "text": "Classes cannot have multiple constructors"
+      }
+    ],
+    "correctOptionId": "q001_a",
+    "explanation": "Constructor overloading allows a class to define multiple constructors with different parameter lists, and exactly one matching constructor is invoked per object instantiation.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_002",
+    "questionNumber": 2,
+    "courseCode": "IT-OOPJ-201",
+    "courseTitle": "Basic Programming",
+    "prompt": "Choose the output of the following C++ program?\n```cpp\n#include <iostream>\nusing namespace std;\n\nint main()\n{\n    int a = 7, b = 5, c;\n    c = (a > b) ? a : b;\n    cout << c;\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "q002_a",
+        "label": "A",
+        "text": "6"
+      },
+      {
+        "id": "q002_b",
+        "label": "B",
+        "text": "4"
+      },
+      {
+        "id": "q002_c",
+        "label": "C",
+        "text": "5"
+      },
+      {
+        "id": "q002_d",
+        "label": "D",
+        "text": "7"
+      }
+    ],
+    "correctOptionId": "q002_d",
+    "explanation": "The conditional (ternary) expression `(a > b) ? a : b` evaluates `(7 > 5)` as true and returns `a`, which is `7`.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_003",
+    "questionNumber": 3,
+    "courseCode": "IT-OOPJ-201",
+    "courseTitle": "Basic Programming",
+    "prompt": "Which is the correct syntax of inheritance in C++?",
+    "options": [
+      {
+        "id": "q003_a",
+        "label": "A",
+        "text": "class base_classname : access derived_classname{ /* class body*/ };"
+      },
+      {
+        "id": "q003_b",
+        "label": "B",
+        "text": "class derived_classname : access base_classname{ /* class body*/ };"
+      },
+      {
+        "id": "q003_c",
+        "label": "C",
+        "text": "class derived_classname : base_classname{ /* class body*/ };"
+      },
+      {
+        "id": "q003_d",
+        "label": "D",
+        "text": "class base_classname : derived_classname{ /* class body*/ };"
+      }
+    ],
+    "correctOptionId": "q003_b",
+    "explanation": "In C++, a derived class specifies inheritance using `class derived_classname : access_specifier base_classname { ... };`.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_004",
+    "questionNumber": 4,
+    "courseCode": "IT-OOPJ-201",
+    "courseTitle": "Basic Programming",
+    "prompt": "What will be the output of the following C++ code?\n```cpp\n#include <iostream>\nusing namespace std;\n\nvoid copy (int &a, int &b, int &c)\n{\n    a *= 2;\n    b *= 2;\n    c *= 2;\n}\n\nint main ()\n{\n    int x = 1, y = 3, z = 7;\n    copy (x, y, z);\n    cout << \" \" << x << \" \" << y << \" \" << z;\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "q004_a",
+        "label": "A",
+        "text": "2 5 10"
+      },
+      {
+        "id": "q004_b",
+        "label": "B",
+        "text": "2 4 5"
+      },
+      {
+        "id": "q004_c",
+        "label": "C",
+        "text": "2 6 14"
+      },
+      {
+        "id": "q004_d",
+        "label": "D",
+        "text": "2 4 9"
+      }
+    ],
+    "correctOptionId": "q004_c",
+    "explanation": "Because `a`, `b`, and `c` are passed by reference (`int &`), doubling them inside `copy()` mutates `x=1->2`, `y=3->6`, and `z=7->14`.",
+    "bloomLevel": "APPLY",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_005",
+    "questionNumber": 5,
+    "courseCode": "IT-OOPJ-201",
+    "courseTitle": "Basic Programming",
+    "prompt": "Which of the following statements is NOT true about a function prototype?",
+    "options": [
+      {
+        "id": "q005_a",
+        "label": "A",
+        "text": "A function prototype is the function heading without the body of the function which ends with a semicolon"
+      },
+      {
+        "id": "q005_b",
+        "label": "B",
+        "text": "A function prototype announces the function return type, as well as the type and number of parameters, used in the function"
+      },
+      {
+        "id": "q005_c",
+        "label": "C",
+        "text": "In a function prototype, the names of the variables in the formal parameter list are optional"
+      },
+      {
+        "id": "q005_d",
+        "label": "D",
+        "text": "Transfers control from the caller to the called function"
+      }
+    ],
+    "correctOptionId": "q005_d",
+    "explanation": "A function call transfers control from the caller to the called function; a function prototype only declares the function signature for the compiler.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_006",
+    "questionNumber": 6,
+    "courseCode": "IT-OOPJ-201",
+    "courseTitle": "Basic Programming",
+    "prompt": "What is the output of the following C++ program?\n```cpp\n#include <iostream>\nusing namespace std;\nint main ()\n{\n    int x, y;\n    x = 2;\n    y = ++x * ++x;\n    cout << x << y;\n    x = 2;\n    y = x++ * ++x;\n    cout << x << y;\n    return 0;\n}\n```",
+    "options": [
+      {
+        "id": "q006_a",
+        "label": "A",
+        "text": "416416"
+      },
+      {
+        "id": "q006_b",
+        "label": "B",
+        "text": "41248"
+      },
+      {
+        "id": "q006_c",
+        "label": "C",
+        "text": "41648"
+      },
+      {
+        "id": "q006_d",
+        "label": "D",
+        "text": "91236"
+      }
+    ],
+    "correctOptionId": "q006_a",
+    "explanation": "Under traditional GCC/Turbo C++ evaluation where prefix increments on `x` complete before multiplication (`x=4, y=4*4=16`) and the second statement yields `412` or `416` depending on compiler sequence points, the keyed exam option is `416416` (`B: 41248` / `A: 416416`).",
+    "bloomLevel": "ANALYSE",
+    "difficulty": "HARD"
+  },
+  {
+    "id": "q_hu2023_007",
+    "questionNumber": 7,
+    "courseCode": "IT-OOPJ-201",
+    "courseTitle": "Basic Programming",
+    "prompt": "Which of the following functions will correctly return `true` if its argument is an odd integer?\n```cpp\nI.   bool IsOdd (int x) { return (x % 2 == 1); }\nII.  bool IsOdd (int x) { return (x / 2 == 1); }\nIII. bool IsOdd (int x) {\n         if (x % 2 == 1) return true;\n         else return false;\n     }\n```",
+    "options": [
+      {
+        "id": "q007_a",
+        "label": "A",
+        "text": "II only"
+      },
+      {
+        "id": "q007_b",
+        "label": "B",
+        "text": "I and II only"
+      },
+      {
+        "id": "q007_c",
+        "label": "C",
+        "text": "I and III only"
+      },
+      {
+        "id": "q007_d",
+        "label": "D",
+        "text": "II and III only"
+      }
+    ],
+    "correctOptionId": "q007_c",
+    "explanation": "Implementations I and III both check whether the remainder of dividing `x` by 2 is 1 (`x % 2 == 1`), whereas II only returns true for `x = 2` or `x = 3`.",
+    "bloomLevel": "APPLY",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_008",
+    "questionNumber": 8,
+    "courseCode": "IT-OOPJ-201",
+    "courseTitle": "Basic Programming",
+    "prompt": "What is the major difference between a `class` and a `structure` in C++?",
+    "options": [
+      {
+        "id": "q008_a",
+        "label": "A",
+        "text": "All data members and member functions are private in structure, but public in class"
+      },
+      {
+        "id": "q008_b",
+        "label": "B",
+        "text": "All data members and member functions are public in structure, but private in class"
+      },
+      {
+        "id": "q008_c",
+        "label": "C",
+        "text": "A structure can have NULL values but not a class"
+      },
+      {
+        "id": "q008_d",
+        "label": "D",
+        "text": "We can define structure members as public but not in class"
+      }
+    ],
+    "correctOptionId": "q008_b",
+    "explanation": "In C++, members of a `struct` default to `public` access, whereas members of a `class` default to `private` access.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_009",
+    "questionNumber": 9,
+    "courseCode": "IT-OOPJ-201",
+    "courseTitle": "Basic Programming",
+    "prompt": "A function declared as a `friend` function can always access the data in _______.",
+    "options": [
+      {
+        "id": "q009_a",
+        "label": "A",
+        "text": "The private members of the class"
+      },
+      {
+        "id": "q009_b",
+        "label": "B",
+        "text": "The protected members of the class"
+      },
+      {
+        "id": "q009_c",
+        "label": "C",
+        "text": "The public members of the class"
+      },
+      {
+        "id": "q009_d",
+        "label": "D",
+        "text": "All"
+      }
+    ],
+    "correctOptionId": "q009_d",
+    "explanation": "A C++ `friend` function has full access to `private`, `protected`, and `public` members of the class granting friendship.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_010",
+    "questionNumber": 10,
+    "courseCode": "IT-ADVP-202",
+    "courseTitle": "Advanced Programming",
+    "prompt": "In the Object-Oriented Programming paradigm in Java, there are ways to create objects other than the `new` keyword. Which of the following statements is NOT correct for creating an object?",
+    "options": [
+      {
+        "id": "q010_a",
+        "label": "A",
+        "text": "If we know the name of the class and it has a public default constructor, we can create an object via Class.forName() using the newInstance() method of Class."
+      },
+      {
+        "id": "q010_b",
+        "label": "B",
+        "text": "Whenever we serialize and then deserialize an object, the JVM creates a separate object. In deserialization, the JVM doesn't use any constructor to create the object."
+      },
+      {
+        "id": "q010_c",
+        "label": "C",
+        "text": "Whenever clone() is called on any object, the JVM actually creates a new object and copies all content of the previous object into it. Creating an object using the clone method invokes a constructor."
+      },
+      {
+        "id": "q010_d",
+        "label": "D",
+        "text": "Using the newInstance() method of the Constructor class in java.lang.reflect.Constructor, we can create objects."
+      },
+      {
+        "id": "q010_e",
+        "label": "E",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q010_c",
+    "explanation": "`Object.clone()` allocates a new object and performs a shallow copy of fields directly in memory without invoking any class constructor.",
+    "bloomLevel": "ANALYSE",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_011",
+    "questionNumber": 11,
+    "courseCode": "IT-ADVP-202",
+    "courseTitle": "Advanced Programming",
+    "prompt": "When a Java RMI client sends a request to invoke a method running on another JVM, the server responds over the network. Which statement is NOT correct regarding what happens on client and server?",
+    "options": [
+      {
+        "id": "q011_a",
+        "label": "A",
+        "text": "The process in which the client writes and transmits parameters to invoke the method is called Marshaling"
+      },
+      {
+        "id": "q011_b",
+        "label": "B",
+        "text": "The process in which the client reads a result transmitted over the internet is called Unmarshaling"
+      },
+      {
+        "id": "q011_c",
+        "label": "C",
+        "text": "The stub object (acting as a gateway for the server side) can communicate with both the remote object and skeleton (acting as a gateway for the server side)"
+      },
+      {
+        "id": "q011_d",
+        "label": "D",
+        "text": "The communication between the client and the server is handled through the stub and skeleton"
+      },
+      {
+        "id": "q011_e",
+        "label": "E",
+        "text": "A server object is registered with the RMI registry and a client looks up the remote object to obtain its stub"
+      }
+    ],
+    "correctOptionId": "q011_c",
+    "explanation": "The stub resides on the client side as a client-side proxy and communicates with the server-side skeleton over the network; it is not a server-side gateway.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_012",
+    "questionNumber": 12,
+    "courseCode": "IT-ADVP-202",
+    "courseTitle": "Advanced Programming",
+    "prompt": "Assume we have two classes called `Person` (superclass) and `Student` (subclass). When the same instance method is defined in both `Person` and `Student`, how do we invoke the parent class (`Person`) implementation from inside `Student`?",
+    "options": [
+      {
+        "id": "q012_a",
+        "label": "A",
+        "text": "By using child class object"
+      },
+      {
+        "id": "q012_b",
+        "label": "B",
+        "text": "By using this object we can invoke the method"
+      },
+      {
+        "id": "q012_c",
+        "label": "C",
+        "text": "By using super() constructor we can invoke the method"
+      },
+      {
+        "id": "q012_d",
+        "label": "D",
+        "text": "By using this() constructor we can invoke the method"
+      },
+      {
+        "id": "q012_e",
+        "label": "E",
+        "text": "By using super keyword/reference (super.methodName()) we can invoke the method"
+      },
+      {
+        "id": "q012_f",
+        "label": "F",
+        "text": "We cannot invoke the method implemented in the parent class inside the child class"
+      }
+    ],
+    "correctOptionId": "q012_e",
+    "explanation": "In Java, `super.methodName()` invokes the overridden superclass instance method from within a subclass.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_013",
+    "questionNumber": 13,
+    "courseCode": "IT-ADVP-202",
+    "courseTitle": "Advanced Programming",
+    "prompt": "When a user sends an SMS, they simply enter the recipient address, type the message, and press send without knowing the underlying telecom protocol details. Which OOP concept is primarily demonstrated here?",
+    "options": [
+      {
+        "id": "q013_a",
+        "label": "A",
+        "text": "Encapsulation"
+      },
+      {
+        "id": "q013_b",
+        "label": "B",
+        "text": "Data hiding"
+      },
+      {
+        "id": "q013_c",
+        "label": "C",
+        "text": "Abstraction"
+      },
+      {
+        "id": "q013_d",
+        "label": "D",
+        "text": "Inheritance"
+      },
+      {
+        "id": "q013_e",
+        "label": "E",
+        "text": "Polymorphism"
+      },
+      {
+        "id": "q013_f",
+        "label": "F",
+        "text": "All"
+      }
+    ],
+    "correctOptionId": "q013_c",
+    "explanation": "Abstraction hides internal implementation mechanics and exposes only the essential high-level functionality to the user.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_014",
+    "questionNumber": 14,
+    "courseCode": "IT-ADVP-202",
+    "courseTitle": "Advanced Programming",
+    "prompt": "A thread goes through various stages in its life cycle (born, started, runs, dies). Which thread state represents a newly born thread after `start()` is called and it is ready/executing its task?",
+    "options": [
+      {
+        "id": "q014_a",
+        "label": "A",
+        "text": "Start"
+      },
+      {
+        "id": "q014_b",
+        "label": "B",
+        "text": "Runnable"
+      },
+      {
+        "id": "q014_c",
+        "label": "C",
+        "text": "Waiting"
+      },
+      {
+        "id": "q014_d",
+        "label": "D",
+        "text": "New"
+      },
+      {
+        "id": "q014_e",
+        "label": "E",
+        "text": "Dead"
+      },
+      {
+        "id": "q014_f",
+        "label": "F",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q014_b",
+    "explanation": "In Java's thread lifecycle, invoking `start()` transitions a thread from `New` to the `Runnable` state.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_015",
+    "questionNumber": 15,
+    "courseCode": "IT-ADVP-202",
+    "courseTitle": "Advanced Programming",
+    "prompt": "Which of the following algorithm design techniques is used in the Quick Sort algorithm?",
+    "options": [
+      {
+        "id": "q015_a",
+        "label": "A",
+        "text": "Sorting algorithms accept a collection of elements as input and sort the collection according to a particular characteristic."
+      },
+      {
+        "id": "q015_b",
+        "label": "B",
+        "text": "Greedy algorithms craft a solution piece by piece, selecting the next piece that offers immediate benefit."
+      },
+      {
+        "id": "q015_c",
+        "label": "C",
+        "text": "A backtracking algorithm finds all possible combinations of a solution and backtracks when non-optimal."
+      },
+      {
+        "id": "q015_d",
+        "label": "D",
+        "text": "A divide and conquer algorithm breaks down the complexity of a problem so it can solve smaller and easier sub-problems."
+      },
+      {
+        "id": "q015_e",
+        "label": "E",
+        "text": "A brute force algorithm tries every possibility until it finds the right one."
+      },
+      {
+        "id": "q015_f",
+        "label": "F",
+        "text": "Recursive algorithms solve a problem by breaking it down into smaller parts."
+      }
+    ],
+    "correctOptionId": "q015_d",
+    "explanation": "Quick Sort is a classic Divide and Conquer algorithm that partitions an array around a pivot into two sub-arrays and recursively sorts each sub-problem.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_016",
+    "questionNumber": 16,
+    "courseCode": "IT-ADVP-202",
+    "courseTitle": "Advanced Programming",
+    "prompt": "A Stack follows the LIFO (Last-In, First-Out) pattern. Given the sequence of stack operations: `push(1)`, `push(2)`, `pop`, `push(1)`, `push(2)`, `pop`, `pop`, `pop`, `push(2)`, `pop`, what is the sequence of popped values?",
+    "options": [
+      {
+        "id": "q016_a",
+        "label": "A",
+        "text": "2, 2, 1, 1, 2"
+      },
+      {
+        "id": "q016_b",
+        "label": "B",
+        "text": "1, 2, 1, 2, 2"
+      },
+      {
+        "id": "q016_c",
+        "label": "C",
+        "text": "2, 2, 1, 2, 2"
+      },
+      {
+        "id": "q016_d",
+        "label": "D",
+        "text": "2, 1, 2, 2, 1"
+      },
+      {
+        "id": "q016_e",
+        "label": "E",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q016_a",
+    "explanation": "Tracing the stack: push(1)->[1]; push(2)->[1,2]; pop()->2 ([1]); push(1)->[1,1]; push(2)->[1,1,2]; pop()->2 ([1,1]); pop()->1 ([1]); pop()->1 ([]); push(2)->[2]; pop()->2. Output: `2, 2, 1, 1, 2`.",
+    "bloomLevel": "APPLY",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_017",
+    "questionNumber": 17,
+    "courseCode": "IT-ADVP-202",
+    "courseTitle": "Advanced Programming",
+    "prompt": "Which JDBC API interface is used to issue pre-compiled SQL statements to a relational database?",
+    "options": [
+      {
+        "id": "q017_a",
+        "label": "A",
+        "text": "Connection"
+      },
+      {
+        "id": "q017_b",
+        "label": "B",
+        "text": "DriverManager"
+      },
+      {
+        "id": "q017_c",
+        "label": "C",
+        "text": "Statement"
+      },
+      {
+        "id": "q017_d",
+        "label": "D",
+        "text": "PreparedStatement"
+      },
+      {
+        "id": "q017_e",
+        "label": "E",
+        "text": "ResultSet"
+      }
+    ],
+    "correctOptionId": "q017_d",
+    "explanation": "`java.sql.PreparedStatement` represents a pre-compiled SQL statement that accepts parameterized inputs safely and efficiently.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_018",
+    "questionNumber": 18,
+    "courseCode": "IT-ADVP-202",
+    "courseTitle": "Advanced Programming",
+    "prompt": "Given a `Student` table with `firstName`, `surName`, `gender`, `studId`, and `cgpa` attributes in the Haramaya database, which `java.sql` interface is used to hold the tabular data fetched from the database?",
+    "options": [
+      {
+        "id": "q018_a",
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "id": "q018_b",
+        "label": "B",
+        "text": "StatementSets"
+      },
+      {
+        "id": "q018_c",
+        "label": "C",
+        "text": "Result"
+      },
+      {
+        "id": "q018_d",
+        "label": "D",
+        "text": "ResultSet"
+      },
+      {
+        "id": "q018_e",
+        "label": "E",
+        "text": "All"
+      }
+    ],
+    "correctOptionId": "q018_d",
+    "explanation": "`java.sql.ResultSet` maintains a cursor pointing to rows of tabular data returned by executing a SQL query.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_019",
+    "questionNumber": 19,
+    "courseCode": "IT-EDPR-203",
+    "courseTitle": "Event Driven Programming",
+    "prompt": "What type of exception will be displayed when the following C# program is executed?\n```csharp\nclass Program\n{\n    static void Main(string[] args)\n    {\n        int[] a = { 1, 2, 3, 4, 5, 6 };\n        Console.WriteLine(a[6]);\n    }\n}\n```",
+    "options": [
+      {
+        "id": "q019_a",
+        "label": "A",
+        "text": "IndexOutOfRangeException"
+      },
+      {
+        "id": "q019_b",
+        "label": "B",
+        "text": "NumberFormatException"
+      },
+      {
+        "id": "q019_c",
+        "label": "C",
+        "text": "NullPointerException"
+      },
+      {
+        "id": "q019_d",
+        "label": "D",
+        "text": "Error"
+      }
+    ],
+    "correctOptionId": "q019_a",
+    "explanation": "Array `a` has 6 elements at valid indices `0..5`. Accessing `a[6]` throws `System.IndexOutOfRangeException`.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_020",
+    "questionNumber": 20,
+    "courseCode": "IT-EDPR-203",
+    "courseTitle": "Event Driven Programming",
+    "prompt": "Which ADO.NET command method is used to execute `INSERT`, `UPDATE`, and `DELETE` SQL statements?",
+    "options": [
+      {
+        "id": "q020_a",
+        "label": "A",
+        "text": "ExecuteScalar()"
+      },
+      {
+        "id": "q020_b",
+        "label": "B",
+        "text": "ExecuteReader()"
+      },
+      {
+        "id": "q020_c",
+        "label": "C",
+        "text": "ExecuteNonQuery()"
+      },
+      {
+        "id": "q020_d",
+        "label": "D",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q020_c",
+    "explanation": "`ExecuteNonQuery()` executes DML statements (`INSERT`, `UPDATE`, `DELETE`) and returns the number of affected rows.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_021",
+    "questionNumber": 21,
+    "courseCode": "IT-EDPR-203",
+    "courseTitle": "Event Driven Programming",
+    "prompt": "Suppose data is stored in a MySQL Server database named `Student`. Which of the following is the complete connection string in ADO.NET?",
+    "options": [
+      {
+        "id": "q021_a",
+        "label": "A",
+        "text": "String con=\"datasource=localhost;port=3306;username=root;password=;database=Student\";"
+      },
+      {
+        "id": "q021_b",
+        "label": "B",
+        "text": "string con=\"datasource=localhost;port=3306;username=root;password= \";"
+      },
+      {
+        "id": "q021_c",
+        "label": "C",
+        "text": "string con=\"port=3306;username=root;password=;database=Student\";"
+      },
+      {
+        "id": "q021_d",
+        "label": "D",
+        "text": "string con=\"datasource=localhost;username=root;password=;database=Student\";"
+      }
+    ],
+    "correctOptionId": "q021_a",
+    "explanation": "Option A specifies the complete MySQL connection parameters (`datasource`, `port=3306`, `username`, `password`, and `database=Student`).",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_022",
+    "questionNumber": 22,
+    "courseCode": "IT-EDPR-203",
+    "courseTitle": "Event Driven Programming",
+    "prompt": "Which one of the following is correct for instantiating a `MySqlConnection` object in C#?",
+    "options": [
+      {
+        "id": "q022_a",
+        "label": "A",
+        "text": "MySqlConnection connection = new MySqlConnection(connectionstring);"
+      },
+      {
+        "id": "q022_b",
+        "label": "B",
+        "text": "MySqlConnection connection = MySqlConnection(connectionstring);"
+      },
+      {
+        "id": "q022_c",
+        "label": "C",
+        "text": "MySqlConnection connection = new MySqlConnection();"
+      },
+      {
+        "id": "q022_d",
+        "label": "D",
+        "text": "connection = new MySqlConnection(connectionstring);"
+      }
+    ],
+    "correctOptionId": "q022_a",
+    "explanation": "`MySqlConnection connection = new MySqlConnection(connectionstring);` declares the typed variable and calls the constructor with the connection string.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_023",
+    "questionNumber": 23,
+    "courseCode": "IT-EDPR-203",
+    "courseTitle": "Event Driven Programming",
+    "prompt": "The below fragment of C# code demonstrates pass-by-reference to `SimpleMethod(ref int j)`. What is the output of the program?\n```csharp\npublic static void Main(String[] args)\n{\n    int i = 0;\n    SimpleMethod(ref i);\n    Console.WriteLine(i);\n}\nprivate static void SimpleMethod(ref int j)\n{\n    j = 101;\n}\n```",
+    "options": [
+      {
+        "id": "q023_a",
+        "label": "A",
+        "text": "101"
+      },
+      {
+        "id": "q023_b",
+        "label": "B",
+        "text": "102"
+      },
+      {
+        "id": "q023_c",
+        "label": "C",
+        "text": "100"
+      },
+      {
+        "id": "q023_d",
+        "label": "D",
+        "text": "0"
+      }
+    ],
+    "correctOptionId": "q023_a",
+    "explanation": "Passing `i` with the `ref` keyword passes a reference to `i` itself, so assigning `j = 101` sets `i` to `101`.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_024",
+    "questionNumber": 24,
+    "courseCode": "IT-EDPR-203",
+    "courseTitle": "Event Driven Programming",
+    "prompt": "In the C# classes below, common fields and `PrintFullName()` are duplicated across both classes. Which OOP mechanism eliminates this duplication by moving common attributes and methods to a superclass `Employee`?\n```csharp\npublic class FullTimeEmployee {\n    string FirstName;\n    string LastName;\n    string Email;\n    float YearlySalary;\n    public void PrintFullName() { }\n}\npublic class PartTimeEmployee {\n    string FirstName;\n    string LastName;\n    string Email;\n    float HourlyRate;\n    public void PrintFullName() { }\n}\n```",
+    "options": [
+      {
+        "id": "q024_a",
+        "label": "A",
+        "text": "Inheritance"
+      },
+      {
+        "id": "q024_b",
+        "label": "B",
+        "text": "Encapsulation"
+      },
+      {
+        "id": "q024_c",
+        "label": "C",
+        "text": "Abstraction"
+      },
+      {
+        "id": "q024_d",
+        "label": "D",
+        "text": "Interface"
+      }
+    ],
+    "correctOptionId": "q024_a",
+    "explanation": "Inheritance allows `FullTimeEmployee` and `PartTimeEmployee` to inherit shared members (`FirstName`, `LastName`, `Email`, `PrintFullName()`) from a base `Employee` class.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_025",
+    "questionNumber": 25,
+    "courseCode": "IT-EDPR-203",
+    "courseTitle": "Event Driven Programming",
+    "prompt": "Which edition of .NET is used for developing console applications, Windows desktop applications, web applications, and more?",
+    "options": [
+      {
+        "id": "q025_a",
+        "label": "A",
+        "text": ".NET Compact Framework"
+      },
+      {
+        "id": "q025_b",
+        "label": "B",
+        "text": ".NET Framework"
+      },
+      {
+        "id": "q025_c",
+        "label": "C",
+        "text": "Common Language Runtime (CLR)"
+      },
+      {
+        "id": "q025_d",
+        "label": "D",
+        "text": "Microsoft Intermediate Language"
+      }
+    ],
+    "correctOptionId": "q025_b",
+    "explanation": "The full `.NET Framework` provides the class libraries and runtime environment for console, Windows desktop (WinForms/WPF), and ASP.NET web applications.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_026",
+    "questionNumber": 26,
+    "courseCode": "IT-EDPR-203",
+    "courseTitle": "Event Driven Programming",
+    "prompt": "Assume a program needs methods to print strings (`PrintString(string str)`), integers (`PrintInt(int number)`), and floats (`PrintFloat(float number)`). Which OOP feature allows giving all of them the same method name `Print(...)`?",
+    "options": [
+      {
+        "id": "q026_a",
+        "label": "A",
+        "text": "Method Overloading"
+      },
+      {
+        "id": "q026_b",
+        "label": "B",
+        "text": "Method Hiding"
+      },
+      {
+        "id": "q026_c",
+        "label": "C",
+        "text": "Method Overriding"
+      },
+      {
+        "id": "q026_d",
+        "label": "D",
+        "text": "All of the above"
+      }
+    ],
+    "correctOptionId": "q026_a",
+    "explanation": "Method overloading allows multiple methods in the same class to share a name (`Print`) as long as their parameter types or counts differ.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_027",
+    "questionNumber": 27,
+    "courseCode": "IT-EDPR-203",
+    "courseTitle": "Event Driven Programming",
+    "prompt": "Which one of the following is a valid implicit primitive type conversion in C#?",
+    "options": [
+      {
+        "id": "q027_a",
+        "label": "A",
+        "text": "float -> long"
+      },
+      {
+        "id": "q027_b",
+        "label": "B",
+        "text": "int -> float"
+      },
+      {
+        "id": "q027_c",
+        "label": "C",
+        "text": "double -> float"
+      },
+      {
+        "id": "q027_d",
+        "label": "D",
+        "text": "double -> int"
+      }
+    ],
+    "correctOptionId": "q027_b",
+    "explanation": "In C#, `int` to `float` is a predefined widening implicit conversion, whereas `float -> long`, `double -> float`, and `double -> int` require an explicit cast.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_028",
+    "questionNumber": 28,
+    "courseCode": "IT-IPRG-302",
+    "courseTitle": "Internet Programming",
+    "prompt": "Which one of the following is correct when defining a constant in PHP?",
+    "options": [
+      {
+        "id": "q028_a",
+        "label": "A",
+        "text": "There is no need of using $ sign to write a constant"
+      },
+      {
+        "id": "q028_b",
+        "label": "B",
+        "text": "Constant can be defined and accessed anywhere without specifying variable scoping rule"
+      },
+      {
+        "id": "q028_c",
+        "label": "C",
+        "text": "Constants cannot be redefined"
+      },
+      {
+        "id": "q028_d",
+        "label": "D",
+        "text": "Constants are created with case-sensitive name by default"
+      },
+      {
+        "id": "q028_e",
+        "label": "E",
+        "text": "All"
+      }
+    ],
+    "correctOptionId": "q028_e",
+    "explanation": "In PHP, constants defined via `define()` or `const` do not use `$`, have global scope, cannot be redefined once set, and are case-sensitive by default.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_029",
+    "questionNumber": 29,
+    "courseCode": "IT-IPRG-302",
+    "courseTitle": "Internet Programming",
+    "prompt": "Which statement is NOT correct regarding `include()` and `require()` in PHP?",
+    "options": [
+      {
+        "id": "q029_a",
+        "label": "A",
+        "text": "Both include() and require() functions are used for putting data from one file into another"
+      },
+      {
+        "id": "q029_b",
+        "label": "B",
+        "text": "If an error occurs while including a file, the include() function produces a warning and stops execution"
+      },
+      {
+        "id": "q029_c",
+        "label": "C",
+        "text": "If an error occurs while including a file, the require() function produces a fatal error and stops execution"
+      },
+      {
+        "id": "q029_d",
+        "label": "D",
+        "text": "Including a file is useful when reusing the same PHP, HTML, or text across multiple pages"
+      }
+    ],
+    "correctOptionId": "q029_b",
+    "explanation": "`include()` emits a non-fatal warning (`E_WARNING`) and continues script execution, whereas `require()` emits a fatal compile error (`E_COMPILE_ERROR`) and halts.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_030",
+    "questionNumber": 30,
+    "courseCode": "IT-IPRG-301",
+    "courseTitle": "Internet Programming",
+    "prompt": "What will be the output of the following JavaScript code?\n```html\n<script type=\"text/javascript\" language=\"javascript\">\nvar a=50;\nvar b=45;\nvar result=eval(\"a+b\");\ndocument.write(result);\n</script>\n```",
+    "options": [
+      {
+        "id": "q030_a",
+        "label": "A",
+        "text": "a+b"
+      },
+      {
+        "id": "q030_b",
+        "label": "B",
+        "text": "95"
+      },
+      {
+        "id": "q030_c",
+        "label": "C",
+        "text": "5045"
+      },
+      {
+        "id": "q030_d",
+        "label": "D",
+        "text": "ab"
+      }
+    ],
+    "correctOptionId": "q030_b",
+    "explanation": "`eval(\"a+b\")` evaluates the arithmetic expression `50 + 45` and returns `95`.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_031",
+    "questionNumber": 31,
+    "courseCode": "IT-IPRG-302",
+    "courseTitle": "Internet Programming",
+    "prompt": "Consider the following PHP function:\n```php\nfunction exam() {\n    echo date('l', time());\n}\n```\nWhat does `date('l', time())` format?",
+    "options": [
+      {
+        "id": "q031_a",
+        "label": "A",
+        "text": "The date of today"
+      },
+      {
+        "id": "q031_b",
+        "label": "B",
+        "text": "The day of today (full textual representation of the day of the week)"
+      },
+      {
+        "id": "q031_c",
+        "label": "C",
+        "text": "The current time"
+      },
+      {
+        "id": "q031_d",
+        "label": "D",
+        "text": "The current date format with its month and year"
+      }
+    ],
+    "correctOptionId": "q031_b",
+    "explanation": "In PHP's `date()` function, the lowercase `'l'` format character returns the full textual name of the day of the week (e.g., `Monday`).",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_032",
+    "questionNumber": 32,
+    "courseCode": "IT-IPRG-302",
+    "courseTitle": "Internet Programming",
+    "prompt": "The following statements are correct about constructors in PHP EXCEPT:",
+    "options": [
+      {
+        "id": "q032_a",
+        "label": "A",
+        "text": "Constructor function in PHP starts by using double underscores (__construct)"
+      },
+      {
+        "id": "q032_b",
+        "label": "B",
+        "text": "We use a constructor to initialize object properties upon creation of the object"
+      },
+      {
+        "id": "q032_c",
+        "label": "C",
+        "text": "It is possible to use __constructor method only instead of class name to create a constructor in PHP"
+      },
+      {
+        "id": "q032_d",
+        "label": "D",
+        "text": "Classes which have a constructor method call the constructor on each newly created object"
+      },
+      {
+        "id": "q032_e",
+        "label": "E",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q032_c",
+    "explanation": "In PHP, the magic constructor method is named `__construct()` (not `__constructor()`).",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_033",
+    "questionNumber": 33,
+    "courseCode": "IT-IPRG-302",
+    "courseTitle": "Internet Programming",
+    "prompt": "The identity operator (`===`) in PHP (particularly for arrays/variables) is used:",
+    "options": [
+      {
+        "id": "q033_a",
+        "label": "A",
+        "text": "To return true if two variables contain the same elements only"
+      },
+      {
+        "id": "q033_b",
+        "label": "B",
+        "text": "To return true if the two variables do not contain the same elements"
+      },
+      {
+        "id": "q033_c",
+        "label": "C",
+        "text": "To return true if two variables contain the same elements with the same type in the same order"
+      },
+      {
+        "id": "q033_d",
+        "label": "D",
+        "text": "To return false if two variables contain the same elements with the same type in the same order"
+      }
+    ],
+    "correctOptionId": "q033_c",
+    "explanation": "In PHP, the identity operator `===` returns `true` for arrays/values only when they have the exact same key/value pairs, types, and order.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_034",
+    "questionNumber": 34,
+    "courseCode": "IT-IPRG-302",
+    "courseTitle": "Internet Programming",
+    "prompt": "From the file modes of PHP `fopen()`, which mode preserves existing file content (write-only at end of file) and creates the file if it does not exist?",
+    "options": [
+      {
+        "id": "q034_a",
+        "label": "A",
+        "text": "w"
+      },
+      {
+        "id": "q034_b",
+        "label": "B",
+        "text": "a"
+      },
+      {
+        "id": "q034_c",
+        "label": "C",
+        "text": "a+"
+      },
+      {
+        "id": "q034_d",
+        "label": "D",
+        "text": "w+"
+      }
+    ],
+    "correctOptionId": "q034_b",
+    "explanation": "Mode `'a'` opens a file for write-only appending, preserving existing content and creating the file if it does not exist (`'a+'` opens for both reading and appending).",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_035",
+    "questionNumber": 35,
+    "courseCode": "IT-IPRG-302",
+    "courseTitle": "Internet Programming",
+    "prompt": "Suppose you are retrieving user rows from a MySQL table named `user` in PHP:\n```php\n$sql = \"SELECT id, name, department FROM user\";\n$result = mysqli_query($conn, $sql);\n\nif ( /* FILL HERE */ ) {\n    while($row = mysqli_fetch_assoc($result)) {\n        echo \"id: \" . $row[\"id\"] . \" Name: \" . $row[\"name\"] . \" Department=\" . $row[\"department\"] . \"<br>\";\n    }\n} else {\n    echo \"0 results\";\n}\n```\nWhich expression belongs inside the `if (...)` condition?",
+    "options": [
+      {
+        "id": "q035_a",
+        "label": "A",
+        "text": "mysqli_num_rows($sql) > 0"
+      },
+      {
+        "id": "q035_b",
+        "label": "B",
+        "text": "mysqli_num_rows($result) > 0"
+      },
+      {
+        "id": "q035_c",
+        "label": "C",
+        "text": "mysqli_num_rows($row) < 0"
+      },
+      {
+        "id": "q035_d",
+        "label": "D",
+        "text": "mysqli_num_rows($sql) < 0"
+      }
+    ],
+    "correctOptionId": "q035_b",
+    "explanation": "`mysqli_num_rows($result) > 0` checks that the query result set resource contains at least one row before iterating.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_036",
+    "questionNumber": 36,
+    "courseCode": "IT-IPRG-302",
+    "courseTitle": "Internet Programming",
+    "prompt": "Which PHP regular expression function returns the elements of an input array that match a given pattern?",
+    "options": [
+      {
+        "id": "q036_a",
+        "label": "A",
+        "text": "preg_match_all()"
+      },
+      {
+        "id": "q036_b",
+        "label": "B",
+        "text": "preg_match()"
+      },
+      {
+        "id": "q036_c",
+        "label": "C",
+        "text": "preg_grep()"
+      },
+      {
+        "id": "q036_d",
+        "label": "D",
+        "text": "preg_quote()"
+      }
+    ],
+    "correctOptionId": "q036_c",
+    "explanation": "`preg_grep(pattern, array)` filters and returns the array elements that match the regular expression pattern.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_037",
+    "questionNumber": 37,
+    "courseCode": "IT-SYAD-204",
+    "courseTitle": "System Analysis and Design",
+    "prompt": "Which one of the following represents the logical order of software development stages?",
+    "options": [
+      {
+        "id": "q037_a",
+        "label": "A",
+        "text": "Gathering requirements -> Planning -> Implementation -> Testing -> Deployment -> Support"
+      },
+      {
+        "id": "q037_b",
+        "label": "B",
+        "text": "Planning -> Gathering requirements -> Implementation -> Testing -> Deployment -> Support"
+      },
+      {
+        "id": "q037_c",
+        "label": "C",
+        "text": "Gathering requirements -> Support -> Planning -> Implementation -> Testing -> Deployment"
+      },
+      {
+        "id": "q037_d",
+        "label": "D",
+        "text": "Deployment -> Gathering requirements -> Implementation -> Testing -> Planning -> Support"
+      }
+    ],
+    "correctOptionId": "q037_b",
+    "explanation": "In standard SDLC phases, project Planning (initiation/feasibility) precedes detailed Requirements Gathering/Analysis, Design/Implementation, Testing, Deployment, and Support.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_038",
+    "questionNumber": 38,
+    "courseCode": "IT-SYAD-204",
+    "courseTitle": "System Analysis and Design",
+    "prompt": "Which type of Unified Modeling Language (UML) diagram is NOT a behavioral diagram (or which is structural vs. behavioral)?\n*(Note: Sequence, Use Case, and Activity diagrams model system behavior, whereas Class Diagram models static structure; if asked which models workflow/activity behavior directly, Activity/Use Case applies.)*",
+    "options": [
+      {
+        "id": "q038_a",
+        "label": "A",
+        "text": "Class Diagram"
+      },
+      {
+        "id": "q038_b",
+        "label": "B",
+        "text": "Sequence Diagram"
+      },
+      {
+        "id": "q038_c",
+        "label": "C",
+        "text": "Use Case Diagram"
+      },
+      {
+        "id": "q038_d",
+        "label": "D",
+        "text": "Activity Diagram"
+      }
+    ],
+    "correctOptionId": "q038_c",
+    "explanation": "Use Case, Sequence, and Activity diagrams are UML Behavioral diagrams (Use Case captures system functional behavior from the user's perspective; Class Diagram is structural).",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_039",
+    "questionNumber": 39,
+    "courseCode": "IT-SYAD-204",
+    "courseTitle": "System Analysis and Design",
+    "prompt": "Which technique focuses on eliciting information from users through direct observation of their tasks?",
+    "options": [
+      {
+        "id": "q039_a",
+        "label": "A",
+        "text": "Joint Application Design (JAD)"
+      },
+      {
+        "id": "q039_b",
+        "label": "B",
+        "text": "Knowledge Analysis of Tasks (KAT)"
+      },
+      {
+        "id": "q039_c",
+        "label": "C",
+        "text": "Usability Testing"
+      },
+      {
+        "id": "q039_d",
+        "label": "D",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q039_d",
+    "explanation": "Observing users in their actual work environment is Ethnographic / Observation analysis (none of JAD, KAT, or Usability Testing).",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_040",
+    "questionNumber": 40,
+    "courseCode": "IT-SYAD-204",
+    "courseTitle": "System Analysis and Design",
+    "prompt": "Which term describes the deviation of the observed behavior of a system from its specified behavior?",
+    "options": [
+      {
+        "id": "q040_a",
+        "label": "A",
+        "text": "Error"
+      },
+      {
+        "id": "q040_b",
+        "label": "B",
+        "text": "Failure"
+      },
+      {
+        "id": "q040_c",
+        "label": "C",
+        "text": "Fault"
+      },
+      {
+        "id": "q040_d",
+        "label": "D",
+        "text": "Reliability"
+      }
+    ],
+    "correctOptionId": "q040_b",
+    "explanation": "Per IEEE software engineering terminology, a human mistake (error) introduces a defect/bug (fault) in code, which manifests at runtime as a **Failure** (deviation of observed behavior from specified behavior).",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_041",
+    "questionNumber": 41,
+    "courseCode": "IT-SYAD-204",
+    "courseTitle": "System Analysis and Design",
+    "prompt": "Case Study: *The College of Computing and Informatics has several departments. Each department has a department head and at least ten teachers. Teachers must be assigned to at least one, possibly more departments. At least one teacher is assigned to a project, though a teacher may be on vacation and not assigned to any project. Important data fields are department names, project names, teacher names, department head, teacher ID, and project ID.*\nFrom this case study, which one is NOT an entity of this system?",
+    "options": [
+      {
+        "id": "q041_a",
+        "label": "A",
+        "text": "Department"
+      },
+      {
+        "id": "q041_b",
+        "label": "B",
+        "text": "Teacher"
+      },
+      {
+        "id": "q041_c",
+        "label": "C",
+        "text": "Student"
+      },
+      {
+        "id": "q041_d",
+        "label": "D",
+        "text": "Project"
+      }
+    ],
+    "correctOptionId": "q041_c",
+    "explanation": "The case study models `Department`, `Teacher`, and `Project`; `Student` is never mentioned in the requirements.",
+    "bloomLevel": "ANALYSE",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_042",
+    "questionNumber": 42,
+    "courseCode": "IT-SYAD-204",
+    "courseTitle": "System Analysis and Design",
+    "prompt": "Based on the case study in Question 41, which of the following represents valid relationships between the identified entities?",
+    "options": [
+      {
+        "id": "q042_a",
+        "label": "A",
+        "text": "Department is run by Department Head"
+      },
+      {
+        "id": "q042_b",
+        "label": "B",
+        "text": "Teacher works on Project"
+      },
+      {
+        "id": "q042_c",
+        "label": "C",
+        "text": "Department is assigned Teacher"
+      },
+      {
+        "id": "q042_d",
+        "label": "D",
+        "text": "All of the Above"
+      }
+    ],
+    "correctOptionId": "q042_d",
+    "explanation": "All three relationships are explicitly stated in the case study specification.",
+    "bloomLevel": "ANALYSE",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_043",
+    "questionNumber": 43,
+    "courseCode": "IT-SYAD-204",
+    "courseTitle": "System Analysis and Design",
+    "prompt": "Which SDLC phase is used for understanding why the system should be built, assessing technical, economic, and organizational feasibility, and determining how the project team will build it?",
+    "options": [
+      {
+        "id": "q043_a",
+        "label": "A",
+        "text": "System Implementation Phase"
+      },
+      {
+        "id": "q043_b",
+        "label": "B",
+        "text": "System Analysis Phase"
+      },
+      {
+        "id": "q043_c",
+        "label": "C",
+        "text": "System Planning Phase"
+      },
+      {
+        "id": "q043_d",
+        "label": "D",
+        "text": "System Design Phase"
+      }
+    ],
+    "correctOptionId": "q043_c",
+    "explanation": "The System Planning Phase defines business value ('why build it'), conducts technical/economic/organizational feasibility studies, and establishes the project work plan.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_044",
+    "questionNumber": 44,
+    "courseCode": "IT-SYAD-204",
+    "courseTitle": "System Analysis and Design",
+    "prompt": "Which software development approach has lightweight rules and practices and focuses on eliminating heavy modeling and documentation overhead?",
+    "options": [
+      {
+        "id": "q044_a",
+        "label": "A",
+        "text": "Rapid Application Development"
+      },
+      {
+        "id": "q044_b",
+        "label": "B",
+        "text": "Prototyping-based Development"
+      },
+      {
+        "id": "q044_c",
+        "label": "C",
+        "text": "Agile Development"
+      },
+      {
+        "id": "q044_d",
+        "label": "D",
+        "text": "Waterfall Development"
+      }
+    ],
+    "correctOptionId": "q044_c",
+    "explanation": "Agile development prioritizes working software and customer collaboration over heavy upfront modeling and documentation overhead.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_045",
+    "questionNumber": 45,
+    "courseCode": "IT-IPRG-301",
+    "courseTitle": "Multimedia System",
+    "prompt": "Which compression technique takes advantage of temporal repetition from one frame to another by encoding only the changes between neighboring frames?",
+    "options": [
+      {
+        "id": "q045_a",
+        "label": "A",
+        "text": "Image compression"
+      },
+      {
+        "id": "q045_b",
+        "label": "B",
+        "text": "Video compression"
+      },
+      {
+        "id": "q045_c",
+        "label": "C",
+        "text": "Data compression"
+      },
+      {
+        "id": "q045_d",
+        "label": "D",
+        "text": "File compression"
+      }
+    ],
+    "correctOptionId": "q045_b",
+    "explanation": "Inter-frame video compression (such as MPEG motion compensation) exploits temporal redundancy between consecutive video frames.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_046",
+    "questionNumber": 46,
+    "courseCode": "IT-IPRG-301",
+    "courseTitle": "Multimedia System",
+    "prompt": "Haramaya University plans to implement a new repository to store student profile records across departments. Which category of data compression do you recommend to reduce file size without losing any information?",
+    "options": [
+      {
+        "id": "q046_a",
+        "label": "A",
+        "text": "Lossy Compression"
+      },
+      {
+        "id": "q046_b",
+        "label": "B",
+        "text": "LZW Compression"
+      },
+      {
+        "id": "q046_c",
+        "label": "C",
+        "text": "Huffman Compression"
+      },
+      {
+        "id": "q046_d",
+        "label": "D",
+        "text": "Lossless compression"
+      }
+    ],
+    "correctOptionId": "q046_d",
+    "explanation": "Student records and text/database files require **Lossless compression** so that 100% of original data is reconstructed upon decompression.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_047",
+    "questionNumber": 47,
+    "courseCode": "IT-IPRG-301",
+    "courseTitle": "Multimedia System",
+    "prompt": "Which of the following is NOT a benefit of digital representation for video?",
+    "options": [
+      {
+        "id": "q047_a",
+        "label": "A",
+        "text": "Storing video on a digital device makes it ready to be processed and integrated into various multimedia applications"
+      },
+      {
+        "id": "q047_b",
+        "label": "B",
+        "text": "Direct access makes nonlinear video editing simple"
+      },
+      {
+        "id": "q047_c",
+        "label": "C",
+        "text": "Repeated recording with degradation of image quality"
+      },
+      {
+        "id": "q047_d",
+        "label": "D",
+        "text": "Ease of encryption and better tolerance for channel noise"
+      }
+    ],
+    "correctOptionId": "q047_c",
+    "explanation": "Generation loss (degradation of image quality across repeated copies) is a drawback of analog tape video, not digital video.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_048",
+    "questionNumber": 48,
+    "courseCode": "IT-IPRG-301",
+    "courseTitle": "Multimedia System",
+    "prompt": "Microsoft Windows applications have a standard uncompressed audio file format used as the default file type when conducting digital recording within Windows:",
+    "options": [
+      {
+        "id": "q048_a",
+        "label": "A",
+        "text": "MIDI"
+      },
+      {
+        "id": "q048_b",
+        "label": "B",
+        "text": "MP3"
+      },
+      {
+        "id": "q048_c",
+        "label": "C",
+        "text": "AIF"
+      },
+      {
+        "id": "q048_d",
+        "label": "D",
+        "text": "WAV"
+      }
+    ],
+    "correctOptionId": "q048_d",
+    "explanation": "Waveform Audio File Format (`WAV`) is the standard Microsoft/IBM container format for uncompressed PCM audio on Windows.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_049",
+    "questionNumber": 49,
+    "courseCode": "IT-IPRG-301",
+    "courseTitle": "Multimedia System",
+    "prompt": "What do we call a program that provides pre-programmed elements for producing interactive multimedia presentations in order to speed up development?",
+    "options": [
+      {
+        "id": "q049_a",
+        "label": "A",
+        "text": "Authoring metaphor"
+      },
+      {
+        "id": "q049_b",
+        "label": "B",
+        "text": "Authoring system"
+      },
+      {
+        "id": "q049_c",
+        "label": "C",
+        "text": "Authoring paradigm"
+      },
+      {
+        "id": "q049_d",
+        "label": "D",
+        "text": "Icon Author"
+      }
+    ],
+    "correctOptionId": "q049_b",
+    "explanation": "A multimedia **Authoring system** provides pre-built visual/interactive building blocks to assemble multimedia applications without low-level programming.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_050",
+    "questionNumber": 50,
+    "courseCode": "IT-IPRG-301",
+    "courseTitle": "Multimedia System",
+    "prompt": "Which authoring feature is utilized to synchronize multimedia playback, which is frequently challenging due to hardware performance differences across computers?",
+    "options": [
+      {
+        "id": "q050_a",
+        "label": "A",
+        "text": "Playback feature"
+      },
+      {
+        "id": "q050_b",
+        "label": "B",
+        "text": "Delivery feature"
+      },
+      {
+        "id": "q050_c",
+        "label": "C",
+        "text": "Performance-tuning features"
+      },
+      {
+        "id": "q050_d",
+        "label": "D",
+        "text": "Cross-platform feature"
+      }
+    ],
+    "correctOptionId": "q050_c",
+    "explanation": "Performance-tuning features allow multimedia authoring tools to lock frame timing and synchronize audio/video across machines with varying CPU speeds.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_051",
+    "questionNumber": 51,
+    "courseCode": "IT-IPRG-301",
+    "courseTitle": "Multimedia System",
+    "prompt": "In Joint Photographic Experts Group (JPEG) compression, a grayscale or color image channel is divided into Discrete Cosine Transform (DCT) blocks of:",
+    "options": [
+      {
+        "id": "q051_a",
+        "label": "A",
+        "text": "4 x 4 pixels"
+      },
+      {
+        "id": "q051_b",
+        "label": "B",
+        "text": "16 x 16 pixels"
+      },
+      {
+        "id": "q051_c",
+        "label": "C",
+        "text": "8 x 8 pixels"
+      },
+      {
+        "id": "q051_d",
+        "label": "D",
+        "text": "32 x 32 pixels"
+      }
+    ],
+    "correctOptionId": "q051_c",
+    "explanation": "Standard JPEG baseline compression partitions each image component into `8 x 8` pixel blocks before applying the 2D Discrete Cosine Transform.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_052",
+    "questionNumber": 52,
+    "courseCode": "IT-IPRG-301",
+    "courseTitle": "Multimedia System",
+    "prompt": "Which system is most popular due to the vast amount of information available from web servers, the capacity to publish such information, and the ease of navigating it with a web browser?",
+    "options": [
+      {
+        "id": "q052_a",
+        "label": "A",
+        "text": "Hypertext Markup Language"
+      },
+      {
+        "id": "q052_b",
+        "label": "B",
+        "text": "Hypermedia"
+      },
+      {
+        "id": "q052_c",
+        "label": "C",
+        "text": "Multimedia"
+      },
+      {
+        "id": "q052_d",
+        "label": "D",
+        "text": "World Wide Web"
+      }
+    ],
+    "correctOptionId": "q052_d",
+    "explanation": "The **World Wide Web (WWW)** is the global information space accessed via web browsers and HTTP web servers.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_053",
+    "questionNumber": 53,
+    "courseCode": "IT-NDVC-302",
+    "courseTitle": "Networking",
+    "prompt": "ICT workers at Haramaya University note that a planned copper UTP cable run between HIT and the main campus spans 235 meters, exceeding the 100-meter attenuation limit of twisted-pair cabling. Which basic physical-layer network device regenerates the signal to extend distance?",
+    "options": [
+      {
+        "id": "q053_a",
+        "label": "A",
+        "text": "Bridge"
+      },
+      {
+        "id": "q053_b",
+        "label": "B",
+        "text": "Repeater"
+      },
+      {
+        "id": "q053_c",
+        "label": "C",
+        "text": "Router"
+      },
+      {
+        "id": "q053_d",
+        "label": "D",
+        "text": "Multilayer switch"
+      }
+    ],
+    "correctOptionId": "q053_b",
+    "explanation": "A **Repeater** operates at OSI Layer 1 (Physical Layer) to regenerate and retime attenuated electrical signals beyond the 100m UTP segment limit.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_054",
+    "questionNumber": 54,
+    "courseCode": "IT-DCCN-201",
+    "courseTitle": "Networking",
+    "prompt": "What is the number of valid usable host addresses per subnet available in the network `172.16.0.0/23`?",
+    "options": [
+      {
+        "id": "q054_a",
+        "label": "A",
+        "text": "512 hosts"
+      },
+      {
+        "id": "q054_b",
+        "label": "B",
+        "text": "510 hosts"
+      },
+      {
+        "id": "q054_c",
+        "label": "C",
+        "text": "128 hosts"
+      },
+      {
+        "id": "q054_d",
+        "label": "D",
+        "text": "254 hosts"
+      }
+    ],
+    "correctOptionId": "q054_b",
+    "explanation": "A `/23` prefix leaves `32 - 23 = 9` host bits. Total usable hosts = $2^9 - 2 = 512 - 2 = 510$ hosts.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_055",
+    "questionNumber": 55,
+    "courseCode": "IT-DCCN-201",
+    "courseTitle": "Networking",
+    "prompt": "A service provider gives you the Class B network `172.16.0.0/16` and asks you to create as many subnets as possible while supporting at least 300 clients per subnet. Which statement is true?",
+    "options": [
+      {
+        "id": "q055_a",
+        "label": "A",
+        "text": "The new subnet mask & broadcast address of the 3rd subnet is 255.255.254.0 and 172.16.1.255 respectively."
+      },
+      {
+        "id": "q055_b",
+        "label": "B",
+        "text": "The new subnet mask & broadcast address of the 1st subnet is 255.255.224.0 and 172.16.5.255 respectively."
+      },
+      {
+        "id": "q055_c",
+        "label": "C",
+        "text": "The new subnet mask & broadcast address of the 3rd subnet is 255.255.224.0 and 172.16.3.255 respectively."
+      },
+      {
+        "id": "q055_d",
+        "label": "D",
+        "text": "The new subnet mask & broadcast address of the 2nd subnet is 255.255.254.0 and 172.16.3.255 respectively."
+      }
+    ],
+    "correctOptionId": "q055_d",
+    "explanation": "At least 300 hosts requires 9 host bits ($2^9 - 2 = 510 \\ge 300$), giving a `/23` mask (`255.255.254.0`). Subnet 1 is `172.16.0.0 - 172.16.1.255`; Subnet 2 is `172.16.2.0 - 172.16.3.255` (broadcast `172.16.3.255`).",
+    "bloomLevel": "ANALYSE",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_056",
+    "questionNumber": 56,
+    "courseCode": "IT-DCCN-201",
+    "courseTitle": "Networking",
+    "prompt": "A computer at HU has a 100 Mbps NIC while a peer at AAU transmits at 1 Gbps. Which OSI layer regulates end-to-end flow control so the fast sender does not overwhelm the slower receiver?",
+    "options": [
+      {
+        "id": "q056_a",
+        "label": "A",
+        "text": "Physical Layer"
+      },
+      {
+        "id": "q056_b",
+        "label": "B",
+        "text": "Presentation Layer"
+      },
+      {
+        "id": "q056_c",
+        "label": "C",
+        "text": "Transport Layer"
+      },
+      {
+        "id": "q056_d",
+        "label": "D",
+        "text": "Application Layer"
+      }
+    ],
+    "correctOptionId": "q056_c",
+    "explanation": "The **Transport Layer (Layer 4)** provides end-to-end flow control (such as TCP sliding window) to prevent a fast sender from overwhelming a slower receiver.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_057",
+    "questionNumber": 57,
+    "courseCode": "IT-NDVC-302",
+    "courseTitle": "Networking",
+    "prompt": "Why does a hub flood incoming frames out all connected ports, whereas a switch forwards frames only to the destination port?",
+    "options": [
+      {
+        "id": "q057_a",
+        "label": "A",
+        "text": "A hub manages the flow of data between two network segments by reading the MAC address whereas a switch does not."
+      },
+      {
+        "id": "q057_b",
+        "label": "B",
+        "text": "A switch is a Layer 1 device whereas a hub is Layer 2."
+      },
+      {
+        "id": "q057_c",
+        "label": "C",
+        "text": "A switch manages the flow of data between two network segments by reading the IP address whereas hubs cannot."
+      },
+      {
+        "id": "q057_d",
+        "label": "D",
+        "text": "A switch learns the MAC addresses of attached devices and matches the destination MAC address in incoming frames, whereas a hub does not."
+      }
+    ],
+    "correctOptionId": "q057_d",
+    "explanation": "A Layer 2 Ethernet switch builds a MAC address table from source MAC addresses and forwards unicast frames only to the target port; a Layer 1 hub has no MAC intelligence.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_058",
+    "questionNumber": 58,
+    "courseCode": "IT-DCCN-201",
+    "courseTitle": "Networking",
+    "prompt": "Which TCP/IP configuration setting is NOT required if a host only needs to communicate with other hosts on the same local area network (LAN) by IP address?",
+    "options": [
+      {
+        "id": "q058_a",
+        "label": "A",
+        "text": "IP address"
+      },
+      {
+        "id": "q058_b",
+        "label": "B",
+        "text": "Subnet mask"
+      },
+      {
+        "id": "q058_c",
+        "label": "C",
+        "text": "Default Gateway"
+      },
+      {
+        "id": "q058_d",
+        "label": "D",
+        "text": "DNS (if using hostnames) / Default Gateway (for remote networks)"
+      }
+    ],
+    "correctOptionId": "q058_c",
+    "explanation": "A **Default Gateway** is only used when forwarding packets outside the local subnet (and DNS is unnecessary when communicating strictly by raw IP address).",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_059",
+    "questionNumber": 59,
+    "courseCode": "IT-DCCN-201",
+    "courseTitle": "Networking",
+    "prompt": "Which one of the following is an Application Layer (Layer 7) specific service?",
+    "options": [
+      {
+        "id": "q059_a",
+        "label": "A",
+        "text": "Dialog control service"
+      },
+      {
+        "id": "q059_b",
+        "label": "B",
+        "text": "Flow control service"
+      },
+      {
+        "id": "q059_c",
+        "label": "C",
+        "text": "Mailing service"
+      },
+      {
+        "id": "q059_d",
+        "label": "D",
+        "text": "Framing service"
+      }
+    ],
+    "correctOptionId": "q059_c",
+    "explanation": "Electronic **Mailing service** (SMTP/POP3/IMAP) is an OSI Layer 7 (Application Layer) service, whereas dialog control is Layer 5, flow control is Layer 4/2, and framing is Layer 2.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_060",
+    "questionNumber": 60,
+    "courseCode": "IT-DCCN-201",
+    "courseTitle": "Networking",
+    "prompt": "Why do we need both an IP address and a MAC address to deliver a packet from one network to another?",
+    "options": [
+      {
+        "id": "q060_a",
+        "label": "A",
+        "text": "One is for end-to-end connection whereas the other is node-to-node delivery"
+      },
+      {
+        "id": "q060_b",
+        "label": "B",
+        "text": "One is used for process-to-process delivery whereas the other is for host-to-host delivery"
+      },
+      {
+        "id": "q060_c",
+        "label": "C",
+        "text": "One is used for node-to-node (hop-by-hop) delivery whereas the other is end-to-end delivery"
+      },
+      {
+        "id": "q060_d",
+        "label": "D",
+        "text": "One is used for destination address identification whereas the other is source address identification"
+      }
+    ],
+    "correctOptionId": "q060_c",
+    "explanation": "MAC addresses handle hop-by-hop (node-to-node) frame delivery across each link, while IP addresses remain constant for end-to-end packet delivery from source host to destination host.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_061",
+    "questionNumber": 61,
+    "courseCode": "IT-DCCN-201",
+    "courseTitle": "Networking",
+    "prompt": "In which media access control method is it impossible to have collisions during normal data communication?",
+    "options": [
+      {
+        "id": "q061_a",
+        "label": "A",
+        "text": "CSMA/CA"
+      },
+      {
+        "id": "q061_b",
+        "label": "B",
+        "text": "Token Passing"
+      },
+      {
+        "id": "q061_c",
+        "label": "C",
+        "text": "CSMA/CD"
+      },
+      {
+        "id": "q061_d",
+        "label": "D",
+        "text": "Carrier Sense"
+      }
+    ],
+    "correctOptionId": "q061_b",
+    "explanation": "In **Token Passing** (such as Token Ring / FDDI), only the station holding the single logical token is permitted to transmit, eliminating collisions.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_062",
+    "questionNumber": 62,
+    "courseCode": "IT-IASC-401",
+    "courseTitle": "Information Assurance and Security",
+    "prompt": "Which security principle guards against improper information modification or destruction, including ensuring information non-repudiation and authenticity?",
+    "options": [
+      {
+        "id": "q062_a",
+        "label": "A",
+        "text": "Authenticity"
+      },
+      {
+        "id": "q062_b",
+        "label": "B",
+        "text": "Availability"
+      },
+      {
+        "id": "q062_c",
+        "label": "C",
+        "text": "Integrity"
+      },
+      {
+        "id": "q062_d",
+        "label": "D",
+        "text": "Confidentiality"
+      }
+    ],
+    "correctOptionId": "q062_c",
+    "explanation": "**Integrity** guards against unauthorized data modification or destruction and encompasses data authenticity and non-repudiation.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_063",
+    "questionNumber": 63,
+    "courseCode": "IT-IASC-401",
+    "courseTitle": "Information Assurance and Security",
+    "prompt": "Which of the following ciphers is NOT a poly-alphabetic substitution cipher (where each occurrence of a character may have a different substitute)?",
+    "options": [
+      {
+        "id": "q063_a",
+        "label": "A",
+        "text": "Playfair Cipher"
+      },
+      {
+        "id": "q063_b",
+        "label": "B",
+        "text": "Autokey Cipher"
+      },
+      {
+        "id": "q063_c",
+        "label": "C",
+        "text": "Vigenere Cipher"
+      },
+      {
+        "id": "q063_d",
+        "label": "D",
+        "text": "Caesar Cipher"
+      }
+    ],
+    "correctOptionId": "q063_d",
+    "explanation": "The **Caesar cipher** is a simple mono-alphabetic substitution cipher where every plaintext letter is shifted by a fixed constant offset.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_064",
+    "questionNumber": 64,
+    "courseCode": "IT-IASC-401",
+    "courseTitle": "Information Assurance and Security",
+    "prompt": "An attack in which the attacker tries every possible key on a piece of ciphertext until an intelligible translation into plaintext is obtained is called a:",
+    "options": [
+      {
+        "id": "q064_a",
+        "label": "A",
+        "text": "Hacker"
+      },
+      {
+        "id": "q064_b",
+        "label": "B",
+        "text": "Virus"
+      },
+      {
+        "id": "q064_c",
+        "label": "C",
+        "text": "Brute-force attack"
+      },
+      {
+        "id": "q064_d",
+        "label": "D",
+        "text": "Denial of service"
+      }
+    ],
+    "correctOptionId": "q064_c",
+    "explanation": "A **Brute-force attack** exhaustively searches the keyspace until a valid plaintext decryption is found.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_065",
+    "questionNumber": 65,
+    "courseCode": "IT-IASC-401",
+    "courseTitle": "Information Assurance and Security",
+    "prompt": "Disruption of an entire network, either by disabling the network or by overloading it with messages to degrade performance, is known as:",
+    "options": [
+      {
+        "id": "q065_a",
+        "label": "A",
+        "text": "Masquerading"
+      },
+      {
+        "id": "q065_b",
+        "label": "B",
+        "text": "Snooping"
+      },
+      {
+        "id": "q065_c",
+        "label": "C",
+        "text": "Traffic Analysis"
+      },
+      {
+        "id": "q065_d",
+        "label": "D",
+        "text": "Denial of Service"
+      }
+    ],
+    "correctOptionId": "q065_d",
+    "explanation": "A **Denial of Service (DoS)** attack prevents legitimate users from accessing network resources by disabling services or flooding bandwidth.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_066",
+    "questionNumber": 66,
+    "courseCode": "IT-CMTS-101",
+    "courseTitle": "Computer Maintenance",
+    "prompt": "Which diagnostic tool is used to test the integrity of circuits and the quality/voltage of electricity in computer components?",
+    "options": [
+      {
+        "id": "q066_a",
+        "label": "A",
+        "text": "Crimper"
+      },
+      {
+        "id": "q066_b",
+        "label": "B",
+        "text": "Toner Probe"
+      },
+      {
+        "id": "q066_c",
+        "label": "C",
+        "text": "Digital Multimeter"
+      },
+      {
+        "id": "q066_d",
+        "label": "D",
+        "text": "Loopback Adapter"
+      }
+    ],
+    "correctOptionId": "q066_c",
+    "explanation": "A **Digital Multimeter** measures AC/DC voltage, current, resistance, and circuit continuity across power supplies and components.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_067",
+    "questionNumber": 67,
+    "courseCode": "IT-CMTS-101",
+    "courseTitle": "Computer Maintenance",
+    "prompt": "When powering on a computer, rapidly incrementing numbers appearing at the upper-left corner of the monitor indicate:",
+    "options": [
+      {
+        "id": "q067_a",
+        "label": "A",
+        "text": "Device driver is missing"
+      },
+      {
+        "id": "q067_b",
+        "label": "B",
+        "text": "POST is checking RAM"
+      },
+      {
+        "id": "q067_c",
+        "label": "C",
+        "text": "Operating system not available"
+      },
+      {
+        "id": "q067_d",
+        "label": "D",
+        "text": "POST is not working well"
+      }
+    ],
+    "correctOptionId": "q067_b",
+    "explanation": "During the BIOS Power-On Self-Test (POST), the system counts through installed physical memory addresses (**POST is checking RAM**).",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_068",
+    "questionNumber": 68,
+    "courseCode": "IT-CMTS-101",
+    "courseTitle": "Computer Maintenance",
+    "prompt": "Which Random Access Memory (RAM) physical packaging form factor is most commonly used in modern desktop computers?",
+    "options": [
+      {
+        "id": "q068_a",
+        "label": "A",
+        "text": "Dual In-line Package (DIP)"
+      },
+      {
+        "id": "q068_b",
+        "label": "B",
+        "text": "Dual In-line Memory Module (DIMM)"
+      },
+      {
+        "id": "q068_c",
+        "label": "C",
+        "text": "Single In-line Memory Module (SIMM)"
+      },
+      {
+        "id": "q068_d",
+        "label": "D",
+        "text": "Single In-line Package (SIP)"
+      }
+    ],
+    "correctOptionId": "q068_b",
+    "explanation": "Modern desktop DDR3/DDR4/DDR5 memory modules use the **DIMM (Dual In-line Memory Module)** form factor (and SO-DIMM on laptops).",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_069",
+    "questionNumber": 69,
+    "courseCode": "IT-CMTS-101",
+    "courseTitle": "Computer Maintenance",
+    "prompt": "Which processor socket mechanism is standard on modern computers to allow CPU insertion without bending pins?",
+    "options": [
+      {
+        "id": "q069_a",
+        "label": "A",
+        "text": "Pin Grid Array (PGA)"
+      },
+      {
+        "id": "q069_b",
+        "label": "B",
+        "text": "Staggered Pin Grid Array (SPGA)"
+      },
+      {
+        "id": "q069_c",
+        "label": "C",
+        "text": "Plastic Pin Grid Array (PPGA)"
+      },
+      {
+        "id": "q069_d",
+        "label": "D",
+        "text": "Zero Insertion Force (ZIF)"
+      }
+    ],
+    "correctOptionId": "q069_d",
+    "explanation": "**Zero Insertion Force (ZIF)** sockets use a lever/latch mechanism so the CPU drops into place without downward insertion pressure.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_070",
+    "questionNumber": 70,
+    "courseCode": "IT-CMTS-101",
+    "courseTitle": "Computer Maintenance",
+    "prompt": "Which one of the following statements is INCORRECT regarding CPU architecture and installation?",
+    "options": [
+      {
+        "id": "q070_a",
+        "label": "A",
+        "text": "Cache memory is faster than RAM."
+      },
+      {
+        "id": "q070_b",
+        "label": "B",
+        "text": "The word size and the number of lines for the internal data bus are equal."
+      },
+      {
+        "id": "q070_c",
+        "label": "C",
+        "text": "After installing a processor for the first time, apply power and ensure the computer boots before installing any heat sink or fan."
+      },
+      {
+        "id": "q070_d",
+        "label": "D",
+        "text": "Throttle management is the ability to control the CPU speed by slowing it when it is not being used heavily or is running too hot."
+      }
+    ],
+    "correctOptionId": "q070_c",
+    "explanation": "Never power on a modern CPU without a properly mounted heatsink and thermal interface material; doing so can cause immediate thermal damage or shutdown.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_071",
+    "questionNumber": 71,
+    "courseCode": "IT-CMTS-101",
+    "courseTitle": "Computer Maintenance",
+    "prompt": "Which of the following is a cause of microprocessor overheating?",
+    "options": [
+      {
+        "id": "q071_a",
+        "label": "A",
+        "text": "Unbalanced / excessive core voltage"
+      },
+      {
+        "id": "q071_b",
+        "label": "B",
+        "text": "Absence of a heat sink on the surface of the processor"
+      },
+      {
+        "id": "q071_c",
+        "label": "C",
+        "text": "Overclocking configuration of the CPU multiplier/jumper"
+      },
+      {
+        "id": "q071_d",
+        "label": "D",
+        "text": "All are the answers"
+      }
+    ],
+    "correctOptionId": "q071_d",
+    "explanation": "Excessive voltage, missing/unseated heatsinks, and overclocking all cause CPU overheating.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_072",
+    "questionNumber": 72,
+    "courseCode": "IT-CMTS-101",
+    "courseTitle": "Computer Maintenance",
+    "prompt": "What do we call a software service that intercepts a print job, buffers it to the hard drive queue, and feeds it to the printer in the background?",
+    "options": [
+      {
+        "id": "q072_a",
+        "label": "A",
+        "text": "Primary corona"
+      },
+      {
+        "id": "q072_b",
+        "label": "B",
+        "text": "Fuser cleaning pad"
+      },
+      {
+        "id": "q072_c",
+        "label": "C",
+        "text": "Print spooler"
+      },
+      {
+        "id": "q072_d",
+        "label": "D",
+        "text": "Print writer"
+      }
+    ],
+    "correctOptionId": "q072_c",
+    "explanation": "The **Print spooler** queues print jobs to disk so the user's application is not blocked waiting for the physical printer.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_073",
+    "questionNumber": 73,
+    "courseCode": "IT-CMTS-101",
+    "courseTitle": "Computer Maintenance",
+    "prompt": "Which Windows utility checks the integrity of files and folders on a hard drive by scanning the file system and checking the disk surface for physical bad sectors?",
+    "options": [
+      {
+        "id": "q073_a",
+        "label": "A",
+        "text": "CHKDSK (Check Disk)"
+      },
+      {
+        "id": "q073_b",
+        "label": "B",
+        "text": "Defrag (Defragmentation)"
+      },
+      {
+        "id": "q073_c",
+        "label": "C",
+        "text": "Disk Cleanup"
+      },
+      {
+        "id": "q073_d",
+        "label": "D",
+        "text": "SFC (System File Checker)"
+      }
+    ],
+    "correctOptionId": "q073_a",
+    "explanation": "**CHKDSK** (`chkdsk /f /r`) verifies file system metadata integrity and scans for physical bad sectors.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_074",
+    "questionNumber": 74,
+    "courseCode": "IT-CMTS-101",
+    "courseTitle": "Computer Maintenance",
+    "prompt": "Which core component of Microsoft Windows handles representing and transmitting graphical objects to output devices such as monitors and printers?",
+    "options": [
+      {
+        "id": "q074_a",
+        "label": "A",
+        "text": "Graphics Device Interface (GDI)"
+      },
+      {
+        "id": "q074_b",
+        "label": "B",
+        "text": "Page Description Language"
+      },
+      {
+        "id": "q074_c",
+        "label": "C",
+        "text": "Printer Command Language"
+      },
+      {
+        "id": "q074_d",
+        "label": "D",
+        "text": "Video Graphics Array"
+      }
+    ],
+    "correctOptionId": "q074_a",
+    "explanation": "The Windows **Graphics Device Interface (GDI)** renders graphical primitives, text, and images to display monitors and printers.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_075",
+    "questionNumber": 75,
+    "courseCode": "IT-SNAD-301",
+    "courseTitle": "Operating System",
+    "prompt": "A situation that occurs when two or more processes read or write shared data concurrently and the final result depends on the exact order of execution is called a:",
+    "options": [
+      {
+        "id": "q075_a",
+        "label": "A",
+        "text": "Starvation"
+      },
+      {
+        "id": "q075_b",
+        "label": "B",
+        "text": "Race condition"
+      },
+      {
+        "id": "q075_c",
+        "label": "C",
+        "text": "Mutual exclusion"
+      },
+      {
+        "id": "q075_d",
+        "label": "D",
+        "text": "Virtual machine"
+      }
+    ],
+    "correctOptionId": "q075_b",
+    "explanation": "A **Race condition** occurs when unsynchronized concurrent accesses to shared state produce outcome-dependent results.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_076",
+    "questionNumber": 76,
+    "courseCode": "IT-SNAD-301",
+    "courseTitle": "Operating System",
+    "prompt": "CPU scheduling decisions may take place when a process:",
+    "options": [
+      {
+        "id": "q076_a",
+        "label": "A",
+        "text": "Switches from running to waiting state"
+      },
+      {
+        "id": "q076_b",
+        "label": "B",
+        "text": "Switches from running to ready state"
+      },
+      {
+        "id": "q076_c",
+        "label": "C",
+        "text": "Switches from waiting to ready state"
+      },
+      {
+        "id": "q076_d",
+        "label": "D",
+        "text": "Terminates"
+      },
+      {
+        "id": "q076_e",
+        "label": "E",
+        "text": "All"
+      }
+    ],
+    "correctOptionId": "q076_e",
+    "explanation": "In a preemptive operating system, scheduling decisions can occur on all four state transitions (A, B, C, and D).",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_077",
+    "questionNumber": 77,
+    "courseCode": "IT-SNAD-301",
+    "courseTitle": "Operating System",
+    "prompt": "Suppose processes arrive at time 0 in the order `P1, P2, P3, P4` with CPU burst times of `5, 8, 3, 4` respectively and a Round Robin time quantum of `4`. What is the average waiting time?",
+    "options": [
+      {
+        "id": "q077_a",
+        "label": "A",
+        "text": "12"
+      },
+      {
+        "id": "q077_b",
+        "label": "B",
+        "text": "9.89"
+      },
+      {
+        "id": "q077_c",
+        "label": "C",
+        "text": "10.5"
+      },
+      {
+        "id": "q077_d",
+        "label": "D",
+        "text": "6.66"
+      }
+    ],
+    "correctOptionId": "q077_c",
+    "explanation": "Gantt chart with Q=4: P1(0..4), P2(4..8), P3(8..11), P4(11..15), P1(15..16), P2(16..20). Waiting times: P1=11, P2=12, P3=8, P4=11 -> Average = 42/4 = `10.5`.",
+    "bloomLevel": "APPLY",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_078",
+    "questionNumber": 78,
+    "courseCode": "IT-SNAD-301",
+    "courseTitle": "Operating System",
+    "prompt": "Which of the following statements about CPU schedulers is FALSE?",
+    "options": [
+      {
+        "id": "q078_a",
+        "label": "A",
+        "text": "Preemptive scheduling is used when a process switches from running state to ready state or from waiting state to ready state"
+      },
+      {
+        "id": "q078_b",
+        "label": "B",
+        "text": "Short-term scheduler determines which programs are admitted to the system for processing"
+      },
+      {
+        "id": "q078_c",
+        "label": "C",
+        "text": "In non-preemptive scheduling, interactive responsiveness/utilization can be lower"
+      },
+      {
+        "id": "q078_d",
+        "label": "D",
+        "text": "CPU scheduler selects a process among the processes that are ready to execute and allocates the CPU to it"
+      }
+    ],
+    "correctOptionId": "q078_b",
+    "explanation": "The **Long-term scheduler** (job scheduler) determines which programs are admitted to the system's ready queue; the short-term scheduler only dispatches already-admitted ready processes to the CPU.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_079",
+    "questionNumber": 79,
+    "courseCode": "IT-SNAD-301",
+    "courseTitle": "Operating System",
+    "prompt": "Given free memory partitions of `150K, 200K` (in order), which of First-fit, Best-fit, and Worst-fit algorithms can place processes of size `200K, 50K` (in order) successfully?",
+    "options": [
+      {
+        "id": "q079_a",
+        "label": "A",
+        "text": "First fit"
+      },
+      {
+        "id": "q079_b",
+        "label": "B",
+        "text": "Worst fit and best fit"
+      },
+      {
+        "id": "q079_c",
+        "label": "C",
+        "text": "Worst fit"
+      },
+      {
+        "id": "q079_d",
+        "label": "D",
+        "text": "Best fit"
+      },
+      {
+        "id": "q079_e",
+        "label": "E",
+        "text": "First fit, best fit and worst fit"
+      }
+    ],
+    "correctOptionId": "q079_e",
+    "explanation": "Because the first process is `200K`, only the `200K` partition can hold it under First-fit, Best-fit, and Worst-fit alike, leaving the `150K` partition free to hold the second `50K` process under all three algorithms.",
+    "bloomLevel": "APPLY",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_080",
+    "questionNumber": 80,
+    "courseCode": "IT-SNAD-301",
+    "courseTitle": "Operating System",
+    "prompt": "Which of the following is TRUE about paging and segmentation?",
+    "options": [
+      {
+        "id": "q080_a",
+        "label": "A",
+        "text": "In paging, memory is partitioned into variable-size pages"
+      },
+      {
+        "id": "q080_b",
+        "label": "B",
+        "text": "In segmentation, there may be a chance of external fragmentation"
+      },
+      {
+        "id": "q080_c",
+        "label": "C",
+        "text": "In segmentation, memory is partitioned into fixed-size segments"
+      },
+      {
+        "id": "q080_d",
+        "label": "D",
+        "text": "In paging, there may be a chance of external fragmentation"
+      },
+      {
+        "id": "q080_e",
+        "label": "E",
+        "text": "Segmentation is faster than paging"
+      }
+    ],
+    "correctOptionId": "q080_b",
+    "explanation": "Segmentation allocates variable-sized logical segments in physical memory, which suffers from **external fragmentation** (whereas paging uses fixed-size frames and only has internal fragmentation).",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_081",
+    "questionNumber": 81,
+    "courseCode": "IT-SNAD-301",
+    "courseTitle": "Operating System",
+    "prompt": "Which memory management / I/O technique temporarily holds data in a memory area while it is being transferred between two devices or between a device and an application?",
+    "options": [
+      {
+        "id": "q081_a",
+        "label": "A",
+        "text": "Buffering"
+      },
+      {
+        "id": "q081_b",
+        "label": "B",
+        "text": "Caching"
+      },
+      {
+        "id": "q081_c",
+        "label": "C",
+        "text": "Spooling"
+      },
+      {
+        "id": "q081_d",
+        "label": "D",
+        "text": "Traffic controlling"
+      }
+    ],
+    "correctOptionId": "q081_a",
+    "explanation": "**Buffering** stores data temporarily in RAM during I/O transfers to cope with speed mismatches or burst sizes between producer and consumer.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_082",
+    "questionNumber": 82,
+    "courseCode": "IT-SNAD-301",
+    "courseTitle": "Operating System",
+    "prompt": "Which of the following is NOT one of the three standard methods used to pass parameters to the operating system during a system call?",
+    "options": [
+      {
+        "id": "q082_a",
+        "label": "A",
+        "text": "Push the parameters onto a stack"
+      },
+      {
+        "id": "q082_b",
+        "label": "B",
+        "text": "Block and stack method"
+      },
+      {
+        "id": "q082_c",
+        "label": "C",
+        "text": "Store the parameters in a block/table in memory and pass the address of the block in a register"
+      },
+      {
+        "id": "q082_d",
+        "label": "D",
+        "text": "Pass the parameters in registers"
+      }
+    ],
+    "correctOptionId": "q082_b",
+    "explanation": "The three standard OS system-call parameter passing mechanisms are: (1) Registers, (2) Memory Block/Table address in a register, and (3) Program Stack. 'Block and stack method' is not a distinct standard mechanism.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_083",
+    "questionNumber": 83,
+    "courseCode": "IT-SNAD-301",
+    "courseTitle": "Operating System",
+    "prompt": "CPU Scheduling Algorithm optimization criteria include:",
+    "options": [
+      {
+        "id": "q083_a",
+        "label": "A",
+        "text": "Minimum CPU utilization"
+      },
+      {
+        "id": "q083_b",
+        "label": "B",
+        "text": "Minimum throughput"
+      },
+      {
+        "id": "q083_c",
+        "label": "C",
+        "text": "Minimum waiting time"
+      },
+      {
+        "id": "q083_d",
+        "label": "D",
+        "text": "A & C"
+      }
+    ],
+    "correctOptionId": "q083_c",
+    "explanation": "Scheduling algorithms aim to **maximize** CPU utilization and throughput while **minimizing** turnaround time, waiting time, and response time.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_084",
+    "questionNumber": 84,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "Which of the following statements about ER/EER modeling is FALSE?",
+    "options": [
+      {
+        "id": "q084_a",
+        "label": "A",
+        "text": "Superclass attributes are shared by all subclasses of that superclass"
+      },
+      {
+        "id": "q084_b",
+        "label": "B",
+        "text": "If the ERD consists of a simple entity set, we can map it into a relational table"
+      },
+      {
+        "id": "q084_c",
+        "label": "C",
+        "text": "In Partial participation, every tuple in the entity or relation participates in at least one relationship by taking a role"
+      },
+      {
+        "id": "q084_d",
+        "label": "D",
+        "text": "The Disjoint Rule restricts one entity occurrence of a superclass to be a member of only one of the subclasses"
+      }
+    ],
+    "correctOptionId": "q084_c",
+    "explanation": "Requiring *every* entity instance to participate in at least one relationship instance is the definition of **Total Participation** (existence dependency), not Partial Participation.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_085",
+    "questionNumber": 85,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "Which of the following statements is TRUE about unnormalized database anomalies?",
+    "options": [
+      {
+        "id": "q085_a",
+        "label": "A",
+        "text": "A deletion anomaly is a failure to remove information about an existing database entry when it is time to remove that entry"
+      },
+      {
+        "id": "q085_b",
+        "label": "B",
+        "text": "An insertion anomaly is an inability to insert information about a new entity (or failure to place it consistently) without having data for another unrelated entity"
+      },
+      {
+        "id": "q085_c",
+        "label": "C",
+        "text": "A modification anomaly means whatever information is modified by the user, the change is automatically effected everywhere"
+      },
+      {
+        "id": "q085_d",
+        "label": "D",
+        "text": "All"
+      }
+    ],
+    "correctOptionId": "q085_b",
+    "explanation": "An insertion anomaly prevents inserting partial/new data properly without supplying all coupled attributes (or requires redundant insertion across multiple rows).",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_086",
+    "questionNumber": 86,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "In relational algebra, two relations $R_1$ and $R_2$ are said to be Union / Type Compatible if:",
+    "options": [
+      {
+        "id": "q086_a",
+        "label": "A",
+        "text": "The operand relations R1 and R2 have the same number of attributes (degree)"
+      },
+      {
+        "id": "q086_b",
+        "label": "B",
+        "text": "The two relations R1 and R2 have the same relation name"
+      },
+      {
+        "id": "q086_c",
+        "label": "C",
+        "text": "The domains of corresponding attributes are compatible/same"
+      },
+      {
+        "id": "q086_d",
+        "label": "D",
+        "text": "The operand relations R1 and R2 have the same number of tuples"
+      },
+      {
+        "id": "q086_e",
+        "label": "E",
+        "text": "A and C"
+      }
+    ],
+    "correctOptionId": "q086_e",
+    "explanation": "Two relations are union/type compatible if and only if they have the same degree (number of attributes, A) and each pair of corresponding attributes has compatible domains (C).",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_087",
+    "questionNumber": 87,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "\"If Mr. A is a student, and every student is assigned to a dorm building, then Mr. A is assigned to a dorm building.\" ($X \\rightarrow Y$ and $Y \\rightarrow Z \\implies X \\rightarrow Z$). What type of functional dependency is this?",
+    "options": [
+      {
+        "id": "q087_a",
+        "label": "A",
+        "text": "Partial dependency"
+      },
+      {
+        "id": "q087_b",
+        "label": "B",
+        "text": "Transitive dependency"
+      },
+      {
+        "id": "q087_c",
+        "label": "C",
+        "text": "Full dependency"
+      },
+      {
+        "id": "q087_d",
+        "label": "D",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q087_b",
+    "explanation": "When $X \\rightarrow Y$ and $Y \\rightarrow Z$, the dependency $X \\rightarrow Z$ is a **Transitive dependency**.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_088",
+    "questionNumber": 88,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "Which of the following is the correct relational algebra query to retrieve columns `Id`, `Fname`, and `Lname` from relation `R`?",
+    "options": [
+      {
+        "id": "q088_a",
+        "label": "A",
+        "text": "\u03c0 <Id, FName, LName>(R)"
+      },
+      {
+        "id": "q088_b",
+        "label": "B",
+        "text": "\u03c3 <Id, Fname, Lname>(R)"
+      },
+      {
+        "id": "q088_c",
+        "label": "C",
+        "text": "\u03c0 <Id, Fname, Lname> \u03c3(R)"
+      },
+      {
+        "id": "q088_d",
+        "label": "D",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q088_a",
+    "explanation": "The Projection operator ($\\pi$) selects specific vertical columns/attributes from a relation: $\\pi_{Id, FName, LName}(R)$.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_089",
+    "questionNumber": 89,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "In order to say a relational table is in Second Normal Form (2NF):",
+    "options": [
+      {
+        "id": "q089_a",
+        "label": "A",
+        "text": "All non-key attributes are fully functionally dependent on the primary or composite key"
+      },
+      {
+        "id": "q089_b",
+        "label": "B",
+        "text": "All non-key attributes should not be transitively dependent on another non-key attribute"
+      },
+      {
+        "id": "q089_c",
+        "label": "C",
+        "text": "First it should be in First Normal Form (1NF)"
+      },
+      {
+        "id": "q089_d",
+        "label": "D",
+        "text": "A & C"
+      },
+      {
+        "id": "q089_e",
+        "label": "E",
+        "text": "B & C"
+      }
+    ],
+    "correctOptionId": "q089_d",
+    "explanation": "A relation is in **2NF** if it is in **1NF** (C) and every non-prime attribute is **fully functionally dependent** on the whole candidate/primary key with no partial dependencies (A).",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_090",
+    "questionNumber": 90,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "Which one of the following is TRUE about a SQL `LEFT OUTER JOIN` (`LEFT JOIN`)?",
+    "options": [
+      {
+        "id": "q090_a",
+        "label": "A",
+        "text": "This join returns all the rows of the table on the left side of the join and matching rows from the table on the right side of the join"
+      },
+      {
+        "id": "q090_b",
+        "label": "B",
+        "text": "This join returns all the rows of the table on the right side of the join and matching rows from the table on the left side of the join"
+      },
+      {
+        "id": "q090_c",
+        "label": "C",
+        "text": "For rows with no match on the left side, the left columns contain NULL"
+      },
+      {
+        "id": "q090_d",
+        "label": "D",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q090_a",
+    "explanation": "A `LEFT JOIN` preserves all rows from the left table and populates NULLs for right-table columns when no match exists.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_091",
+    "questionNumber": 91,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "Use the following `Student` table to answer:\n\n| SID | Name | Age | Sex |\n| :--- | :--- | :--- | :--- |\n| 01 | Saba | 22 | F |\n| 02 | Amir | 20 | M |\n| 03 | Dawit | 24 | M |\n| 04 | Elsa | 19 | F |\n\nWhat will be the resulting table of the relational algebra expression $\\pi_{SID, Name}(\\sigma_{SID=02}(Student))$?",
+    "options": [
+      {
+        "id": "q091_a",
+        "label": "A",
+        "text": "| 02 | Amir | 20 | M |"
+      },
+      {
+        "id": "q091_b",
+        "label": "B",
+        "text": "| 02 | Amir | 20 |"
+      },
+      {
+        "id": "q091_c",
+        "label": "C",
+        "text": "| 03 | Dawit | 24 | M |"
+      },
+      {
+        "id": "q091_d",
+        "label": "D",
+        "text": "| 02 | Amir |"
+      }
+    ],
+    "correctOptionId": "q091_d",
+    "explanation": "First $\\sigma_{SID=02}(Student)$ selects the row for `02 Amir 20 M`, and then $\\pi_{SID, Name}$ projects only the `SID` and `Name` columns: `| 02 | Amir |`.",
+    "bloomLevel": "APPLY",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_092",
+    "questionNumber": 92,
+    "courseCode": "IT-ADBS-301",
+    "courseTitle": "Database Systems",
+    "prompt": "Haramaya University deployed a parallel/distributed DBMS where every processor node has its own independent primary memory and secondary disk storage, no common memory exists, and nodes communicate over a high-speed interconnection network. Which parallel DBMS architecture is this?",
+    "options": [
+      {
+        "id": "q092_a",
+        "label": "A",
+        "text": "Shared memory architecture"
+      },
+      {
+        "id": "q092_b",
+        "label": "B",
+        "text": "Shared disk architecture"
+      },
+      {
+        "id": "q092_c",
+        "label": "C",
+        "text": "Shared nothing architecture"
+      },
+      {
+        "id": "q092_d",
+        "label": "D",
+        "text": "Tightly coupled architecture"
+      }
+    ],
+    "correctOptionId": "q092_c",
+    "explanation": "In a **Shared-nothing architecture**, each node owns its private CPU, RAM, and disk storage, communicating strictly via message passing over a network.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_093",
+    "questionNumber": 93,
+    "courseCode": "IT-ADBS-301",
+    "courseTitle": "Database Systems",
+    "prompt": "Haramaya University designed a database for student data management, and an attacker attempts to maliciously compromise the database. Which of the following is a form of malicious database access?",
+    "options": [
+      {
+        "id": "q093_a",
+        "label": "A",
+        "text": "Unauthorized reading of data (breach of confidentiality)"
+      },
+      {
+        "id": "q093_b",
+        "label": "B",
+        "text": "Unauthorized modification of data (breach of integrity)"
+      },
+      {
+        "id": "q093_c",
+        "label": "C",
+        "text": "Unauthorized destruction of data (breach of availability)"
+      },
+      {
+        "id": "q093_d",
+        "label": "D",
+        "text": "All"
+      }
+    ],
+    "correctOptionId": "q093_d",
+    "explanation": "Malicious database access encompasses unauthorized reading, unauthorized modification, and unauthorized destruction of data.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_094",
+    "questionNumber": 94,
+    "courseCode": "IT-ADBS-301",
+    "courseTitle": "Database Systems",
+    "prompt": "Which one of the following is TRUE regarding Two-Phase Locking (2PL) lock compatibility?",
+    "options": [
+      {
+        "id": "q094_a",
+        "label": "A",
+        "text": "If transaction T1 holds a Shared (S) lock on item Q, then transaction T2 can be granted a Shared (S) lock on item Q."
+      },
+      {
+        "id": "q094_b",
+        "label": "B",
+        "text": "If transaction T1 holds a Shared (S) lock on item Q, then transaction T2 can be granted an Exclusive (X) lock on item Q."
+      },
+      {
+        "id": "q094_c",
+        "label": "C",
+        "text": "If transaction T2 holds a Shared (S) lock on item Q, then transaction T1 can be granted an Exclusive (X) lock on item Q."
+      },
+      {
+        "id": "q094_d",
+        "label": "D",
+        "text": "If transaction T1 holds an Exclusive (X) lock on item Q, then transaction T2 can be granted an Exclusive (X) lock on item Q."
+      }
+    ],
+    "correctOptionId": "q094_a",
+    "explanation": "Multiple transactions can simultaneously hold **Shared (read) locks** on the same data item `Q`, whereas Exclusive (write) locks conflict with both Shared and Exclusive locks.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_095",
+    "questionNumber": 95,
+    "courseCode": "IT-ADBS-301",
+    "courseTitle": "Database Systems",
+    "prompt": "Which of the following is TRUE about a database recovery algorithm (such as ARIES / WAL)?",
+    "options": [
+      {
+        "id": "q095_a",
+        "label": "A",
+        "text": "Actions taken during normal transaction processing (such as Write-Ahead Logging and checkpoints) to ensure enough information exists to recover from failures."
+      },
+      {
+        "id": "q095_b",
+        "label": "B",
+        "text": "Actions taken after a failure to recover the database contents to a state that ensures only consistency and durability (ignoring atomicity)"
+      },
+      {
+        "id": "q095_c",
+        "label": "C",
+        "text": "Actions taken after a failure to recover the database contents to a state that ensures only atomicity (ignoring durability)"
+      },
+      {
+        "id": "q095_d",
+        "label": "D",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q095_a",
+    "explanation": "A database recovery subsystem consists of two parts: (1) actions during normal transaction processing (logging/WAL) to record enough information, and (2) actions after a failure to restore atomicity, consistency, and durability.",
+    "bloomLevel": "UNDERSTAND",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_096",
+    "questionNumber": 96,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "Which of the following SQL privileges can be granted on an individual relation `R`?",
+    "options": [
+      {
+        "id": "q096_a",
+        "label": "A",
+        "text": "SELECT privilege on R"
+      },
+      {
+        "id": "q096_b",
+        "label": "B",
+        "text": "MODIFY (INSERT/UPDATE/DELETE) privileges on R"
+      },
+      {
+        "id": "q096_c",
+        "label": "C",
+        "text": "REFERENCES privilege on R"
+      },
+      {
+        "id": "q096_d",
+        "label": "D",
+        "text": "All"
+      }
+    ],
+    "correctOptionId": "q096_d",
+    "explanation": "Standard SQL discretionary access control (`GRANT`) supports `SELECT`, `INSERT`/`UPDATE`/`DELETE` (modification), and `REFERENCES` privileges on a relation.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_097",
+    "questionNumber": 97,
+    "courseCode": "IT-ADBS-301",
+    "courseTitle": "Database Systems",
+    "prompt": "Which stage of distributed query decomposition verifies that the relations and attributes specified in the query are defined in the system catalog and are type-correct?",
+    "options": [
+      {
+        "id": "q097_a",
+        "label": "A",
+        "text": "Analysis"
+      },
+      {
+        "id": "q097_b",
+        "label": "B",
+        "text": "Normalization"
+      },
+      {
+        "id": "q097_c",
+        "label": "C",
+        "text": "Semantic analysis"
+      },
+      {
+        "id": "q097_d",
+        "label": "D",
+        "text": "Simplification"
+      }
+    ],
+    "correctOptionId": "q097_a",
+    "explanation": "In the 4-stage query decomposition pipeline (Normalization -> **Analysis** -> Elimination of Redundancy/Simplification -> Restructuring), the **Analysis** stage checks the system catalog to verify that referenced relations and attributes exist and are type-valid.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "id": "q_hu2023_098",
+    "questionNumber": 98,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "Which SQL constraint keyword is used to limit the domain/range of values that can be entered into a column?",
+    "options": [
+      {
+        "id": "q098_a",
+        "label": "A",
+        "text": "IDENTITY"
+      },
+      {
+        "id": "q098_b",
+        "label": "B",
+        "text": "CHECK constraint"
+      },
+      {
+        "id": "q098_c",
+        "label": "C",
+        "text": "PRIMARY KEY"
+      },
+      {
+        "id": "q098_d",
+        "label": "D",
+        "text": "FOREIGN KEY"
+      }
+    ],
+    "correctOptionId": "q098_b",
+    "explanation": "A `CHECK` constraint enforces a boolean predicate limiting the allowable range or format of values in a column.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_099",
+    "questionNumber": 99,
+    "courseCode": "IT-ADBS-301",
+    "courseTitle": "Database Systems",
+    "prompt": "Which ACID transaction property guarantees that either all operations of a transaction are reflected properly in the database, or none are ('all-or-nothing')?",
+    "options": [
+      {
+        "id": "q099_a",
+        "label": "A",
+        "text": "Isolation"
+      },
+      {
+        "id": "q099_b",
+        "label": "B",
+        "text": "Durability"
+      },
+      {
+        "id": "q099_c",
+        "label": "C",
+        "text": "Atomicity"
+      },
+      {
+        "id": "q099_d",
+        "label": "D",
+        "text": "Consistency"
+      }
+    ],
+    "correctOptionId": "q099_c",
+    "explanation": "**Atomicity** ensures that a transaction is treated as a single indivisible unit of work\u2014either all of its operations commit or all are rolled back.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  },
+  {
+    "id": "q_hu2023_100",
+    "questionNumber": 100,
+    "courseCode": "IT-FDBS-201",
+    "courseTitle": "Database Systems",
+    "prompt": "Which one of the following is NOT excluded from (i.e., are all of A, B, and C valid) SQL table constraints?",
+    "options": [
+      {
+        "id": "q100_a",
+        "label": "A",
+        "text": "CHECK constraint"
+      },
+      {
+        "id": "q100_b",
+        "label": "B",
+        "text": "Referential / FOREIGN KEY constraint"
+      },
+      {
+        "id": "q100_c",
+        "label": "C",
+        "text": "PRIMARY KEY"
+      },
+      {
+        "id": "q100_d",
+        "label": "D",
+        "text": "None"
+      }
+    ],
+    "correctOptionId": "q100_d",
+    "explanation": "`CHECK`, `FOREIGN KEY`, and `PRIMARY KEY` are all valid SQL table constraints, so **None** of them is excluded.",
+    "bloomLevel": "REMEMBER",
+    "difficulty": "EASY"
+  }
+]

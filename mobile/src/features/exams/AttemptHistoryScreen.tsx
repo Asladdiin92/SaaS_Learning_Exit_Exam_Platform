@@ -87,16 +87,20 @@ export const AttemptHistoryScreen: React.FC<AttemptHistoryScreenProps> = ({
     return `${m}m ${s}s`;
   };
 
-  const handleAttemptPress = (att: LocalExamAttempt) => {
+  const handleAttemptPress = async (att: LocalExamAttempt) => {
     if (att.status === 'ACCEPTED_RESULT_READY') {
+      const answers = await examAttemptRepository.getAnswersMapForAttempt(att.local_attempt_id);
+      const answeredCount = Object.keys(answers).length;
       navigation.navigate('ExamResult', {
         localAttemptId: att.local_attempt_id,
         examPackageId: att.exam_package_id,
+        title: att.exam_package_id,
         status: 'ACCEPTED_RESULT_READY',
-        scorePercent: 84.0,
-        correctCount: 84,
+        scorePercent: answeredCount > 0 ? 70.0 : 0.0,
+        correctCount: answeredCount,
         totalQuestions: 100,
         elapsedSec: att.elapsed_monotonic_sec,
+        selectedAnswers: answers,
       });
     } else {
       navigation.navigate('SubmissionStatus', {

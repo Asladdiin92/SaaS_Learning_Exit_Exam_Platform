@@ -32,6 +32,8 @@ export const WorkspaceSwitcherChip: React.FC<WorkspaceSwitcherChipProps> = ({
           backgroundColor: colors.surface.secondary,
           paddingHorizontal: spacing.sm,
           borderRadius: borderRadius.full,
+          flexShrink: 1,
+          maxWidth: '58%',
         },
       ]}
     >
@@ -43,13 +45,14 @@ export const WorkspaceSwitcherChip: React.FC<WorkspaceSwitcherChipProps> = ({
         )}
         <Text
           numberOfLines={1}
+          ellipsizeMode="tail"
           style={[
             typography.labelSm,
             {
               color: colors.text.primary,
               marginHorizontal: spacing.xxs + 4,
               fontWeight: '600',
-              maxWidth: 140,
+              flexShrink: 1,
             },
           ]}
         >

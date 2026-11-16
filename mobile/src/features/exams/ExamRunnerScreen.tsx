@@ -12,7 +12,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { useTheme } from '../../shared/theme';
-import { Card, Button } from '../../shared/components';
+import { Card, Button, RichContentRenderer } from '../../shared/components';
 import { database } from '../../shared/database/db';
 import { examAttemptRepository } from '../../shared/database/examAttemptRepository';
 import {
@@ -40,7 +40,7 @@ import {
 
 export interface ExamOption {
   id: string;
-  label: 'A' | 'B' | 'C' | 'D';
+  label: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | string;
   text: string;
   explanation?: string;
 }
@@ -63,133 +63,47 @@ export interface ExamQuestion {
   recommendedResourceId?: string;
 }
 
-export function toExamQuestion(question: ParsedQuestion): ExamQuestion {
+export function toExamQuestion(question: any): ExamQuestion {
   return {
     id: question.id,
-    questionNumber: question.questionNumber,
-    courseCode: question.courseCode,
-    courseTitle: 'Information Assurance and Security',
-    prompt: question.prompt,
-    options: question.options.map((option) => ({
+    questionNumber: question.questionNumber ?? question.question_number ?? 1,
+    courseCode: question.courseCode ?? question.course_code ?? 'IT-GENERAL',
+    courseTitle: question.courseTitle ?? question.course_title ?? 'Exit Exam Assessment',
+    prompt: question.prompt ?? question.question_text ?? '',
+    codeSnippet: question.codeSnippet ?? question.code_snippet,
+    options: (question.options || []).map((option: any) => ({
       id: option.id,
       label: option.label,
       text: option.text,
       explanation: option.explanation,
     })),
-    correctOptionId: question.correctOptionId,
-    explanation: question.explanation,
-    bloomLevel: question.bloomLevel,
-    chapterTitle: question.chapterTitle,
-    linkedNoteCode: question.linkedNoteCode,
-    recommendedResourceId: question.recommendedResourceId,
+    correctOptionId: question.correctOptionId ?? question.correct_option_id ?? '',
+    explanation: question.explanation ?? '',
+    bloomLevel: (question.bloomLevel ?? question.bloom_level ?? 'UNDERSTAND') as BloomLevel,
+    chapterTitle: question.chapterTitle ?? question.chapter_title,
+    linkedNoteCode: question.linkedNoteCode ?? question.linked_note_code,
+    recommendedResourceId: question.recommendedResourceId ?? question.recommended_resource_id,
   };
 }
 
-// ─── 100-Question Exam Bank Generator ─────────────────────────────────────────
+import huModelQuestions from '../../shared/database/hu_model_exit_2023_questions.json';
 
-const CURRICULUM_COURSES = [
-  { code: 'IT-CMTS-101', title: 'Computer Maintenance & Technical Support' },
-  { code: 'IT-FCOM-102', title: 'Fundamentals of Computing & Architecture' },
-  { code: 'IT-DMAT-103', title: 'Discrete Mathematics for IT' },
-  { code: 'IT-OOPR-201', title: 'Object Oriented Programming in Java' },
-  { code: 'IT-DSA-202', title: 'Data Structures & Algorithms' },
-  { code: 'IT-EDPR-203', title: 'Event Driven Programming' },
-  { code: 'IT-OSYS-204', title: 'Operating Systems Principles & Admin' },
-  { code: 'IT-DBMS-301', title: 'Database Systems & Design' },
-  { code: 'IT-CNET-302', title: 'Computer Networking & Internet Protocols' },
-  { code: 'IT-SASD-303', title: 'Systems Analysis & Design' },
-  { code: 'IT-WEBP-304', title: 'Web Development Technologies' },
-  { code: 'IT-IASE-401', title: 'Information Assurance & Cyber Security' },
-  { code: 'IT-SEEN-402', title: 'Software Engineering Principles' },
-  { code: 'IT-ENMA-403', title: 'Enterprise Architecture & Management' },
-  { code: 'IT-MBLA-404', title: 'Mobile Application Development' },
-];
+// ─── 100-Question Exam Bank (Haramaya University CCI Model Exit Exam 2023) ────
 
-export const generate100Questions = (): ExamQuestion[] => {
-  const questions: ExamQuestion[] = [];
+export const EXAM_QUESTIONS: ExamQuestion[] = (huModelQuestions as any[]).map((q) => ({
+  id: q.id,
+  questionNumber: q.questionNumber,
+  courseCode: q.courseCode,
+  courseTitle: q.courseTitle || 'Exit Exam Assessment',
+  prompt: q.prompt,
+  codeSnippet: q.codeSnippet,
+  options: q.options,
+  correctOptionId: q.correctOptionId,
+  explanation: q.explanation || '',
+  bloomLevel: (q.bloomLevel || 'UNDERSTAND') as BloomLevel,
+}));
 
-  for (let i = 1; i <= 100; i++) {
-    const padded = i.toString().padStart(3, '0');
-    const courseIndex = (i - 1) % CURRICULUM_COURSES.length;
-    const course = CURRICULUM_COURSES[courseIndex];
-
-    if (i === 1) {
-      questions.push({
-        id: 'q_hu2023_001',
-        questionNumber: 1,
-        courseCode: 'IT-FCOM-102',
-        courseTitle: 'Fundamentals of Computing & Architecture',
-        prompt: 'In the Von Neumann computer architecture, which component is specifically responsible for fetching instructions from memory, decoding them, and issuing control signals to the datapath?',
-        options: [
-          { id: 'q001_a', label: 'A', text: 'Arithmetic Logic Unit (ALU)' },
-          { id: 'q001_b', label: 'B', text: 'Control Unit (CU)' },
-          { id: 'q001_c', label: 'C', text: 'Memory Management Unit (MMU)' },
-          { id: 'q001_d', label: 'D', text: 'Instruction Register (IR) Bus Buffer' },
-        ],
-        correctOptionId: 'q001_b',
-        explanation: 'The Control Unit (CU) coordinates all computer operations by fetching instructions from primary memory, decoding them into micro-operations, and directing the flow of signals between ALU, registers, and buses.',
-        bloomLevel: 'UNDERSTAND',
-      });
-    } else if (i === 19) {
-      questions.push({
-        id: 'q_hu2023_019',
-        questionNumber: 19,
-        courseCode: 'IT-EDPR-203',
-        courseTitle: 'Event Driven Programming',
-        prompt: 'In event-driven GUI architectures, which design pattern is primarily used for event handling and listener notification between event sources and subscriber components?',
-        codeSnippet: `// Example Event Subscription Contract\ninterface ActionListener extends EventListener {\n  void actionPerformed(ActionEvent e);\n}`,
-        options: [
-          { id: 'q019_a', label: 'A', text: 'Factory Method Pattern' },
-          { id: 'q019_b', label: 'B', text: 'Observer Pattern' },
-          { id: 'q019_c', label: 'C', text: 'Singleton Pattern' },
-          { id: 'q019_d', label: 'D', text: 'Adapter Pattern' },
-        ],
-        correctOptionId: 'q019_b',
-        explanation: 'The Observer pattern defines a one-to-many dependency between objects so that when an event source subject changes state or fires an interaction, all registered listener observers are notified automatically.',
-        bloomLevel: 'ANALYZE',
-      });
-    } else if (i === 91) {
-      questions.push({
-        id: 'q_hu2023_091',
-        questionNumber: 91,
-        courseCode: 'IT-DBMS-301',
-        courseTitle: 'Database Systems & Design',
-        prompt: 'Consider a relational database table with functional dependencies. Which Normal Form eliminates transitive dependencies between non-prime attributes and candidate keys?',
-        codeSnippet: `R(A, B, C) with FDs: A -> B, B -> C\nPrimary Key: A\nTransitive Dependency: A -> C via B`,
-        options: [
-          { id: 'q091_a', label: 'A', text: 'First Normal Form (1NF)' },
-          { id: 'q091_b', label: 'B', text: 'Second Normal Form (2NF)' },
-          { id: 'q091_c', label: 'C', text: 'Third Normal Form (3NF)' },
-          { id: 'q091_d', label: 'D', text: 'Boyce-Codd Normal Form (BCNF)' },
-        ],
-        correctOptionId: 'q091_c',
-        explanation: 'Third Normal Form (3NF) requires the relation to be in 2NF and have no transitive functional dependencies where a non-prime attribute depends on another non-prime attribute.',
-        bloomLevel: 'APPLY',
-      });
-    } else {
-      questions.push({
-        id: `q_hu2023_${padded}`,
-        questionNumber: i,
-        courseCode: course.code,
-        courseTitle: course.title,
-        prompt: `[${course.code}] Assessment Item #${i}: Which architectural mechanism provides optimal fault tolerance and deterministic state management for this domain scenario?`,
-        options: [
-          { id: `q${padded}_a`, label: 'A', text: `Option A for question ${i}: Linear Sequential Verification Protocol` },
-          { id: `q${padded}_b`, label: 'B', text: `Option B for question ${i}: Idempotent Monotonic State Synchronization` },
-          { id: `q${padded}_c`, label: 'C', text: `Option C for question ${i}: Centralized Shared Mutable Singleton Gateway` },
-          { id: `q${padded}_d`, label: 'D', text: `Option D for question ${i}: Unbounded Asynchronous Message Broadcast Queue` },
-        ],
-        correctOptionId: `q${padded}_b`,
-        explanation: `Idempotent state synchronization ensures that re-executions or offline retries produce identical valid outcomes without duplicating side effects.`,
-        bloomLevel: (i % 3 === 0 ? 'ANALYZE' : i % 2 === 0 ? 'APPLY' : 'UNDERSTAND') as BloomLevel,
-      });
-    }
-  }
-
-  return questions;
-};
-
-export const EXAM_QUESTIONS: ExamQuestion[] = generate100Questions();
+export const generate100Questions = (): ExamQuestion[] => EXAM_QUESTIONS;
 
 // ─── Component Props ──────────────────────────────────────────────────────────
 
@@ -202,7 +116,7 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
   route,
   navigation,
 }) => {
-  const { colors, typography, spacing, borderRadius } = useTheme();
+  const { colors, typography, spacing, borderRadius, isDark } = useTheme();
 
   const {
     localAttemptId,
@@ -245,7 +159,6 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
   const isTimeCritical = remainingSec < 600; // < 10 mins
 
   useEffect(() => {
-    if (!isItec4133Package) return;
     let active = true;
     database
       .query<{ question_snapshot_json: string }>(
@@ -257,20 +170,26 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
       )
       .then((rows) => {
         if (!active) return;
-        if (!rows[0]) {
-          throw new Error(`Seeded question package ${examPackageId} is missing.`);
+        if (!rows[0] || !rows[0].question_snapshot_json) {
+          if (isItec4133Package) {
+            throw new Error(`Seeded question package ${examPackageId} is missing.`);
+          }
+          return;
         }
-        const snapshot = JSON.parse(rows[0].question_snapshot_json) as {
-          questions?: ParsedQuestion[];
-        };
-        if (!Array.isArray(snapshot.questions) || snapshot.questions.length !== questionCount) {
-          throw new Error(`Question package ${examPackageId} has an invalid snapshot.`);
+        try {
+          const snapshot = JSON.parse(rows[0].question_snapshot_json) as {
+            questions?: any[];
+          };
+          if (Array.isArray(snapshot.questions) && snapshot.questions.length > 0) {
+            setQuestions(snapshot.questions.map(toExamQuestion));
+          }
+        } catch (parseErr) {
+          console.warn('Failed to parse question snapshot JSON:', parseErr);
         }
-        setQuestions(snapshot.questions.map(toExamQuestion));
       })
       .catch((error: unknown) => {
-        console.error('Failed to load the selected ITec4133 question package:', error);
-        if (active) {
+        console.error('Failed to load the selected question package:', error);
+        if (active && isItec4133Package) {
           setQuestionBankError('This exam package could not be loaded. Return to the catalog and try again.');
         }
       });
@@ -737,7 +656,7 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: 4,
+                gap: 5,
                 paddingHorizontal: 10,
                 paddingVertical: 6,
                 borderRadius: borderRadius.md,
@@ -746,8 +665,17 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
                 borderColor: flaggedSet.has(currentQuestion.id) ? '#F59E0B' : colors.border.default,
               }}
             >
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: flaggedSet.has(currentQuestion.id) ? '#B45309' : colors.text.secondary,
+                  fontWeight: '700',
+                }}
+              >
+                ⚑
+              </Text>
               <Bookmark
-                size={16}
+                size={15}
                 color={flaggedSet.has(currentQuestion.id) ? '#B45309' : colors.text.secondary}
                 fill={flaggedSet.has(currentQuestion.id) ? '#F59E0B' : 'transparent'}
               />
@@ -765,46 +693,19 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
             </TouchableOpacity>
           </View>
 
-          {/* Question Prompt */}
-          <Text
-            testID="question-prompt-text"
-            style={[
-              typography.bodyLg,
-              {
-                color: colors.text.primary,
-                fontWeight: '600',
-                lineHeight: 26,
-                marginBottom: spacing.md,
-              },
-            ]}
-          >
-            {currentQuestion.prompt}
-          </Text>
+          {/* Question Prompt with Rich Content */}
+          <View testID="question-prompt-text" style={{ marginBottom: spacing.md }}>
+            <RichContentRenderer
+              content={
+                currentQuestion.codeSnippet && !currentQuestion.prompt.includes(currentQuestion.codeSnippet)
+                  ? `${currentQuestion.prompt}\n\n\`\`\`\n${currentQuestion.codeSnippet}\n\`\`\``
+                  : currentQuestion.prompt
+              }
+              themeMode={isDark ? 'dark' : 'light'}
+            />
+          </View>
 
-          {/* Optional Code Snippet */}
-          {currentQuestion.codeSnippet && (
-            <View
-              style={{
-                backgroundColor: '#1E293B',
-                padding: spacing.md,
-                borderRadius: borderRadius.md,
-                marginBottom: spacing.md,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: 'monospace',
-                  fontSize: 13,
-                  color: '#38BDF8',
-                  lineHeight: 20,
-                }}
-              >
-                {currentQuestion.codeSnippet}
-              </Text>
-            </View>
-          )}
-
-          {/* Multiple Choice Options (A, B, C, D) */}
+          {/* Multiple Choice Options */}
           <View style={{ gap: spacing.sm, marginBottom: spacing.lg }}>
             {currentQuestion.options.map((opt) => {
               const isSelected = selectedAnswers[currentQuestion.id] === opt.id;
@@ -820,18 +721,22 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
                     padding: spacing.md,
                     borderRadius: borderRadius.md,
                     borderWidth: 2,
-                    borderColor: isSelected ? colors.brand.primary : colors.border.default,
-                    backgroundColor: isSelected ? '#EFF6FF' : colors.surface.card,
-                    minHeight: 56,
+                    borderColor: isSelected ? '#3B82F6' : colors.border.default,
+                    backgroundColor: isSelected
+                      ? isDark
+                        ? 'rgba(30, 58, 138, 0.35)'
+                        : '#EFF6FF'
+                      : colors.surface.card,
+                    minHeight: 48,
                   }}
                 >
-                  {/* Option Badge (A, B, C, D) */}
+                  {/* Option Badge (A, B, C, D, etc.) */}
                   <View
                     style={{
                       width: 32,
                       height: 32,
                       borderRadius: 16,
-                      backgroundColor: isSelected ? colors.brand.primary : colors.surface.secondary,
+                      backgroundColor: isSelected ? '#3B82F6' : colors.surface.secondary,
                       justifyContent: 'center',
                       alignItems: 'center',
                       marginRight: spacing.md,
@@ -856,8 +761,12 @@ export const ExamRunnerScreen: React.FC<ExamRunnerScreenProps> = ({
                       typography.bodyMd,
                       {
                         flex: 1,
-                        color: isSelected ? colors.brand.primary : colors.text.primary,
-                        fontWeight: isSelected ? '600' : '400',
+                        color: isSelected
+                          ? isDark
+                            ? '#93C5FD'
+                            : '#1D4ED8'
+                          : colors.text.primary,
+                        fontWeight: isSelected ? '700' : '400',
                         lineHeight: 20,
                       },
                     ]}

@@ -149,19 +149,19 @@ export const CourseListScreen: React.FC<CourseListScreenProps> = ({
                   {course.general_objective}
                 </Text>
 
-                {/* Mastery Progress Bar (3/6 Outcomes) */}
+                {/* Bloom's Learning Outcomes & Mastery */}
                 <View style={{ marginBottom: spacing.sm }}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
                     <Text style={[typography.labelSm, { color: colors.text.muted }]}>
-                      Bloom's Outcomes Mastery
+                      Bloom's Outcomes
                     </Text>
                     <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '600' }]}>
-                      3/6 Outcomes
+                      {course.outcome_count ? `${course.outcome_count} Outcomes` : '6 Competencies'}
                     </Text>
                   </View>
                   <View
                     style={{
-                      height: 6,
+                      height: 5,
                       backgroundColor: colors.surface.secondary,
                       borderRadius: 3,
                       overflow: 'hidden',
@@ -169,7 +169,7 @@ export const CourseListScreen: React.FC<CourseListScreenProps> = ({
                   >
                     <View
                       style={{
-                        width: '50%',
+                        width: `${Math.min(100, Math.max((course.mastery_percentage || 0) > 0 ? 3 : 0, course.mastery_percentage || 0))}%`,
                         height: '100%',
                         backgroundColor: colors.brand.primary,
                         borderRadius: 3,

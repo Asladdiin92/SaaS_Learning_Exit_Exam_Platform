@@ -35,9 +35,9 @@ export const SubmissionStatusScreen: React.FC<SubmissionStatusScreenProps> = ({
   const { isOnline } = useNetwork();
 
   const {
-    localAttemptId = 'att_mock_123',
-    operationId = 'op_mock_sync_9918',
-    title = 'HU CCI B.Sc. IT Model Exit Exam (Jan 2023)',
+    localAttemptId = '',
+    operationId = '',
+    title = 'Exit Exam Assessment',
     initialStep = 2, // 1: Locked, 2: Waiting for connection, 3: Uploading, 4: Scoring, 5: Verified, 6: Rejected
   } = route.params || {};
 

@@ -283,6 +283,17 @@ export const examAttemptRepository = {
     );
   },
 
+  async getAnswersMapForAttempt(localAttemptId: string): Promise<Record<string, string>> {
+    const events = await this.getAnswerEventsForAttempt(localAttemptId);
+    const map: Record<string, string> = {};
+    for (const ev of events) {
+      if (ev.selected_option_id) {
+        map[ev.question_id] = ev.selected_option_id;
+      }
+    }
+    return map;
+  },
+
   async getAllAttempts(userId?: string): Promise<LocalExamAttempt[]> {
     if (userId) {
       return await database.query<LocalExamAttempt>(

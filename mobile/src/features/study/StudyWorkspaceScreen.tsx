@@ -11,7 +11,8 @@ import {
   Alert,
 } from 'react-native';
 import { useTheme } from '../../shared/theme';
-import { Card, Button } from '../../shared/components';
+import { Card, Button, RichContentRenderer, WatermarkOverlay } from '../../shared/components';
+import { useAuthSession } from '../../services/auth-session/AuthSessionContext';
 import {
   CANONICAL_STUDY_MATERIALS,
   CourseMaterialItem,
@@ -45,6 +46,7 @@ export const StudyWorkspaceScreen: React.FC<{ navigation: any; route: any }> = (
   route,
 }) => {
   const { colors, typography, spacing, borderRadius } = useTheme();
+  const { user } = useAuthSession();
 
   // Selected material state
   const initialMaterialId = route.params?.materialId;
@@ -351,73 +353,74 @@ export const StudyWorkspaceScreen: React.FC<{ navigation: any; route: any }> = (
         )}
 
         {/* Distraction-Free Markdown Content Reader */}
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{
-            paddingHorizontal: spacing.lg,
-            paddingTop: isDistractionFree ? 60 : spacing.lg,
-            paddingBottom: 90,
-          }}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Module Title Header */}
-          <View style={{ marginBottom: spacing.lg }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 6,
-                marginBottom: 6,
-              }}
-            >
+        <View style={{ flex: 1, position: 'relative' }}>
+          <WatermarkOverlay
+            watermarkText={`${user?.fullName || 'Verified Student'} • ${user?.email || 'student@university.edu.et'} • HARAMAYA CCI`}
+            opacity={0.06}
+          />
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{
+              paddingHorizontal: spacing.lg,
+              paddingTop: isDistractionFree ? 60 : spacing.lg,
+              paddingBottom: 120,
+            }}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Module Title Header */}
+            <View style={{ marginBottom: spacing.lg }}>
               <View
                 style={{
-                  backgroundColor: colors.brand.primary,
-                  paddingHorizontal: 8,
-                  paddingVertical: 2,
-                  borderRadius: 4,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 6,
+                  marginBottom: 6,
                 }}
               >
-                <Text style={{ color: '#FFFFFF', fontSize: 11, fontWeight: '700' }}>
-                  {activeMaterial.courseCode}
+                <View
+                  style={{
+                    backgroundColor: colors.brand.primary,
+                    paddingHorizontal: 8,
+                    paddingVertical: 2,
+                    borderRadius: 4,
+                  }}
+                >
+                  <Text style={{ color: '#FFFFFF', fontSize: 11, fontWeight: '700' }}>
+                    {activeMaterial.courseCode}
+                  </Text>
+                </View>
+                <Text style={{ color: readerStyles.subtext, fontSize: 12, fontWeight: '600' }}>
+                  Theme {activeMaterial.themeNumber}: {activeMaterial.themeTitle}
+                </Text>
+                <Text style={{ color: readerStyles.subtext, fontSize: 12 }}>
+                  • {activeMaterial.readTimeMin} min read
                 </Text>
               </View>
-              <Text style={{ color: readerStyles.subtext, fontSize: 12, fontWeight: '600' }}>
-                Theme {activeMaterial.themeNumber}: {activeMaterial.themeTitle}
+
+              <Text
+                style={{
+                  color: readerStyles.text,
+                  fontSize: fontSize + 8,
+                  fontWeight: '800',
+                  lineHeight: fontSize + 14,
+                  marginBottom: 4,
+                }}
+              >
+                {activeMaterial.title}
               </Text>
-              <Text style={{ color: readerStyles.subtext, fontSize: 12 }}>
-                • {activeMaterial.readTimeMin} min read
+              <Text style={{ color: readerStyles.subtext, fontSize: fontSize, lineHeight: fontSize + 6 }}>
+                {activeMaterial.subtitle}
               </Text>
             </View>
 
-            <Text
-              style={{
-                color: readerStyles.text,
-                fontSize: fontSize + 8,
-                fontWeight: '800',
-                lineHeight: fontSize + 14,
-                marginBottom: 4,
-              }}
-            >
-              {activeMaterial.title}
-            </Text>
-            <Text style={{ color: readerStyles.subtext, fontSize: fontSize, lineHeight: fontSize + 6 }}>
-              {activeMaterial.subtitle}
-            </Text>
-          </View>
-
-          {/* Formatted Text Presentation */}
-          <Text
-            style={{
-              color: readerStyles.text,
-              fontSize: fontSize,
-              lineHeight: fontSize * 1.65,
-              letterSpacing: 0.25,
-            }}
-          >
-            {activeMaterial.markdown}
-          </Text>
-        </ScrollView>
+            {/* Rich Formatted Markdown Presentation */}
+            <RichContentRenderer
+              content={activeMaterial.markdown}
+              fontScale={fontSize / 16}
+              themeMode={readerTheme === 'dark' ? 'dark' : 'light'}
+            />
+          </ScrollView>
+        </View>
 
         {/* Floating Quick Action Button: AI Tutor Companion */}
         <TouchableOpacity

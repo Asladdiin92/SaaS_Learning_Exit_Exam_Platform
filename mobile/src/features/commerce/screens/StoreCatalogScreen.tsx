@@ -43,6 +43,73 @@ export interface ProductItem {
   is_active: boolean;
 }
 
+const CANONICAL_FALLBACK_PRODUCTS: ProductItem[] = [
+  {
+    product_id: '11111111-1111-4111-a111-111111111111',
+    code: 'SUB-SEMESTER',
+    title: 'Semester Study Pass',
+    is_recurring: true,
+    billing_interval_days: 120,
+    price_amount: 499.0,
+    currency: 'ETB',
+    entitlement_spec: {
+      offline_download_allowed: true,
+      storage_quota_mb: 2048,
+      ai_monthly_quota: 100,
+      features: ['FULL_OFFLINE', 'ALL_COURSES', 'AI_TUTOR'],
+    },
+    is_active: true,
+  },
+  {
+    product_id: '22222222-2222-4222-a222-222222222222',
+    code: 'SUB-ANNUAL',
+    title: 'Full Exit Exam Preparation Pass',
+    is_recurring: true,
+    billing_interval_days: 365,
+    price_amount: 899.0,
+    currency: 'ETB',
+    entitlement_spec: {
+      offline_download_allowed: true,
+      storage_quota_mb: 4096,
+      ai_monthly_quota: 250,
+      features: ['FULL_OFFLINE', 'ALL_COURSES', 'AI_TUTOR', 'PRIORITY_SYNC'],
+    },
+    is_active: true,
+  },
+  {
+    product_id: '44444444-4444-4444-a444-444444444444',
+    code: 'BUNDLE-EXIT-2023',
+    title: 'HU CCI 2023 Model Exit Exam Pack (100 Qs)',
+    is_recurring: false,
+    billing_interval_days: null,
+    price_amount: 299.0,
+    currency: 'ETB',
+    entitlement_spec: {
+      offline_download_allowed: true,
+      storage_quota_mb: 1024,
+      ai_monthly_quota: 50,
+      features: ['EXAM_SIMULATION', 'OFFLINE_ATTEMPTS'],
+    },
+    is_active: true,
+  },
+  {
+    product_id: '55555555-5555-4555-a555-555555555555',
+    code: 'BUNDLE-ALL-COURSES',
+    title: '15 Canonical B.Sc. IT Course Notes Pack',
+    is_recurring: false,
+    billing_interval_days: null,
+    price_amount: 399.0,
+    currency: 'ETB',
+    entitlement_spec: {
+      offline_download_allowed: true,
+      storage_quota_mb: 2048,
+      ai_monthly_quota: 50,
+      features: ['OFFLINE_NOTES', 'ALL_COURSES'],
+    },
+    is_active: true,
+  },
+];
+
 export const StoreCatalogScreen: React.FC = () => {
   const { colors, typography, spacing } = useTheme();
   const navigation = useNavigation<any>();
@@ -50,12 +117,12 @@ export const StoreCatalogScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'SUBSCRIPTIONS' | 'BUNDLES'>('SUBSCRIPTIONS');
-  const [products, setProducts] = useState<ProductItem[]>([]);
+  const [products, setProducts] = useState<ProductItem[]>(CANONICAL_FALLBACK_PRODUCTS);
 
   const loadProducts = useCallback(async () => {
     try {
       const data = await api.get<ProductItem[]>('/products');
-      if (data && Array.isArray(data)) {
+      if (data && Array.isArray(data) && data.length > 0) {
         setProducts(data);
       }
     } catch (err: any) {
@@ -261,8 +328,8 @@ export const StoreCatalogScreen: React.FC = () => {
                   </Text>
                 </View>
                 <View style={styles.priceContainer}>
-                  <Text style={[typography.h1, { color: colors.brand.primary }]}>
-                    {Math.round(product.price_amount)} {product.currency}
+                  <Text style={[typography.h1, { color: colors.brand.primary, fontWeight: '800' }]}>
+                    {Math.round(product.price_amount)} ETB
                   </Text>
                   <Text style={[typography.labelSm, { color: colors.text.muted }]}>
                     {product.is_recurring ? `every ${product.billing_interval_days} days` : 'one-time'}
@@ -309,7 +376,7 @@ export const StoreCatalogScreen: React.FC = () => {
                 testID={`checkout-btn-${product.code}`}
               >
                 <Text style={[typography.h3, { color: '#FFFFFF', fontWeight: '700' }]}>
-                  Continue to Checkout
+                  {product.is_recurring ? 'Unlock Plan' : 'Unlock Exam Pack'}
                 </Text>
                 <ArrowRight size={18} color="#FFFFFF" style={{ marginLeft: 8 }} />
               </TouchableOpacity>

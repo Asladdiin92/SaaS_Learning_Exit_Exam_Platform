@@ -462,58 +462,93 @@ export const ProgressOverviewScreen: React.FC = () => {
           Course Outcome Drilldown
         </Text>
 
-        {(progressData?.courses || []).slice(0, 5).map((course) => (
-          <TouchableOpacity
-            key={course.course_id}
-            style={[
-              styles.courseRow,
-              {
-                backgroundColor: colors.surface.card,
-                borderColor: colors.border.subtle,
-              },
-            ]}
-            onPress={() => handleCoursePress(course)}
-            testID={`course-row-${course.course_id}`}
-          >
-            <View style={styles.courseRowLeft}>
-              <View style={[styles.codeBadge, { backgroundColor: colors.surface.secondary }]}>
-                <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700' }]}>
-                  {course.code}
-                </Text>
-              </View>
-              <View style={styles.courseRowText}>
-                <Text
-                  style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}
-                  numberOfLines={1}
-                >
-                  {course.title}
-                </Text>
-                <Text style={[typography.labelSm, { color: colors.text.muted }]}>
-                  {course.credit_hours} Cr. Hrs • {course.attempted_outcomes_count}/{course.total_outcomes_count} Outcomes
-                </Text>
-              </View>
-            </View>
+        {(progressData?.courses || []).map((course) => {
+          const coursePct = Math.round(course.mastery_percentage || 0);
+          const barColor =
+            coursePct >= 70
+              ? colors.status.online
+              : coursePct > 0
+              ? colors.brand.primary
+              : colors.text.muted;
 
-            <View style={styles.courseRowRight}>
-              <Text
-                style={[
-                  typography.h3,
-                  {
-                    color:
-                      course.mastery_percentage >= 70
-                        ? colors.status.online
-                        : course.mastery_percentage > 0
-                        ? colors.brand.primary
-                        : colors.text.muted,
-                  },
-                ]}
+          return (
+            <View
+              key={course.course_id}
+              style={[
+                styles.courseCard,
+                {
+                  backgroundColor: colors.surface.card,
+                  borderColor: colors.border.subtle,
+                },
+              ]}
+              testID={`course-row-${course.course_id}`}
+            >
+              <TouchableOpacity
+                style={styles.courseRowHeader}
+                onPress={() => handleCoursePress(course)}
+                activeOpacity={0.7}
               >
-                {Math.round(course.mastery_percentage)}%
-              </Text>
-              <ChevronRight size={16} color={colors.text.muted} />
+                <View style={styles.courseRowLeft}>
+                  <View style={[styles.codeBadge, { backgroundColor: colors.surface.secondary }]}>
+                    <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700' }]}>
+                      {course.code}
+                    </Text>
+                  </View>
+                  <View style={styles.courseRowText}>
+                    <Text
+                      style={[typography.bodyMd, { color: colors.text.primary, fontWeight: '600' }]}
+                      numberOfLines={1}
+                    >
+                      {course.title}
+                    </Text>
+                    <Text style={[typography.labelSm, { color: colors.text.muted }]}>
+                      {course.credit_hours} Cr. Hrs • {course.attempted_outcomes_count}/{course.total_outcomes_count} Outcomes
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.courseRowRight}>
+                  <Text style={[typography.h3, { color: barColor, fontWeight: '700', marginRight: 4 }]}>
+                    {coursePct}%
+                  </Text>
+                  <ChevronRight size={16} color={colors.text.muted} />
+                </View>
+              </TouchableOpacity>
+
+              {/* Course Progress Bar */}
+              <View style={styles.courseBarBg}>
+                <View
+                  style={[
+                    styles.courseBarFill,
+                    {
+                      backgroundColor: barColor,
+                      width: `${Math.max(2, Math.min(100, coursePct))}%`,
+                    },
+                  ]}
+                />
+              </View>
+
+              {/* Improve Weakest Topic Button */}
+              <TouchableOpacity
+                style={styles.improveTopicBtn}
+                onPress={() => {
+                  navigation.navigate('ExamInstructions', {
+                    courseId: course.course_id,
+                    examType: 'PRACTICE_QUIZ',
+                    title: `${course.code} Targeted Practice`,
+                  });
+                }}
+                activeOpacity={0.8}
+                testID={`improve-weakest-btn-${course.course_id}`}
+              >
+                <Target size={14} color="#1D4ED8" style={{ marginRight: 6 }} />
+                <Text style={[typography.labelSm, { color: '#1D4ED8', fontWeight: '700' }]}>
+                  Improve Weakest Topic
+                </Text>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-        ))}
+          );
+        })}
       </View>
 
       {/* Primary CTA: Launch Practice */}
@@ -687,6 +722,42 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderTopWidth: 1,
     textAlign: 'center',
+  },
+  courseCard: {
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 12,
+    marginBottom: 10,
+  },
+  courseRowHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    minHeight: 44,
+  },
+  courseBarBg: {
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#E2E8F0',
+    overflow: 'hidden',
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  courseBarFill: {
+    height: '100%',
+    borderRadius: 3,
+  },
+  improveTopicBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#EFF6FF',
+    borderWidth: 1,
+    borderColor: '#3B82F6',
+    borderRadius: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginTop: 2,
   },
   courseRow: {
     flexDirection: 'row',

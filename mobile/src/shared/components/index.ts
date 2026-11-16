@@ -12,3 +12,4 @@ export * from './AppHeader';
 export * from './InlineError';
 export * from './ResourceCard';
 export * from './ProtectedContentReader';
+export * from './RichContentRenderer';

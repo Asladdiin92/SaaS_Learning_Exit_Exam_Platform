@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { useTheme } from '../../../shared/theme';
-import { Card, Button } from '../../../shared/components';
+import { Card, Button, RichContentRenderer } from '../../../shared/components';
 import {
   ArrowLeft,
   Globe,
@@ -35,7 +35,7 @@ interface FAQItem {
 }
 
 export const SettingsAndHelpScreen: React.FC<SettingsAndHelpScreenProps> = ({ navigation }) => {
-  const { colors, typography, spacing, borderRadius } = useTheme();
+  const { colors, typography, spacing, borderRadius, isDark } = useTheme();
 
   const [language, setLanguage] = useState<LanguageCode>('EN');
   const [examAlerts, setExamAlerts] = useState<boolean>(true);
@@ -104,10 +104,10 @@ export const SettingsAndHelpScreen: React.FC<SettingsAndHelpScreenProps> = ({ na
         </TouchableOpacity>
         <View>
           <Text style={[typography.h2, { color: colors.text.primary, fontWeight: '700' }]}>
-            Settings & Help
+            Help, Language & Alerts
           </Text>
           <Text style={[typography.labelSm, { color: colors.text.secondary }]}>
-            MOB-30 • Ethiopian Localization & Offline FAQ
+            Ethiopian Localization & Offline Exam Guide
           </Text>
         </View>
       </View>
@@ -283,9 +283,7 @@ export const SettingsAndHelpScreen: React.FC<SettingsAndHelpScreenProps> = ({ na
 
                 {isExpanded && (
                   <View style={{ marginTop: spacing.xs, borderTopWidth: 1, borderTopColor: colors.border.default, paddingTop: spacing.xs }}>
-                    <Text style={[typography.bodySm, { color: colors.text.secondary, lineHeight: 20 }]}>
-                      {faq.answer}
-                    </Text>
+                    <RichContentRenderer content={faq.answer} themeMode={isDark ? 'dark' : 'light'} />
                   </View>
                 )}
               </Card>

@@ -303,15 +303,15 @@ describe('Day 14 Verification: MOB-16, MOB-18, MOB-19, and MOB-20 Assessment Rem
 
     test('unlocks review when isSubmitted is true, allowing filter by INCORRECT, CORRECT, FLAGGED', () => {
       const mockQuestions = [
-        EXAM_QUESTIONS[0],  // Q1 correctOptionId: 'q001_b'
-        EXAM_QUESTIONS[18], // Q19 correctOptionId: 'q019_b'
-        EXAM_QUESTIONS[90], // Q91 correctOptionId: 'q091_c'
+        EXAM_QUESTIONS[0],  // Q1 correctOptionId: 'q001_a'
+        EXAM_QUESTIONS[18], // Q19 correctOptionId: 'q019_a'
+        EXAM_QUESTIONS[90], // Q91 correctOptionId: 'q091_d'
       ];
 
       const mockAnswers = {
-        q_hu2023_001: 'q001_b', // Correct
-        q_hu2023_019: 'q019_a', // Incorrect (user picked A, correct is B)
-        q_hu2023_091: 'q091_c', // Correct
+        q_hu2023_001: 'q001_a', // Correct
+        q_hu2023_019: 'q019_b', // Incorrect (user picked B, correct is A)
+        q_hu2023_091: 'q091_d', // Correct
       };
 
       const mockFlags = ['q_hu2023_019'];

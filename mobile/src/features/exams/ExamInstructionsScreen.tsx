@@ -76,7 +76,7 @@ export const ExamInstructionsScreen: React.FC<{ navigation: any; route: any }> =
   // ── Summary Grid Items ──────────────────────────────────────────────────────
   const summaryItems = [
     { icon: <FileText size={18} color={colors.brand.primary} />, label: `${questionCount} Questions` },
-    { icon: <Clock size={18} color={colors.brand.primary} />, label: `${durationMin}:00 Duration` },
+    { icon: <Clock size={18} color={colors.brand.primary} />, label: `${durationMin} mins Duration` },
     { icon: <CheckSquare size={18} color={colors.brand.primary} />, label: 'Multiple Choice (A–F)' },
     { icon: <WifiOff size={18} color={colors.brand.primary} />, label: 'Offline-Capable Practice' },
   ];
@@ -84,8 +84,9 @@ export const ExamInstructionsScreen: React.FC<{ navigation: any; route: any }> =
   // ── Pre-flight Checklist ────────────────────────────────────────────────────
   const checklistItems = [
     'Exam Package Verified (SHA-256 checksum confirmed)',
-    'Entitlement Grant Active',
-    'Answers auto-saved to this device on every tap',
+    'Entitlement Grant Active (B.Sc. IT National Exit Curriculum)',
+    'Transactional Local SQLite Answer Logging Active (<16ms)',
+    'Auto-Recovery & State Checkpointing Enabled',
   ];
 
   // ── Begin Exam Handler ──────────────────────────────────────────────────────

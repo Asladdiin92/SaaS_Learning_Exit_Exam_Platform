@@ -28,8 +28,8 @@ interface CourseOutcomeBreakdown {
   total: number;
   correct: number;
   percentage: number;
-  recommendedResourceTitle: string;
-  recommendedResourceId: string;
+  recommendedResourceTitle?: string;
+  recommendedResourceId?: string;
 }
 
 interface ExamResultScreenProps {
@@ -44,15 +44,15 @@ export const ExamResultScreen: React.FC<ExamResultScreenProps> = ({
   const { colors, typography, spacing, borderRadius } = useTheme();
 
   const {
-    localAttemptId,
-    examPackageId = 'pkg_hu_cci_model_exit_2023',
-    title = 'HU CCI B.Sc. IT Model Exit Exam (Jan 2023)',
-    status = 'ACCEPTED_RESULT_READY',
-    scorePercent = 84.0,
-    correctCount = 84,
-    totalQuestions = 100,
-    elapsedSec = 5400,
-    operationId = 'op_mock_sync_9918',
+    localAttemptId = '',
+    examPackageId = '',
+    title = 'Exit Exam Assessment',
+    status = 'SUBMITTED_LOCAL_PENDING',
+    scorePercent = 0,
+    correctCount = 0,
+    totalQuestions = 0,
+    elapsedSec = 0,
+    operationId = '',
     questions = [],
     selectedAnswers = {},
     examType = 'NATIONAL_EXIT_SIMULATION',
@@ -71,76 +71,51 @@ export const ExamResultScreen: React.FC<ExamResultScreenProps> = ({
     return `${m}m ${s}s`;
   };
 
-  // ── Compute or Mock Course Outcome Breakdown ─────────────────────────────────
+  // ── Compute Course Outcome Breakdown dynamically from actual questions & answers ──
   const courseBreakdowns: CourseOutcomeBreakdown[] = useMemo(() => {
-    const raw: CourseOutcomeBreakdown[] = [
-      {
-        courseCode: 'IT-EDPR-203',
-        courseTitle: 'Event Driven Programming',
-        total: 15,
-        correct: 13,
-        percentage: 86.7,
-        recommendedResourceTitle: 'GUI Architectures & Event Dispatcher Notes',
-        recommendedResourceId: 'res_edpr_203_notes',
-      },
-      {
-        courseCode: 'IT-OOPR-201',
-        courseTitle: 'OOP in Java',
-        total: 15,
-        correct: 14,
-        percentage: 93.3,
-        recommendedResourceTitle: 'Polymorphism & JVM Runtime Models',
-        recommendedResourceId: 'res_oopr_201_notes',
-      },
-      {
-        courseCode: 'IT-DBMS-301',
-        courseTitle: 'Database Systems & Design',
-        total: 15,
-        correct: 12,
-        percentage: 80.0,
-        recommendedResourceTitle: '3NF Normalization & Transitive Dependency Guide',
-        recommendedResourceId: 'res_dbms_301_notes',
-      },
-      {
-        courseCode: 'IT-CNET-302',
-        courseTitle: 'Computer Networking',
-        total: 15,
-        correct: 8,
-        percentage: 53.3, // Weak area < 60%
-        recommendedResourceTitle: 'Subnetting VLSM & Routing Protocols Handbook',
-        recommendedResourceId: 'res_cnet_302_notes',
-      },
-      {
-        courseCode: 'IT-WEBP-304',
-        courseTitle: 'Web Development Technologies',
-        total: 15,
-        correct: 13,
-        percentage: 86.7,
-        recommendedResourceTitle: 'RESTful API Contracts & Client-Side Rendering',
-        recommendedResourceId: 'res_webp_304_notes',
-      },
-      {
-        courseCode: 'IT-SASD-303',
-        courseTitle: 'Systems Analysis & Design',
-        total: 15,
-        correct: 12,
-        percentage: 80.0,
-        recommendedResourceTitle: 'UML Sequence & Use-Case Modeling Review',
-        recommendedResourceId: 'res_sasd_303_notes',
-      },
-      {
-        courseCode: 'IT-IASE-401',
-        courseTitle: 'Information Assurance & Security',
-        total: 10,
-        correct: 5,
-        percentage: 50.0, // Weak area < 60%
-        recommendedResourceTitle: 'Public Key Cryptography & Zero-Trust Architecture',
-        recommendedResourceId: 'res_iase_401_notes',
-      },
-    ];
+    if (!questions || questions.length === 0) {
+      return [];
+    }
 
-    return raw;
-  }, []);
+    const courseMap = new Map<
+      string,
+      {
+        title: string;
+        total: number;
+        correct: number;
+        resourceTitle?: string;
+        resourceId?: string;
+      }
+    >();
+
+    for (const q of questions) {
+      const code = q.courseCode || 'GENERAL';
+      const courseTitle = q.courseTitle || code;
+      const entry = courseMap.get(code) || {
+        title: courseTitle,
+        total: 0,
+        correct: 0,
+        resourceTitle: q.chapterTitle ? `${q.chapterTitle} Guide` : undefined,
+        resourceId: q.recommendedResourceId,
+      };
+
+      entry.total += 1;
+      if (selectedAnswers && selectedAnswers[q.id] === q.correctOptionId) {
+        entry.correct += 1;
+      }
+      courseMap.set(code, entry);
+    }
+
+    return Array.from(courseMap.entries()).map(([code, data]) => ({
+      courseCode: code,
+      courseTitle: data.title,
+      total: data.total,
+      correct: data.correct,
+      percentage: data.total > 0 ? (data.correct / data.total) * 100 : 0,
+      recommendedResourceTitle: data.resourceTitle,
+      recommendedResourceId: data.resourceId,
+    }));
+  }, [questions, selectedAnswers]);
 
   const weakOutcomes = courseBreakdowns.filter((c) => c.percentage < 60.0);
 
@@ -262,7 +237,12 @@ export const ExamResultScreen: React.FC<ExamResultScreenProps> = ({
               </View>
 
               <View style={{ gap: spacing.md, marginTop: spacing.xs }}>
-                {courseBreakdowns.map((course) => {
+                {courseBreakdowns.length === 0 ? (
+                  <Text style={[typography.bodySm, { color: colors.text.secondary, fontStyle: 'italic', paddingVertical: spacing.sm }]}>
+                    No course outcome breakdown data available for this assessment.
+                  </Text>
+                ) : (
+                  courseBreakdowns.map((course) => {
                   const isWeak = course.percentage < 60.0;
 
                   return (
@@ -344,7 +324,7 @@ export const ExamResultScreen: React.FC<ExamResultScreenProps> = ({
                       )}
                     </View>
                   );
-                })}
+                }))}
               </View>
             </Card>
 
@@ -470,6 +450,90 @@ export const ExamResultScreen: React.FC<ExamResultScreenProps> = ({
               </View>
             </Card>
 
+            {/* ── Provisional Course & Outcome Breakdown (Offline Mode) ── */}
+            {courseBreakdowns.length > 0 && (
+              <Card variant="elevated" style={{ padding: spacing.md, marginBottom: spacing.md }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm }}>
+                  <Text style={[typography.h3, { color: colors.text.primary, fontWeight: '700' }]}>
+                    Provisional Course & Outcome Breakdown
+                  </Text>
+                  <View
+                    style={{
+                      backgroundColor: '#EFF6FF',
+                      paddingHorizontal: 8,
+                      paddingVertical: 2,
+                      borderRadius: borderRadius.sm,
+                    }}
+                  >
+                    <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700' }]}>
+                      Provisional / Awaiting Server Sync
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={{ gap: spacing.md, marginTop: spacing.xs }}>
+                  {courseBreakdowns.map((course) => {
+                    const isWeak = course.percentage < 60.0;
+
+                    return (
+                      <View key={course.courseCode} testID={`breakdown-offline-${course.courseCode}`}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                            <Text style={[typography.bodySm, { color: colors.text.primary, fontWeight: '600' }]}>
+                              {course.courseCode} — {course.courseTitle}
+                            </Text>
+                            {isWeak && (
+                              <View
+                                style={{
+                                  backgroundColor: '#FEF2F2',
+                                  paddingHorizontal: 6,
+                                  paddingVertical: 1,
+                                  borderRadius: borderRadius.sm,
+                                }}
+                              >
+                                <Text style={[typography.labelSm, { color: colors.status.error, fontWeight: '700' }]}>
+                                  &lt;60% Review
+                                </Text>
+                              </View>
+                            )}
+                          </View>
+                          <Text
+                            style={[
+                              typography.labelSm,
+                              {
+                                color: isWeak ? colors.status.error : colors.status.online,
+                                fontWeight: '700',
+                              },
+                            ]}
+                          >
+                            {course.percentage.toFixed(0)}%
+                          </Text>
+                        </View>
+
+                        {/* Progress bar */}
+                        <View
+                          style={{
+                            height: 8,
+                            backgroundColor: colors.surface.secondary,
+                            borderRadius: 4,
+                            overflow: 'hidden',
+                          }}
+                        >
+                          <View
+                            style={{
+                              height: '100%',
+                              width: `${course.percentage}%`,
+                              backgroundColor: isWeak ? colors.status.error : colors.brand.primary,
+                            }}
+                          />
+                        </View>
+                      </View>
+                    );
+                  })}
+                </View>
+              </Card>
+            )}
+
             {/* Offline CTAs */}
             <View style={{ gap: spacing.sm }}>
               <Button
@@ -479,6 +543,24 @@ export const ExamResultScreen: React.FC<ExamResultScreenProps> = ({
                 size="lg"
                 onPress={() => navigation.navigate('SyncCenter')}
                 style={{ minHeight: 52 }}
+              />
+
+              <Button
+                testID="review-answers-offline-btn"
+                title="Review Answers Locally (Provisional)"
+                variant="outline"
+                size="md"
+                onPress={() =>
+                  navigation.navigate('AnswerReview', {
+                    localAttemptId,
+                    examPackageId,
+                    title,
+                    questions,
+                    selectedAnswers,
+                    isSubmitted: true,
+                  })
+                }
+                style={{ minHeight: 48 }}
               />
 
               <Button

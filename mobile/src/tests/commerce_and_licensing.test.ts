@@ -11,6 +11,7 @@ jest.mock('react-native', () => {
     ScrollView: (props: any) => React.createElement('ScrollView', props),
     SafeAreaView: (props: any) => React.createElement('SafeAreaView', props),
     RefreshControl: (props: any) => React.createElement('RefreshControl', props),
+    TextInput: (props: any) => React.createElement('TextInput', props),
     Linking: {
       canOpenURL: jest.fn().mockResolvedValue(true),
       openURL: jest.fn().mockResolvedValue(true),
@@ -72,6 +73,12 @@ jest.mock('expo-crypto', () => {
     randomUUID: jest.fn(() => `crypto-uuid-s7-${++counter}`),
   };
 });
+
+// Mock expo-clipboard
+jest.mock('expo-clipboard', () => ({
+  setStringAsync: jest.fn().mockResolvedValue(true),
+  getStringAsync: jest.fn().mockResolvedValue(''),
+}));
 
 // 7. Mock @react-navigation/native
 const mockNavigate = jest.fn();

@@ -1,4 +1,6 @@
 import { database } from './db';
+import { CANONICAL_HU_2023_EXAM_PACKAGE } from './examRepository';
+import type { ApiClient } from '../api/client';
 
 export interface LocalTheme {
   theme_id: number;
@@ -12,6 +14,7 @@ export interface LocalTheme {
   total_courses?: number;
   downloaded_courses?: number;
   is_offline_ready?: boolean;
+  mastery_percentage?: number;
 }
 
 export interface LocalCourse {
@@ -24,6 +27,8 @@ export interface LocalCourse {
   version: number;
   updated_sequence: number;
   is_downloaded?: boolean;
+  outcome_count?: number;
+  mastery_percentage?: number;
 }
 
 export interface LocalOutcome {
@@ -69,7 +74,7 @@ export interface CourseOverviewData {
 }
 
 export interface ContinueLearningAction {
-  type: 'EXAM_ATTEMPT' | 'BOOKMARK' | 'DEFAULT_COURSE';
+  type: 'EXAM_ATTEMPT' | 'BOOKMARK' | 'DEFAULT_COURSE' | 'FALLBACK';
   title: string;
   subtitle: string;
   courseCode: string;
@@ -78,6 +83,8 @@ export interface ContinueLearningAction {
   attemptId?: string;
   resourceId?: string;
   page?: string;
+  answeredCount?: number;
+  totalQuestions?: number;
 }
 
 export interface OfflineReadinessStats {
@@ -283,42 +290,135 @@ export const CANONICAL_CURRICULUM_SEED = {
     },
   ],
   outcomes: [
+    // Theme 1: Computer System (Course 101)
     {
       outcome_id: 1,
       course_id: 101,
-      description: 'Identify computer hardware components and isolate power/boot failures.',
+      description: 'Diagnose hardware POST beep codes and motherboard power delivery faults using digital multimeters and diagnostic cards.',
       domain: 'COGNITIVE',
       level: 'ANALYZE',
       version: 1,
     },
     {
       outcome_id: 2,
-      course_id: 201,
-      description: 'Implement encapsulation and inheritance hierarchy in Java applications.',
-      domain: 'COGNITIVE',
+      course_id: 101,
+      description: 'Execute preventive maintenance schedules and ESD-safe component replacement procedures for client desktops and workstations.',
+      domain: 'PSYCHOMOTOR',
       level: 'APPLY',
       version: 1,
     },
+    // Theme 2: System/Software Development (Courses 201-204, 301)
     {
       outcome_id: 3,
-      course_id: 205,
-      description: 'Normalize an unnormalized schema into Third Normal Form (3NF).',
+      course_id: 201,
+      description: 'Implement object-oriented systems enforcing encapsulation, polymorphic dispatch, and custom interface hierarchies.',
       domain: 'COGNITIVE',
       level: 'APPLY',
       version: 1,
     },
     {
       outcome_id: 4,
-      course_id: 401,
-      description: 'Architect local SQLite transactions that guarantee crash-resilient persistence.',
+      course_id: 202,
+      description: 'Design thread-safe concurrent tasks utilizing ExecutorService, thread pools, synchronized blocks, and atomic primitives.',
       domain: 'COGNITIVE',
       level: 'CREATE',
       version: 1,
     },
     {
       outcome_id: 5,
+      course_id: 203,
+      description: 'Construct responsive graphical interfaces with non-blocking event-dispatch thread execution and background worker models.',
+      domain: 'COGNITIVE',
+      level: 'CREATE',
+      version: 1,
+    },
+    {
+      outcome_id: 6,
+      course_id: 204,
+      description: 'Produce comprehensive UML 2.5 use-case specifications, sequence diagrams, and domain class models from business requirements.',
+      domain: 'COGNITIVE',
+      level: 'ANALYZE',
+      version: 1,
+    },
+    {
+      outcome_id: 7,
+      course_id: 301,
+      description: 'Calculate project Critical Path, float schedules, and Earned Value Management metrics (CPI, SPI) for software deliverables.',
+      domain: 'COGNITIVE',
+      level: 'EVALUATE',
+      version: 1,
+    },
+    // Theme 3: Database System & Information Management (Courses 205, 302)
+    {
+      outcome_id: 8,
+      course_id: 205,
+      description: 'Transform conceptual ER diagrams into third normal form (3NF) and Boyce-Codd normal form (BCNF) relational schemas.',
+      domain: 'COGNITIVE',
+      level: 'ANALYZE',
+      version: 1,
+    },
+    {
+      outcome_id: 9,
+      course_id: 302,
+      description: 'Formulate cost-optimized SQL execution plans using B+ Tree composite indexes and transaction isolation levels.',
+      domain: 'COGNITIVE',
+      level: 'EVALUATE',
+      version: 1,
+    },
+    // Theme 4: Mobile Application & Web Development (Courses 303, 304, 401)
+    {
+      outcome_id: 10,
+      course_id: 303,
+      description: 'Construct responsive and accessible multi-page UI layouts complying with W3C semantic HTML5 and CSS Grid standards.',
+      domain: 'COGNITIVE',
+      level: 'APPLY',
+      version: 1,
+    },
+    {
+      outcome_id: 11,
+      course_id: 304,
+      description: 'Implement secure server-side REST APIs enforcing JWT authentication, parameter binding, and CSRF mitigation.',
+      domain: 'COGNITIVE',
+      level: 'CREATE',
+      version: 1,
+    },
+    {
+      outcome_id: 12,
+      course_id: 401,
+      description: 'Develop offline-first mobile workflows using encrypted local SQLite storage and background synchronization hooks.',
+      domain: 'COGNITIVE',
+      level: 'CREATE',
+      version: 1,
+    },
+    // Theme 5: Networking & Information Security (Courses 206, 305, 306, 402)
+    {
+      outcome_id: 13,
+      course_id: 206,
+      description: 'Compute variable-length subnet masks (VLSM) and design hierarchical IPv4/IPv6 address allocations across enterprise subnets.',
+      domain: 'COGNITIVE',
+      level: 'APPLY',
+      version: 1,
+    },
+    {
+      outcome_id: 14,
+      course_id: 305,
+      description: 'Automate multi-user Linux authentication, systemd service management, LVM volume expansion, and automated rsync backups.',
+      domain: 'COGNITIVE',
+      level: 'APPLY',
+      version: 1,
+    },
+    {
+      outcome_id: 15,
+      course_id: 306,
+      description: 'Configure Cisco IOS enterprise switches and routers with 802.1Q trunking, rapid spanning tree protocol, and OSPF area 0 routing.',
+      domain: 'COGNITIVE',
+      level: 'APPLY',
+      version: 1,
+    },
+    {
+      outcome_id: 16,
       course_id: 402,
-      description: 'Configure symmetric AES and asymmetric RSA key pairs for transport security.',
+      description: 'Evaluate cryptographic defense architectures against MITM, replay, and side-channel threats across the CIA security triad.',
       domain: 'COGNITIVE',
       level: 'EVALUATE',
       version: 1,
@@ -360,20 +460,7 @@ export const CANONICAL_CURRICULUM_SEED = {
     },
   ],
   exam_packages: [
-    {
-      exam_package_id: 'pkg_hu_cci_model_exit_2023',
-      exam_id: 'exam-hu-cci-2023',
-      course_id: 101,
-      blueprint_version: 1,
-      question_snapshot_json: JSON.stringify({
-        title: 'HU CCI B.Sc. IT Graduating Class Model Exit Exam',
-        total_questions: 100,
-      }),
-      duration_sec: 10800, // 180 mins
-      grant_id: null,
-      license_expiry: null,
-      state: 'READY',
-    },
+    CANONICAL_HU_2023_EXAM_PACKAGE,
     {
       exam_package_id: 'pkg-it-cmts-drill-25',
       exam_id: 'exam-it-cmts-drill-25',
@@ -490,6 +577,71 @@ export const curriculumRepository = {
   },
 
   /**
+   * Fetch live curriculum themes and canonical courses from FastAPI (GET /api/v1/curriculum/themes).
+   * Upserts into local SQLite (local_themes, local_courses, local_outcomes).
+   * Falls back gracefully to CANONICAL_CURRICULUM_SEED when offline.
+   */
+  async hydrateCurriculumFromServer(): Promise<{
+    hydrated: boolean;
+    themesCount: number;
+    coursesCount: number;
+  }> {
+    try {
+      // Lazy load apiClient to prevent expo-secure-store evaluation in offline test runners
+      const { apiClient } = require('../api/client') as { apiClient: ApiClient };
+      const themes = await apiClient.get<any[]>('/curriculum/themes');
+      if (Array.isArray(themes) && themes.length > 0) {
+        const flatCourses: any[] = [];
+        const flatOutcomes: any[] = [];
+
+        for (const t of themes) {
+          if (Array.isArray(t.courses)) {
+            for (const c of t.courses) {
+              flatCourses.push({
+                course_id: c.course_id,
+                theme_id: t.theme_id,
+                code: c.code,
+                title: c.title,
+                credit_hours: c.credit_hours,
+                general_objective: c.general_objective,
+                version: c.version || 1,
+              });
+              if (Array.isArray(c.outcomes)) {
+                for (const o of c.outcomes) {
+                  flatOutcomes.push({
+                    outcome_id: o.outcome_id,
+                    course_id: c.course_id,
+                    description: o.description,
+                    domain: o.domain || 'COGNITIVE',
+                    level: o.level || 'REMEMBER',
+                    version: o.version || 1,
+                  });
+                }
+              }
+            }
+          }
+        }
+
+        const mergedOutcomes =
+          flatOutcomes.length >= 10
+            ? flatOutcomes
+            : CANONICAL_CURRICULUM_SEED.outcomes;
+
+        await this.upsertCurriculumSnapshot(themes, flatCourses, mergedOutcomes);
+        return {
+          hydrated: true,
+          themesCount: themes.length,
+          coursesCount: flatCourses.length,
+        };
+      }
+    } catch (_err) {
+      // Offline fallback: ensure canonical curriculum is seeded
+      await this.seedCanonicalCurriculumIfEmpty();
+    }
+    return { hydrated: false, themesCount: 0, coursesCount: 0 };
+  },
+
+  /**
    * Get themes with calculated offline readiness status
    */
   async getThemesWithOfflineStatus(
@@ -525,6 +677,30 @@ export const curriculumRepository = {
       t.total_courses = totalCourses;
       t.downloaded_courses = downloadedCourses;
       t.is_offline_ready = isOfflineReady;
+
+      // Calculate theme mastery percentage based on answered questions in theme's courses
+      const courseIds = courses.map((c) => c.course_id);
+      let themeMastery = 0;
+      if (courseIds.length > 0) {
+        try {
+          const idPlaceholders = courseIds.map(() => '?').join(',');
+          const answerRows = await database.query<{ answered: number }>(
+            `SELECT COUNT(DISTINCT question_id) as answered
+             FROM local_answer_events
+             WHERE local_attempt_id IN (
+               SELECT local_attempt_id FROM local_exam_attempts
+               WHERE exam_package_id IN (
+                 SELECT exam_package_id FROM local_exam_packages WHERE course_id IN (${idPlaceholders})
+               )
+             );`,
+            courseIds
+          );
+          const answered = answerRows[0]?.answered || 0;
+          const totalEstimated = Math.max(1, courses.length * 6);
+          themeMastery = Math.min(100, Math.round((answered / totalEstimated) * 100));
+        } catch (_) {}
+      }
+      t.mastery_percentage = themeMastery;
 
       // Filter: offlineOnly
       if (offlineOnly && downloadedCourses === 0) {
@@ -566,13 +742,20 @@ export const curriculumRepository = {
     const availableResourceIds = new Set(availablePkgs.map((p) => p.resource_id));
 
     for (const c of courses) {
-      const resources = await database.query<{ resource_id: string }>(
-        'SELECT resource_id FROM local_resources WHERE course_id = ?;',
-        [c.course_id]
-      );
+      const [resources, outcomes] = await Promise.all([
+        database.query<{ resource_id: string }>(
+          'SELECT resource_id FROM local_resources WHERE course_id = ?;',
+          [c.course_id]
+        ),
+        database.query<{ count: number }>(
+          'SELECT COUNT(*) as count FROM local_outcomes WHERE course_id = ?;',
+          [c.course_id]
+        ),
+      ]);
       c.is_downloaded =
         resources.length > 0 &&
         resources.some((r) => availableResourceIds.has(r.resource_id));
+      c.outcome_count = outcomes[0]?.count || 0;
     }
 
     return courses;
@@ -684,32 +867,54 @@ export const curriculumRepository = {
 
     if (activeAttempts.length > 0) {
       const attempt = activeAttempts[0];
-      const examPkgs = await database.query<LocalExamPackage>(
-        `SELECT * FROM local_exam_packages WHERE exam_package_id = ?;`,
-        [attempt.exam_package_id]
-      );
-      const examPkg = examPkgs[0];
-      const courseId = examPkg?.course_id || 101;
-      const course = await this.getCourseById(courseId);
-
       const answerEvents = await database.query(
         `SELECT COUNT(*) as count FROM local_answer_events WHERE local_attempt_id = ?;`,
         [attempt.local_attempt_id]
       );
       const answeredCount = answerEvents[0]?.count || 0;
 
-      return {
-        type: 'EXAM_ATTEMPT',
-        title: `${course?.code || 'IT-EXAM'}: Practice Exam`,
-        subtitle: `In Progress • Question ${answeredCount} Answered`,
-        courseCode: course?.code || 'IT-CMTS-101',
-        courseId,
-        buttonLabel: 'Continue Exam Attempt',
-        attemptId: attempt.local_attempt_id,
-      };
+      // CRITICAL (Task 2): Only show "Continue Exam Attempt" if at least 1 question has been answered!
+      // If 0 questions were answered, do NOT show a ghost "Question 0 Answered" banner.
+      if (answeredCount > 0) {
+        const examPkgs = await database.query<LocalExamPackage>(
+          `SELECT * FROM local_exam_packages WHERE exam_package_id = ?;`,
+          [attempt.exam_package_id]
+        );
+        const examPkg = examPkgs[0];
+        const courseId = examPkg?.course_id || 101;
+        const course = await this.getCourseById(courseId);
+
+        let totalQuestions = 100;
+        let examTitle = 'HU CCI B.Sc. IT Model Exit Exam (Jan 2023)';
+        if (examPkg?.question_snapshot_json) {
+          try {
+            const parsed = JSON.parse(examPkg.question_snapshot_json);
+            if (parsed.title) examTitle = parsed.title;
+            if (Array.isArray(parsed.questions)) {
+              totalQuestions = parsed.questions.length;
+            } else if (Array.isArray(parsed)) {
+              totalQuestions = parsed.length;
+            }
+          } catch (_) {}
+        } else if (course?.title) {
+          examTitle = `${course.code}: ${course.title}`;
+        }
+
+        return {
+          type: 'EXAM_ATTEMPT',
+          title: examTitle,
+          subtitle: `In Progress • Question ${answeredCount} Answered • ${answeredCount} / ${totalQuestions} Answered`,
+          courseCode: course?.code || 'ALL-COURSES',
+          courseId,
+          buttonLabel: 'Continue Exam Attempt',
+          attemptId: attempt.local_attempt_id,
+          answeredCount,
+          totalQuestions,
+        };
+      }
     }
 
-    // 2. Check local bookmarks
+    // 2. Check local bookmarks (user's last studied course)
     const bookmarks = await database.query(
       `SELECT * FROM local_bookmarks ORDER BY updated_at DESC LIMIT 1;`
     );
@@ -730,21 +935,44 @@ export const curriculumRepository = {
         subtitle: `${res?.title || 'Lecture Note'} • Page ${pageStr}`,
         courseCode: course?.code || 'IT-CMTS-101',
         courseId,
-        buttonLabel: `Resume Reading (p. ${pageStr})`,
+        buttonLabel: 'Resume Course Study',
         resourceId: bm.resource_id,
         page: pageStr,
       };
     }
 
-    // 3. Fallback to canonical IT-CMTS-101
+    // 3. Fallback when no active attempt or bookmark:
+    // Default to canonical IT-CMTS-101 course reading baseline for new users
     return {
       type: 'DEFAULT_COURSE',
-      title: 'IT-CMTS-101: Computer Maintenance',
-      subtitle: 'Lecture 04 • Diagnostic Flowcharts & Power Faults',
+      title: 'B.Sc. IT National Exit Exam Simulation (100 Questions • 5 Themes)',
+      subtitle: 'No exam in progress — Select a course or start the 100-Question HU Model Exit Exam',
       courseCode: 'IT-CMTS-101',
       courseId: 101,
-      buttonLabel: 'Resume Reading (p. 14)',
+      buttonLabel: 'Start Full Simulation • Resume Reading',
     };
+  },
+
+  /**
+   * Remove any abandoned in-progress exam attempts with 0 answered questions.
+   */
+  async cleanupAbandonedZeroAnswerAttempts(userId?: string): Promise<number> {
+    let sql = `
+      DELETE FROM local_exam_attempts
+      WHERE status = 'IN_PROGRESS'
+        AND local_attempt_id NOT IN (SELECT DISTINCT local_attempt_id FROM local_answer_events)
+    `;
+    const params: any[] = [];
+    if (userId) {
+      sql += ` AND user_id = ?;`;
+      params.push(userId);
+    } else {
+      sql += `;`;
+    }
+    const before = await database.query<{ count: number }>(`SELECT COUNT(*) as count FROM local_exam_attempts;`);
+    await database.execute(sql, params);
+    const after = await database.query<{ count: number }>(`SELECT COUNT(*) as count FROM local_exam_attempts;`);
+    return (before[0]?.count || 0) - (after[0]?.count || 0);
   },
 
   async getOfflineReadinessStats(userId?: string): Promise<OfflineReadinessStats> {
@@ -881,18 +1109,8 @@ export const curriculumRepository = {
     // Canonical fallback exam packages (including 100-Question HU Model Exit Exam)
     return [
       {
-        exam_package_id: 'pkg_hu_cci_model_exit_2023',
-        exam_id: 'exam-hu-cci-2023',
+        ...CANONICAL_HU_2023_EXAM_PACKAGE,
         course_id: courseId,
-        blueprint_version: 1,
-        question_snapshot_json: JSON.stringify({
-          title: 'HU CCI B.Sc. IT Graduating Class Model Exit Exam',
-          total_questions: 100,
-        }),
-        duration_sec: 10800, // 180 mins
-        grant_id: null,
-        license_expiry: null,
-        state: 'READY',
       },
       {
         exam_package_id: `pkg-drill-25-${courseId}`,
@@ -900,7 +1118,7 @@ export const curriculumRepository = {
         course_id: courseId,
         blueprint_version: 1,
         question_snapshot_json: JSON.stringify({
-          title: '25-Question Hardware Diagnostics Drill',
+          title: '25-Question Course Diagnostics Drill',
           total_questions: 25,
         }),
         duration_sec: 2700, // 45 mins

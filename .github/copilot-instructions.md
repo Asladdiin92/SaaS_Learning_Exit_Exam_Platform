@@ -19,3 +19,8 @@ Always follow the reconciled v2.1 specifications in `docs/`:
 7. **Immutable Exam Snapshots & Server Scoring (`ADR-005`, `FR-009`)**: Lock `question_snapshots` JSONB at attempt creation. Never accept `is_correct` from clients. Offline attempts save transactionally to `local_answer_events` (`<16ms`) and display as `Provisional / Awaiting Server Sync` until scored by `public.grade_exam_attempt()`.
 8. **Opaque Monotonic Sync Cursors (`ADR-006`)**: Use `sync_changes(change_seq)` + `TOMBSTONE` operations for `/api/v1/sync/pull` and UUID `operation_id` idempotency for `/api/v1/sync/push`. Never rely on device wall-clock timestamps.
 9. **Mobile Client (`mobile/`) & 8GB RAM Host Discipline**: React Native + TypeScript covering `MOB-01` to `MOB-30` and the 13-table SQLCipher database. Keep background watchers light for an 8GB RAM Fedora host and test Android builds on physical devices via ADB/`scrcpy`.
+
+## 3. Strict Zero-Placeholder & No-Demo-Data Policy (MANDATORY)
+- NEVER hardcode mock arrays, demo cards, fake user names ("Hello, Student"), fake in-progress exams ("IT-EXAM: Practice Exam"), or static sample text inside UI screens (`mobile/src/features/**` or `web/src/app/**`).
+- Every screen MUST read real records from the FastAPI backend (`/api/v1/*` connected to Supabase `sbvyjbipchglzmttkowy`) and the local 13-table SQLite database (`mobile/src/shared/database/`).
+- If a table has 0 rows (e.g., no active exam attempt or 0 downloaded packages), render a clean, honest Empty State component—never invent fake progress numbers or phantom attempts.

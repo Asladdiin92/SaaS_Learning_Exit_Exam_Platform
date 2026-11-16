@@ -478,6 +478,19 @@ export async function seedItec4133ToDatabase(): Promise<{
   await database.init();
   await curriculumRepository.seedCanonicalCurriculumIfEmpty();
 
+  // Fast check: If the package snapshots already exist, skip redundant re-seeding
+  const existingPkg = await database.query<{ count: number }>(
+    `SELECT COUNT(*) as count FROM local_exam_packages WHERE exam_package_id = 'ITEC4133-FULL-80';`
+  );
+  if (existingPkg[0]?.count && existingPkg[0].count > 0) {
+    return {
+      courseSeeded: true,
+      outcomesSeeded: 4,
+      resourcesSeeded: 5,
+      packagesSeeded: ITEC4133_BLUEPRINTS.length,
+    };
+  }
+
   const outcomes = [
     {
       id: 40201,
@@ -507,6 +520,21 @@ export async function seedItec4133ToDatabase(): Promise<{
 
   const resources = generateStudyNotesMarkdown();
   await database.withTransaction(async (tx) => {
+    // Guarantee Theme 5 exists for foreign key constraint
+    await tx.execute(
+      `INSERT OR IGNORE INTO local_themes
+       (theme_id, theme_number, title, description, total_credit_hours, version)
+       VALUES (?, ?, ?, ?, ?, ?);`,
+      [
+        5,
+        5,
+        'Networking & Information Security',
+        'Data communications, routing/switching CLI, system administration and cryptographic security.',
+        11,
+        1,
+      ]
+    );
+
     await tx.execute(
       `INSERT OR REPLACE INTO local_courses
        (course_id, theme_id, code, title, credit_hours, general_objective, version, updated_sequence)

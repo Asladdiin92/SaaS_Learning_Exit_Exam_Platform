@@ -15,6 +15,7 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
   private isInitialized = false;
   private isUsingMock = false;
   private mockTables: Record<string, any[]> = {};
+  private transactionQueue: Promise<void> = Promise.resolve();
 
   async init(): Promise<void> {
     if (this.isInitialized) return;
@@ -119,26 +120,49 @@ class SQLiteDatabaseAdapter implements DatabaseAdapter {
       await this.init();
     }
 
-    if (this.db && !this.isUsingMock) {
-      await this.db.execAsync('BEGIN TRANSACTION;');
+    // Serialize transactions so concurrent callers never collide on BEGIN TRANSACTION
+    let releaseQueue: () => void = () => {};
+    const previousQueue = this.transactionQueue;
+    this.transactionQueue = new Promise<void>((resolve) => {
+      releaseQueue = resolve;
+    });
+
+    await previousQueue;
+
+    try {
+      if (this.db && !this.isUsingMock) {
+        // If already in an active transaction, execute directly without nested BEGIN/COMMIT
+        const alreadyInTx = typeof this.db.isInTransactionSync === 'function' ? this.db.isInTransactionSync() : false;
+        if (alreadyInTx) {
+          return await action(this);
+        }
+
+        await this.db.execAsync('BEGIN TRANSACTION;');
+        try {
+          const result = await action(this);
+          await this.db.execAsync('COMMIT;');
+          return result;
+        } catch (error) {
+          try {
+            await this.db.execAsync('ROLLBACK;');
+          } catch (_) {
+            // Suppress rollback errors if transaction was already aborted
+          }
+          throw error;
+        }
+      }
+
+      // In-Memory Transaction with Snapshot Rollback for Jest / Node environment
+      const snapshot = JSON.stringify(this.mockTables);
       try {
         const result = await action(this);
-        await this.db.execAsync('COMMIT;');
         return result;
       } catch (error) {
-        await this.db.execAsync('ROLLBACK;');
+        this.mockTables = JSON.parse(snapshot);
         throw error;
       }
-    }
-
-    // In-Memory Transaction with Snapshot Rollback
-    const snapshot = JSON.stringify(this.mockTables);
-    try {
-      const result = await action(this);
-      return result;
-    } catch (error) {
-      this.mockTables = JSON.parse(snapshot);
-      throw error;
+    } finally {
+      releaseQueue();
     }
   }
 

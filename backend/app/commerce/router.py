@@ -24,6 +24,7 @@ from backend.app.commerce.schemas import (
     OrderResponse,
     CheckoutSessionRequest,
     CheckoutSessionResponse,
+    ManualTransferRequest,
     WebhookResponse,
 )
 from backend.app.commerce.adapters import get_payment_adapter, VerifiedPaymentEvent
@@ -165,6 +166,115 @@ async def create_order(
         created_at=new_order.created_at.isoformat(),
         updated_at=new_order.updated_at.isoformat(),
     )
+
+
+@commerce_router.post(
+    "/orders/manual-transfer",
+    response_model=OrderResponse,
+    status_code=status.HTTP_201_CREATED,
+    summary="Submit direct manual bank or Telebirr transfer proof for admin approval",
+)
+async def submit_manual_transfer(
+    request: ManualTransferRequest,
+    current_user: User = Depends(get_current_user),
+    tenant_id: Optional[UUID] = Header(None, alias="X-Tenant-ID"),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Submits a manual direct bank (CBE) or Telebirr transfer proof.
+    Creates a PENDING order and registers an audit payment event awaiting Platform Owner approval.
+    """
+    await set_rls_context(db, user_id=current_user.user_id, tenant_id=tenant_id)
+
+    # 1. Validate payment method
+    method = request.payment_method.lower().strip()
+    if method not in ("cbe_manual", "telebirr_manual"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid payment method. Must be 'cbe_manual' or 'telebirr_manual'.",
+        )
+
+    # 2. Check for duplicate transaction reference
+    tx_ref = request.transaction_reference.strip().upper()
+    existing_event = await db.execute(
+        select(PaymentEvent).where(
+            PaymentEvent.provider == method,
+            PaymentEvent.provider_event_id == tx_ref,
+        )
+    )
+    if existing_event.scalars().first():
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Transaction reference '{tx_ref}' has already been submitted.",
+        )
+
+    # 3. Validate Product
+    prod_res = await db.execute(
+        select(Product).where(
+            Product.product_id == request.product_id,
+            Product.is_active == True,
+        )
+    )
+    product = prod_res.scalars().first()
+    if not product:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Active product '{request.product_id}' not found.",
+        )
+
+    # 4. Create Order
+    new_order = Order(
+        order_id=uuid.uuid4(),
+        idempotency_key=uuid.uuid4(),
+        user_id=current_user.user_id,
+        tenant_id=tenant_id,
+        product_id=product.product_id,
+        amount=product.price_amount,
+        currency=product.currency,
+        status="PENDING",
+        payment_provider=method,
+    )
+    db.add(new_order)
+    await db.flush()
+
+    # 5. Create PaymentEvent in PENDING_APPROVAL status
+    raw_payload = {
+        "status": "PENDING_APPROVAL",
+        "sender_phone_or_name": request.sender_phone_or_name,
+        "notes": request.notes,
+        "recipient_name": "ASLADIN ABDUKEDIR",
+        "recipient_account": "1000531623421" if method == "cbe_manual" else "0992947709",
+        "submitted_at": datetime.now(timezone.utc).isoformat(),
+    }
+    payment_event = PaymentEvent(
+        payment_event_id=uuid.uuid4(),
+        provider=method,
+        provider_event_id=tx_ref,
+        order_id=new_order.order_id,
+        verified_amount=0.00,
+        verified_currency=product.currency,
+        raw_payload=raw_payload,
+    )
+    db.add(payment_event)
+    await db.commit()
+    await db.refresh(new_order)
+
+    return OrderResponse(
+        order_id=new_order.order_id,
+        idempotency_key=new_order.idempotency_key,
+        user_id=new_order.user_id,
+        tenant_id=new_order.tenant_id,
+        product_id=new_order.product_id,
+        product_code=product.code,
+        product_title=product.title,
+        amount=float(new_order.amount),
+        currency=new_order.currency,
+        status=new_order.status,
+        payment_provider=new_order.payment_provider,
+        created_at=new_order.created_at.isoformat(),
+        updated_at=new_order.updated_at.isoformat(),
+    )
+
 
 
 @commerce_router.get(

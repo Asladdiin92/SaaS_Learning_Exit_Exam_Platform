@@ -19,7 +19,7 @@ from sqlalchemy import (
     UniqueConstraint,
 )
 from sqlalchemy.dialects.postgresql import UUID, JSONB, ENUM
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base, relationship, synonym
 
 Base = declarative_base()
 
@@ -325,13 +325,15 @@ class Question(Base):
     tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.tenant_id", ondelete="CASCADE"), nullable=True)
     question_text = Column(Text, nullable=False)
     type = Column(question_type_enum, nullable=False, default="MULTIPLE_CHOICE")
-    level = Column(String(32), nullable=False, default="REMEMBER")
+    level = Column(cognitive_level_enum, nullable=False, default="REMEMBER")
     difficulty = Column(difficulty_level_enum, nullable=False)
     explanation = Column(Text, nullable=True)
     option_explanations = Column(JSONB, nullable=False, default=dict)
     version = Column(Integer, nullable=False, default=1)
     is_published = Column(Boolean, nullable=False, default=True)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    bloom_level = synonym("level")
 
 
 class QuestionOption(Base):
@@ -510,4 +512,61 @@ class PaymentEvent(Base):
     processed_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
 
     order = relationship("Order", backref="payment_events")
+
+
+class AuditLog(Base):
+    __tablename__ = "audit_logs"
+
+    log_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    admin_email = Column(String(255), nullable=False)
+    action_type = Column(String(64), nullable=False, index=True)
+    target_type = Column(String(64), nullable=False, index=True)
+    target_id = Column(String(128), nullable=False)
+    details = Column(JSONB, nullable=False, default=dict)
+    created_at = Column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
+
+
+class SyncChange(Base):
+    __tablename__ = "sync_changes"
+
+    change_seq = Column(BigInteger, primary_key=True, autoincrement=True)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.tenant_id", ondelete="CASCADE"), nullable=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id", ondelete="CASCADE"), nullable=True)
+    entity_type = Column(String(64), nullable=False)
+    entity_id = Column(String(128), nullable=False)
+    operation = Column(String(16), nullable=False)
+    version = Column(Integer, nullable=False, default=1)
+    payload = Column(JSONB, nullable=False, default=dict)
+    recorded_at = Column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
+
+
+class InstitutionLicense(Base):
+    __tablename__ = "institution_licenses"
+
+    license_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.tenant_id", ondelete="CASCADE"), nullable=False)
+    contract_reference = Column(String(128), nullable=False)
+    licensed_seats = Column(Integer, nullable=False)
+    valid_from = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    valid_until = Column(DateTime(timezone=True), nullable=False)
+    offline_download_allowed = Column(Boolean, default=True, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    tenant = relationship("Tenant", backref="licenses")
+    seat_assignments = relationship("SeatAssignment", back_populates="license", cascade="all, delete-orphan")
+
+
+class SeatAssignment(Base):
+    __tablename__ = "seat_assignments"
+
+    seat_assignment_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    license_id = Column(UUID(as_uuid=True), ForeignKey("institution_licenses.license_id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
+    assigned_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    revoked_at = Column(DateTime(timezone=True), nullable=True)
+
+    license = relationship("InstitutionLicense", back_populates="seat_assignments")
+    user = relationship("User")
+
+
 

@@ -26,6 +26,8 @@ import {
   OfflineReadinessStats,
   WeakOutcomeRecommendation,
 } from '../../shared/database/curriculumRepository';
+import { examRepository } from '../../shared/database/examRepository';
+import { database } from '../../shared/database/db';
 import {
   BookOpen,
   Wifi,
@@ -53,31 +55,45 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
   const [courses, setCourses] = useState<LocalCourse[]>([]);
   const [continueAction, setContinueAction] = useState<ContinueLearningAction | null>(null);
   const [readinessStats, setReadinessStats] = useState<OfflineReadinessStats>({
-    downloadedCoursesCount: 1,
-    offlineExamPackagesCount: 2,
+    downloadedCoursesCount: 0,
+    offlineExamPackagesCount: 0,
     pendingSyncCount: 0,
   });
   const [weakOutcomes, setWeakOutcomes] = useState<WeakOutcomeRecommendation[]>([]);
+  const [activeStreak, setActiveStreak] = useState<number>(0);
   const [refreshing, setRefreshing] = useState(false);
 
   const loadDashboardData = useCallback(async () => {
     try {
+      // 0. Remove any ghost in-progress attempts with 0 answered questions
+      await curriculumRepository.cleanupAbandonedZeroAnswerAttempts(user?.userId);
+
       // 1. Instant sub-16ms reads from SQLite
-      const [allCourses, contLearning, stats, outcomes] = await Promise.all([
+      const [allCourses, contLearning, stats, outcomes, streakRows] = await Promise.all([
         curriculumRepository.getAllCourses(),
         curriculumRepository.getContinueLearning(user?.userId),
         curriculumRepository.getOfflineReadinessStats(user?.userId),
         curriculumRepository.getWeakOutcomeRecommendations(2),
+        database.query<{ active_days: number }>(
+          `SELECT COUNT(DISTINCT DATE(created_at)) as active_days FROM local_answer_events;`
+        ),
       ]);
 
       setCourses(allCourses);
       setContinueAction(contLearning);
       setReadinessStats(stats);
       setWeakOutcomes(outcomes);
+      setActiveStreak(streakRows[0]?.active_days || 0);
+
+      // 2. Asynchronously hydrate live data from FastAPI in background without blocking UI
+      if (isOnline && !isOfflineMode) {
+        curriculumRepository.hydrateCurriculumFromServer().catch(() => {});
+        examRepository.hydrateExamsFromServer(currentWorkspace?.tenantId).catch(() => {});
+      }
     } catch (e) {
       console.warn('Error loading home dashboard data:', e);
     }
-  }, [user?.userId]);
+  }, [user?.userId, isOnline, isOfflineMode, currentWorkspace?.tenantId]);
 
   useEffect(() => {
     loadDashboardData();
@@ -162,7 +178,11 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
               ETHIOPIAN IT EXIT EXAM
             </Text>
             <Text style={[typography.h2, { color: colors.text.primary, fontWeight: '700' }]}>
-              Hello, {user?.fullName?.split(' ')[0] || 'Student'} 👋
+              {user?.fullName
+                ? `Hello, ${user.fullName.split(' ')[0]} 👋`
+                : user?.email
+                ? `Hello, ${user.email.split('@')[0]} 👋`
+                : 'Hello, Asladdiin 👋'}
             </Text>
           </View>
 
@@ -185,7 +205,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
                 { color: '#EA580C', fontWeight: '700', marginLeft: 4 },
               ]}
             >
-              5-Day Streak
+              {activeStreak > 0 ? `${activeStreak}-Day Streak` : 'Active Learner'}
             </Text>
           </View>
         </View>
@@ -209,14 +229,56 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
                   { color: 'rgba(255, 255, 255, 0.85)', fontWeight: '700', letterSpacing: 0.5, marginBottom: 4 },
                 ]}
               >
-                {continueAction?.type === 'EXAM_ATTEMPT' ? 'CONTINUE ASSESSMENT' : 'RESUME STUDYING'}
+                {continueAction?.type === 'EXAM_ATTEMPT'
+                  ? 'CONTINUE ASSESSMENT'
+                  : continueAction?.type === 'BOOKMARK'
+                  ? 'RESUME STUDYING'
+                  : 'NATIONAL EXIT EXAM SIMULATION'}
               </Text>
               <Text style={[typography.h3, { color: '#FFFFFF', marginBottom: spacing.xs, fontWeight: '700' }]}>
-                {continueAction?.title || 'IT-CMTS-101: Computer Maintenance'}
+                {continueAction?.type === 'EXAM_ATTEMPT' || continueAction?.type === 'BOOKMARK'
+                  ? continueAction.title
+                  : 'B.Sc. IT National Exit Exam Simulation (100 Questions • 5 Themes)'}
               </Text>
               <Text style={[typography.bodySm, { color: 'rgba(255, 255, 255, 0.95)' }]}>
-                {continueAction?.subtitle || 'Lecture 04 • Diagnostic Flowcharts & Power Faults'}
+                {continueAction?.type === 'EXAM_ATTEMPT'
+                  ? `${continueAction.answeredCount || 0} / ${continueAction.totalQuestions || 100} Answered`
+                  : continueAction?.type === 'BOOKMARK'
+                  ? continueAction.subtitle
+                  : 'No exam in progress — Select a course or start the 100-Question HU Model Exit Exam'}
               </Text>
+
+              {continueAction?.type === 'EXAM_ATTEMPT' && (
+                <View style={{ marginTop: spacing.sm }}>
+                  <View
+                    style={{
+                      height: 6,
+                      backgroundColor: 'rgba(255, 255, 255, 0.25)',
+                      borderRadius: 3,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <View
+                      style={{
+                        height: '100%',
+                        width: `${Math.min(
+                          100,
+                          Math.max(
+                            3,
+                            Math.round(
+                              ((continueAction.answeredCount || 0) /
+                                (continueAction.totalQuestions || 100)) *
+                                100
+                            )
+                          )
+                        )}%`,
+                        backgroundColor: '#FFFFFF',
+                        borderRadius: 3,
+                      }}
+                    />
+                  </View>
+                </View>
+              )}
             </View>
 
             <View
@@ -235,24 +297,38 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
 
           <Button
             testID="continue-learning-cta"
-            title={continueAction?.buttonLabel || 'Resume Reading (p. 14)'}
-            variant="secondary"
+            title={
+              continueAction?.type === 'EXAM_ATTEMPT'
+                ? 'Continue Exam Attempt'
+                : continueAction?.type === 'BOOKMARK'
+                ? continueAction.buttonLabel
+                : 'Start Full Simulation'
+            }
+            variant="inverse"
             size="md"
             onPress={() => {
               if (continueAction?.type === 'EXAM_ATTEMPT' && continueAction.attemptId) {
                 navigation.navigate('ExamRunner', {
                   localAttemptId: continueAction.attemptId,
                 });
-              } else {
+              } else if (continueAction?.type === 'BOOKMARK') {
                 navigation.navigate('CourseOverview', {
-                  courseId: continueAction?.courseId || 101,
-                  code: continueAction?.courseCode || 'IT-CMTS-101',
+                  courseId: continueAction.courseId,
+                  code: continueAction.courseCode,
+                });
+              } else {
+                navigation.navigate('ExamInstructions', {
+                  examPackageId: 'pkg_hu_cci_model_exit_2023',
+                  title: 'HU CCI B.Sc. IT Model Exit Exam (Jan 2023)',
+                  courseCode: 'ALL-COURSES',
+                  questionCount: 100,
+                  durationMin: 180,
+                  examType: 'NATIONAL_EXIT_SIMULATION',
                 });
               }
             }}
             style={{
               marginTop: spacing.md,
-              backgroundColor: '#FFFFFF',
               minHeight: 48,
             }}
           />
@@ -451,7 +527,34 @@ export const HomeDashboardScreen: React.FC<HomeDashboardProps> = ({ navigation }
                   </Text>
                 </View>
 
-                <ChevronRight size={20} color={colors.text.secondary} />
+                <View style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
+                  <TouchableOpacity
+                    onPress={(e) => {
+                      e.stopPropagation();
+                      navigation.navigate('ExamInstructions', {
+                        examPackageId: 'pkg_hu_cci_model_exit_2023',
+                        title: `${wo.courseCode} ${wo.level} Drill`,
+                        courseCode: wo.courseCode,
+                        questionCount: 25,
+                        durationMinutes: 45,
+                      });
+                    }}
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      backgroundColor: '#EFF6FF',
+                      paddingHorizontal: 10,
+                      paddingVertical: 5,
+                      borderRadius: borderRadius.sm,
+                    }}
+                  >
+                    <Text style={[typography.labelSm, { color: colors.brand.primary, fontWeight: '700', fontSize: 12, marginRight: 2 }]}>
+                      Drill
+                    </Text>
+                    <ChevronRight size={14} color={colors.brand.primary} />
+                  </TouchableOpacity>
+                </View>
               </View>
             </Card>
           ))}

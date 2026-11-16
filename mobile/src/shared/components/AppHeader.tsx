@@ -108,6 +108,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     minHeight: 48,
     minWidth: 48,
+    flexShrink: 1,
+    maxWidth: '62%',
   },
   backButton: {
     minHeight: 48,
