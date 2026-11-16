@@ -53,7 +53,10 @@ services:
       - key: NODE_VERSION
         value: 20.18.0
       - key: NEXT_PUBLIC_API_URL
-        fromService:
-          type: web
-          name: saas-exit-exam-backend
-          property: host
+        value: https://saas-learning-exit-exam-platform.onrender.com/api/v1
+      - key: NEXT_PUBLIC_APP_ENV
+        value: production
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        value: https://sbvyjbipchglzmttkowy.supabase.co
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false
